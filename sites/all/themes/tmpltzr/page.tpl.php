@@ -92,7 +92,7 @@ if ($is_mobile === TRUE) { ?>
 			</div>
 		</a>
 		<div id="gsapp-search"  class="mobile-header-item">
-			<img src="/templatizer/sites/all/themes/tmpltzr/assets/mobile/search_56x54.jpg" width="56" height="54" alt="Search" />
+			<img src="/sites/all/themes/tmpltzr/assets/mobile/search_56x54.jpg" width="56" height="54" alt="Search" />
 		</div>
 		<div id="gsapp-login"  class="mobile-header-item">
 			<a href="#">Login</a>
@@ -214,11 +214,11 @@ if ($is_mobile === TRUE) { ?>
 	<meta name="viewport" content="width=device-width" />
 	
 	<?php print $styles; ?>
-		<link type="text/css" rel="stylesheet" media="all" href="/templatizer/sites/all/themes/tmpltzr/css/html-elements.css" />
-	<link type="text/css" rel="stylesheet" media="all" href="/templatizer/sites/all/themes/tmpltzr/css/tabs.css" />
-	<link type="text/css" rel="stylesheet" media="all" href="/templatizer/sites/all/themes/tmpltzr/css/gsapp.css" />
+		<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/tmpltzr/css/html-elements.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/tmpltzr/css/tabs.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/tmpltzr/css/gsapp.css" />
 	
-	<link type="text/css" rel="stylesheet" media="print" href="/templatizer/sites/all/themes/tmpltzr/css/print.css" />
+	<link type="text/css" rel="stylesheet" media="print" href="/sites/all/themes/tmpltzr/css/print.css" />
 	
 	
 	<!--[if IE]>
@@ -234,7 +234,7 @@ if ($is_mobile === TRUE) { ?>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<?php print $scripts; ?>
-	<script type="text/javascript" src="/templatizer/sites/all/themes/tmpltzr/js/gsapp.js"></script>
+	<script type="text/javascript" src="/sites/all/themes/tmpltzr/js/gsapp.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 	
 	<!-- js assets for dashboard -->  
@@ -242,11 +242,11 @@ if ($is_mobile === TRUE) { ?>
   <script type="text/javascript" src="http://postfog.org/assets/js/jquery.cycle.all.pack.js"></script>
   <script type="text/javascript" src="http://postfog.org/assets/js/jquery.masonry.min.js"></script>
   <script defer src="http://balupton.github.com/jquery-scrollto/scripts/jquery.scrollto.min.js"></script>
-  <script type="text/javascript" src="/templatizer/sites/all/themes/tmpltzr/js/jquery.jcarousel.min.js"></script>
+  <script type="text/javascript" src="/sites/all/themes/tmpltzr/js/jquery.jcarousel.min.js"></script>
 
-	<script src="http://www.postfog.org/templatizer/sites/all/themes/tmpltzr/js/history/scripts/bundled/html4+html5/jquery.history.js"></script>
+	<script src="/sites/all/themes/tmpltzr/js/history/scripts/bundled/html4+html5/jquery.history.js"></script>
 	
-	<script type="text/javascript" src="/templatizer/sites/all/themes/tmpltzr/js/ajaxify-html5.js"></script>
+	<script type="text/javascript" src="/sites/all/themes/tmpltzr/js/ajaxify-html5.js"></script>
 	
 	
 
@@ -294,7 +294,7 @@ if ($is_mobile === TRUE) { ?>
 					  /*
 					  $form['submit'] = array(
 						'#type' => 'imagebutton',
-						'#image' => '/templatizer/sites/all/themes/tmpltzr/assets/search.png',  // provide the path to your image here
+						'#image' => '/sites/all/themes/tmpltzr/assets/search.png',  // provide the path to your image here
 						'#default_value' => t('Login'), // original value of button text
 					  );*/
 					  return $form;
