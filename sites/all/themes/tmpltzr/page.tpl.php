@@ -40,9 +40,9 @@ if ($is_mobile === TRUE) { ?>
 	<!-- Set the viewport width to device width for mobile -->
 	<meta name="viewport" content="width=device-width" />
 	<?php print $styles; ?>
-	<link type="text/css" rel="stylesheet" media="all" href="/templatizer/sites/all/themes/tmpltzr/css/html-elements.css" />
-	<link type="text/css" rel="stylesheet" media="all" href="/templatizer/sites/all/themes/tmpltzr/css/tabs.css" />
-	<link type="text/css" rel="stylesheet" media="all" href="/templatizer/sites/all/themes/tmpltzr/css/gsapp.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/tmpltzr/css/html-elements.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/tmpltzr/css/tabs.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/tmpltzr/css/gsapp.css" />
 	<!--[if IE]>
 	  <link rel="stylesheet" href="<?php print $includes_dir; ?>/ie.css" type="text/css">
 	<![endif]-->
@@ -54,10 +54,10 @@ if ($is_mobile === TRUE) { ?>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	
-	<link type="text/css" rel="stylesheet" media="all" href="/templatizer/sites/all/themes/tmpltzr/css/mobile-specific.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/tmpltzr/css/mobile-specific.css" />
 
 	<?php print $scripts; ?>
-	<script type="text/javascript" src="/templatizer/sites/all/themes/tmpltzr/js/gsapp.js"></script>
+	<script type="text/javascript" src="/sites/all/themes/tmpltzr/js/gsapp.js"></script>
 	
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 	
@@ -66,14 +66,14 @@ if ($is_mobile === TRUE) { ?>
   <script type="text/javascript" src="http://postfog.org/assets/js/jquery.cycle.all.pack.js"></script>
   <script type="text/javascript" src="http://postfog.org/assets/js/jquery.masonry.min.js"></script>
   <script defer src="http://balupton.github.com/jquery-scrollto/scripts/jquery.scrollto.min.js"></script>
-  <script type="text/javascript" src="/templatizer/sites/all/themes/tmpltzr/js/jquery.jcarousel.min.js"></script>
+  <script type="text/javascript" src="/sites/all/themes/tmpltzr/js/jquery.jcarousel.min.js"></script>
   
-  <script src="http://www.postfog.org/templatizer/sites/all/themes/tmpltzr/js/history/scripts/bundled/html4+html5/jquery.history.js"></script>
-  <script type="text/javascript" src="/templatizer/sites/all/themes/tmpltzr/js/ajaxify-html5.js"></script>
+  <script src="http://www.postfog.org/sites/all/themes/tmpltzr/js/history/scripts/bundled/html4+html5/jquery.history.js"></script>
+  <script type="text/javascript" src="/sites/all/themes/tmpltzr/js/ajaxify-html5.js"></script>
   
   
   <!-- mobile  js -->
-	<script type="text/javascript" src="/templatizer/sites/all/themes/tmpltzr/js/mobile.js"></script>
+	<script type="text/javascript" src="/sites/all/themes/tmpltzr/js/mobile.js"></script>
 
 	<!-- js assets for fonts.com custom font DIN -->
 	<script type="text/javascript" src="http://fast.fonts.com/jsapi/83f34eca-2e88-4bbf-b358-062ac880084c.js"></script>
@@ -81,14 +81,14 @@ if ($is_mobile === TRUE) { ?>
 <body class="<?php print $body_classes;?>">
 <div id="mobile-wrapper">
 	<div id="mobile-header">
-		<a href="http://postfog.org/templatizer?mobile=true">
+		<a href="http://postfog.org/?mobile=true">
 			<div id="gsapp-logo" class="mobile-header-item">
-			<img src="/templatizer/sites/all/themes/tmpltzr/assets/mobile/gsapp-logo_237x49.jpg" width="237" height="49" alt="GSAPP logo" />
+			<img src="/sites/all/themes/tmpltzr/assets/mobile/gsapp-logo_237x49.jpg" width="237" height="49" alt="GSAPP logo" />
 			</div>
 		</a>
 		<a href="http://news.gsapp.org">
 			<div id="gsapp-news"  class="mobile-header-item">
-				<img src="/templatizer/sites/all/themes/tmpltzr/assets/mobile/gsapp_news_83x81.jpg" width="83" height="81" alt="GSAPP News" />
+				<img src="/sites/all/themes/tmpltzr/assets/mobile/gsapp_news_83x81.jpg" width="83" height="81" alt="GSAPP News" />
 			</div>
 		</a>
 		<div id="gsapp-search"  class="mobile-header-item">
