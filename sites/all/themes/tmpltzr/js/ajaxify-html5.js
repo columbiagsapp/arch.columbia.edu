@@ -31,12 +31,6 @@
 			};
 		
 		
-		// test for templatizer tmpltzr
-		var base_path = '';
-		if ( rootUrl.indexOf("postfog") != -1 ) {
-			base_path = '/templatizer/';
-		}
-		
 		// Ensure Content
 		if ( $content.length === 0 ) {
 			$content = $body;

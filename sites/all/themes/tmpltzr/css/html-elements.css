@@ -372,7 +372,7 @@ dl dd {
 	display:inline-block;
 	width:15px;
 	height:15px;
-	background:transparent url("/templatizer/sites/all/themes/tmpltzr/assets/menu-arrow-large.png") no-repeat 0 -15px;
+	background:transparent url("/sites/all/themes/tmpltzr/assets/menu-arrow-large.png") no-repeat 0 -15px;
 }
 
 #navigation .active-trail .menu-arrow-large{
@@ -389,7 +389,7 @@ dl dd {
 	display:inline-block;
 	width:9px;
 	height:9px;
-	background:transparent url("/templatizer/sites/all/themes/tmpltzr/assets/menu-arrow-small.png") no-repeat 0 -9px;
+	background:transparent url("/sites/all/themes/tmpltzr/assets/menu-arrow-small.png") no-repeat 0 -9px;
 	vertical-align: top;
 	position: relative;
 	top: 7px;
@@ -416,7 +416,7 @@ dl dd {
 	display:block;
 	height:120px;
 	width:120px;
-	background:transparent url("/templatizer/sites/all/themes/tmpltzr/assets/gsappNews.png") no-repeat 0 0;
+	background:transparent url("/sites/all/themes/tmpltzr/assets/gsappNews.png") no-repeat 0 0;
 }
 
 #gsapp-news:hover{
@@ -916,7 +916,7 @@ dl dd {
 	width:20px;
 	height:20px;
 	cursor: pointer;
-    background: transparent url("/templatizer/sites/all/themes/tmpltzr/assets/photoslider_prev.png") no-repeat 0 0;
+    background: transparent url("/sites/all/themes/tmpltzr/assets/photoslider_prev.png") no-repeat 0 0;
 }
 
 #tmpltzr .jcarousel-prev:hover,
@@ -930,7 +930,7 @@ dl dd {
 	width:20px;
 	height:20px;
 	cursor: pointer;
-    background: transparent url("/templatizer/sites/all/themes/tmpltzr/assets/photoslider_next.png") no-repeat -35px 0;
+    background: transparent url("/sites/all/themes/tmpltzr/assets/photoslider_next.png") no-repeat -35px 0;
 }
 
 #tmpltzr .tmpltzr-primary .tmpltzr-photoset-container .jcarousel-prev, #tmpltzr .tmpltzr-primary .tmpltzr-photoset-container .jcarousel-next  {

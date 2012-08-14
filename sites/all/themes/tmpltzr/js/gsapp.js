@@ -18,7 +18,7 @@ function externalLinkAppendImg(m){
 		var href = anchor.attr('href');
 		href = href.substring(0,4);
 		if(href == 'http'){
-			offsite = '<img class="hover-only" src="/templatizer/sites/all/themes/tmpltzr/assets/offsite.png" />';
+			offsite = '<img class="hover-only" src="/sites/all/themes/tmpltzr/assets/offsite.png" />';
 			anchor.append(offsite);
 			anchor.attr("target", "_blank"); //make sure it opens in a new tab/window
 		}
@@ -80,20 +80,10 @@ var force_expanded = Array();
 force_expanded.push('/studio-x-global/locations');
 
 var adjustPrimaryLinksMenu = function(path){
-	var tmpltzr = false;
-	if( window.location.pathname.indexOf('templatizer') > 0){
-		tmpltzr = true;
-	}
 	$('#navigation .menu li').addClass('collapsed').removeClass('expanded');
 	var selector = '';
 	for(i in force_expanded){
-		console.log('i: ' + i + ' f_e[i]: ' + force_expanded[i]);
-		if(tmpltzr){
-			selector = '#navigation a:[href="/templatizer' + force_expanded[i] + '"]';
-		}else{
-			selector = '#navigation a:[href="' + force_expanded[i] + '"]';
-		}
-		console.log('selector: ' + selector);
+		selector = '#navigation a:[href="' + force_expanded[i] + '"]';
 		$(selector).parent('li').removeClass('collapsed').addClass('force-expanded');
 	} 
 	
@@ -102,20 +92,6 @@ var adjustPrimaryLinksMenu = function(path){
 	$(selector).addClass('active');
 }
 
-function currentPage(){
-	console.log('window.location.pathname: ' + window.location.pathname);
-
-
-	var path = window.location.pathname;
-	
-	if(path.indexOf('templatizer') > 0){
-		path = path.substring(12);
-	}
-	
-	console.log('path: ' + path);
-	
-	return path;
-}
 
 /*
 	Adds a span to be filled with triangles for hover and menu expand effects.
