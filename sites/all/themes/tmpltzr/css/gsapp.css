@@ -110,7 +110,7 @@
 #gsapp-customsearch #edit-submit{
 	width:16px; 		
 	height:16px;
-	background:url(/templatizer/sites/all/themes/tmpltzr/assets/search.png) no-repeat; 
+	background:url(http://www.columbia.edu/cu/arch/tmpltzr/assets/search.png) no-repeat; 
 	border:none;
 	overflow:hidden;
 	cursor:pointer;

@@ -31,6 +31,12 @@
 			};
 		
 		
+		// test for templatizer tmpltzr
+		var base_path = '';
+		if ( rootUrl.indexOf("postfog") != -1 ) {
+			base_path = '/templatizer/';
+		}
+		
 		// Ensure Content
 		if ( $content.length === 0 ) {
 			$content = $body;
@@ -70,49 +76,102 @@
 		
 		var MAX_MENU_LEVELS = 5;
 	
-		var collapseMenu = function($this){
+		var collapseMenu = function($this, trunk){
 			var selector = '';
 			var classes = $this.parent('li').attr('class');
 			var levelIdx = classes.indexOf('menu-level-') + 11;
 			var level = classes.substring(levelIdx, levelIdx+1);
 			
-			
-			
-			for(i = 0; i <= MAX_MENU_LEVELS; i++){
-				selector = '#navigation ul li.menu-level-'+i;
-				$(selector).removeClass('expanded').removeClass('active-trail').addClass('collapsed');
-				$(selector).children('a').css('color','');
-				selectorArrow = selector + ' .menu-arrow-large, ' + selector + ' .menu-arrow-small';
-				$(selectorArrow).css('backgroundPosition', '');
+			if( ( $this.parent('li.force-expanded').length > 0 || level <= getCurrentLevel() ) && $('.active-trail').length > 0 ){//will require closing a top level menu
+				
+				if( $this.parent('li.force-expanded').length > 0 ) { console.log('forced works!'); }
+				
+				$('#navigation .menu .active-trail').each(function(){
+					if( $(this).hasClass('menu-level-'+level) ){
+						var pos = $(this).position();
+						
+						if(pos.top < 0){
+							var target = $('a:eq(0)', this);
+							//$('#navigation .menu:eq(0)').scrollTo( target, 500 );			
+						}				
+					}
+
+				});
+				
+				//slideToggle OFF all menus above the previous active
+				//would be better as a do-while with selector = "#navigation .menu .active-trail.menu-level-"+i
+				$('li.active-trail').each(function(){
+					var liClasses = $(this).attr('class');
+					var liLevelIdx = liClasses.indexOf('menu-level-') + 11;
+					var liLevel = liClasses.substring(liLevelIdx, liLevelIdx+1);
+					if(liLevel >= level){
+						//only collapse menu if not in the active-trail
+						if(!(liLevel == level && trunk == true)){
+							console.log('!(liLevel == level && trunk == true)');
+							console.log('level: ' + level + ' liLevel: ' + liLevel);
+							console.log('trunk: ' + trunk);
+							if( $(this).hasClass('expanded') ){
+								$('.menu:eq(0)', this).slideToggle(500);
+								$(this).removeClass('expanded').addClass('collapsed');
+							}
+							$(this).removeClass('active-trail');
+							$('a:eq(0)', this).css('color','');
+							//$('.menu-arrow-large, .menu-arrow-small', this).css('backgroundPosition', '');
+						}
+					}
+				});
+				
 			}
-			
+			$('a.active').removeClass('active');
 			return level;
 		};
 	
+		var MAX_TOP = 170; // could also use #header.height
 	
-		var menuParser = function($this){	
-			var level = collapseMenu($this);			
-			$('a.active').removeClass('active');
-
+		var menuParser = function($this, trunk){	
+			var redirect = false;
+			var level = collapseMenu($this, trunk);
+			//add active class to clicked item, or
 			//in case of redirect to a lower item, like About > Dean's Statement
-			if($this.parent('li').children('ul.menu').length > 0){
-				$this.parent('li').children('ul.menu').children('li').each(function(){
-					if( $this.attr('href') == $(this).children('a').attr('href')){
-						$(this).children('a').addClass('active');
-					}else{
-						$this.addClass('active');
-					}
-				});
+			if($this.parent('li').children('.menu').length > 0){
+				var path = $this.attr('href');
+				var redirect = 'a:[href="' + path + '"]';
+				$redirectAnchor = $this.parent('li').children('.menu').find(redirect);
+				if($redirectAnchor.length > 0){
+					$redirectAnchor.addClass('active');
+					var cl = $redirectAnchor.parent('li').attr('class');	
+					var index = cl.indexOf('menu-level-') + 11;
+					level = cl.substring(index, index+1);					
+					redirect = true;
+					$this.addClass('redirect-active');
+					
+				}else{
+					$this.addClass('active');
+				}
 			}else{
 				$this.addClass('active');
 			}
+			
 			//assign classes to menu items clicked and higher in the tree
-			$('a.active').parents('li').addClass("expanded").removeClass("collapsed").addClass("active-trail");
+			$('a.active').parents('li').removeClass("collapsed").addClass("active-trail expanded");
+			
+			//open parent menu (and child menu) if a redirect
+			if(redirect == true){
+				$('a.active').parents('li').children('.menu').slideToggle(500);
+			} 
+			
+			if(trunk == false){//open the submenu if applicable and not a redirect
+				if($this.parent('li').children('.menu').length > 0){
+					$('a.active').parent('li').children('.menu').slideToggle(500);
+				}
+			}
 			
 			//make each .active-trail element white
 			$('a.active').parents('li').each(function(){
 				$(this).children('a:eq(0)').css('color','white');
 			});
+			
+			setCurrentLevel(level);
 		}
 		
 		
@@ -123,6 +182,7 @@
 						
 			// Ajaxify
 			$this.find('a:internal:not(#gsapplogo)').click(function(event){ //exempt GSAPP Logo so it reloads everything
+				console.log('***********CLICK');
 				// Prepare
 				var
 					$this = $(this),
@@ -131,16 +191,41 @@
 				
 				// Continue as normal for cmd clicks etc
 				if ( event.which == 2 || event.metaKey ) { return true; }
-				menuParser($this);
-				
-				$parent = $this.parent('li')
-				if($parent.hasClass('leaf')){
-					$('.menu-arrow-small',$parent).css('backgroundPosition', '-9px 0');
+				$this.parent('li').children('span').css('backgroundPosition', '');
+
+				if( $this.hasClass('active') ){
+					console.log('is active');
+					if( $this.parent('li').hasClass('expanded') ){
+						$this.parent('li').removeClass("expanded").addClass("collapsed").children('.menu').slideToggle(500);
+					}else{
+						$this.parent('li').addClass("expanded").removeClass("collapsed").children('.menu').slideToggle(500);
+					}
+				}else if( $this.hasClass('redirect-active') ){
+					console.log('is redirect-active');
+					if( $this.parent('li').hasClass('expanded') ){
+						$this.parent('li').removeClass("expanded").addClass("collapsed").children('.menu').slideToggle(500);
+						//$('active').removeClass('active');
+						//$this.removeClass('redirect-active').addClass('active');
+					}else{
+						$this.parent('li').addClass("expanded").removeClass("collapsed").children('.menu').slideToggle(500);
+					}
+					//setCurrentLevel( getElementLevel( $this.parent('li') ) );
+				}else{	
+					var trunk = false;
+					if($this.parent('li').hasClass('active-trail')){
+						trunk = true;
+					}
+					
+					if(!($this.parent('li').parent('.menu').children('li.active-trail').length > 0)){
+						$('.redirect-active').removeClass('redirect-active');//remove only if not in same branch and same level
+					}
+					menuParser($this, trunk);
+					// Ajaxify this link
+					History.pushState(null,title,url);
+					event.preventDefault();
 				}
+							
 				
-				// Ajaxify this link
-				History.pushState(null,title,url);
-				event.preventDefault();
 				return false;
 			});
 			
