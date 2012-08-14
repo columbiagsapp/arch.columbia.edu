@@ -51,16 +51,14 @@
     $output = $view->execute_display('block_1',array($account->uid));
     if(count($view->result) > 0){
     	$user_current = user_load($view->result[0]->uid);
-    	print '<div class="person-top-text">';
+    	print '<h2>'.$account->profile_name.'</h2>';
+    	print '<div class="person-profile">';
    
     	if($account->uid == $user->uid || user_access('administer users')){
 			print '<div class="views-field-edit-node">'.l('Edit Profile','user/'.$account->uid.'/edit/Additional Information',array('query'=>'destination='.$_GET['q'])).'</div>';
 		}
     
     	print $output['content'].'</div>';
-    
-    	$view = views_get_view('person_nodes');
-    	print '<div class="person-listing">'.$view->execute_display('default',array($account->uid)).'</div>';;
     
     	drupal_set_title($account->profile_name);
     }
@@ -103,10 +101,3 @@ $uid= arg(1);
  		
  ?>
 </div>
-  <?php if ($links): ?>
-    <div class="node-links clearfix entryshare">
-      <?php print "Share: ".$links; ?>
-    </div>
-  <?php endif; ?>
-  
-  <?php //menu_set_active_item('people');?>

@@ -4,8 +4,8 @@
     <h2 class="title">
       <a href="<?php print $node_url; ?>"><?php print $title; ?></a>
     </h2>
-  <?php elseif ($page && $node->teaser): ?>
-    <h2 class="title">
+  <?php else: ?>
+    <h2>
       <?php print $title; ?>
     </h2>
   <?php endif; ?>
@@ -22,28 +22,4 @@
     ?>
   </div>
   
-  <?php
-  	if (count($taxonomy)):
-  
-  	  unset($terms);
-	  $terms = array();
-	  foreach($node->taxonomy as $key => $val) {
-	    if ($val->vid == 3) {
-	      $terms[] = l($val->name, "taxonomy/term/" . $val->tid);
-	    }
-	  }
-	  if (count($terms)):
-  ?>
-    <div class="entrytags"><?php print 'LISTED UNDER: ' . implode(" ", $terms); ?></div>
-  <?php if ($links): ?>
-    <div class="node-links clearfix entryshare">
-      <?php print "Share: ".$links; ?>
-    </div>
-  <?php endif; ?>
-  <?php
-	  endif;
-  	endif;
-  ?>
-  
-
 </div> <!-- /node -->
