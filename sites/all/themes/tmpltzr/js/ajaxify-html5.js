@@ -86,17 +86,17 @@
 				
 				if( $this.parent('li.force-expanded').length > 0 ) { console.log('forced works!'); }
 				
-				$('#navigation .menu .active-trail').each(function(){
-					if( $(this).hasClass('menu-level-'+level) ){
-						var pos = $(this).position();
-						
-						if(pos.top < 0){
-							var target = $('a:eq(0)', this);
-							//$('#navigation .menu:eq(0)').scrollTo( target, 500 );			
-						}				
+				if(level == 0){
+					var target;
+					if($this.parent('li').prev().prev().length > 0){
+						target = $this.parent('li').prev().prev().children('a:eq(0)');
+					}else if($this.parent('li').prev().length > 0){
+						target = $this.parent('li').prev().children('a:eq(0)');
+					}else{
+						target = $this;
 					}
-
-				});
+					$('#menu').scrollTo( target, 500 );			
+				}
 				
 				//slideToggle OFF all menus above the previous active
 				//would be better as a do-while with selector = "#navigation .menu .active-trail.menu-level-"+i
@@ -107,9 +107,6 @@
 					if(liLevel >= level){
 						//only collapse menu if not in the active-trail
 						if(!(liLevel == level && trunk == true)){
-							console.log('!(liLevel == level && trunk == true)');
-							console.log('level: ' + level + ' liLevel: ' + liLevel);
-							console.log('trunk: ' + trunk);
 							if( $(this).hasClass('expanded') ){
 								$('.menu:eq(0)', this).slideToggle(500);
 								$(this).removeClass('expanded').addClass('collapsed');
