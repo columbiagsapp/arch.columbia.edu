@@ -216,7 +216,10 @@
 						trunk = true;
 					}
 					
-					if(!($this.parent('li').parent('.menu').children('li.active-trail').length > 0)){
+					var $sib = $this.parent('li').siblings('li.active-trail');
+					
+					
+					if( !( $sib.children('a:eq(0)').hasClass('active') ) ){
 						$('.redirect-active').removeClass('redirect-active');//remove only if not in same branch and same level
 					}
 					menuParser($this, trunk);
