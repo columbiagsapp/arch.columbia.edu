@@ -49,6 +49,12 @@ function gsapp_preprocess_page(&$vars, $hook) {
   if($user->uid){
   	drupal_set_header('Expires: Thu, 01 Dec 1994 16:00:00 GMT');
   }
+  
+  /* TODO make the new version*/
+  if ($_GET['q'] == "node/6980/delete") {  	
+	drupal_set_message(t('Cannot delete home page.'));  	
+	drupal_goto(); 	
+	}
 
 }
 

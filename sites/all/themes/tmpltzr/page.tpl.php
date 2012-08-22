@@ -86,7 +86,7 @@
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/ajaxify-html5.js"></script>
 
 	<?php if($is_mobile === TRUE){ ?>
-	<script type="text/javascript" src="/sites/all/themes/tmpltzr/js/mobile.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/mobile.js"></script>
 	<?php } ?>
 
 	<!-- js assets for fonts.com custom font DIN -->

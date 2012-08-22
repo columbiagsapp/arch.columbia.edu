@@ -47,14 +47,17 @@
 	<title><?php if($is_mobile === TRUE){ print 'm: '; } print $head_title; ?></title>
 	<?php print $head; ?>
 	
+	
+	
 	<?php if($is_mobile === TRUE){ ?>
 	<!-- Set the viewport width to device width for mobile -->
 	<meta name="viewport" content="width=device-width" />
 	<?php } ?>
 	
+	<?php print $styles; ?>
 	<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/html-elements.css">
 	<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/gsapp.css">
-	<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/print.css">
+	<link type="text/css" rel="stylesheet" media="print" href="http://www.columbia.edu/cu/arch/tmpltzr/css/print.css">
 	
 	<?php if($is_mobile == FALSE){ ?>
 		<!--[if IE]>
