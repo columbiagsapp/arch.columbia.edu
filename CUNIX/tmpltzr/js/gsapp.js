@@ -181,6 +181,7 @@ force_expanded.push('/studio-x-global/locations/studio-x-rio-de-janiero');
 
 var adjustPrimaryLinksMenu = function(path){
 	$('#navigation .menu li').addClass('collapsed menu-item').removeClass('expanded');
+	$('#navigation .menu:eq(0)').children('li').addClass('branch');
 	var selector = '',
 		$selected;
 	for(i in force_expanded){
@@ -256,7 +257,8 @@ var adjustPrimaryLinksMenu = function(path){
 */
 var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
-	var liW = 360;
+	
+	var liW = 335;
 	var aW = liW - 25;
 	var liWStr = liW + 'px';
 	var aWStr = aW + 'px';
@@ -265,6 +267,8 @@ function menuAddTriangles(){
 	$('#navigation > .menu').addClass('level-0');
 	$(selector).css('width', liWStr).prepend('<span class="menu-arrow-large"></span>');
 	$(selector).each(function(){
+		safelog('liW: ' + liW);
+		safelog('aWStr: ' + aWStr);
 		$(this).children('a').css('width',aWStr);
 	});
 	

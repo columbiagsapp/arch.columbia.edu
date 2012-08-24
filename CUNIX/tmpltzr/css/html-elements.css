@@ -328,6 +328,9 @@ dl dd {
 	display:none;
 }
 
+#navigation .menu li.force-expanded a:first-child{
+	margin-left:9px;
+}
 
 #navigation .menu li.force-expanded .menu {
 	display: block;
