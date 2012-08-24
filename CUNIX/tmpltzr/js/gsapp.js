@@ -235,7 +235,9 @@ var adjustPrimaryLinksMenu = function(path){
 					setCurrentState(1);
 				}
 			}
-			$selected.parents('li.collapsed').removeClass('collapsed').addClass('expanded active-trail');
+			safelog('addddddd');
+			$selected.parents('li').removeClass('collapsed').addClass('expanded active-trail');
+			//$selected.parents('li.forced-expanded').addClass('active-trail');
 			$('.active-trail').each(function(){
 				$('a:eq(0)', this).css('color', 'white');
 			});
