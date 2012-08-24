@@ -1,4 +1,71 @@
+var LOG = true;
+var TMPLTZR = true;
+var safelog = function(msg){
+	if(LOG === true && msg != undefined){
+		console.log(msg);
+	}
+}
+
+safelog('wtf');
+var HOME_URL = 'http://templatizer.gsapp.org';
+
+var MENU_TOGGLE = 'shown';
+
+var setMenuToggle = function(state){
+	MENU_TOGGLE = state;
+}
+
+var getMenuToggle = function(){
+	return MENU_TOGGLE;
+}
+
+$.fn._is_redirect_child = function(){
+	var returnVal = false;
+	var $parent = $(this).parent('li').parent('.menu').parent('li');
+	if($parent.length > 0){
+		var parentHREF = $parent.children('a:eq(0)').attr('href');
+		$parent.children('.menu').children('li').each(function(){
+			if( parentHREF == $(this).children('a:eq(0)').attr('href') ){
+				returnVal = true;
+			}
+		});	
+	}
+	return returnVal;
+}
+
 var CURRENT_LEVEL = 0;
+var CURRENT_STATE_INDEX = 0;
+var CURRENT_STATES = Array();
+CURRENT_STATES[0] = 'home';
+CURRENT_STATES[1] = 'menu';
+CURRENT_STATES[3] = 'redirected';
+
+var CURRENT_STATE = CURRENT_STATES[CURRENT_STATE_INDEX];
+
+
+var initCurrentState = function(state_index){
+	if(state_index != undefined){
+		CURRENT_STATE = CURRENT_STATES[state_index];
+	}else{
+		CURRENT_STATE = CURRENT_STATES[CURRENT_STATE_INDEX];
+	}
+}
+
+var setCurrentState = function(state_index){
+	try{
+		CURRENT_STATE = CURRENT_STATES[state_index];
+	}catch(e){
+		safelog('error: ' + e.message);
+	}
+}
+
+var getCurrentState = function(){
+	return CURRENT_STATE;
+}
+
+var getCurrentStateIndex = function(){
+	return CURRENT_STATE_INDEX;
+}
 
 var initCurrentLevel = function(){
 	CURRENT_LEVEL = 0;
@@ -14,8 +81,8 @@ var getCurrentLevel = function(){
 
 var getElementLevel = function($element){
 	var classes = $element.attr('class');
-	if( classes.indexOf('menu-level-').length > 0 ){
-		var levelIdx = classes.indexOf('menu-level-') + 11;
+	if( classes.indexOf('level-').length > 0 ){
+		var levelIdx = classes.indexOf('level-') + 6;
 		var level = classes.substring(levelIdx, levelIdx+1);
 		return level;
 	}else{
@@ -56,7 +123,7 @@ function externalLinkAppendImg(m){
 		var href = anchor.attr('href');
 		href = href.substring(0,4);
 		if(href == 'http'){
-			offsite = '<img class="hover-only" src="http://www.columbia.edu/cu/arch/tmpltzr/assets/offsite.png" />';
+			offsite = '<img class="hover-only" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/assets/offsite.png" />';
 			anchor.append(offsite);
 			anchor.attr("target", "_blank"); //make sure it opens in a new tab/window
 		}
@@ -108,31 +175,79 @@ var resizeFunc = function(){
 var force_expanded = Array();
 force_expanded.push('/studio-x-global/locations');
 force_expanded.push('/studio-x-global/locations/studio-x-beijing');
+force_expanded.push('/studio-x-global/locations/studio-x-rio-de-janiero');
+
+
 
 var adjustPrimaryLinksMenu = function(path){
-	$('#navigation .menu li').addClass('collapsed').removeClass('expanded');
-	var selector = '';
+	$('#navigation .menu li').addClass('collapsed menu-item').removeClass('expanded');
+	var selector = '',
+		$selected;
 	for(i in force_expanded){
 		selector = '#navigation a:[href="' + force_expanded[i] + '"]';		
 		$(selector).parent('li').removeClass('collapsed').addClass('force-expanded');
+		$(selector).parent('li').children('.menu').children('li').removeClass('collapsed').addClass('force-expanded');
 	} 
 	
 	/* if not the homepage, where path = '/' */
-	console.log('tct2003: ' + path.substring(1,7));
-	if(path.length > 1 && path.substring(1,7) != 'search' ){
+	safelog('not the homepage: ' + path.substring(1));
+	if( (path.length > 1) && (path.substring(1,7) != 'search') ){
 		selector = '#navigation a:[href="' + path + '"]';
-		$(selector).parents('li.collapsed').removeClass('collapsed').addClass('expanded active-trail');
-		$('.active-trail a:eq(0)').css('color', 'white');
-		$(selector).addClass('active').css('color', 'white');
-		$(selector).parents('.menu').show();
 		
-		var classes = $(selector).parent('li').attr('class');
-		var levelIdx = classes.indexOf('menu-level-') + 11;
-		var level = classes.substring(levelIdx, levelIdx+1);
-		setCurrentLevel(level);	
-
+		
+		var selLen = $(selector).length;
+		if( selLen < 0 ){//the page doesn't exist on the site
+			window.location.href = HOME_URL;//redirect to homepage
+		}else{//page exists
+			if( selLen == 1 ){
+				safelog('single selector');
+				$selected = $(selector);
+				if( $selected._is_redirect_child() ){
+					safelog('is a redirect child');
+					$selected.closest('.menu').parent('li').addClass('redirect-active');
+					setCurrentState(3);
+				}else{
+					safelog('is NOT a redirect child');
+					setCurrentState(1);
+				}
+			}else if(selLen > 1){//redirect, internal or not
+				
+				if( $('#navigation a:[href="' + path + '"]:eq(0)').parent('li').children('.menu').find('li a:[href="' + path + '"]:eq(0)').length > 0 ){//redirect
+					$selected = $('#navigation a:[href="' + path + '"]:eq(0)').parent('li').children('.menu').find('li a:[href="' + path + '"]:eq(0)');
+					$('#navigation a:[href="' + path + '"]:eq(0)').parent('li').addClass('redirect-active');
+					$('#navigation a:[href="' + path + '"]:eq(0)').removeClass('active');
+					
+					safelog('redirected at birth');
+					setCurrentState(3);
+				}else{//internal redirect
+					$(selector).each(function(){
+						var stub = $(this).closest('.menu').parent('li').children('a:eq(0)').attr('href');
+						stub = stub.substring(1, 6);
+						safelog('stub: ' + stub);
+						safelog('path stub: ' + path.substring(1, 6));
+						if( stub == path.substring(1, 6) ){
+							$selected = $(this);
+						}else{
+							$(this).removeClass('active');
+						}
+						
+					});	
+					setCurrentState(1);
+				}
+			}
+			$selected.parents('li.collapsed').removeClass('collapsed').addClass('expanded active-trail');
+			$('.active-trail').each(function(){
+				$('a:eq(0)', this).css('color', 'white');
+			});
+			$selected.addClass('active').css('color', 'white');
+			$selected.parents('.menu').show();
+			$selected.parent('li').children('.menu').show();
+			
+		}
 	}
 }
+
+
 
 /*
 	Adds a span to be filled with triangles for hover and menu expand effects.
@@ -145,22 +260,26 @@ function menuAddTriangles(){
 	var aWStr = aW + 'px';
 	var selector = '#navigation > .menu > li';
 	
-	
-	$(selector).css('width', liWStr).addClass('menu-level-0').prepend('<span class="menu-arrow-large"></span>');
+	$('#navigation > .menu').addClass('level-0');
+	$(selector).css('width', liWStr).prepend('<span class="menu-arrow-large"></span>');
 	$(selector).each(function(){
 		$(this).children('a').css('width',aWStr);
 	});
 	
 	
 	for(var i = 1; i < MAX_MENU_LEVELS; i++){
-		selector += ' > ul.menu > li';
+		selector += ' > ul.menu';
+		$(selector).addClass('level-'+i);
+		selector += ' > li';
 		liW = aW;
 		liWStr = liW + 'px';
 		aW = liW - 19;
 		aWStr = aW + 'px';
-		$(selector).css('width', liWStr).addClass('menu-level-'+i).prepend('<span class="menu-arrow-small"></span>');
 		
 		$(selector).each(function(){
+			if( !($(this).hasClass('force-expanded')) ){//don't add the arrow for force-expanded
+				$(this).css('width', liWStr).prepend('<span class="menu-arrow-small"></span>');
+			}
 			$(this).children('a').css('width',aWStr);
 		});
 		
@@ -229,20 +348,6 @@ $(document).ready(function () {
 	
 	  
     /*************************** MENU ***************************/
-	var scrollMenu = function(){
-		var target = $('#menu ul li.active-trail');
-		
-		if($('#menu ul li.active-trail').exists()){
-			if($('#menu ul li.active-trail li.active-trail').exists()){
-				$('#menu').scrollTo( target, 0 );
-			}else{
-				$('#menu').scrollTo( target, 800, {easing:'linear'} );
-			}
-		}
-	}
-	
-	//scrollMenu(); //scrolls highest level of .active-trail to the top of the menu
-	
 	/* 
 		Adds a dot to all menu items that link to pages off the site
 	*/		
