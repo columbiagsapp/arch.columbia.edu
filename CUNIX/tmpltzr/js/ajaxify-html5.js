@@ -153,13 +153,9 @@
 			if(timeout == undefined){
 				timeout = 0;
 			}
-			safelog('scrollMenu()');
-			safelog('$active: ' + $active.attr('href'));
 			if($active != undefined){
 				if( $(this).closest('li.branch').index() > $active.closest('li.branch').index() ){
-					safelog('lower in the menu');
 					var $branch;
-					safelog('parent level: ' + $(this).parent('li').level() );
 					if( $(this).parent('li').level() == 0){
 						$branch = $(this).parent('li');
 					}else{
@@ -174,9 +170,7 @@
 					}else{
 						$target = $branch.prev().prev().children('a:eq(0)');
 					}
-					
-					safelog('scrollTo: ' + $target.attr('href') );
-					setTimeout(function(){ $('#menu').scrollTo( $target, TOGGLE_TIME ); safelog('scrolling now');}, timeout); 
+					setTimeout(function(){ $('#menu').scrollTo( $target, TOGGLE_TIME ); }, timeout); 
 				}else{
 					return false;
 				}	
@@ -359,7 +353,19 @@
 			}else if( internalRedir != false ){
 				$active.collapseBranch();
 				var $sel = $(this).expandBranch(internalRedir);
-				$sel.scrollMenu($active);
+				if( (currentState == 'redirect') ){
+					$('.redirect-active').removeClass('redirect-active');
+				}
+				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
+				safelog('sel href: ' + $sel.attr('href'));
+				//TODO: need to add > +2 test here
+				if($active != undefined){
+					if( $sel.closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
+						$sel.scrollMenu($active, TOGGLE_TIME);
+					}else{
+						$sel.scrollMenu($active);
+					}
+				}
 				setCurrentState(1);
 			}else{
 				if($active != undefined){
@@ -416,34 +422,42 @@
 			
 			if( $redir != false ){
 				$active.parent('li').collapseMenu();
-				safelog('****&&&&---redir');
 				$(this).scrollMenu($active);
 				$(this).parent('li').addClass('redirect-active');//add it to the list item
 				$redir.expandMenus();
 				setCurrentState(3);
 			}else if( internalRedir != false ){
+				safelog('troy!!!');
+				
+				
+				
+				
 				$active.collapseBranch();
 				var $sel = $(this).expandBranch(internalRedir);
-				safelog('int redir from sibling');
-				$sel.scrollMenu($active);
 				if( (currentState == 'redirect') ){
 					$('.redirect-active').removeClass('redirect-active');
+				}
+				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
+				safelog('sel href: ' + $sel.attr('href'));
+				//TODO: need to add > +2 test here
+				if($active != undefined){
+					if( $sel.closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
+						$sel.scrollMenu($active, TOGGLE_TIME);
+					}else{
+						$sel.scrollMenu($active);
+					}
 				}
 				setCurrentState(1);
 			}else{
 				
 				if($active != undefined){
 					if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
-						safelog('****&&&&- collapse TOGGLE_TIME');
 						$active.parent('li').collapseMenu();
 						$(this).scrollMenu($active, TOGGLE_TIME);
 					}else{
-						safelog('****&&&&- collapse regular');
 						$(this).scrollMenu($active);
 						$active.parent('li').collapseMenu();
 					}
-				}else{
-					safelog('active undefined');
 				}
 				$(this).expandMenu();
 				if( currentState == 'home'){
@@ -462,10 +476,6 @@
 		 *	$active: the active menu link (anchor).
 		*/
 		$.fn._is_sibling = function($active){
-			safelog('sib test');
-			safelog('this level: ' + $(this).level() );
-			safelog('active level: ' + $active.level() );
-			
 			if( ($(this).level() == 0) || ($active.level() == 0) ){
 				if( $(this).level() == $active.level() ){
 					return true;
@@ -502,7 +512,6 @@
 				setCurrentState(3);
 			}else if( internalRedir != false ){
 				$active.collapseBranch();
-				safelog('int redir from climb');
 				var $sel = $(this).expandBranch(internalRedir);
 				$sel.scrollMenu($active);
 				setCurrentState(1);
@@ -632,7 +641,6 @@
 			var $this = $(this);
 			// Ajaxify
 			$(this).find('a:internal:not(#gsapplogo)').click(function(event){ //exempt GSAPP Logo so it reloads everything
-				safelog('***********CLICK');
 				
 				// Prepare
 				var
@@ -657,16 +665,12 @@
 							fetch = false;
 							break;
 						}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
-							safelog('MENU, this is dig');
 							$this.dig($active);
 						}else if( ($active != undefined) && $this._is_sibling($active) ){
-							safelog('MENU, this is sibling');
 							$this.sibling($active);
 						}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
-							safelog('MENU, this is climb');
 							$this.climb($active);
 						}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
-							safelog("MENU*********F-E BRANCH");
 							if(!($this._is_active_trail($active))){
 								var $last = $this.parents('li.force-expanded').last();
 								$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
@@ -680,31 +684,24 @@
 								$this.dig($active);
 							}
 						}else{
-							safelog('MENU, this is branch');
 							$this.branch($active);
-							//$(this).scrollMenu($active);
 						}
 						break;
 					case 'redirected':
 						if( $this._is_dig($active) ){
-							safelog('REDIRECT, this is dig');
 							$this.dig($active);
 						}else if( ($active != undefined) && $this._is_sibling($active) ){
-							safelog('REDIRECT, this is sibling');
 							$this.sibling($active);
 						}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
-							safelog('REDIRECT, this is climb');
 							if( $this.parent('li').hasClass('redirect-active') ){
 								$this.parent('li').menuToggleVisibility();
 								fetch = false;
 								break;
 							}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
-								safelog('wrong!!');
 								$('redirect-active').removeClass('redirect-active');
 							}
 							$this.climb($active);
 						}else{
-							safelog('REDIRECT, this is branch');
 							$('redirect-active').removeClass('redirect-active');
 							$this.branch($active);
 							//$(this).scrollMenu($active);
