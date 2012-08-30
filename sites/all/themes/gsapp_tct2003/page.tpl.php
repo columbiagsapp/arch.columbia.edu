@@ -46,24 +46,26 @@
 <head>
 	<title><?php if($is_mobile === TRUE){ print 'm: '; } print $head_title; ?></title>
 	<?php print $head; ?>
-	<?php //print $styes; ?>
+	
+	
 	
 	<?php if($is_mobile === TRUE){ ?>
 	<!-- Set the viewport width to device width for mobile -->
 	<meta name="viewport" content="width=device-width" />
 	<?php } ?>
 	
-	<link type="text/css" rel="stylesheet" media="all" href="<?php print $includes_dir; ?>/tmpltzr/css/html-elements.css">
-	<link type="text/css" rel="stylesheet" media="all" href="<?php print $includes_dir; ?>/tmpltzr/css/gsapp.css">
-	<link type="text/css" rel="stylesheet" media="print" href="<?php print $includes_dir; ?>/tmpltzr/css/print.css">
+	<?php print $styles; ?>
+	<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/html-elements.css">
+	<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/gsapp.css">
+	<link type="text/css" rel="stylesheet" media="print" href="http://www.columbia.edu/cu/arch/tmpltzr/css/print.css">
 	
 	<?php if($is_mobile == FALSE){ ?>
 		<!--[if IE]>
-		  <link rel="stylesheet" href="<?php print $includes_dir; ?>/tmpltzr/css/ie.css" type="text/css">
+		  <link rel="stylesheet" href="http://www.columbia.edu/cu/arch/tmpltzr/css/ie.css" type="text/css">
 		<![endif]-->
 		
 		<!--[if IE 6]>
-		  <link rel="stylesheet" href="<?php print $includes_dir; ?>/tmpltzr/css/ie6.css" type="text/css">
+		  <link rel="stylesheet" href="http://www.columbia.edu/cu/arch/tmpltzr/css/ie6.css" type="text/css">
 		<![endif]-->
 	
 		<!-- IE Fix for HTML5 Tags -->
@@ -73,14 +75,14 @@
 	<?php } ?>
 	
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-	<script type="text/javascript" src="<?php print $includes_dir; ?>/tmpltzr/js/gsapp.js"></script>
-	<script type="text/javascript" src="<?php print $includes_dir; ?>/tmpltzr/js/fetcher.js"></script>
-	<script type="text/javascript" src="<?php print $includes_dir; ?>/tmpltzr/js/jquery.cycle.all.pack.js"></script>
-	<script type="text/javascript" src="<?php print $includes_dir; ?>/tmpltzr/js/jquery.masonry.min.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/gsapp.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/fetcher.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.cycle.all.pack.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
 	<script defer src="http://balupton.github.com/jquery-scrollto/scripts/jquery.scrollto.min.js"></script>
-	<script type="text/javascript" src="<?php print $includes_dir; ?>/tmpltzr/js/jquery.jcarousel.min.js"></script>
-	<script src="<?php print $includes_dir; ?>/tmpltzr/js/html4+html5/jquery.history.js"></script>
-	<script type="text/javascript" src="<?php print $includes_dir; ?>/tmpltzr/js/ajaxify-html5.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.jcarousel.min.js"></script>
+	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/html4+html5/jquery.history.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/ajaxify-html5.js"></script>
 
 	<?php if($is_mobile === TRUE){ ?>
 	<script type="text/javascript" src="/sites/all/themes/tmpltzr/js/mobile.js"></script>
@@ -152,7 +154,7 @@
 			<section id="menu">
 				<header id="header">
 					<a href="<?php print base_path(); ?>" title="<?php print t('Home'); ?>" id="gsapplogo">
-						<img src="<?php print $includes_dir.'/assets/logo.png'; ?>" alt="<?php print t('Home'); ?>" />
+						<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
 					</a>
 				
 					<div id="search-login-container">
@@ -198,7 +200,6 @@
 
 			<!-- #content -->
 			<section id="content" class="clearfix">
-			  <?php if($tabs): ?><div class="tabs"><?php print $tabs; ?></div><?php endif; ?>
 				<?php print $messages . $help; ?>
 				<?php print $content; ?>
 					

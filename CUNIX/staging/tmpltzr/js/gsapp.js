@@ -200,7 +200,6 @@ var adjustPrimaryLinksMenu = function(path){
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
 		}else{//page exists
-			safelog('selector: ' + selector);
 			if( selLen == 1 ){
 				safelog('single selector');
 				$selected = $(selector);

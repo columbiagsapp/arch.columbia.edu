@@ -51,14 +51,15 @@
     $output = $view->execute_display('block_1',array($account->uid));
     if(count($view->result) > 0){
     	$user_current = user_load($view->result[0]->uid);
-    	print '<div class="person-top-text">';
+    	print '<h2>'.$account->profile_name.'</h2>';
+    	print '<div class="person-profile">';
    
     	if($account->uid == $user->uid || user_access('administer users')){
 			print '<div class="views-field-edit-node">'.l('Edit Profile','user/'.$account->uid.'/edit/Additional Information',array('query'=>'destination='.$_GET['q'])).'</div>';
 		}
     
     	print $output['content'].'</div>';
-  
+    
     	drupal_set_title($account->profile_name);
     }
  	else{//only show user profiles that belong to a certain role, setting is in the view filter.
@@ -67,8 +68,36 @@
  	}
     
  
+$uid= arg(1);
+
+  if (_guestbook_access('administer', $uid) && is_numeric($op_id)) {
+    switch ($op) {
+      case "delete":
+       $y = guestbook_delete_entry_confirm($uid, $op_id);
+      case 'comment':
+        $comment_entry = $op_id;
+        break;
+    }
+  }
+
+  // Fetch guestbook entries
+  $userid4 = arg(1);
+  $limit = variable_get('guestbook_entries_per_page', 20);
+  $result = pager_query(
+    "SELECT g.*, u1.name, u1.data, u1.picture, u2.name as commentby
+    FROM {guestbook} g
+    LEFT JOIN {users} u1 ON g.author = u1.uid
+    LEFT JOIN {users} u2 ON g.commentauthor = u2.uid
+    WHERE g.recipient = $userid4
+    ORDER BY g.created DESC",
+    $limit, 0, "SELECT COUNT(*) FROM {guestbook} WHERE recipient = %d", $userid4);
+  $entries = array();
+ 
+  while ($entry = db_fetch_array($result)) {
+    $entries[] = $entry;
+  }
+  
+  print theme('guestbook', $userid4, $entries, $comment_entry, $limit);
  		
  ?>
 </div>
-  
-  <?php //menu_set_active_item('people');?>
