@@ -726,7 +726,7 @@ gsappFetcher.eventsWidgetCarousel = function() {
  */
 gsappFetcher.getEventWidget = function(url, elementName) {
 	gsappFetcher.log("Widget: getting data from " + url + " into " + elementName);
-	var event_div = '<div class="featured-events-widget"><div class="fe-next"></div><div class="fe-carousel"><ul>';
+	var event_div = '<div class="featured-events-widget"><div class="fe-prev"></div><div class="fe-carousel"><ul>';
 	$.getJSON(url, function(data) {
 		var nodes = data.nodes;
 		for (var i=0; i<nodes.length;i++) {
@@ -760,8 +760,10 @@ gsappFetcher.getEventWidget = function(url, elementName) {
 
 			// build the div
 			event_div = [event_div, '<li class="fe-item">',
-				'<div class="fe-image">', event.field_event_poster_fid,'</div>',
+				'<div class="fe-image"><a target="_blank" class="region" href="', path, '">',
+				event.field_event_poster_fid,'</a></div>',
 				'<div class="fe-label">Featured Event:</div>',
+				'<a target="_blank" class="region" href="', path, '">', 
 				'<div class="fe-date">', date_string, '</div>',
 				'<div class="fe-title">', event.title, '</div>',
 				'<div class="fe-type">', types_array[0], '</div>',
@@ -773,6 +775,7 @@ gsappFetcher.getEventWidget = function(url, elementName) {
 				'</span>, ',
 				'<span class="fe-time">', time_string, '</span>',
 				'</div>',
+				'</a>',
 				'</li>'].join('');
 			if(i == nodes.length-1){
 				event_div = [event_div, '</ul></div><div class="fe-next"></div></div>'].join('');
@@ -786,4 +789,22 @@ gsappFetcher.getEventWidget = function(url, elementName) {
 	.error(function() { gsappFetcher.log('error loading event widget data'); })
 	.complete(function() { gsappFetcher.eventsWidgetCarousel(); }); // end getJSON
 	
+}
+
+
+/**
+ * Function to return the current date.
+ *
+ * @param {String} elementName The name of the DOM container to write into
+ * @return void
+ */
+gsappFetcher.getTodaysDate = function(elementName) {
+	var objToday = new Date(),
+		weekday = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
+		dayOfWeek = weekday[objToday.getDay()],
+		dayOfMonth = objToday.getDate(),
+		months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
+		curMonth = months[objToday.getMonth()];
+	var today = ['<div class="ac-dayOfWeek">',dayOfWeek,'</div><div class="ac-dayOfMonth">',dayOfMonth,'</div><div class="ac-month">',curMonth,'</div>'].join('');
+	$(elementName).append(today);
 }
