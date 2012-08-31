@@ -6,7 +6,6 @@ var safelog = function(msg){
 	}
 }
 
-safelog('wtf');
 var HOME_URL = 'http://templatizer.gsapp.org';
 
 var MENU_TOGGLE = 'shown';
@@ -268,8 +267,6 @@ function menuAddTriangles(){
 	$('#navigation > .menu').addClass('level-0');
 	$(selector).css('width', liWStr).prepend('<span class="menu-arrow-large"></span>');
 	$(selector).each(function(){
-		safelog('liW: ' + liW);
-		safelog('aWStr: ' + aWStr);
 		$(this).children('a').css('width',aWStr);
 	});
 	

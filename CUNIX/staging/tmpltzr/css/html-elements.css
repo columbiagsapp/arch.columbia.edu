@@ -1433,3 +1433,15 @@ dl dd {
 .tmpltzr-person .tmpltzr-title-container h2 a:hover{
 	border-bottom:1px solid black;
 }
+
+
+/* FOOTER */
+#footer-inner{
+	width:500px;
+	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
+}
+
+/* EVENTS WIDGET */
+.featured-events-widget {
+	width:240px;
+}

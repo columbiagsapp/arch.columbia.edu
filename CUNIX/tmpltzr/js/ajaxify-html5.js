@@ -6,7 +6,8 @@
 		$ = window.jQuery,
 		document = window.document,
 		TOGGLE_TIME = 500,
-		templatizer = false;
+		templatizer = false,
+		copypaste = true;
 
 	// Check to see if History.js is enabled for our Browser
 	if ( !History.enabled ) {
@@ -780,6 +781,13 @@
 					//resize the page to check if room for sidebar
 					resizeFunc();
 
+					if(copypaste == true){
+						setTimeout(copyPaste, 2000);
+						safelog('is templatizer!!!!!!');
+					}else{
+						safelog('is NOT templatizer!!!!!!');
+					}
+
 					// Update the title
 					document.title = $data.find('.document-title:first').text();
 					try {
@@ -808,6 +816,7 @@
 						reinvigorate.ajax_track(url);
 						// ^ we use the full url here as that is what reinvigorate supports
 					}
+					
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					document.location.href = url;

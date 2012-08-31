@@ -83,18 +83,13 @@ Equation for font sizing:
 /* display block */
 .display-block { display: block; }
 
-
-#tmpltzr #copy-paste {margin-left:5%; width: 90%; }
-#tmpltzr #gsapp-url { margin-left:5%; width: 90%; font:bold 36px Helvetica, Arial, sans-serif; margin-bottom: 20px;}
-#tmpltzr #page-wrapper-footer { display:block; clear: both; background:#222; color: white; padding:40px 0; margin: 40px 0; width:500px;}
-
-#tmpltzr #copy-paste {margin-left:5%; width: 90%; }
-#tmpltzr #gsapp-url { margin-left:5%; width: 90%; font:bold 36px Helvetica, Arial, sans-serif; margin-bottom: 20px;}
-#tmpltzr #page-wrapper-footer { display:block; clear: both; background:#222; color: white; padding:40px 0; width: 500px; margin: 40px 0;}
-#tmpltzr #page-wrapper-footer a, #tmpltzr #page-wrapper-footer h4 { color: white; }
-#tmpltzr #page-wrapper-footer h4 { text-decoration: none; }
-#tmpltzr #page-wrapper-footer a:hover { color: #FFFFEE; }
-#tmpltzr #copy-paste textarea { width: 100%; height: 100px; }
+#copy-paste {margin-left:5%; width: 90%; }
+#gsapp-url { margin-left:5%; width: 90%; font:bold 36px Helvetica, Arial, sans-serif; margin-bottom: 20px;}
+#page-wrapper-footer { display:block; clear: both; background:#222; color: white; padding:40px 0; width: 500px; margin: 40px 0;}
+#page-wrapper-footer a, #tmpltzr #page-wrapper-footer h4 { color: white; }
+#page-wrapper-footer h4 { text-decoration: none; }
+#page-wrapper-footer a:hover { color: #FFFFEE; }
+#copy-paste textarea { width: 100%; height: 100px; }
 
 
 #tmpltzr .tmpltzr-edit {

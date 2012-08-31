@@ -196,6 +196,49 @@ gsappFetcher.formatDate = function(date) {
 }
 
 /**
+ * Formate a Date object into a custom date string
+ * @param {Date} JS Date object
+ * @return {String} String in the format:
+ * Friday, August 31, 2012 11:00am
+ */
+gsappFetcher.formatDateForWidget = function(date) {
+	
+	date_string_a = [
+		day_names[date.getDay()], ', ',
+		month_names[date.getMonth()], ' ',
+		date.getDate()];
+	
+	return date_string_a.join('');
+}
+
+/**
+ * Formate a Date object into a custom date string
+ * @param {Date} JS Date object
+ * @return {String} String in the format:
+ * Friday, August 31, 2012 11:00am
+ */
+gsappFetcher.formatTimeForWidget = function(date) {
+
+	// append 0 to minutes if < 10
+	var minutes = date.getMinutes();
+	if (minutes < 10) {
+		minutes = '0' + minutes;
+	}
+
+	var end_string = 'am';
+	var hours = date.getHours();
+	if (hours > 12) {
+		hours = hours - 12;
+		end_string = 'pm';
+	}
+	
+	date_string_a = [
+		hours, ':', minutes, end_string];
+	
+	return date_string_a.join('');
+}
+
+/**
  * Formate a Date object into a custom date string for the date box
  * @param {Date} JS Date object
  * @return {String} HTML string in the format:
@@ -241,11 +284,11 @@ gsappFetcher.start = function() {
 /*
 	commenting this out since this is now being called in the nodequeue based preview page
 gsappFetcher.getFlickrWidget(
-		"http://dashboard.postfog.org/node/30?callback=?", "#item-1");
+		"http://dashboard.gsapp.org/node/30?callback=?", "#item-1");
 		
 		
 	gsappFetcher.getFlickrWidget(
-		"http://dashboard.postfog.org/node/29?callback=?", "#item-2");
+		"http://dashboard.gsapp.org/node/29?callback=?", "#item-2");
 
 */
 
@@ -499,7 +542,7 @@ gsappFetcher.getEventData = function(url, elementName) {
 			
 			// get the path to the node
 			// TODO UPDATE path to prod
-			var path = ['http://events.postfog.org/node/', event.nid].join('');
+			var path = ['http://events.gsapp.org/node/', event.nid].join('');
 			
 			// parse the body tag
 			var event_description = gsappFetcher.parseEventBodyHTML(event.body);
@@ -648,4 +691,99 @@ gsappFetcher.getFlickrWidget = function(url, elementName) {
 	$(elementName).append(cycle_tag);
 	}); // end json call
 
+}
+
+/**
+ * Function to return event data from JSON formatted views
+ * coming from the GSAPP events site
+ *
+ * @param {String} url The URL for the JSON feed
+ * @param {String} elementName The name of the DOM container to write into
+ * @return void
+ */
+gsappFetcher.eventsWidgetCarousel = function() {
+	gsappFetcher.log('calling jCarousel Lite');
+	$(".tmpltzr-featuredeventwidget .featured-events-widget").jCarouselLite({
+		btnNext: ".tmpltzr-featuredeventwidget .fe-next",
+		btnPrev: ".tmpltzr-featuredeventwidget .fe-prev",
+		auto: 5000,
+		speed: 770,
+		circular: true,
+		visible: 1,
+		scroll: 1
+	});
+}
+
+
+
+/**
+ * Function to return event data from JSON formatted views
+ * coming from the GSAPP events site
+ *
+ * @param {String} url The URL for the JSON feed
+ * @param {String} elementName The name of the DOM container to write into
+ * @return void
+ */
+gsappFetcher.getEventWidget = function(url, elementName) {
+	gsappFetcher.log("Widget: getting data from " + url + " into " + elementName);
+	var event_div = '<div class="featured-events-widget"><div class="fe-next"></div><div class="fe-carousel"><ul>';
+	$.getJSON(url, function(data) {
+		var nodes = data.nodes;
+		for (var i=0; i<nodes.length;i++) {
+			
+			var event = nodes[i].node;
+			// convert date and offset it
+			var date = gsappFetcher.createDateObject(event.field_event_date_value);
+
+			// each date has different offsets			
+			var date_offset = 60000 * date.getTimezoneOffset();
+			new_date = new Date(date - date_offset);
+			var date_string = gsappFetcher.formatDateForWidget(new_date);
+
+			var time_string = gsappFetcher.formatTimeForWidget(date);
+
+			// parse locations and assign css classes for color
+			var locations_array = gsappFetcher.getLocationsFromHTML(
+				event.field_event_location_value);
+
+			var css_class_for_location = 
+				gsappFetcher.getCSSColorClassForLocations(
+					locations_array);
+			
+			// parse event types
+			var types_array = gsappFetcher.getEventTypesFromHTML(event.field_event_taxonomy_type_value);
+			
+			// get the path to the node
+			// TODO UPDATE path to prod
+			var path = ['http://events.gsapp.org/node/', event.nid].join('');
+			
+
+			// build the div
+			event_div = [event_div, '<li class="fe-item">',
+				'<div class="fe-image">', event.field_event_poster_fid,'</div>',
+				'<div class="fe-label">Featured Event:</div>',
+				'<div class="fe-date">', date_string, '</div>',
+				'<div class="fe-title">', event.title, '</div>',
+				'<div class="fe-type">', types_array[0], '</div>',
+				'<div class="fe-location-time-container">',
+				'<span class="fe-location ',
+				css_class_for_location,
+				'">',
+				locations_array[1],
+				'</span>, ',
+				'<span class="fe-time">', time_string, '</span>',
+				'</div>',
+				'</li>'].join('');
+			if(i == nodes.length-1){
+				event_div = [event_div, '</ul></div><div class="fe-next"></div></div>'].join('');
+			}
+			
+			
+		}//end for loop
+		gsappFetcher.log('event_div******: ' + event_div);
+		$(elementName).append(event_div);
+	})
+	.error(function() { gsappFetcher.log('error loading event widget data'); })
+	.complete(function() { gsappFetcher.eventsWidgetCarousel(); }); // end getJSON
+	
 }

@@ -40,12 +40,6 @@
 	</div>
 	<div id="right-sidebar"></div>
 
-	<footer id="page-wrapper-footer">
-		<div id="copy-paste">
-			<h4>Copy-paste the code below into the GSAPP website:</h4>
-		</div>
-	</footer>
-
 </div>
 
 
