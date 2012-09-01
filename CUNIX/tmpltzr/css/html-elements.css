@@ -1239,6 +1239,7 @@ dl dd {
 .front #tmpltzr #main {
 	width:100% !important;
 }
+
 #tmpltzr #right-sidebar {
 	width:260px;
 	float:right;
@@ -1597,7 +1598,7 @@ dl dd {
 	margin-bottom: 24px;
 	width:240px;
 	height:160px;
-	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/cclogo_161x160.png') no-repeat 40px 0;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/cclogo_161x160_globalCtr.png') no-repeat 0 0;
 }
 
 .tmpltzr-ccwidget .cc-widget .cc-image a{
