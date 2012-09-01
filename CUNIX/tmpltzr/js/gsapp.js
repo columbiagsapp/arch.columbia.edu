@@ -1,4 +1,4 @@
-var LOG = true;
+var LOG = false;
 var TMPLTZR = true;
 var safelog = function(msg){
 	if(LOG === true && msg != undefined){
@@ -378,8 +378,8 @@ $(document).ready(function () {
 	
 	var menuHoverOff = function(){
 		$(".hover-only", this).toggle(); //hover effect for offsite.png to appear on external links
-		$(this).parent('li.collapsed').find(".menu-arrow-large").css('background-position', '');
-		$(this).parent('li.collapsed').find(".menu-arrow-small").css('background-position', '');
+		$(this).parent('li.collapsed').find(".menu-arrow-large").css('background-position', '-15px -50px');
+		$(this).parent('li.collapsed').find(".menu-arrow-small").css('background-position', '-9px -50px');
 	}
 	
 	

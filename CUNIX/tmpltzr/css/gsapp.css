@@ -62,13 +62,19 @@
 
 #login {
 	height: 25px;
+	display:-moz-inline-stack;
 	display: inline-block;
 	margin-left:10px;
-	vertical-align:top;
-	
+	vertical-align:top;	
 }
+
+.IE #login{
+	zoom:1;
+*display:inline;
+}
+
 #login a{
-	color:white;
+	color:gray;
 	text-decoration:none;
 	font: 11px "courier new", monospace;
 }
@@ -79,27 +85,45 @@
 	top:120px;
 	left:47px;
 	width: 360px;
-	height:24px;
+	height:22px;
 }
 #gsapp-customsearch{
+	display:-moz-inline-stack;
 	display: inline-block;
 	width:225px;
 	height:100%;
-	-webkit-border-radius: 12px;
-	-moz-border-radius: 12px;
-	border-radius: 12px;
-	background-color:white;
+	background-color:transparent;
+	border:2px solid gray;
 }
+.IE #gsapp-customsearch{
+	zoom:1;
+	*display:inline;
+}
+
 #gsapp-customsearch #edit-searchterm-wrapper{
+	display:-moz-inline-stack;
 	display:inline-block;
 	margin:0 !important;
 	vertical-align: top;
 	padding: 0 0 0 10px;
 }
 
+.IE #gsapp-customsearch #edit-searchterm-wrapper{
+	zoom:1;
+	*display:inline;
+}
+
 #gsapp-customsearch #edit-searchterm{
 	border: none;
 	padding: 0;
+	background-color:transparent;
+	color:gray;
+	display:inline-block;
+}
+
+.IE #gsapp-customsearch #edit-searchterm{
+	zoom:1;
+	display:inline;
 }
 
 #gsapp-customsearch #edit-searchterm:focus{
@@ -109,12 +133,22 @@
 
 #gsapp-customsearch #edit-submit{
 	width:16px; 		
-	height:16px;
-	background:url(http://www.columbia.edu/cu/arch/tmpltzr/assets/search.png) no-repeat; 
+	height:18px;
+	background:url('http://www.columbia.edu/cu/arch/tmpltzr/assets/searchGray.png') no-repeat; 
 	border:none;
 	overflow:hidden;
 	cursor:pointer;
 	vertical-align: middle;
+	display:-moz-inline-stack;
+	display:inline-block;
+	float: right;
+	margin-right: 5px;
+	margin-top: 3px;	
+}
+
+.IE #gsapp-customsearch #edit-submit{
+	zoom:1;
+	display:inline;
 }
 
 .form-item {
@@ -369,7 +403,12 @@ div.error, tr.error {
     visibility: hidden;
 }
 .clearfix {
+	display:-moz-inline-stack;
     display: inline-block;
+}
+.IE .clearfix{
+	zoom:1;
+	*display:inline;
 }
 /* Hides from IE-mac \ */
 * html .clearfix,

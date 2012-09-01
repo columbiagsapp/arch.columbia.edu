@@ -1,4 +1,4 @@
-/* @override 
+/* @override gsappFetcher.day_names
 	http://www.columbia.edu/cu/arch/tmpltzr/html-elements.css
 	http://postfog.org/templatizer/sites/all/themes/tmpltzr/css/html-elements.css?h
 */
@@ -306,9 +306,15 @@ dl dd {
     color:gray;
     text-transform: uppercase;
 	font: 28px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
+	display:-moz-inline-stack;
 	display:inline-block;
 	padding:0 0 10px 10px !important;
 	letter-spacing: .1em;
+}
+
+.IE #navigation .menu li a{
+	zoom:1;
+	*display:inline;
 }
 
 #navigation .menu li a:hover{
@@ -365,10 +371,16 @@ dl dd {
 }
 
 #navigation .menu-arrow-large{
+	display:-moz-inline-stack;
 	display:inline-block;
 	width:15px;
 	height:15px;
 	background:transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/menu-arrow-large.png") no-repeat -15px -50px;
+}
+
+.IE #navigation .menu-arrow-large{
+	zoom:1;
+	*display:inline;
 }
 
 #navigation .active-trail.expanded .menu-arrow-large{
@@ -382,6 +394,7 @@ dl dd {
 
 
 #navigation .menu-arrow-small{
+	display:-moz-inline-stack;
 	display:inline-block;
 	width:9px;
 	height:9px;
@@ -389,6 +402,11 @@ dl dd {
 	vertical-align: top;
 	position: relative;
 	top: 7px;
+}
+
+.IE #navigation .menu-arrow-small{
+	zoom:1;
+	*display:inline;
 }
 
 #navigation .active-trail.expanded .menu-arrow-small:first-child{
@@ -600,13 +618,15 @@ dl dd {
 
 
 #tmpltzr .tmpltzr-primaryhalf .tmpltzr-image {
-
 	margin:0 20px 0 0;
-
 	vertical-align: text-bottom;
-
+	display:-moz-inline-stack;
 	display:inline-block;
+}
 
+.IE #tmpltzr .tmpltzr-primaryhalf .tmpltzr-image{
+	zoom:1;
+	*display:inline;
 }
 
 
@@ -614,7 +634,13 @@ dl dd {
 #tmpltzr .tmpltzr-primaryquarter .tmpltzr-image, .tmpltzr-person .tmpltzr-person-portrait {
 	margin:0 15px 0 0;
 	vertical-align: text-bottom;
+	display:-moz-inline-stack;
 	display:inline-block;
+}
+
+.IE #tmpltzr .tmpltzr-primaryquarter .tmpltzr-image, .tmpltzr-person .tmpltzr-person-portrait{
+	zoom:1;
+	*display:inline;
 }
 
 .tmpltzr-person .tmpltzr-person-portrait img{
@@ -669,16 +695,21 @@ dl dd {
 
 
 
-#tmpltzr .tmpltzr-primaryhalf .tmpltzr-title-container, #tmpltzr .tmpltzr-primaryquarter .tmpltzr-title-container,
+#tmpltzr .tmpltzr-primaryhalf .tmpltzr-title-container,
+#tmpltzr .tmpltzr-primaryquarter .tmpltzr-title-container,
 .tmpltzr-person .tmpltzr-title-container {
-
 	margin:0;
-
 	padding:0;
-
+	display:-moz-inline-stack;
 	display:inline-block;
 	width:235px;
+}
 
+.IE #tmpltzr .tmpltzr-primaryhalf .tmpltzr-title-container,
+.IE #tmpltzr .tmpltzr-primaryquarter .tmpltzr-title-container,
+.IE .tmpltzr-person .tmpltzr-title-container{
+	zoom:1;
+	*display:inline;
 }
 
 #tmpltzr .tmpltzr-primaryquarter-container {
@@ -883,9 +914,16 @@ dl dd {
 #tmpltzr .embedded-tumblr .photoset{
 	padding:0;
 	margin:0 0 10px;
+	display:-moz-inline-stack;
 	display:inline-block;
 	width:250px;
 }
+
+.IE #tmpltzr .embedded-tumblr .photoset{
+	zoom:1;
+	*display:inline;
+}
+
 #tmpltzr .embedded-tumblr .photoset.odd img{
 	float:right;
 }
@@ -1025,14 +1063,26 @@ dl dd {
 
 #tmpltzr #program-list, #tmpltzr #region-list {
 	width:250px;
+	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align: top;
 }
 
+.IE #tmpltzr #program-list, #tmpltzr #region-list{
+	zoom:1;
+	*display:inline;
+}
+
 #tmpltzr #semester-list {
 	width:200px;
+	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align: top;
+}
+
+.IE #tmpltzr #semester-list{
+	zoom:1;
+	*display:inline;
 }
 
 #tmpltzr #fixed-header li{
@@ -1213,8 +1263,14 @@ dl dd {
 #tmpltzr .view-courseblogs .col{
 	width:230px;
 	padding-right:20px;
+	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align:top;
+}
+
+.IE #tmpltzr .view-courseblogs .col{
+	zoom:1;
+	*display:inline;
 }
 
 #tmpltzr .view-courseblogs .views-row a{

@@ -18,7 +18,7 @@ var gsappFetcher = {};
  * Whether to log to firebug console (wraps console.log)
  * @type Boolean
  */
-gsappFetcher.enableLogging = true;
+gsappFetcher.enableLogging = false;
 
 /**
  * Storing proper stings for month names since the native JS Date object

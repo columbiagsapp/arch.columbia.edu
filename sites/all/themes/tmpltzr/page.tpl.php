@@ -7,6 +7,7 @@
 	
 	$browser = null;
 	$browser = browscap_get_browser();
+	
 	$is_mobile = FALSE;
 	
 	// evaluate request URI to force mobile or desktop content
@@ -35,12 +36,10 @@
 <!DOCTYPE html>
 
 <?php if($is_mobile == FALSE){ ?>
-<!--[if lt IE 7]> <html class="ie6 ie" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>"> <![endif]-->
-<!--[if IE 7]>    <html class="ie7 ie" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>"> <![endif]-->
-<!--[if IE 8]>    <html class="ie8 ie" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>"> <![endif]-->
-<!--[if gt IE 8]> <!--> <html class="" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>" xml:lang="<?php print $language->language; ?>"> <!--<![endif]-->
-<?php }else{ ?>
-<html class="" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>" xml:lang="<?php print $language->language; ?>">
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
 <?php } ?>
 
 <head>
@@ -59,14 +58,6 @@
 	<?php if($is_mobile === TRUE){ ?>
 		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/mobile-specific.css">
 	<?php }else{ ?>
-		<!--[if IE]>
-		  <link rel="stylesheet" href="http://www.columbia.edu/cu/arch/tmpltzr/css/ie.css" type="text/css">
-		<![endif]-->
-		
-		<!--[if IE 6]>
-		  <link rel="stylesheet" href="http://www.columbia.edu/cu/arch/tmpltzr/css/ie6.css" type="text/css">
-		<![endif]-->
-	
 		<!-- IE Fix for HTML5 Tags -->
 		<!--[if lt IE 9]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -95,6 +86,12 @@
 	<!-- css assets for fonts.com custom font NeutraFace -->
 	<link href="http://cloud.webtype.com/css/a0868e2c-1109-4f64-8fbc-cd9f837ed961.css" rel="stylesheet" type="text/css">
 	
+	<!-- IE CSS -->
+	<!--[if (gte IE 6)&(lte IE 8)]>
+	  <script type="text/javascript" src="selectivizr.js"></script>
+	  <noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
+	<![endif]-->
+	
 	<!-- js google custom search -->
 	<script>
 	  (function() {
@@ -109,8 +106,7 @@
 
 </head>
 
-<body class="<?php if($is_mobile === TRUE) { print 'mobile '; }?><?php print $body_classes;?>">
-
+<body class="<?php if($is_mobile === TRUE) { print 'mobile '; }else{ print $browser[browser].' '; }?><?php print $body_classes;?>">
 	<!-- .wrapper -->
 	<div class="<?php if($is_mobile === TRUE){ print 'mobile-wrapper '; }else{ print 'wrapper '; } print (array_intersect(array('Faculty','TA','Student','Director','Alumni'),$user->roles) ? 'faculty' : ''); ?>">
 		<?php if($is_mobile === TRUE) { /* mobile theme */?>
@@ -172,7 +168,7 @@
 							function gsapp_customsearch(&$form_state) {
 								$form['searchterm'] = array(
 								'#type' => 'textfield',
-								'#size' => 33,
+								'#size' => 27,
 								'#maxlength' => 64,
 							  );  
 							  $form['submit'] = array('#type' => 'submit', '#value' => t(''));
