@@ -804,7 +804,7 @@
 						var $script = $(this),
 							scriptText = $script.text();
 	
-						if( $('html').hasClass('ie') ){
+						if( $('body').hasClass('IE') ){
 							var ss = document.createElement('script');
 							var scr = scriptText;
 							ss.text = scr;
