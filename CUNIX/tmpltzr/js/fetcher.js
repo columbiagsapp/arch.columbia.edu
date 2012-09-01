@@ -25,14 +25,33 @@ gsappFetcher.enableLogging = true;
  * only contains abbreviations
  * @type Array
  */
-gsappFetcher.month_names;
+gsappFetcher.month_names = new Array ( );
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "January";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "February";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "March";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "April";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "May";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "June";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "July";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "August";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "September";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "October";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "November";
+gsappFetcher.month_names[gsappFetcher.month_names.length] = "December";
 
 /**
  * Storing proper stings for day names since the native JS Date object
  * only contains abbreviations
  * @type Array
  */
-gsappFetcher.day_names;
+gsappFetcher.day_names = new Array ( );
+gsappFetcher.day_names[gsappFetcher.day_names.length] = "Sunday";
+gsappFetcher.day_names[gsappFetcher.day_names.length] = "Monday";
+gsappFetcher.day_names[gsappFetcher.day_names.length] = "Tuesday";
+gsappFetcher.day_names[gsappFetcher.day_names.length] = "Wednesday";
+gsappFetcher.day_names[gsappFetcher.day_names.length] = "Thursday";
+gsappFetcher.day_names[gsappFetcher.day_names.length] = "Friday";
+gsappFetcher.day_names[gsappFetcher.day_names.length] = "Saturday";
 
 /**
  * How many posts to get from a tumblr feed. Default is 10
@@ -187,8 +206,8 @@ gsappFetcher.formatDate = function(date) {
 	}
 	
 	date_string_a = [
-		day_names[date.getDay()], ', ',
-		month_names[date.getMonth()], ' ',
+		gsappFetcher.day_names[date.getDay()], ', ',
+		gsappFetcher.month_names[date.getMonth()], ' ',
 		date.getDate(), ', ', date.getFullYear(), ' ',
 		hours, ':', minutes, end_string];
 	
@@ -204,8 +223,8 @@ gsappFetcher.formatDate = function(date) {
 gsappFetcher.formatDateForWidget = function(date) {
 	
 	date_string_a = [
-		day_names[date.getDay()], ', ',
-		month_names[date.getMonth()], ' ',
+		gsappFetcher.day_names[date.getDay()], ', ',
+		gsappFetcher.month_names[date.getMonth()], ' ',
 		date.getDate()];
 	
 	return date_string_a.join('');
@@ -246,56 +265,10 @@ gsappFetcher.formatTimeForWidget = function(date) {
  */
 
 gsappFetcher.formatDateForBox = function(date) {
-	var month_name = month_names[date.getMonth()];
+	var month_name = gsappFetcher.month_names[date.getMonth()];
 	return [month_name.substr(0,3), '<br/>',
 		date.getDate()].join('');
 }
-
-
-/**
- * Function to start various other calls
- * @return void
- */
-gsappFetcher.start = function() {
-	// initialize internal data
-	month_names = new Array ( );
-	month_names[month_names.length] = "January";
-	month_names[month_names.length] = "February";
-	month_names[month_names.length] = "March";
-	month_names[month_names.length] = "April";
-	month_names[month_names.length] = "May";
-	month_names[month_names.length] = "June";
-	month_names[month_names.length] = "July";
-	month_names[month_names.length] = "August";
-	month_names[month_names.length] = "September";
-	month_names[month_names.length] = "October";
-	month_names[month_names.length] = "November";
-	month_names[month_names.length] = "December";
-	day_names = new Array ( );
-	day_names[day_names.length] = "Sunday";
-	day_names[day_names.length] = "Monday";
-	day_names[day_names.length] = "Tuesday";
-	day_names[day_names.length] = "Wednesday";
-	day_names[day_names.length] = "Thursday";
-	day_names[day_names.length] = "Friday";
-	day_names[day_names.length] = "Saturday";
-
-	gsappFetcher.log('start called in fetcher');
-/*
-	commenting this out since this is now being called in the nodequeue based preview page
-gsappFetcher.getFlickrWidget(
-		"http://dashboard.gsapp.org/node/30?callback=?", "#item-1");
-		
-		
-	gsappFetcher.getFlickrWidget(
-		"http://dashboard.gsapp.org/node/29?callback=?", "#item-2");
-
-*/
-
-}
-
-
-
 
 /**
  * Change the number of posts being read from a tumblr blog
@@ -581,7 +554,7 @@ gsappFetcher.getEventData = function(url, elementName) {
 		
 		
 		$("#tmpltzr .content #event-output .embedded-event a .embedded-event-top-area").hover(function() {
-			console.log('hovering');
+			gsappFetcher.log('hovering');
 			
 			$(this).children(".embedded-event-date-box").addClass('filled');
 		}, 

@@ -145,7 +145,11 @@ var resizeFunc = function(){
 	
 	var ww = window.innerWidth;
 	if(ww >= 1270){
-		$('#content').css('width', '800px');
+		if( $('body').hasClass('not-front') ){
+			$('#content').css('width', '800px');
+		}else{
+			
+		}
 		
 		var id ='';
 		$('#tmpltzr #main .view .views-row').each(function(i){
@@ -298,8 +302,7 @@ function menuAddTriangles(){
 
 
 $(document).ready(function () {
-	gsappFetcher.start();
-	
+	safelog('---------------------------DOCUMENT READY FUNCTION STARTING---------------------------');
 	adjustPrimaryLinksMenu( window.location.pathname );
 	menuAddTriangles();
 

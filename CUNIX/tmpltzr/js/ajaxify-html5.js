@@ -801,9 +801,21 @@
 					
 					// Add the scripts
 					$scripts.each(function(){
-						var $script = $(this), scriptText = $script.text(), scriptNode = document.createElement('script');
-						scriptNode.appendChild(document.createTextNode(scriptText));
-						contentNode.appendChild(scriptNode);
+						var $script = $(this),
+							scriptText = $script.text();
+	
+						if( $('html').hasClass('ie') ){
+							var ss = document.createElement('script');
+							var scr = scriptText;
+							ss.text = scr;
+							safelog('scr: ' + scr);
+							var hh = document.getElementsByTagName('head')[0];
+							hh.appendChild(ss);
+						}else{
+							var scriptNode = document.createElement('script');
+							scriptNode.appendChild(document.createTextNode(scriptText));
+							contentNode.appendChild(scriptNode);
+						}
 					});
 
 					// Complete the change
