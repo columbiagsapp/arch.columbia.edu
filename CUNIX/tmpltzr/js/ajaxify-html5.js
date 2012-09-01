@@ -654,6 +654,8 @@
 				// Continue as normal for cmd clicks etc
 				if ( event.which == 2 || event.metaKey ) { return true; }
 				
+				$('body').removeClass('front').addClass('not-front');
+				
 				switch(getCurrentState()){
 					case 'home':
 						$this.dig($active);

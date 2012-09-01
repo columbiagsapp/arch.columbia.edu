@@ -166,6 +166,10 @@ var resizeFunc = function(){
 			$(insertClass).append($(this)).removeClass('empty');
 		});			
 	}
+	if(window.location.href == HOME_URL){
+		gsappFetcher.ccWidgetCarousel();
+		gsappFetcher.eventsWidgetCarousel();
+	}
 	BuildWall();
 	//evenColumnsCourseBlogsIndex(resized); //even out columns in course blog index TODO tct2003 reinstate this
 	//resized = true; //set to true after the resize function has run once

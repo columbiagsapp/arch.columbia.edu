@@ -82,8 +82,8 @@
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.scrollTo-1.4.2-min.js" defer="defer"></script>	
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.jcarousel.min.js"></script>
 	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/html4+html5/jquery.history.js"></script>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/gsapp.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/fetcher.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/gsapp.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/ajaxify-html5.js"></script>
 	
 	<?php if($is_mobile === TRUE){ ?>
@@ -92,6 +92,8 @@
 
 	<!-- js assets for fonts.com custom font DIN -->
 	<script type="text/javascript" src="http://fast.fonts.com/jsapi/83f34eca-2e88-4bbf-b358-062ac880084c.js"></script>
+	<!-- css assets for fonts.com custom font NeutraFace -->
+	<link href="http://cloud.webtype.com/css/a0868e2c-1109-4f64-8fbc-cd9f837ed961.css" rel="stylesheet" type="text/css">
 	
 	<!-- js google custom search -->
 	<script>

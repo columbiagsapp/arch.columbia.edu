@@ -1236,7 +1236,9 @@ dl dd {
 	width:540px;
 	float:left;
 }
-
+.front #tmpltzr #main {
+	width:100% !important;
+}
 #tmpltzr #right-sidebar {
 	width:260px;
 	float:right;
@@ -1444,8 +1446,11 @@ dl dd {
 /* EVENTS WIDGET */
 .tmpltzr-featuredeventwidget {
 	width:200px;
-	padding:20px;
+	border:20px solid #EFEFEF;
 	background-color:#EFEFEF;
+	display:block;
+	height:350px;
+	overflow:hidden;
 }
 .tmpltzr-featuredeventwidget .featured-events-widget{
 	width:200px;
@@ -1494,7 +1499,11 @@ dl dd {
 	height:40px;
 }
 
-
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-location-time-container{
+	display:block;
+	height:100px;
+	overflow:hidden;
+}
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev {
 	position:absolute;
@@ -1545,12 +1554,13 @@ dl dd {
 	padding:20px;
 	background-color:#efefef;
 	text-align:center;
+	height:293px;
 }
 
 .tmpltzr-academiccalendarwidget .ac-today{
 	margin:0 auto;
-	height:102px;
-	width:96px;
+	height:89px;
+	width:90px;
 	padding:7px;
 	border:3px solid black;
 	border-top:10px solid black;
@@ -1563,5 +1573,87 @@ dl dd {
 	text-transform: uppercase;
 }
 .tmpltzr-academiccalendarwidget .ac-dayOfMonth{
-	font: 52px/64px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font: 52px/53px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+/* CC WIDGET */
+.tmpltzr-ccwidget {
+	width:240px;
+	padding:0px;
+	height: 380px;
+	display: block;
+	overflow: hidden;
+}
+.tmpltzr-ccwidget .cc-widget{
+	width:240px;
+	height:380px;
+}
+.tmpltzr-ccwidget .cc-widget ul li {
+	width:240px;
+	height:380px;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-image{
+	margin-bottom: 24px;
+	width:240px;
+	height:160px;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/cclogo_161x160.png') no-repeat 40px 0;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-image a{
+	text-decoration:none;
+	border-bottom:none !important;
+}
+
+.tmpltzr-ccwidget .cc-widget a.cc-text{
+	text-decoration:none;
+	border-bottom:none !important;
+	font-family: Neutraface2TextTT,Futura,"Futura",Helvetica,Arial,sans-serif;	
+	display:block;
+	width:216px;
+	margin-left:12px;
+	height:173px;
+	overflow:hidden;
+}
+
+.tmpltzr-ccwidget .cc-widget a.cc-text .cc-type{
+	font-size: 10px;
+	text-transform: uppercase;
+	padding: 0 2px 0 0;
+	vertical-align:text-top;
+	color: #FF334A;
+}
+
+.tmpltzr-ccwidget .cc-widget a.cc-text .cc-excerpt{
+	font-size:20px;
+	line-height:28px;
+	font-weight:normal;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-prev{
+	position:absolute;
+	z-index:1000;
+	cursor:pointer;
+	top:366px;
+	left:55px;
+	width:60px;
+	height:14px;
+	display:block;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/cc-widget-prev.png') no-repeat 0 0;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-next{
+	position:absolute;
+	z-index:1000;
+	cursor:pointer;
+	top:366px;
+	left:125px;
+	width:60px;
+	height:14px;
+	display:block;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/cc-widget-next.png') no-repeat 0 0;
+}
+
+
+
+

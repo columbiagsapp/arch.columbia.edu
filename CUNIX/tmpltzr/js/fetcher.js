@@ -694,21 +694,16 @@ gsappFetcher.getFlickrWidget = function(url, elementName) {
 }
 
 /**
- * Function to return event data from JSON formatted views
- * coming from the GSAPP events site
+ * Function to init the events widget carousel
  *
- * @param {String} url The URL for the JSON feed
- * @param {String} elementName The name of the DOM container to write into
  * @return void
  */
 gsappFetcher.eventsWidgetCarousel = function() {
-	gsappFetcher.log('calling jCarousel Lite');
+	gsappFetcher.log('calling jCarousel Lite on featuredeventwidget');
 	$(".tmpltzr-featuredeventwidget .featured-events-widget").jCarouselLite({
 		btnNext: ".tmpltzr-featuredeventwidget .fe-next",
 		btnPrev: ".tmpltzr-featuredeventwidget .fe-prev",
-		auto: 5000,
-		speed: 770,
-		circular: true,
+		speed: 300,
 		visible: 1,
 		scroll: 1
 	});
@@ -807,4 +802,75 @@ gsappFetcher.getTodaysDate = function(elementName) {
 		curMonth = months[objToday.getMonth()];
 	var today = ['<div class="ac-dayOfWeek">',dayOfWeek,'</div><div class="ac-dayOfMonth">',dayOfMonth,'</div><div class="ac-month">',curMonth,'</div>'].join('');
 	$(elementName).append(today);
+}
+
+/**
+ * Function to init the CC widget carousel
+ *
+ * @return void
+ */
+gsappFetcher.ccWidgetCarousel = function() {
+	gsappFetcher.log('calling jCarousel Lite for CC: widget');
+	$(".tmpltzr-ccwidget .cc-widget").jCarouselLite({
+		btnNext: ".tmpltzr-ccwidget .cc-next",
+		btnPrev: ".tmpltzr-ccwidget .cc-prev",
+		speed: 300,
+		circular: true,
+		visible: 1,
+		scroll: 1
+	});
+	
+	$('.tmpltzr-ccwidget .cc-widget .cc-text, .tmpltzr-ccwidget .cc-widget .cc-image').bind('mouseenter', function(){
+		$('.tmpltzr-ccwidget .cc-widget .cc-image img').css('opacity','0.0');
+		//$('.tmpltzr-ccwidget .cc-widget .cc-text .cc-excerpt').css('color', '#0089FF');
+	});
+	$('.tmpltzr-ccwidget .cc-widget .cc-text, .tmpltzr-ccwidget .cc-widget .cc-image').bind('mouseleave', function(){
+		$('.tmpltzr-ccwidget .cc-widget .cc-image img').css('opacity','1.0');
+		//$('.tmpltzr-ccwidget .cc-widget .cc-text .cc-excerpt').css('color', 'black');
+	});
+}
+
+/**
+ * Function to return blog data from JSON formatted views
+ * coming from CC:GSAPP
+ *
+ * @param {String} url The URL for the JSON feed
+ * @param {String} elementName The name of the DOM container to write into
+ * @return void
+ */
+gsappFetcher.getCCWidget = function(url, elementName) {
+	gsappFetcher.log("Widget: getting CC: data from " + url + " into " + elementName);
+	var post_div = '<div class="cc-widget"><div class="cc-carousel"><ul>';
+	$.getJSON(url, function(data) {
+		var nodes = data.nodes;
+		for (var i=0; i<nodes.length;i++) {
+			
+			var post = nodes[i].node;
+			
+			// get the path to the node
+			// TODO UPDATE path to prod
+			var path = ['http://ccgsapp.org/node/', post.nid].join('');
+			
+
+			// build the div
+			post_div = [post_div, '<li class="cc-item">',
+				'<div class="cc-image"><a target="_blank" href="', path, '">',
+				post.field_images_fid,'</a></div>',
+				'<a class="cc-text" target="_blank" href="', path, '">',
+				'<span class="cc-type">', post.title, '</span> ', 
+				'<span class="cc-excerpt">', post.field_excerpt_value, '</span>',
+				'</a>',
+				'</li>'].join('');
+			if(i == nodes.length-1){
+				post_div = [post_div, '</ul></div><div class="cc-prev"></div><div class="cc-next"></div></div>'].join('');
+			}
+			
+			
+		}//end for loop
+		gsappFetcher.log('post_div******: ' + post_div);
+		$(elementName).append(post_div);
+	})
+	.error(function() { gsappFetcher.log('error loading CC: widget data'); })
+	.complete(function() { gsappFetcher.ccWidgetCarousel(); }); // end getJSON
+	
 }
