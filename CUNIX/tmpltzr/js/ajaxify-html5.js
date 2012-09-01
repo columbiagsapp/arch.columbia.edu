@@ -55,7 +55,9 @@
 			
 			// Check link
 			isInternalLink = url.substring(0,rootUrl.length) === rootUrl || url.indexOf(':') === -1;
-			
+			if((url.indexOf("/admin/") >= 0) || (( copypaste == true) && (url.indexOf("/edit") >= 0)) ){
+				isInternalLink = false;
+			}			
 			// Ignore or Keep
 			return isInternalLink;
 		};

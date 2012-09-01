@@ -1447,11 +1447,8 @@ dl dd {
 /* EVENTS WIDGET */
 .tmpltzr-featuredeventwidget {
 	width:200px;
-	border:20px solid #EFEFEF;
+	padding:20px;
 	background-color:#EFEFEF;
-	display:block;
-	height:350px;
-	overflow:hidden;
 }
 .tmpltzr-featuredeventwidget .featured-events-widget{
 	width:200px;
@@ -1582,8 +1579,6 @@ dl dd {
 	width:240px;
 	padding:0px;
 	height: 380px;
-	display: block;
-	overflow: hidden;
 }
 .tmpltzr-ccwidget .cc-widget{
 	width:240px;
