@@ -314,6 +314,10 @@ dl dd {
 	color:white;
 }
 
+.iscroll #navigation .menu li a:hover{
+	color:gray;
+}
+
 #navigation .menu .menu li a {
 	font: 18px "DIN Next W02 Bold", Arial, Helvetica, sans-serif !important;
 }

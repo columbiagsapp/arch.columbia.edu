@@ -474,7 +474,7 @@ gsappFetcher.getTumblr = function(url, element_name) {
 		.complete(function() {
 			gsapp.buildWall();
 			gsapp._remove_flash_content();
-			//gsappMobile.refreshIScroll(200, 400);
+			gsappMobile.reinitIScroll(0);
 		});
 
 	

@@ -113,12 +113,13 @@
 
 /* GOOGLE CUSTOM SEARCH */
 #search-login-container {
-	position:fixed;
+	position:absolute;
 	top:120px;
 	left:47px;
 	width: 360px;
 	height:22px;
 }
+
 #gsapp-customsearch{
 	display:-moz-inline-stack;
 	display: inline-block;
