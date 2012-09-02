@@ -175,6 +175,7 @@ var resizeMenu = function(){
 var resizeFunc = function(){
 	
 	if(gsapp.iscroll == false){
+		safelog('resizing menu');
 		resizeMenu(); //resize the height of the menu
 	}
 	var ww = window.innerWidth;
@@ -490,10 +491,12 @@ $(document).ready(function () {
 	initPhotoset();
 	  
     /*************************** MENU ***************************/
-	var menu = $("#navigation ul.menu");
+	var menu = $("#navigation #menu ul.menu");
 	externalLinkAppendImg(menu);
 	
-	$(".menu a").bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
+	if(gsapp.iscroll == false){//no hover effects for mobile
+		$(".menu a").bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
+	}
 
 	$('#semester-list .term-list a.term-index-term').each(function(){
 		$(this).bind('click',function(){
