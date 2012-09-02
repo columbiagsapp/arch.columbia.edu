@@ -9,6 +9,7 @@
 	$browser = browscap_get_browser();
 	
 	$is_mobile = FALSE;
+	$mobile_iscroll = FALSE;
 	
 	// evaluate request URI to force mobile or desktop content
 	// used only for ajax requests
@@ -21,8 +22,10 @@
 	if ($strpos_mobile_false > 0) {
 		// force non-mobile theme
 		$is_mobile = FALSE;
+		$mobile_iscroll = FALSE;
 	} else if ($strpos_mobile_true > 0) {
 		$is_mobile = TRUE;
+		$mobile_iscroll = TRUE;
 	} else if ( 
 		// run regular browser detection
 		($browser['ismobiledevice'] == 1) &&
@@ -30,6 +33,13 @@
 		// add more clauses here as they come up for new tablets
 	) {
 			$is_mobile = TRUE;
+	} else if(
+		// use iScroll for any mobile device, even tablets
+		($browser['ismobiledevice'] == 1) &&
+		((strpos($browser['useragent'], 'iPad') == TRUE))
+		// add more clauses here as they come up for new tablets
+	) {
+		$mobile_iscroll = TRUE;
 	}
 ?>
 
@@ -66,6 +76,7 @@
 	
 	<?php print $scripts; ?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/iscroll.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.cycle.all.pack.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
@@ -106,9 +117,7 @@
 
 </head>
 
-<body class="<?php if($is_mobile === TRUE) { print 'mobile '; }else{ print $browser[browser].' '; }?><?php print $body_classes;?>">
-	<!-- .wrapper -->
-	<div class="<?php if($is_mobile === TRUE){ print 'mobile-wrapper '; }else{ print 'wrapper '; } print (array_intersect(array('Faculty','TA','Student','Director','Alumni'),$user->roles) ? 'faculty' : ''); ?>">
+<body class="<?php if($is_mobile === TRUE) { print 'mobile '; }else{ print $browser[browser].' '; } if($mobile_iscroll === TRUE){ print 'iscroll '; }?><?php print $body_classes; print (array_intersect(array('Faculty','TA','Student','Director','Alumni'),$user->roles) ? 'faculty' : ''); ?>?>">
 		<?php if($is_mobile === TRUE) { /* mobile theme */?>
 			<div id="mobile-header">
 				<a href="/">
@@ -155,82 +164,79 @@
 				<!--endtmpltzr-->
 			</div>
 			
-		<?php }else{ /* non mobile theme */?>
-			<!-- #menu -->
-			<section id="menu">
-				<header id="header">
-					<a href="<?php print base_path(); ?>" title="<?php print t('Home'); ?>" id="gsapplogo">
-						<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-					</a>
-				
-					<div id="search-login-container">
-						<?php					
-							function gsapp_customsearch(&$form_state) {
-								$form['searchterm'] = array(
-								'#type' => 'textfield',
-								'#size' => 27,
-								'#maxlength' => 64,
-							  );  
-							  $form['submit'] = array('#type' => 'submit', '#value' => t(''));
-							  return $form;
-							}
-							
-							function gsapp_customsearch_submit($form, &$form_state) {
-								$search_term = $form_state['values']['searchterm'];
-								$form_state['redirect'] = array(
-									'/search/', 
-									'searchterm=' . $search_term);
-							}
-							
-							$search_form = drupal_get_form('gsapp_customsearch');
-							print $search_form;
-						?>
+		<?php }else{ /* tablet using iscroll and non-mobile */?>
+			<header id="header">
+				<a href="<?php print base_path(); ?>" title="<?php print t('Home'); ?>" id="gsapplogo">
+					<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+				</a>
+			
+				<div id="search-login-container">
+					<?php					
+						function gsapp_customsearch(&$form_state) {
+							$form['searchterm'] = array(
+							'#type' => 'textfield',
+							'#size' => 27,
+							'#maxlength' => 64,
+						  );  
+						  $form['submit'] = array('#type' => 'submit', '#value' => t(''));
+						  return $form;
+						}
 						
-						<div id="login">
-							<?php if (!$user->uid): ?>
-								<?php print l("Login", "user/wind"); ?>
-							<?php else:?>
-								<?php print l("My Content", "my-content"); ?>
-							<?php endif; ?>
-						</div>
-					</div><!-- #search-login-container -->
-				</header>
-				
-				<a href="http://news.gsapp.org" id="gsapp-news"></a>
-				
-				<nav id="navigation">
-					<?php print menu_tree_output( menu_tree_all_data('primary-links') ); ?>
-					<?php print '<!--' . menu_tree_output( menu_tree_all_data('primary-links') ) . '-->'; ?>
-				</nav><!-- #navigation -->
-	  
-			</section><!-- #menu -->
-
-			<!-- #content -->
-			<section id="content" class="clearfix">
-				<?php print $messages . $help; ?>
-				<!--starttmpltzr-->
-				<div id="tmpltzr">
-					<header id="global-header">
-						<div></div>
-					</header>
-					<?php print $content; ?>
-				</div>
-				<!--endtmpltzr-->
-				
-				<footer id="page-wrapper-footer">
-					<div id="copy-paste">
-						<h4>Copy-paste the code below into the GSAPP website:</h4>
-					</div>
-				</footer>
+						function gsapp_customsearch_submit($form, &$form_state) {
+							$search_term = $form_state['values']['searchterm'];
+							$form_state['redirect'] = array(
+								'/search/', 
+								'searchterm=' . $search_term);
+						}
+						
+						$search_form = drupal_get_form('gsapp_customsearch');
+						print $search_form;
+					?>
 					
-				<!-- Footer -->
-				<footer id="footer">
-					<?php $block_copyr = module_invoke('copyright', 'block', 'view', 7); ?>
-					<div id="footer-inner" class="clearfix"><?php print $footer . $block_copyr['content'] ; ?></div>
-				</footer><!-- /#footer -->
-			</section><!-- /#content -->
+					<div id="login">
+						<?php if (!$user->uid): ?>
+							<?php print l("Login", "user/wind"); ?>
+						<?php else:?>
+							<?php print l("My Content", "my-content"); ?>
+						<?php endif; ?>
+					</div>
+				</div><!-- #search-login-container -->
+			</header>
+			<a href="http://news.gsapp.org" id="gsapp-news"></a>
+			<!-- #navigation -->	
+			<div id="navigation">
+				<div id="menu">
+					<?php print menu_tree_output( menu_tree_all_data('primary-links') ); ?>
+				</div>
+			</div><!-- #navigation -->
+			<!-- #content -->
+			<div id="wrapper" class="clearfix">
+				<div id="content">
+					<?php print $messages . $help; ?>
+					<!--starttmpltzr-->
+					<div id="tmpltzr">
+						<header id="global-header">
+							<div></div>
+						</header>
+						<?php print $content; ?>
+					</div>
+					<!--endtmpltzr-->
+					
+					<footer id="page-wrapper-footer">
+						<div id="copy-paste">
+							<h4>Copy-paste the code below into the GSAPP website:</h4>
+						</div>
+					</footer>
+						
+					<!-- Footer -->
+					<footer id="footer">
+						<?php $block_copyr = module_invoke('copyright', 'block', 'view', 7); ?>
+						<div id="footer-inner" class="clearfix"><?php print $footer . $block_copyr['content'] ; ?></div>
+					</footer><!-- /#footer -->
+				</div><!-- /#content -->
+			</div><!-- /#wrapper -->
+			
 		<?php } ?>
-	</div><!-- .wrapper -->
 
 <?php print $closure; ?>
 

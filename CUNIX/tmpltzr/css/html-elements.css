@@ -4,24 +4,17 @@
 */
 
 body {
-
     margin: 0;
-
     padding: 0;
-
     font: 16px/20px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-    color: #051215;
-
+    color: black;
     background-color:white;
-
-    text-align: center;
-
+    text-align: left;
 }
 
 
 
-.wrapper a {
+a {
 
     text-decoration:underline;
 
@@ -29,7 +22,7 @@ body {
 
 }
 
-.wrapper a:hover {
+a:hover {
 
     color: #777;
 
@@ -175,7 +168,7 @@ iframe {
 
 /* List elements */
 
-.wrapper ul {
+ul {
 
     margin: 0px;
 
@@ -191,7 +184,7 @@ iframe {
 	padding: 0 0 10px 0;
 }
 
-.wrapper li {
+li {
 
     width: auto;
 }
@@ -334,6 +327,9 @@ dl dd {
 	display:none;
 }
 
+#navigation .menu li.force-expanded{
+	padding-left:9px;
+}
 
 #navigation .menu li.force-expanded .menu {
 	display: block;
@@ -355,11 +351,6 @@ dl dd {
 	margin:0 !important;
 	padding:0;
 	list-style:none !important;
-}
-
-
-#navigation {
-	padding:0 0 350px 20px;
 }
 
 #navigation ul ul{

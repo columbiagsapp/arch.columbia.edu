@@ -1,7 +1,28 @@
-var LOG = false;
+/**
+ * Namespacing
+ */
+var gsapp = {};
+var gsappMobile = {};
+
+
+gsappMobile.menuScroll;
+gsappMobile.contentScroll;
+gsappMobile.initIScroll = function(TIME) {
+	safelog('initIScroll with time: ' + TIME);
+	var time = TIME || 200;
+	setTimeout(function () {
+		gsappMobile.menuScroll = new iScroll('navigation');
+	}, time);
+	setTimeout(function () {
+		gsappMobile.contentScroll = new iScroll('wrapper');
+	}, time);
+}
+
+
+gsapp.LOG = true;
 var TMPLTZR = true;
 var safelog = function(msg){
-	if(LOG === true && msg != undefined){
+	if(gsapp.LOG === true && msg != undefined){
 		console.log(msg);
 	}
 }
@@ -91,6 +112,16 @@ var getElementLevel = function($element){
 
 initCurrentLevel();
 
+/* 	function: level()
+ *	Returns the menu level of the item
+*/
+$.fn.level = function(){
+	var classes = $(this).closest('.menu').attr('class');
+	var levelIdx = classes.indexOf('level-') + 6;
+	return classes.substring(levelIdx, levelIdx+1);
+}
+		
+
 var getOffset = function( el ) {
     var _x = 0;
     var _y = 0;
@@ -137,19 +168,19 @@ function externalLinkAppendImg(m){
 var resizeMenu = function(){
 	var wh = window.innerHeight;
 	var hh = $("#header").height();
-	$("#menu").css('height', wh-hh);
+	$("#navigation").css('height', wh-hh);
 }
 
+
 var resizeFunc = function(){
-	resizeMenu(); //resize the height of the menu
 	
+	if(gsapp.iscroll == false){
+		resizeMenu(); //resize the height of the menu
+	}
 	var ww = window.innerWidth;
 	if(ww >= 1270){
-		if( $('body').hasClass('not-front') ){
-			$('#content').css('width', '800px');
-		}else{
-			
-		}
+		$('#wrapper').css('width', '800px');
+		
 		
 		var id ='';
 		$('#tmpltzr #main .view .views-row').each(function(i){
@@ -161,7 +192,7 @@ var resizeFunc = function(){
 			}
 		});					
 	}else{
-		$('#content').css('width', '520px');
+		$('#wrapper').css('width', '520px');
 		
 		var insertClass = '';
 		$('#tmpltzr #right-sidebar .tmpltzr-secondary-float').each(function(){
@@ -174,6 +205,7 @@ var resizeFunc = function(){
 		gsappFetcher.ccWidgetCarousel();
 		gsappFetcher.eventsWidgetCarousel();
 	}
+	//setTimeout(iscrollFunc, 100);
 	BuildWall();
 	//evenColumnsCourseBlogsIndex(resized); //even out columns in course blog index TODO tct2003 reinstate this
 	//resized = true; //set to true after the resize function has run once
@@ -198,16 +230,15 @@ var adjustPrimaryLinksMenu = function(path){
 	} 
 	
 	/* if not the homepage, where path = '/' */
-	safelog('not the homepage: ' + path.substring(1));
+	safelog('path: ' + path);
 	if( (path.length > 1) && (path.substring(1,7) != 'search') ){
+		safelog('Not the homepage. Path is:  ' + path.substring(1));
 		selector = '#navigation a:[href="' + path + '"]';
-		
-		
+		'#navigation a:[href="/studio-x-global"]'
 		var selLen = $(selector).length;
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
 		}else{//page exists
-			safelog('selector: ' + selector);
 			if( selLen == 1 ){
 				safelog('single selector');
 				$selected = $(selector);
@@ -230,7 +261,11 @@ var adjustPrimaryLinksMenu = function(path){
 					setCurrentState(3);
 				}else{//internal redirect
 					$(selector).each(function(){
-						var stub = $(this).closest('.menu').parent('li').children('a:eq(0)').attr('href');
+						if($(this).closest('.menu').parent('li').length > 0){
+							var stub = $(this).closest('.menu').parent('li').children('a:eq(0)').attr('href');
+						}else{//level-0
+							var stub = path;
+						}
 						stub = stub.substring(1, 6);
 						safelog('stub: ' + stub);
 						safelog('path stub: ' + path.substring(1, 6));
@@ -270,9 +305,9 @@ function menuAddTriangles(){
 	var aW = liW - 25;
 	var liWStr = liW + 'px';
 	var aWStr = aW + 'px';
-	var selector = '#navigation > .menu > li';
+	var selector = '#navigation #menu > .menu > li';
 	
-	$('#navigation > .menu').addClass('level-0');
+	$('#navigation #menu > .menu').addClass('level-0');
 	$(selector).css('width', liWStr).prepend('<span class="menu-arrow-large"></span>');
 	$(selector).each(function(){
 		$(this).children('a').css('width',aWStr);
@@ -300,15 +335,27 @@ function menuAddTriangles(){
 }
 
 
+var setMasonryBrickWidths = function(){	
+	$('#tmpltzr #main .view .view-content .views-row').each(function(){
+		if($(this).children('.node').hasClass('tmpltzr-module-500')){
+			$(this).css('width', '500px');
+		}else{
+			$(this).css('width', '240px');
+		}
+	});
+ }  
+ 
+ var convertFlashEmbedsToLinks = function(){
+	if($('.tmpltzr-primaryvideo object').length > 0){
+		$('.tmpltzr-primaryvideo object').each(function(){
+			if($(this).attr('type') == "application/x-shockwave-flash"){
+				$(this).parents('.views-row').remove();
+			}
+		});	
+	}
+}
 
-$(document).ready(function () {
-	safelog('---------------------------DOCUMENT READY FUNCTION STARTING---------------------------');
-	adjustPrimaryLinksMenu( window.location.pathname );
-	menuAddTriangles();
-
-	/*************************** UTILITIES ***************************/
-	jQuery.fn.exists = function(){return this.length>0;}
-	
+var initPhotoset = function(){
 	if($('.tmpltzr-photoset').exists()){
 		$('.tmpltzr-photoset').each(function(){
 			var id = $(this).attr('id');
@@ -324,31 +371,114 @@ $(document).ready(function () {
     		});
 		});
     }
-    
-    
-    var setMasonryBrickWidths = function(){	
-		$('#tmpltzr #main .view .view-content .views-row').each(function(){
-			if($(this).children('.node').hasClass('tmpltzr-module-500')){
-				$(this).css('width', '500px');
-			}else{
-				$(this).css('width', '240px');
-			}
-		});
-	 }  
+}
+
+/*
+	Hover effect for menu - shows offsite.png if offsite link on hover
+*/
+var menuHoverOn = function(){
+	$(".hover-only", this).toggle(); //hover effect for offsite.png to appear on external links
+	$(this).parent('li.collapsed').children(".menu-arrow-large").css('backgroundPosition', '-15px 0');
+	$(this).parent('li.collapsed:not(.active-trail.leaf)').children(".menu-arrow-small").css('backgroundPosition', '-9px 0');
+}
+
+var menuHoverOff = function(){
+	$(".hover-only", this).toggle(); //hover effect for offsite.png to appear on external links
+	$(this).parent('li.collapsed').find(".menu-arrow-large").css('background-position', '-15px -50px');
+	$(this).parent('li.collapsed').find(".menu-arrow-small").css('background-position', '-9px -50px');
+}
+
+/*************************** COURSE BLOGS INDEX ***************************/
+/*
+	Evenly arranges columns of links to course blogs based on screen width
+*/
+var evenColumnsCourseBlogsIndex = function(wrapped){
+	$('.view-courseblogs').each( function(i){ 
+		if(wrapped){ $('.view-content .views-row', this).unwrap(); }
+		var count = $('.view-content .views-row', this).length;
+		switch($('.wrapper #content').css('width')){
+			case "520px":
+				$("#fixed-header").css('width', '500px');
+				var colCount = Math.max(1,Math.floor(count/2));
+				$('.view-content .views-row', this).slice(0, colCount).wrapAll('<div class="col" />');
+				$('.view-content .views-row', this).slice(colCount, count).wrapAll('<div class="col" />');
+				break;
+			case "800px":
+				$("#fixed-header").css('width', '750px');
+				var colCount = Math.max(1,Math.floor(count/3));
+				$('.view-content .views-row', this).slice(0, colCount).wrapAll('<div class="col" />');
+				$('.view-content .views-row', this).slice(colCount, (2*colCount)).wrapAll('<div class="col" />');
+				$('.view-content .views-row', this).slice((2*colCount), count).wrapAll('<div class="col" />');
+				break;
+			default:
+				break;
+		}
+	});
+}
+
+var unbindRegionCourseBlogIndexFilter = function(){	
+	link = $(this);
+	link.removeClass('selected');
+	var region = link.attr('id');
+	region = '.'+region;
+	$(region).addClass('unselected');
+	link.unbind('click').bind('click', bindRegionCourseBlogIndexFilter($(this)) );
+	return false;
+};
+
+var bindRegionCourseBlogIndexFilter = function(){
+	$('.term-list a.term-index-term').removeClass('selected');	
+	$('.view-courseblogs a.term-index-term').addClass('unselected').removeClass("program");
+	var region = $(this).attr('id');
+	region = '.'+region;
+	$(region).removeClass('unselected');
+	$(this).addClass('selected');
+	$(this).unbind('click').bind('click', unbindRegionCourseBlogIndexFilter);
+	return false;
+};
+
+var unbindProgramCourseBlogIndexFilter = function(){
+	link = $(this);
+	link.removeClass('selected');
+	var program = link.attr('id');
+	program = '.'+program;
+	$(program).removeClass('program');
+	link.unbind('click').bind('click', bindProgramCourseBlogIndexFilter );
+	return false;
+}
+
+var bindProgramCourseBlogIndexFilter = function(){
+	$('.term-list a.term-index-term').removeClass('selected');
+	$('.view-courseblogs a.term-index-term').addClass('unselected').removeClass("program");
 	
+	var program = $(this).attr('id');
+	program = '.'+program;
+	$(program).addClass('program');
+	$(this).addClass('selected');
+	$(this).unbind('click').bind('click', unbindProgramCourseBlogIndexFilter);
+	return false;
+}
+
+
+$(document).ready(function () {
+	if($('body').hasClass('iscroll')){
+		gsapp.iscroll = true;
+	}else{
+		gsapp.iscroll = false;
+	}
+	safelog('---------------------------DOCUMENT READY FUNCTION STARTING with iscroll='+gsapp.iscroll+'---------------------------');
+	
+	adjustPrimaryLinksMenu( window.location.pathname );
+	menuAddTriangles();
+
+	/*************************** UTILITIES ***************************/
+	jQuery.fn.exists = function(){return this.length>0;}
+	
+
+
 	setMasonryBrickWidths();
     
     /*************************** NON-MOBILE FRIENDLY EMBEDDED CONTENT ***************************/
-	var convertFlashEmbedsToLinks = function(){
-		if($('.tmpltzr-primaryvideo object').length > 0){
-			$('.tmpltzr-primaryvideo object').each(function(){
-				if($(this).attr('type') == "application/x-shockwave-flash"){
-					$(this).parents('.views-row').remove();
-				}
-			});	
-		}
-	}	
-	
 	/* if viewing the stock site on a mobile device, like an iPad or other tablet,
 	   this function will remove any non-mobile friendly embeds, like the flickr
 	   image set flash-based <object>
@@ -357,118 +487,22 @@ $(document).ready(function () {
 		convertFlashEmbedsToLinks();
 	}
 	
+	initPhotoset();
 	  
     /*************************** MENU ***************************/
-	/* 
-		Adds a dot to all menu items that link to pages off the site
-	*/		
-	
-	
-	var menu = $("#menu ul.menu");
+	var menu = $("#navigation ul.menu");
 	externalLinkAppendImg(menu);
-	
-	/*
-		Hover effect for menu - shows offsite.png if offsite link on hover
-	*/
-	var menuHoverOn = function(){
-		$(".hover-only", this).toggle(); //hover effect for offsite.png to appear on external links
-		$(this).parent('li.collapsed').children(".menu-arrow-large").css('backgroundPosition', '-15px 0');
-		$(this).parent('li.collapsed:not(.active-trail.leaf)').children(".menu-arrow-small").css('backgroundPosition', '-9px 0');
-	}
-	
-	var menuHoverOff = function(){
-		$(".hover-only", this).toggle(); //hover effect for offsite.png to appear on external links
-		$(this).parent('li.collapsed').find(".menu-arrow-large").css('background-position', '-15px -50px');
-		$(this).parent('li.collapsed').find(".menu-arrow-small").css('background-position', '-9px -50px');
-	}
-	
-	
 	
 	$(".menu a").bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
 
-	
-	/*************************** COURSE BLOGS INDEX ***************************/
-	/*
-		Evenly arranges columns of links to course blogs based on screen width
-	*/
-	var evenColumnsCourseBlogsIndex = function(wrapped){
-		$('.view-courseblogs').each( function(i){ 
-			if(wrapped){ $('.view-content .views-row', this).unwrap(); }
-			var count = $('.view-content .views-row', this).length;
-			switch($('.wrapper #content').css('width')){
-				case "520px":
-					$("#fixed-header").css('width', '500px');
-					var colCount = Math.max(1,Math.floor(count/2));
-					$('.view-content .views-row', this).slice(0, colCount).wrapAll('<div class="col" />');
-					$('.view-content .views-row', this).slice(colCount, count).wrapAll('<div class="col" />');
-					break;
-				case "800px":
-					$("#fixed-header").css('width', '750px');
-					var colCount = Math.max(1,Math.floor(count/3));
-					$('.view-content .views-row', this).slice(0, colCount).wrapAll('<div class="col" />');
-					$('.view-content .views-row', this).slice(colCount, (2*colCount)).wrapAll('<div class="col" />');
-					$('.view-content .views-row', this).slice((2*colCount), count).wrapAll('<div class="col" />');
-					break;
-				default:
-					break;
-			}
+	$('#semester-list .term-list a.term-index-term').each(function(){
+		$(this).bind('click',function(){
+			var href1 = $(this).attr('href');
+			href1 = "#" + href1;
+			$(window).scrollTo( href1, 200 );
+			return false;
 		});
-	}
-	
-	
-		$('#semester-list .term-list a.term-index-term').each(function(){
-			$(this).bind('click',function(){
-				var href1 = $(this).attr('href');
-				href1 = "#" + href1;
-				$(window).scrollTo( href1, 200 );
-				return false;
-			});
-		});
-	
-	
-	var unbindRegionCourseBlogIndexFilter = function(){
-		
-		link = $(this);
-		link.removeClass('selected');
-		var region = link.attr('id');
-		region = '.'+region;
-		$(region).addClass('unselected');
-		link.unbind('click').bind('click', bindRegionCourseBlogIndexFilter($(this)) );
-		return false;
-	};
-	
-	var bindRegionCourseBlogIndexFilter = function(){
-		$('.term-list a.term-index-term').removeClass('selected');	
-		$('.view-courseblogs a.term-index-term').addClass('unselected').removeClass("program");
-		var region = $(this).attr('id');
-		region = '.'+region;
-		$(region).removeClass('unselected');
-		$(this).addClass('selected');
-		$(this).unbind('click').bind('click', unbindRegionCourseBlogIndexFilter);
-		return false;
-	};
-	
-	var unbindProgramCourseBlogIndexFilter = function(){
-		link = $(this);
-		link.removeClass('selected');
-		var program = link.attr('id');
-		program = '.'+program;
-		$(program).removeClass('program');
-		link.unbind('click').bind('click', bindProgramCourseBlogIndexFilter );
-		return false;
-	}
-	
-	var bindProgramCourseBlogIndexFilter = function(){
-		$('.term-list a.term-index-term').removeClass('selected');
-		$('.view-courseblogs a.term-index-term').addClass('unselected').removeClass("program");
-		
-		var program = $(this).attr('id');
-		program = '.'+program;
-		$(program).addClass('program');
-		$(this).addClass('selected');
-		$(this).unbind('click').bind('click', unbindProgramCourseBlogIndexFilter);
-		return false;
-	}
+	});
 	
 	$('#region-list .term-list a.term-index-term').each(function(){
 		$(this).bind('click', bindRegionCourseBlogIndexFilter);
@@ -489,23 +523,18 @@ $(document).ready(function () {
 			$("#course-blogs-index-listing").css('margin-top','0');
 		}
 	});
-	
-	
-	
-	
+
 	/*************************** STARTUP FUNCTIONS ***************************/
 	
 	resizeFunc(); //run the resize function on page load
 	$(window).resize(resizeFunc); //bind the resize function to the page
-	
-	//setTimeout(BuildWall,5000);
-	
-
-	
 });
 
 
 $(window).load(function(){
 	setTimeout(BuildWall,100);
 	setTimeout(BuildWall,500);
+	if(gsapp.iscroll){
+		gsappMobile.initIScroll(200);
+	}
 });

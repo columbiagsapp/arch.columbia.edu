@@ -173,7 +173,7 @@
 					}else{
 						$target = $branch.prev().prev().children('a:eq(0)');
 					}
-					setTimeout(function(){ $('#menu').scrollTo( $target, TOGGLE_TIME ); }, timeout); 
+					setTimeout(function(){ $('#navigation').scrollTo( $target, TOGGLE_TIME ); }, timeout); 
 				}else{
 					return false;
 				}	
