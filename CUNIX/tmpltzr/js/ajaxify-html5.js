@@ -87,12 +87,12 @@
 		
 		/* 	function: level()
 		 *	Returns the menu level of the item
-		*/
+		*
 		$.fn.level = function(){
 			var classes = $(this).closest('.menu').attr('class');
 			var levelIdx = classes.indexOf('level-') + 6;
 			return classes.substring(levelIdx, levelIdx+1);
-		}
+		}*/
 		
 		
 		/* 	function: internalRedirect()
@@ -360,7 +360,7 @@
 					$('.redirect-active').removeClass('redirect-active');
 				}
 				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
-				safelog('sel href: ' + $sel.attr('href'));
+
 				//TODO: need to add > +2 test here
 				if($active != undefined){
 					if( $sel.closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
@@ -429,19 +429,13 @@
 				$(this).parent('li').addClass('redirect-active');//add it to the list item
 				$redir.expandMenus();
 				setCurrentState(3);
-			}else if( internalRedir != false ){
-				safelog('troy!!!');
-				
-				
-				
-				
+			}else if( internalRedir != false ){		
 				$active.collapseBranch();
 				var $sel = $(this).expandBranch(internalRedir);
 				if( getCurrentState() == 'redirect' ){
 					$('.redirect-active').removeClass('redirect-active');
 				}
 				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
-				safelog('sel href: ' + $sel.attr('href'));
 				//TODO: need to add > +2 test here
 				if($active != undefined){
 					if( $sel.closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
@@ -716,8 +710,7 @@
 						safelog('error: the current state is not recognized');
 						break;
 				}
-				
-				
+
 				if(fetch == true){
 					// Ajaxify this link
 					History.pushState(null,title,url);
@@ -751,7 +744,7 @@
 			// Start Fade Out
 			// Animating to opacity to 0 still keeps the element's height intact
 			// Which prevents that annoying pop bang issue when loading in new content
-			$content.animate({opacity:0},100);
+			$content.animate({opacity:0},200);
 			
 			// Ajax Request the Traditional Page
 			$.ajax({
@@ -777,13 +770,12 @@
 						return false;
 					}
 					
-					
 					// Update the content
 					$content.stop(true,true);
 					$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
 					
 					//resize the page to check if room for sidebar
-					resizeFunc();
+					gsapp.resizeFunc();
 
 					if(copypaste == true){
 						setTimeout(copyPaste, 2000);
@@ -791,14 +783,13 @@
 					}else{
 						safelog('is NOT templatizer!!!!!!');
 					}
-
+					
 					// Update the title
 					document.title = $data.find('.document-title:first').text();
 					try {
 						document.getElementsByTagName('title')[0].innerHTML = document.title.replace('<','&lt;').replace('>','&gt;').replace(' & ',' &amp; ');
 					}
 					catch ( Exception ) { }
-					
 					// Add the scripts
 					$scripts.each(function(){
 						var $script = $(this),
@@ -817,7 +808,7 @@
 							contentNode.appendChild(scriptNode);
 						}
 					});
-
+					
 					// Complete the change
 					if ( $body.ScrollTo||false ) { $body.ScrollTo(scrollOptions); } // http://balupton.com/projects/jquery-scrollto 
 					$body.removeClass('loading');
@@ -826,11 +817,15 @@
 					if ( typeof window.pageTracker !== 'undefined' ) {
 						window.pageTracker._trackPageview(relativeUrl);
 					}
-
+					
 					// Inform ReInvigorate of a state change
 					if ( typeof window.reinvigorate !== 'undefined' && typeof window.reinvigorate.ajax_track !== 'undefined' ) {
 						reinvigorate.ajax_track(url);
 						// ^ we use the full url here as that is what reinvigorate supports
+					}
+					
+					if(gsappMobile.iscrollInit){
+						gsappMobile.reinitIScroll(0);
 					}
 					
 				},

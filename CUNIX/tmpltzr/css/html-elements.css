@@ -1380,6 +1380,11 @@ dl dd {
 	color: gray;
 }
 
+.iscroll #tmpltzr .gsc-results .gsc-cursor-box .gsc-cursor-page{
+	font-size:20px;
+	margin-right:20px;
+}
+
 #tmpltzr .gcsc-branding{
 	display: none;
 }

@@ -472,10 +472,9 @@ gsappFetcher.getTumblr = function(url, element_name) {
 		})
 		.error(function() { gsappFetcher.log('error loading tumblr'); })
 		.complete(function() {
-			BuildWall();
-			if(gsapp.iscroll){
-				gsappMobile.iscrollRefresh();
-			}
+			gsapp.buildWall();
+			gsapp._remove_flash_content();
+			//gsappMobile.refreshIScroll(200, 400);
 		});
 
 	
@@ -573,9 +572,7 @@ gsappFetcher.getEventData = function(url, elementName) {
 	})
 	.error(function() { gsappFetcher.log('error loading event data'); })
 	.complete(function() {
-		if(gsapp.iscroll){
-			gsappMobile.iscrollRefresh();
-		} 
+		//gsappMobile.refreshIScroll(0, 250);
 	}); // end getJSON
 	
 }
@@ -766,9 +763,8 @@ gsappFetcher.getEventWidget = function(url, elementName) {
 	.error(function() { gsappFetcher.log('error loading event widget data'); })
 	.complete(function() { 
 		gsappFetcher.eventsWidgetCarousel();
-		if(gsapp.iscroll){
-			gsappMobile.iscrollRefresh();
-		}
+		gsapp.buildWall();
+		//gsappMobile.refreshIScroll(0, 250);
 	}); // end getJSON
 	
 }
@@ -860,9 +856,7 @@ gsappFetcher.getCCWidget = function(url, elementName) {
 	.error(function() { gsappFetcher.log('error loading CC: widget data'); })
 	.complete(function() { 
 		gsappFetcher.ccWidgetCarousel();
-		if(gsapp.iscroll){
-			gsappMobile.iscrollRefresh();
-		}
+		//gsappMobile.refreshIScroll(0, 250);
 	}); // end getJSON
 	
 }

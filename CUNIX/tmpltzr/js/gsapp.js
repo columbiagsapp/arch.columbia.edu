@@ -7,16 +7,69 @@ var gsappMobile = {};
 
 gsappMobile.menuScroll;
 gsappMobile.contentScroll;
-gsappMobile.initIScroll = function(TIME) {
-	safelog('initIScroll with time: ' + TIME);
-	var time = TIME || 200;
-	setTimeout(function () {
-		gsappMobile.menuScroll = new iScroll('navigation');
-	}, time);
-	setTimeout(function () {
-		gsappMobile.contentScroll = new iScroll('wrapper');
-	}, time);
+
+gsappMobile.refreshIScroll = function(min, max){
+	safelog('entering refreshIScroll');
+	var min = min || 0;
+	var max = max || 200;
+	safelog('min: ' + min + ' max: ' + max);
+	if(gsappMobile.iscrollInit && (min >= 0) ){
+		setTimeout(function(){
+			gsappMobile.contentScroll.refresh();
+		},min);
+	}else{
+		setTimeout(function(){
+			if(gsappMobile.iscrollInit){
+				gsappMobile.contentScroll.refresh();
+				safelog('refreshed iscroll after delay of ' + max);
+			}
+		},max);
+	}
 }
+
+
+
+
+gsappMobile.initIScroll = function(time){
+	safelog('initIScroll, time: ' + time);
+	if(time == 0){
+		gsappMobile.menuScroll = new iScroll('navigation');
+		gsappMobile.contentScroll = new iScroll('wrapper');
+		gsappMobile.iscrollInit = true;
+	}else{
+		setTimeout(function(){
+			gsappMobile.menuScroll = new iScroll('navigation');
+		},time);
+		
+		setTimeout(function(){
+			gsappMobile.contentScroll = new iScroll('wrapper');
+			gsappMobile.iscrollInit = true;
+		},time);
+	}
+	/*
+		refresh on a setTimeout from 0 to 1000ms in 200ms increments
+		only when a fetched element is present
+	*/
+	if( $('.tmpltzr-fetched').length > 0 ){
+		for(var i = 0; i<=1000; i=i+200){
+			safelog('for loop calling refresh in time: ' + (time+i));
+			gsappMobile.refreshIScroll(-1, time+i);
+		}
+	}else{
+		gsappMobile.refreshIScroll(-1, 250);
+	}
+}
+
+gsappMobile.reinitIScroll = function(time){
+	if(gsappMobile.iscrollInit && (gsappMobile.contentScroll != undefined) && (gsappMobile.menuScroll != undefined) ){
+		safelog('destroying myscroll');
+		gsappMobile.contentScroll.destroy();
+		gsappMobile.menuScroll.destroy();
+	}
+	gsappMobile.initIScroll(time);
+}
+
+
 
 
 gsapp.LOG = true;
@@ -133,7 +186,7 @@ var getOffset = function( el ) {
     return { top: _y, left: _x };
 }
 
-var BuildWall = function(){
+gsapp.buildWall = function(){
 	var $container = $('#tmpltzr #main .view .view-content');
 	$container.imagesLoaded( function(){
 		$container.masonry({
@@ -172,17 +225,14 @@ var resizeMenu = function(){
 }
 
 
-var resizeFunc = function(){
-	
+gsapp.resizeFunc = function(){
 	if(gsapp.iscroll == false){
-		safelog('resizing menu');
 		resizeMenu(); //resize the height of the menu
 	}
 	var ww = window.innerWidth;
 	if(ww >= 1270){
 		$('#wrapper').css('width', '800px');
-		
-		
+
 		var id ='';
 		$('#tmpltzr #main .view .views-row').each(function(i){
 			if($('.tmpltzr-secondary-float', this).length != 0){
@@ -203,11 +253,11 @@ var resizeFunc = function(){
 		});			
 	}
 	if(window.location.href == HOME_URL){
-		gsappFetcher.ccWidgetCarousel();
-		gsappFetcher.eventsWidgetCarousel();
+	//	gsappFetcher.ccWidgetCarousel();
+	//	gsappFetcher.eventsWidgetCarousel();
 	}
 	//setTimeout(iscrollFunc, 100);
-	BuildWall();
+	gsapp.buildWall();
 	//evenColumnsCourseBlogsIndex(resized); //even out columns in course blog index TODO tct2003 reinstate this
 	//resized = true; //set to true after the resize function has run once
 }
@@ -302,7 +352,7 @@ var adjustPrimaryLinksMenu = function(path){
 var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
 	
-	var liW = 335;
+	var liW = 340;
 	var aW = liW - 25;
 	var liWStr = liW + 'px';
 	var aWStr = aW + 'px';
@@ -346,11 +396,21 @@ var setMasonryBrickWidths = function(){
 	});
  }  
  
- var convertFlashEmbedsToLinks = function(){
-	if($('.tmpltzr-primaryvideo object').length > 0){
-		$('.tmpltzr-primaryvideo object').each(function(){
+gsapp._remove_flash_content = function(){
+ 	safelog('excuting convertFlashEmbedsToLinks');
+	if($('object').length > 0){
+		$('object').each(function(){
 			if($(this).attr('type') == "application/x-shockwave-flash"){
-				$(this).parents('.views-row').remove();
+				safelog('REMOVING convertFlashEmbedsToLinks');
+				$(this).css('display', 'none').remove();
+			}
+		});	
+	}
+	if($('object embed').length > 0){
+		$('object embed').each(function(){
+			if($(this).attr('type') == "application/x-shockwave-flash"){
+				safelog('REMOVING embed convertFlashEmbedsToLinks');
+				$(this).parent('object').remove();
 			}
 		});	
 	}
@@ -468,13 +528,18 @@ $(document).ready(function () {
 		gsapp.iscroll = false;
 	}
 	safelog('---------------------------DOCUMENT READY FUNCTION STARTING with iscroll='+gsapp.iscroll+'---------------------------');
-	
 	adjustPrimaryLinksMenu( window.location.pathname );
 	menuAddTriangles();
 
 	/*************************** UTILITIES ***************************/
 	jQuery.fn.exists = function(){return this.length>0;}
 	
+	$('#gsapp-news').bind('click',function(){
+		setTimeout(function(){
+			gsappMobile.menuScroll.refresh();
+		}, 0);
+		return false;
+	});
 
 
 	setMasonryBrickWidths();
@@ -484,8 +549,8 @@ $(document).ready(function () {
 	   this function will remove any non-mobile friendly embeds, like the flickr
 	   image set flash-based <object>
 	*/
-	if($('body').hasClass('mobile')){
-		convertFlashEmbedsToLinks();
+	if($('body').hasClass('mobile') || $('body').hasClass('iscroll') ){
+		gsapp._remove_flash_content();
 	}
 	
 	initPhotoset();
@@ -529,14 +594,14 @@ $(document).ready(function () {
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	
-	resizeFunc(); //run the resize function on page load
-	$(window).resize(resizeFunc); //bind the resize function to the page
+	gsapp.resizeFunc(0); //run the resize function on page load
+	$(window).resize(gsapp.resizeFunc); //bind the resize function to the page
 });
 
 
 $(window).load(function(){
-	setTimeout(BuildWall,100);
-	setTimeout(BuildWall,500);
+	setTimeout(gsapp.buildWall,100);
+	setTimeout(gsapp.buildWall,500);
 	if(gsapp.iscroll){
 		gsappMobile.initIScroll(200);
 	}

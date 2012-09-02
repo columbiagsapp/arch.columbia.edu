@@ -9,7 +9,7 @@
 	$browser = browscap_get_browser();
 	
 	$is_mobile = FALSE;
-	$mobile_iscroll = FALSE;
+	$mobile_iscroll = TRUE;
 	
 	// evaluate request URI to force mobile or desktop content
 	// used only for ajax requests
