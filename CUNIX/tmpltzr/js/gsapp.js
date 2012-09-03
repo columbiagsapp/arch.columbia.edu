@@ -7,44 +7,6 @@ var gsappMobile = {};
 
 gsappMobile.menuScroll;
 gsappMobile.contentScroll;
-/*
-gsappMobile.refreshMenuIScroll = function(min, max){
-	var min = min || 0;
-	var max = max || 200;
-	if(gsappMobile.iscrollInit && (min >= 0) ){
-		setTimeout(function(){
-			gsappMobile.menuScroll.refresh();
-		},min);
-	}else{
-		setTimeout(function(){
-			if(gsappMobile.iscrollInit){
-				gsappMobile.menuScroll.refresh();
-			}
-		},max);
-	}
-}
-
-gsappMobile.refreshContentIScroll = function(min, max){
-	var min = min || 0;
-	var max = max || 200;
-	if(gsappMobile.iscrollInit && (min >= 0) ){
-		setTimeout(function(){
-			gsappMobile.contentScroll.refresh();
-		},min);
-	}
-	setTimeout(function(){
-		if(gsappMobile.iscrollInit){
-			var op = 1.0 - max/1000;
-			$('.tmpltzr-secondary').css('opacity', op);
-			gsapp.buildWall();
-			gsapp.resizeFunc();
-			gsappMobile.contentScroll.refresh();
-		}
-	},max);
-
-}
-*/
-
 
 gsappMobile.initContentIScroll = function(time){
 	setTimeout(function(){
