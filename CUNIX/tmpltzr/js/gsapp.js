@@ -4,6 +4,9 @@
 var gsapp = {};
 var gsappMobile = {};
 
+gsappMobile.sliderWidth = 70;
+gsappMobile.headerHeight = 132;
+gsappMobile.switchTIME = 400;//ms time for switch animation
 
 gsappMobile.menuScroll;
 gsappMobile.contentScroll;
@@ -20,7 +23,10 @@ gsappMobile.initContentIScroll = function(time){
 gsappMobile.initMenuIScroll = function(time){
 	setTimeout(function(){
 		gsappMobile.menuScroll = new iScroll('navigation', {
-			fixedScrollbar: true
+			fixedScrollbar: true,
+			vScrollbar: false,
+			hScrollbar: false,
+			hScroll: false
 		});
 	},time);
 }
@@ -171,20 +177,18 @@ function externalLinkAppendImg(m){
 /*
 	Resizes the height of the menu based on the actual page size
 */
-var resizeMenu = function(){
-	var wh = window.innerHeight;
-	var hh = $("#header").height();
-	$("#navigation").css('height', wh-hh);
+var resizeMenu = function(){		
+	if(gsapp.iscroll == false){//do nothing for iPad/tablet
+		var wh = window.innerHeight;
+		var hh = $("#header").height();
+		$("#navigation").css('height', wh-hh);
+	}
 }
 
 
 gsapp.resizeFunc = function(){
-	if(gsapp.iscroll == false){
-		resizeMenu(); //resize the height of the menu
-		$('header').css('color','blue');
-	}else{
-		$('#header').css('color','green');
-	}
+	resizeMenu(); //resize the height or width of the menu
+
 	var ww = window.innerWidth;
 	if(ww >= 1270){
 		$('#wrapper').css('width', '800px');
@@ -308,7 +312,8 @@ var adjustPrimaryLinksMenu = function(path){
 var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
 	if(gsapp.mobile){
-		var liW = 590;
+		// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
+		var liW = gsappMobile.menuAndContentWidth - 114;
 	}else{
 		var liW = 340;
 	}
@@ -478,6 +483,83 @@ var bindProgramCourseBlogIndexFilter = function(){
 	return false;
 }
 
+gsappMobile.switchToMenu = function(){
+	$('#content').hide();
+	var mcw = $('#wrapper').width();
+	$('#wrapper').animate({
+			width: 70,
+			left: mcw
+		}, gsappMobile.switchTIM);
+	$('#navigation').animate({
+			width: mcw
+		}, gsappMobile.switchTIM,
+		function(){
+			$('#menu').show();
+		});
+	
+	$('#navigation').unbind('click');
+	$('#wrapper').click(gsappMobile.switchToContent);
+}
+
+gsappMobile.switchToContent = function(){
+	$('#menu').hide();
+	var mcw = $('#navigation').width();
+	$('#navigation').animate({
+			width: 70
+		}, gsappMobile.switchTIM);
+	$('#wrapper').animate({
+			width: mcw,
+			left: 70
+		}, gsappMobile.switchTIME,
+		function(){
+			$('#content').show();
+			setTimeout(function(){
+				gsappMobile.contentScroll.refresh();
+			},0);
+		});
+		
+	$('#wrapper').unbind('click');
+	$('#navigation').click(gsappMobile.switchToMenu);
+	
+}
+
+gsappMobile.refreshMenuWidth = function(){
+	// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
+	var mw = gsappMobile.menuAndContentWidth - 114;
+	mw = mw + 'px';
+	$('#menu').css('width',mw);
+	
+}
+
+gsappMobile.initMobileScreen = function(){
+	var ww = window.screen.availWidth;
+	var wh = window.screen.height;
+	var hdelta = wh - window.screen.availHeight;
+	var mcw = ww - gsappMobile.sliderWidth;
+	var mch = wh - hdelta - gsappMobile.headerHeight;
+	var classes = $('body').attr('class');
+	var idx = classes.indexOf('version');
+	idx = idx + 8;
+	var version = classes.substring(idx,idx+1);
+	safelog('version: ' + version);
+	
+	if( $('body').hasClass('iOS') ){
+		if( (version == '4') || (version == '5') || (version == '6') ){
+			ww = ww*2;
+			wh = wh*2 - hdelta;
+			mcw = ww - gsappMobile.sliderWidth;
+			mch = wh - gsappMobile.headerHeight;
+		}
+	}
+	$('#header').css('width',ww);
+	$('#navigation').css('width',mcw);
+	gsappMobile.menuAndContentWidth = mcw
+	gsappMobile.refreshMenuWidth();
+	//init the switch
+	$('#wrapper').css('minHeight',mch).css('left',gsappMobile.menuAndContentWidth);
+	$('#wrapper').click(gsappMobile.switchToContent);
+}
+
 
 $(document).ready(function () {
 	if($('body').hasClass('iscroll') || $('body').hasClass('mobile') ){
@@ -485,7 +567,9 @@ $(document).ready(function () {
 		if($('body').hasClass('mobile')){
 			gsapp.mobile = true;
 			gsappMobile.initMenuIScroll(0);
+			gsappMobile.initContentIScroll(0);
 			window.scrollTo(0,0);
+			gsappMobile.initMobileScreen();
 		}else{
 			gsapp.mobile = false;
 		}
@@ -494,8 +578,7 @@ $(document).ready(function () {
 		gsapp.mobile = false;
 	}
 	
-	var mww = window.innerWidth;
-	$('#header #gsapp-login a').text('w: '+mww);
+	
 	
 	safelog('---------------------------DOCUMENT READY FUNCTION STARTING with iscroll='+gsapp.iscroll+'---------------------------');
 	adjustPrimaryLinksMenu( window.location.pathname );
@@ -572,11 +655,11 @@ $(document).ready(function () {
 
 
 $(window).load(function(){
-	
-	if(gsapp.iscroll && (gsapp.mobile == false) ){
+	if(gsapp.mobile == false){
 		setTimeout(gsapp.buildWall,100);
 		setTimeout(gsapp.buildWall,500);
-		$('#header').css('backgroundColor', 'red');
+	}
+	if(gsapp.iscroll && (gsapp.mobile == false) ){
 		gsappMobile.initMenuIScroll(200);
 		gsappMobile.initContentIScroll(200);
 	}

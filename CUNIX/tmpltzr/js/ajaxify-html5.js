@@ -58,6 +58,7 @@
 			if((url.indexOf("/admin/") >= 0) || (( copypaste == true) && (url.indexOf("/edit") >= 0)) ){
 				isInternalLink = false;
 			}			
+			
 			// Ignore or Keep
 			return isInternalLink;
 		};
@@ -75,24 +76,6 @@
 			// Return
 			return result;
 		};
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/* 	function: level()
-		 *	Returns the menu level of the item
-		*
-		$.fn.level = function(){
-			var classes = $(this).closest('.menu').attr('class');
-			var levelIdx = classes.indexOf('level-') + 6;
-			return classes.substring(levelIdx, levelIdx+1);
-		}*/
 		
 		
 		/* 	function: internalRedirect()
@@ -744,7 +727,9 @@
 			// Start Fade Out
 			// Animating to opacity to 0 still keeps the element's height intact
 			// Which prevents that annoying pop bang issue when loading in new content
-			$content.animate({opacity:0},200);
+			if(gsapp.mobile == false){//don't need to fade out for mobile
+				$content.animate({opacity:0},200);
+			}
 			
 			// Ajax Request the Traditional Page
 			$.ajax({
@@ -775,7 +760,13 @@
 					$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
 					
 					//resize the page to check if room for sidebar
-					gsapp.resizeFunc();
+					if(gsapp.mobile == true){
+						$content.html(contentHtml).ajaxify().hide();
+					}else{
+						$content.stop(true,true);
+						$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
+						gsapp.resizeFunc();
+					}
 
 					if(copypaste == true){
 						setTimeout(copyPaste, 2000);
@@ -794,7 +785,7 @@
 					$scripts.each(function(){
 						var $script = $(this),
 							scriptText = $script.text();
-	
+					
 						if( $('body').hasClass('IE') ){
 							var ss = document.createElement('script');
 							var scr = scriptText;
@@ -824,7 +815,24 @@
 						// ^ we use the full url here as that is what reinvigorate supports
 					}
 					
-					if( gsappMobile.iscrollInit ){
+					if(gsapp.mobile){
+						//$('#header').css('backgroundColor','red');
+						setTimeout(function(){
+							gsappMobile.refreshMenuWidth();
+							gsappMobile.menuScroll.refresh();
+						},0);
+						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
+							setTimeout(function(){
+								gsappMobile.menuScroll.refresh();
+								gsappMobile.contentScroll.refresh();
+								$body.removeClass('loading');
+							},0);
+						}else{
+							setTimeout(function(){
+								$body.removeClass('loading');
+							},1500);
+						}
+					}else if( gsappMobile.iscrollInit ){
 						gsappMobile.menuScroll.destroy();
 						gsappMobile.menuScroll = new iScroll('navigation');
 						setTimeout(function(){

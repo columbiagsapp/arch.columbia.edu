@@ -474,7 +474,12 @@ gsappFetcher.getTumblr = function(url, element_name) {
 		.complete(function() {
 			safelog('tumblr calling back');
 			setTimeout(gsapp.buildWall, 0);
-			if( $('body.iscroll').length > 0 ){
+			if( $('body.mobile').length){
+				gsapp._remove_flash_content();
+				setTimeout(function () {
+					gsappMobile.contentScroll.refresh();
+				}, 1500);
+			}else if( $('body.iscroll').length > 0 ){
 				gsapp._remove_flash_content();
 				setTimeout(function () {
 					safelog('tumblr timeout executed');
@@ -483,7 +488,6 @@ gsappFetcher.getTumblr = function(url, element_name) {
 					gsappMobile.contentScroll = null;
 					gsappMobile.contentScroll = new iScroll('wrapper');
 					gsappMobile.contentScroll.refresh();
-					//$('body').removeClass('loading');
 				}, 1500);	
 			}
 		});
@@ -585,7 +589,12 @@ gsappFetcher.getEventData = function(url, elementName) {
 	.complete(function() {
 		safelog('events calling back');
 		setTimeout(gsapp.buildWall, 0);
-		if( $('body.iscroll').length > 0 ){
+		if( $('body.mobile').length){
+				gsapp._remove_flash_content();
+				setTimeout(function () {
+					gsappMobile.contentScroll.refresh();
+				}, 1500);
+		}else if( $('body.iscroll').length > 0 ){
 			gsapp._remove_flash_content();
 			setTimeout(function () {
 				safelog('events timeout executed');
@@ -787,8 +796,13 @@ gsappFetcher.getEventWidget = function(url, elementName) {
 	.error(function() { gsappFetcher.log('error loading event widget data'); })
 	.complete(function() { 
 		gsappFetcher.eventsWidgetCarousel();
-		gsapp.buildWall();
-		//gsappMobile.refreshIScroll(0, 250);
+		setTimeout(gsapp.buildWall, 0);
+		if( $('body.mobile').length){
+			gsapp._remove_flash_content();
+			setTimeout(function () {
+				gsappMobile.contentScroll.refresh();
+			}, 1500);
+		}
 	}); // end getJSON
 	
 }
@@ -880,7 +894,13 @@ gsappFetcher.getCCWidget = function(url, elementName) {
 	.error(function() { gsappFetcher.log('error loading CC: widget data'); })
 	.complete(function() { 
 		gsappFetcher.ccWidgetCarousel();
-		//gsappMobile.refreshIScroll(0, 250);
+		setTimeout(gsapp.buildWall, 0);
+		if( $('body.mobile').length){
+			gsapp._remove_flash_content();
+			setTimeout(function () {
+				gsappMobile.contentScroll.refresh();
+			}, 1500);
+		}
 	}); // end getJSON
 	
 }

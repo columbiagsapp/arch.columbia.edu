@@ -17,18 +17,19 @@
 #wrapper {
 	position:absolute;
 	top:0;
-	width:100%;
-	min-width:640px;
 	z-index:1;
 	bottom:0;
-	min-height: 960px;
-	display:none;
+	width:70px;
+	background-color:white;
 }
 
 #content{
 	position:absolute;
 	z-index:1;
-	width:100%;
+	top:132px;
+	display:none;
+	padding:10px 10px 300px 60px;
+	font:28px/34px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #header {
@@ -38,14 +39,12 @@
     background-color:black;
     z-index:2;
 	height: 130px;
-	width: 100%;
-	min-width:640px;
 	color: #fff;
 	border-bottom: 2px solid white;
+
 }
 
 #navigation {
-    width: 640px;
     background-color:#000;
     position:absolute;
     top:132px;
@@ -54,13 +53,24 @@
 	bottom:0;
 	min-height:960px;
 }
-
+/*
+@media only screen and (min-device-width: 481px) and (max-device-width: 640px) #wrapper,
+@media only screen and (min-device-width: 481px) and (max-device-width: 640px) #header,
+@media only screen and (min-device-width: 481px) and (max-device-width: 640px) #navigation{
+	min-width:480px;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) #wrapper,
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) #header,
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) #navigation{
+	min-width:320px;
+}
+*/
 #menu{
 	z-index:1;
-	padding-left:69px;
+	padding-left:54px;
 	position:absolute;
 	padding-top:65px;
-	padding-bottom:550px;
+	padding-bottom:333px;
 	width:640px;
 	min-height:960px;
 }
@@ -70,7 +80,7 @@
 	width: 237px;
 	height:49px;
 	top: 46px;
-	left:84px;
+	left:69px;
 }
 
 #gsapp-news {
@@ -78,7 +88,7 @@
 	width: 83px;
 	height:81px;
 	top: 26px;
-	left:340px;
+	left:325px;
 }
 
 #gsapp-search {
@@ -86,12 +96,12 @@
 	width: 56px;
 	height:54px;
 	top: 40px;
-	left: 465px;
+	left: 450px;
 }
 
 #gsapp-login {
 	position:absolute;
-	left:542px;
+	left:527px;
 	top: 54px;
 	height: 47px;
 }
@@ -106,17 +116,16 @@
 
 
 
-#switch-bar {
+#switch {
 	position: absolute;
 	top: 132px;
-	right: 0;
 	width: 70px;
-	height: 1000px;
 	background-color: #fff;
-	z-index: 999;
+	z-index: 9999;
+	display:none;
 }
 
-#switch-bar div {
+#switch div {
 	position:fixed;
 	top:40%;
 	right:26px;
@@ -125,18 +134,18 @@
 
 
 
-#switch-bar div .arrow {
+#switch div .arrow {
 	background:url(/templatizer/sites/all/themes/tmpltzr/assets/mobile/view_page_arrow_52x33.png) no-repeat 0 0;
 	height:33px;
 	width:26px;
 	display:block;
 }
 
-#switch-bar div .arrow.page {
+#switch div .arrow.page {
 	background-position:-26px 0;
 }
 
-#switch-bar div .view-page {
+#switch div .view-page {
 	background:url(/templatizer/sites/all/themes/tmpltzr/assets/mobile/view_page_52x165.png) no-repeat 0 0;
 	height:165px;
 	width:26px;
@@ -144,20 +153,10 @@
 	margin-top: 33px;
 }
 
-#switch-bar div .view-page.page {
+#switch div .view-page.page {
 	background-position:-26px 0;
 }
 
-
-
-#content {
-	position: absolute;
-	left: -2000px;
-	width: 500px;
-	background-color: yellow;
-	border: 5px solid red;
-	
-} 
 
 /* menu */
 
@@ -201,6 +200,7 @@
 
 #navigation .menu .menu {
 	display:none;
+	padding-top:20px;
 }
 
 #navigation .menu li.force-expanded{
@@ -235,6 +235,8 @@
 	width:15px;
 	height:15px;
 	background:transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/menu-arrow-large.png") no-repeat -15px -50px;
+	vertical-align: bottom;
+	padding-bottom: 27px;
 }
 
 #navigation .active-trail.expanded .menu-arrow-large{
@@ -252,9 +254,9 @@
 	width:9px;
 	height:9px;
 	background:transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/menu-arrow-small.png") no-repeat -9px -50px;
-	vertical-align: top;
+	vertical-align: bottom;
+	bottom: 27px;
 	position: relative;
-	top: 7px;
 }
 
 
@@ -279,3 +281,16 @@
 	background-position: 0 -50px;
 }
 
+
+#menufooter{
+	width:456px;
+	padding-top:150px;
+	padding-left:25px;
+}
+
+#gradArchLogo{
+	width:425px;
+}
+#CUlogo{
+	width:190px;
+}

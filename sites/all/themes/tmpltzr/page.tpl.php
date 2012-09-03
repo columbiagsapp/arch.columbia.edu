@@ -10,6 +10,7 @@
 	
 	$is_mobile = FALSE;
 	$mobile_iscroll = FALSE;
+	$mobile_version = '';
 	
 	// evaluate request URI to force mobile or desktop content
 	// used only for ajax requests
@@ -26,6 +27,7 @@
 	} else if ($strpos_mobile_true > 0) {
 		$is_mobile = TRUE;
 		$mobile_iscroll = TRUE;
+		$mobile_version = preg_replace('/[.]/','_',$browser[platform_version]);
 	} else if ( 
 		// run regular browser detection
 		($browser['ismobiledevice'] == 1) &&
@@ -34,6 +36,7 @@
 	) {
 			$is_mobile = TRUE;
 			$mobile_iscroll = TRUE;
+			$mobile_version = preg_replace('/[.]/','_',$browser[platform_version]);
 	} else if(
 		// use iScroll for any mobile device, even tablets
 		($browser['ismobiledevice'] == 1) &&
@@ -41,6 +44,7 @@
 		// add more clauses here as they come up for new tablets
 	) {
 		$mobile_iscroll = TRUE;
+		$mobile_version = preg_replace('/[.]/','_',$browser[platform_version]);
 	}
 ?>
 
@@ -51,6 +55,8 @@
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html class="lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+<?php }else{ ?>
+	<html class="">
 <?php } ?>
 
 <head>
@@ -93,7 +99,7 @@
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/ajaxify-html5.js"></script>
 	
 	<?php if($is_mobile === TRUE){ ?>
-		<!--<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/mobile.js"></script>-->
+		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.touchSwipe.min.js"></script>
 	<?php } ?>
 
 	<!-- js assets for fonts.com custom font DIN -->
@@ -102,21 +108,28 @@
 	<link href="http://cloud.webtype.com/css/a0868e2c-1109-4f64-8fbc-cd9f837ed961.css" rel="stylesheet" type="text/css">
 	
 	<!-- js google custom search -->
-	<script>
-	  (function() {
-		var cx = '004033327063740628517:awygqf_dy3q';
-		var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
-		gcse.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
-			'//www.google.com/cse/cse.js?cx=' + cx;
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
-	  })();
-	</script>	
+	<?php if($is_mobile === FALSE){ ?>
+		<script>
+		  (function() {
+			var cx = '004033327063740628517:awygqf_dy3q';
+			var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+			gcse.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
+				'//www.google.com/cse/cse.js?cx=' + cx;
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+		  })();
+		</script>
+	<?php } ?>	
 	
 
 </head>
 
-<body class="<?php if($is_mobile === TRUE) { print 'mobile '; }else{ print $browser[browser].' '; } if($mobile_iscroll === TRUE){ print 'iscroll '; }?><?php print $body_classes; print (array_intersect(array('Faculty','TA','Student','Director','Alumni'),$user->roles) ? 'faculty' : ''); ?>?>">
+<body class="<?php if($is_mobile === TRUE) { print 'mobile '.$browser[platform].' '; }else{ print $browser[browser].' '; } if($mobile_iscroll === TRUE){ print 'version-'.$mobile_version.' iscroll '; }?><?php print $body_classes; print (array_intersect(array('Faculty','TA','Student','Director','Alumni'),$user->roles) ? 'faculty' : ''); ?>?>">
+		
+		<?php /*print_r($browser);*/
+			//print $mobile_version;
+		?>
 		<?php if($is_mobile === TRUE) { /* mobile theme */?>
+			
 			<div id="header">
 				<a id="gsapp-logo" href="/">
 					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/gsapp-logo_237x49.jpg" width="237" height="49" alt="GSAPP logo" />
@@ -129,19 +142,40 @@
 				</a>
 				<div id="gsapp-login"  class="mobile-header-item">
 					<?php if (!$user->uid): ?>
-						<?php print l("Login", "user/wind"); ?>
-					<?php else:?>
-						<?php print l("Logout", "logout"); ?>
-					<?php endif; ?>
+							<?php print l("Login", "user/wind"); ?>
+						<?php else:?>
+							<?php print l("Logout", "logout"); ?>
+						<?php endif; ?>
+					
 				</div>
 			</div><!-- /#header -->
 			
 			<div id="navigation">
 				<div id="menu">
 					<?php print menu_tree_output( menu_tree_all_data('primary-links') ); ?>
+					<div id="menufooter">
+						<img id="gradArchLogo" src="http://www.columbia.edu/cu/arch/tmpltzr/assets/gradArch_full.png" />
+						<a href="http://www.columbia.edu" target="_blank">
+							<img id="CUlogo" src="http://www.columbia.edu/cu/arch/tmpltzr/assets/CUlogo_460_efefef.png" width="190" />
+						</a>
+					</div>
 				</div>
 			</div>
 			
+		
+			<div id="wrapper">
+				<div id="content">
+					<div id="tmpltzr">
+						<header id="global-header">
+							<div></div>
+						</header>
+						<?php
+							print $content;
+						?>
+					</div>
+					
+				</div>
+			</div>
 			
 			
 		<?php }else{ /* tablet using iscroll and non-mobile */?>
