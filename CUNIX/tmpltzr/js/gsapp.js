@@ -485,6 +485,7 @@ var bindProgramCourseBlogIndexFilter = function(){
 
 gsappMobile.switchToMenu = function(){
 	$('#content').hide();
+	$('#menuswitch').hide();
 	var mcw = $('#wrapper').width();
 	$('#wrapper').animate({
 			width: 70,
@@ -495,6 +496,7 @@ gsappMobile.switchToMenu = function(){
 		}, gsappMobile.switchTIM,
 		function(){
 			$('#menu').show();
+			$('#contentswitch').show(); 
 		});
 	
 	$('#navigation').unbind('click');
@@ -502,6 +504,7 @@ gsappMobile.switchToMenu = function(){
 }
 
 gsappMobile.switchToContent = function(){
+	$('#contentswitch').hide(); 
 	$('#menu').hide();
 	var mcw = $('#navigation').width();
 	$('#navigation').animate({
@@ -513,6 +516,7 @@ gsappMobile.switchToContent = function(){
 		}, gsappMobile.switchTIME,
 		function(){
 			$('#content').show();
+			$('#menuswitch').show();
 			setTimeout(function(){
 				gsappMobile.contentScroll.refresh();
 			},0);
@@ -533,22 +537,20 @@ gsappMobile.refreshMenuWidth = function(){
 
 gsappMobile.initMobileScreen = function(){
 	var ww = window.screen.availWidth;
-	var wh = window.screen.height;
-	var hdelta = wh - window.screen.availHeight;
+	var wah = window.screen.availHeight;
 	var mcw = ww - gsappMobile.sliderWidth;
-	var mch = wh - hdelta - gsappMobile.headerHeight;
+	var mch = wah - gsappMobile.headerHeight;
 	var classes = $('body').attr('class');
 	var idx = classes.indexOf('version');
 	idx = idx + 8;
 	var version = classes.substring(idx,idx+1);
-	safelog('version: ' + version);
+	var msh = mch - (228/2);;//mobile switch height (view page/menu)
 	
 	if( $('body').hasClass('iOS') ){
 		if( (version == '4') || (version == '5') || (version == '6') ){
 			ww = ww*2;
-			wh = wh*2 - hdelta;
+			mch = mch*2;
 			mcw = ww - gsappMobile.sliderWidth;
-			mch = wh - gsappMobile.headerHeight;
 		}
 	}
 	$('#header').css('width',ww);
@@ -556,8 +558,14 @@ gsappMobile.initMobileScreen = function(){
 	gsappMobile.menuAndContentWidth = mcw
 	gsappMobile.refreshMenuWidth();
 	//init the switch
-	$('#wrapper').css('minHeight',mch).css('left',gsappMobile.menuAndContentWidth);
+	$('#wrapper').css('left',gsappMobile.menuAndContentWidth);
 	$('#wrapper').click(gsappMobile.switchToContent);
+	
+	var m = mch/2 - 228/2;
+	
+	
+	$('#contentswitch').css('top',m+gsappMobile.headerHeight).show(); 
+	$('#menuswitch').css('top',m);
 }
 
 

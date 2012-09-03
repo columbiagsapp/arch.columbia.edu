@@ -20,7 +20,6 @@
 	z-index:1;
 	bottom:0;
 	width:70px;
-	background-color:white;
 }
 
 #content{
@@ -51,8 +50,24 @@
     left:0;
 	z-index:1;
 	bottom:0;
-	min-height:960px;
 }
+
+
+@media only screen and (max-device-height: 480px) {
+	#wrapper, #navigation {
+		height:348px;
+	}
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
+	#wrapper {
+		height:828px;/* 960 - 132 for header */
+	}
+	#navigation{
+		height:696px;/* 960 - 132 for header -132 mystery */
+	}
+}
+
 /*
 @media only screen and (min-device-width: 481px) and (max-device-width: 640px) #wrapper,
 @media only screen and (min-device-width: 481px) and (max-device-width: 640px) #header,
@@ -65,14 +80,14 @@
 	min-width:320px;
 }
 */
+
 #menu{
 	z-index:1;
 	padding-left:54px;
 	position:absolute;
-	padding-top:65px;
-	padding-bottom:333px;
+	padding-top:57px;
+	padding-bottom:77px;
 	width:640px;
-	min-height:960px;
 }
 
 #gsapp-logo {
@@ -279,6 +294,15 @@
 
 #navigation .active-trail.collapsed .menu .menu-arrow-small{
 	background-position: 0 -50px;
+}
+
+
+#menuswitch, #contentswitch{
+	position:absolute;
+	left:20px;
+	display:none;
+	z-index:100000;
+	top:200px;
 }
 
 

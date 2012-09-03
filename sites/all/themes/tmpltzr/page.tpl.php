@@ -160,6 +160,7 @@
 						</a>
 					</div>
 				</div>
+				<div id="menuswitch"><img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/viewmenu.png"/></div>
 			</div>
 			
 		
@@ -173,8 +174,8 @@
 							print $content;
 						?>
 					</div>
-					
 				</div>
+				<div id="contentswitch"><img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/viewpage.png"/></div>
 			</div>
 			
 			
