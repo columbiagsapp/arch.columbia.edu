@@ -7,72 +7,107 @@ var gsappMobile = {};
 
 gsappMobile.menuScroll;
 gsappMobile.contentScroll;
-
-gsappMobile.refreshIScroll = function(min, max){
-	safelog('entering refreshIScroll');
+/*
+gsappMobile.refreshMenuIScroll = function(min, max){
 	var min = min || 0;
 	var max = max || 200;
-	safelog('min: ' + min + ' max: ' + max);
 	if(gsappMobile.iscrollInit && (min >= 0) ){
 		setTimeout(function(){
-			gsappMobile.contentScroll.refresh();
+			gsappMobile.menuScroll.refresh();
 		},min);
 	}else{
 		setTimeout(function(){
 			if(gsappMobile.iscrollInit){
-				gsappMobile.contentScroll.refresh();
-				safelog('refreshed iscroll after delay of ' + max);
+				gsappMobile.menuScroll.refresh();
 			}
 		},max);
 	}
 }
 
+gsappMobile.refreshContentIScroll = function(min, max){
+	var min = min || 0;
+	var max = max || 200;
+	if(gsappMobile.iscrollInit && (min >= 0) ){
+		setTimeout(function(){
+			gsappMobile.contentScroll.refresh();
+		},min);
+	}
+	setTimeout(function(){
+		if(gsappMobile.iscrollInit){
+			var op = 1.0 - max/1000;
+			$('.tmpltzr-secondary').css('opacity', op);
+			gsapp.buildWall();
+			gsapp.resizeFunc();
+			gsappMobile.contentScroll.refresh();
+		}
+	},max);
+
+}
+*/
 
 
-
-gsappMobile.initIScroll = function(time){
-	safelog('initIScroll, time: ' + time);
-	if(time == 0){
-		gsappMobile.menuScroll = new iScroll('navigation');
+gsappMobile.initContentIScroll = function(time){
+	setTimeout(function(){
 		gsappMobile.contentScroll = new iScroll('wrapper');
 		gsappMobile.iscrollInit = true;
-	}else{
-		setTimeout(function(){
-			gsappMobile.menuScroll = new iScroll('navigation');
-		},time);
-		
-		setTimeout(function(){
-			gsappMobile.contentScroll = new iScroll('wrapper');
-			gsappMobile.iscrollInit = true;
-		},time);
-	}
+	},time);
 	/*
 		refresh on a setTimeout from 0 to 1000ms in 200ms increments
 		only when a fetched element is present
-	*/
+	
 	if( $('.tmpltzr-fetched').length > 0 ){
 		for(var i = 0; i<=1000; i=i+200){
-			safelog('for loop calling refresh in time: ' + (time+i));
-			gsappMobile.refreshIScroll(-1, time+i);
+			gsappMobile.refreshContentIScroll(-1, time+i);
 		}
 	}else{
-		gsappMobile.refreshIScroll(-1, 250);
-	}
-}
-
-gsappMobile.reinitIScroll = function(time){
-	if(gsappMobile.iscrollInit && (gsappMobile.contentScroll != undefined) && (gsappMobile.menuScroll != undefined) ){
-		safelog('destroying myscroll');
-		gsappMobile.contentScroll.destroy();
-		gsappMobile.menuScroll.destroy();
-	}
-	gsappMobile.initIScroll(time);
+		gsappMobile.refreshContentIScroll(-1, 250);
+	}*/
 }
 
 
+gsappMobile.initMenuIScroll = function(time){
+	setTimeout(function(){
+		gsappMobile.menuScroll = new iScroll('navigation', {
+			fixedScrollbar: true
+		});
+	},time);
+	
+	/*
+		refresh on a setTimeout from 0 to 1000ms in 200ms increments
+		only when a fetched element is present
+	
+	if( $('.tmpltzr-fetched').length > 0 ){
+		for(var i = 0; i<=1000; i=i+200){
+			gsappMobile.refreshMenuIScroll(-1, time+i);
+		}
+	}else{
+		gsappMobile.refreshMenuIScroll(-1, 250);
+	}*/
+}
+
+/*
+gsappMobile.reinitMenuIScroll = function(time){
+	if(gsapp.iscroll){
+		if(gsappMobile.iscrollInit && (gsappMobile.menuScroll != undefined) ){
+			gsappMobile.menuScroll.destroy();
+		}
+		gsappMobile.initMenuIScroll(time);
+	}
+}
+
+gsappMobile.reinitContentIScroll = function(time){
+	if(gsapp.iscroll){
+		if(gsappMobile.iscrollInit && (gsappMobile.contentScroll != undefined) ){
+			gsappMobile.contentScroll.destroy();
+		}
+		gsappMobile.initContentIScroll(time);
+	}
+}
+
+*/
 
 
-gsapp.LOG = true;
+gsapp.LOG = false;
 var TMPLTZR = true;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
@@ -397,22 +432,21 @@ var setMasonryBrickWidths = function(){
  }  
  
 gsapp._remove_flash_content = function(){
- 	safelog('excuting convertFlashEmbedsToLinks');
-	if($('object').length > 0){
-		$('object').each(function(){
-			if($(this).attr('type') == "application/x-shockwave-flash"){
-				safelog('REMOVING convertFlashEmbedsToLinks');
-				$(this).css('display', 'none').remove();
-			}
-		});	
-	}
-	if($('object embed').length > 0){
-		$('object embed').each(function(){
-			if($(this).attr('type') == "application/x-shockwave-flash"){
-				safelog('REMOVING embed convertFlashEmbedsToLinks');
-				$(this).parent('object').remove();
-			}
-		});	
+	if(gsapp.iscroll){
+		if($('object').length > 0){
+			$('object').each(function(){
+				if($(this).attr('type') == "application/x-shockwave-flash"){
+					$(this).css('display', 'none').remove();
+				}
+			});	
+		}
+		if($('object embed').length > 0){
+			$('object embed').each(function(){
+				if($(this).attr('type') == "application/x-shockwave-flash"){
+					$(this).parent('object').remove();
+				}
+			});	
+		}
 	}
 }
 
@@ -536,7 +570,7 @@ $(document).ready(function () {
 	
 	$('#gsapp-news').bind('click',function(){
 		setTimeout(function(){
-			gsappMobile.menuScroll.refresh();
+			gsappMobile.contentScroll.refresh();
 		}, 0);
 		return false;
 	});
@@ -603,6 +637,7 @@ $(window).load(function(){
 	setTimeout(gsapp.buildWall,100);
 	setTimeout(gsapp.buildWall,500);
 	if(gsapp.iscroll){
-		gsappMobile.initIScroll(200);
+		gsappMobile.initMenuIScroll(200);
+		gsappMobile.initContentIScroll(200);
 	}
 });

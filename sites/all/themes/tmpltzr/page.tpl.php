@@ -97,12 +97,6 @@
 	<!-- css assets for fonts.com custom font NeutraFace -->
 	<link href="http://cloud.webtype.com/css/a0868e2c-1109-4f64-8fbc-cd9f837ed961.css" rel="stylesheet" type="text/css">
 	
-	<!-- IE CSS -->
-	<!--[if (gte IE 6)&(lte IE 8)]>
-	  <script type="text/javascript" src="selectivizr.js"></script>
-	  <noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
-	<![endif]-->
-	
 	<!-- js google custom search -->
 	<script>
 	  (function() {
@@ -212,6 +206,7 @@
 			<!-- #content -->
 			<div id="wrapper" class="clearfix">
 				<div id="content">
+					<div id="preloader">Loading...</div>
 					<?php print $messages . $help; ?>
 					<!--starttmpltzr-->
 					<div id="tmpltzr">

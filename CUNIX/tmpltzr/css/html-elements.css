@@ -12,34 +12,37 @@ body {
     text-align: left;
 }
 
+body.loading #tmpltzr, body.loading footer {
+	opacity:0.0;
+	filter: alpha(opacity = 0);
+}
 
+#preloader{
+	margin-top:170px;
+	display:none;
+}
+
+body.loading #preloader{
+	display:block;
+}
 
 a {
-
     text-decoration:underline;
-
     color:#000;
-
 }
 
 a:hover {
-
     color: #777;
-
 }
 
 /* Removes dotted borders on clicked links from Firefox */
 
 a:active {
-
     outline: none;
-
 }
 
 a:focus {
-
     -moz-outline-style: none;
-
 }
 
 /* HEADINGS */
@@ -664,29 +667,55 @@ dl dd {
 
 
 #tmpltzr h2.large-title {
-
 	font-size:45px;
-
 }
 
 
+#tmpltzr .tmpltzr-tags, #tmpltzr .embedded-tumblr-permalink {
+	padding-top:10px;
+}
 
-#tmpltzr .tmpltzr-subtitle, .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle {
-
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
-
+#tmpltzr .tmpltzr-subtitle, .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle{
 	margin-bottom:10px;
-
 }
-
-
 
 #tmpltzr .tmpltzr-primaryhalf .tmpltzr-subtitle, #tmpltzr .tmpltzr-primaryquarter .tmpltzr-subtitle,
 .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle {
-
 	margin-bottom:0;
-
 }
+
+#tmpltzr .tmpltzr-subtitle,
+.tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
+#tmpltzr .tmpltzr-caption,
+#tmpltzr .tmpltzr-tags
+#tmpltzr .tmpltzr-tags,
+#tmpltzr .embedded-tumblr-permalink,
+#tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
+#tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
+#tmpltzr .gsc-result-info,
+.view-people .view-filters .views-exposed-widget label,
+#footer-inner,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-label {
+	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
+}
+
+
+
+.iscroll #tmpltzr .tmpltzr-subtitle,
+.iscroll .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
+.iscroll #tmpltzr .tmpltzr-caption,
+.iscroll #tmpltzr .tmpltzr-tags,
+.iscroll #tmpltzr .tmpltzr-tags,
+.iscroll #tmpltzr .embedded-tumblr-permalink,
+.iscroll #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
+.iscroll #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
+.iscroll #tmpltzr .gsc-result-info,
+.iscroll .view-people .view-filters .views-exposed-widget label,
+.iscroll #footer-inner,
+.iscroll .tmpltzr-featuredeventwidget .featured-events-widget .fe-label {
+	font: 14px/18px "Courier New", Courier, Verdana, sans-serif;
+}
+
 
 
 
@@ -723,6 +752,9 @@ dl dd {
 	padding:0 !important;
 }
 
+.iscroll #tmpltzr .tmpltzr-body {
+	font: 20px/28px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 
 #tmpltzr .tmpltzr-primaryhalf .tmpltzr-body, #tmpltzr .tmpltzr-primaryquarter .tmpltzr-body{
@@ -860,10 +892,7 @@ dl dd {
 
 
 
-#tmpltzr .tmpltzr-caption, #tmpltzr .tmpltzr-tags {
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
-	/*margin-bottom:10px; tct2003*/
-}
+
 
 
 
@@ -897,10 +926,7 @@ dl dd {
 	margin-bottom: 14px;
 }
 
-#tmpltzr .tmpltzr-tags, #tmpltzr .embedded-tumblr-permalink {
-	padding-top:10px;
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
-}
+
 
 #tmpltzr .embedded-tumblr .tmpltzr-image-small{
 	width:245px;
@@ -1302,9 +1328,6 @@ dl dd {
 
 
 /* TMPLTZR COURSE */
-#tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points {
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif !important;
-}
 
 #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-instructor {
 	font: 14px/21px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
@@ -1362,7 +1385,6 @@ dl dd {
 
 
 #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl {
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 	color: black;
 	padding:5px 0 0 0;
 }
@@ -1395,8 +1417,6 @@ dl dd {
 
 #tmpltzr .gsc-result-info{
 	padding: 0;
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
-
 }
 
 #tmpltzr .gs-web-image-box img.gs-image, .gs-promotion-image-box img.gs-promotion-image {
@@ -1454,7 +1474,6 @@ dl dd {
 
 .view-people .view-filters .views-exposed-widget label{
 	display:block;
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 	margin-bottom:7px;
 }	
 
@@ -1497,7 +1516,6 @@ dl dd {
 /* FOOTER */
 #footer-inner{
 	width:500px;
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 }
 
 /* EVENTS WIDGET */
@@ -1533,7 +1551,6 @@ dl dd {
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-label{
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 	margin-bottom: 12px;
 }
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-date{

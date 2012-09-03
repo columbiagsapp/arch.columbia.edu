@@ -638,7 +638,7 @@
 			var $this = $(this);
 			// Ajaxify
 			$(this).find('a:internal:not(#gsapplogo)').click(function(event){ //exempt GSAPP Logo so it reloads everything
-				
+				safelog('-----------CLICK EVENT-----------');
 				// Prepare
 				var
 					$this = $(this),
@@ -811,7 +811,7 @@
 					
 					// Complete the change
 					if ( $body.ScrollTo||false ) { $body.ScrollTo(scrollOptions); } // http://balupton.com/projects/jquery-scrollto 
-					$body.removeClass('loading');
+					
 	
 					// Inform Google Analytics of the change
 					if ( typeof window.pageTracker !== 'undefined' ) {
@@ -824,8 +824,30 @@
 						// ^ we use the full url here as that is what reinvigorate supports
 					}
 					
-					if(gsappMobile.iscrollInit){
-						gsappMobile.reinitIScroll(0);
+					if( gsappMobile.iscrollInit ){
+						gsappMobile.menuScroll.destroy();
+						gsappMobile.menuScroll = new iScroll('navigation');
+						setTimeout(function(){
+							gsappMobile.menuScroll.refresh();
+						},0);
+						
+						gsappMobile.contentScroll.destroy();
+						gsappMobile.contentScroll = null;
+						gsappMobile.contentScroll = new iScroll('wrapper');
+
+						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
+							safelog('AJAXify without something fetched');
+							setTimeout(function(){
+								gsappMobile.contentScroll.refresh();
+								$body.removeClass('loading');
+							},0);
+						}else{
+							setTimeout(function(){
+								$body.removeClass('loading');
+							},1500);
+						}
+					}else{
+						$body.removeClass('loading');
 					}
 					
 				},

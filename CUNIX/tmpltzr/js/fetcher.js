@@ -472,9 +472,20 @@ gsappFetcher.getTumblr = function(url, element_name) {
 		})
 		.error(function() { gsappFetcher.log('error loading tumblr'); })
 		.complete(function() {
-			gsapp.buildWall();
-			gsapp._remove_flash_content();
-			gsappMobile.reinitIScroll(0);
+			safelog('tumblr calling back');
+			setTimeout(gsapp.buildWall, 0);
+			if( $('body.iscroll').length > 0 ){
+				gsapp._remove_flash_content();
+				setTimeout(function () {
+					safelog('tumblr timeout executed');
+					//gsappMobile.contentScroll.refresh();
+					gsappMobile.contentScroll.destroy();
+					gsappMobile.contentScroll = null;
+					gsappMobile.contentScroll = new iScroll('wrapper');
+					gsappMobile.contentScroll.refresh();
+					//$('body').removeClass('loading');
+				}, 1500);	
+			}
 		});
 
 	
@@ -572,7 +583,20 @@ gsappFetcher.getEventData = function(url, elementName) {
 	})
 	.error(function() { gsappFetcher.log('error loading event data'); })
 	.complete(function() {
-		//gsappMobile.refreshIScroll(0, 250);
+		safelog('events calling back');
+		setTimeout(gsapp.buildWall, 0);
+		if( $('body.iscroll').length > 0 ){
+			gsapp._remove_flash_content();
+			setTimeout(function () {
+				safelog('events timeout executed');
+				//gsappMobile.contentScroll.refresh();
+				gsappMobile.contentScroll.destroy();
+				gsappMobile.contentScroll = null;
+				gsappMobile.contentScroll = new iScroll('wrapper');
+				gsappMobile.contentScroll.refresh();
+				//$('body').removeClass('loading');
+			}, 1500);	
+		}
 	}); // end getJSON
 	
 }

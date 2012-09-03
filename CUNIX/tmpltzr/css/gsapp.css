@@ -18,6 +18,7 @@
 
 .iscroll #header{
 	position:absolute;
+	height:172px;
 }
 
 #wrapper{
@@ -57,6 +58,7 @@
 
 .iscroll #navigation{
 	position:absolute;
+	padding-top:2px;
 }
 
 #menu{
@@ -109,6 +111,11 @@
 	color:gray;
 	text-decoration:none;
 	font: 11px "courier new", monospace;
+}
+
+.iscroll #login a{
+	color:#efefef;
+	font: 14px "courier new", monospace;
 }
 
 /* GOOGLE CUSTOM SEARCH */
@@ -256,6 +263,10 @@ caption {
     padding-bottom: 10px;
     text-align: left;
     text-transform: none;
+}
+
+.iscroll caption {
+	font: 14px "courier new", monospace;
 }
 
 #mytable th {
