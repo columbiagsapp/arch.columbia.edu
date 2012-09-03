@@ -12,18 +12,8 @@ gsappMobile.initContentIScroll = function(time){
 	setTimeout(function(){
 		gsappMobile.contentScroll = new iScroll('wrapper');
 		gsappMobile.iscrollInit = true;
+		
 	},time);
-	/*
-		refresh on a setTimeout from 0 to 1000ms in 200ms increments
-		only when a fetched element is present
-	
-	if( $('.tmpltzr-fetched').length > 0 ){
-		for(var i = 0; i<=1000; i=i+200){
-			gsappMobile.refreshContentIScroll(-1, time+i);
-		}
-	}else{
-		gsappMobile.refreshContentIScroll(-1, 250);
-	}*/
 }
 
 
@@ -33,41 +23,7 @@ gsappMobile.initMenuIScroll = function(time){
 			fixedScrollbar: true
 		});
 	},time);
-	
-	/*
-		refresh on a setTimeout from 0 to 1000ms in 200ms increments
-		only when a fetched element is present
-	
-	if( $('.tmpltzr-fetched').length > 0 ){
-		for(var i = 0; i<=1000; i=i+200){
-			gsappMobile.refreshMenuIScroll(-1, time+i);
-		}
-	}else{
-		gsappMobile.refreshMenuIScroll(-1, 250);
-	}*/
 }
-
-/*
-gsappMobile.reinitMenuIScroll = function(time){
-	if(gsapp.iscroll){
-		if(gsappMobile.iscrollInit && (gsappMobile.menuScroll != undefined) ){
-			gsappMobile.menuScroll.destroy();
-		}
-		gsappMobile.initMenuIScroll(time);
-	}
-}
-
-gsappMobile.reinitContentIScroll = function(time){
-	if(gsapp.iscroll){
-		if(gsappMobile.iscrollInit && (gsappMobile.contentScroll != undefined) ){
-			gsappMobile.contentScroll.destroy();
-		}
-		gsappMobile.initContentIScroll(time);
-	}
-}
-
-*/
-
 
 gsapp.LOG = false;
 var TMPLTZR = true;
@@ -225,6 +181,9 @@ var resizeMenu = function(){
 gsapp.resizeFunc = function(){
 	if(gsapp.iscroll == false){
 		resizeMenu(); //resize the height of the menu
+		$('header').css('color','blue');
+	}else{
+		$('#header').css('color','green');
 	}
 	var ww = window.innerWidth;
 	if(ww >= 1270){
@@ -348,8 +307,11 @@ var adjustPrimaryLinksMenu = function(path){
 */
 var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
-	
-	var liW = 340;
+	if(gsapp.mobile){
+		var liW = 590;
+	}else{
+		var liW = 340;
+	}
 	var aW = liW - 25;
 	var liWStr = liW + 'px';
 	var aWStr = aW + 'px';
@@ -518,11 +480,23 @@ var bindProgramCourseBlogIndexFilter = function(){
 
 
 $(document).ready(function () {
-	if($('body').hasClass('iscroll')){
+	if($('body').hasClass('iscroll') || $('body').hasClass('mobile') ){
 		gsapp.iscroll = true;
+		if($('body').hasClass('mobile')){
+			gsapp.mobile = true;
+			gsappMobile.initMenuIScroll(0);
+			window.scrollTo(0,0);
+		}else{
+			gsapp.mobile = false;
+		}
 	}else{
 		gsapp.iscroll = false;
+		gsapp.mobile = false;
 	}
+	
+	var mww = window.innerWidth;
+	$('#header #gsapp-login a').text('w: '+mww);
+	
 	safelog('---------------------------DOCUMENT READY FUNCTION STARTING with iscroll='+gsapp.iscroll+'---------------------------');
 	adjustPrimaryLinksMenu( window.location.pathname );
 	menuAddTriangles();
@@ -590,15 +564,19 @@ $(document).ready(function () {
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	
-	gsapp.resizeFunc(0); //run the resize function on page load
-	$(window).resize(gsapp.resizeFunc); //bind the resize function to the page
+	if(gsapp.mobile == false){
+		gsapp.resizeFunc(); //run the resize function on page load
+		$(window).resize(gsapp.resizeFunc); //bind the resize function to the page
+	}
 });
 
 
 $(window).load(function(){
-	setTimeout(gsapp.buildWall,100);
-	setTimeout(gsapp.buildWall,500);
-	if(gsapp.iscroll){
+	
+	if(gsapp.iscroll && (gsapp.mobile == false) ){
+		setTimeout(gsapp.buildWall,100);
+		setTimeout(gsapp.buildWall,500);
+		$('#header').css('backgroundColor', 'red');
 		gsappMobile.initMenuIScroll(200);
 		gsappMobile.initContentIScroll(200);
 	}

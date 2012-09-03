@@ -33,6 +33,7 @@
 		// add more clauses here as they come up for new tablets
 	) {
 			$is_mobile = TRUE;
+			$mobile_iscroll = TRUE;
 	} else if(
 		// use iScroll for any mobile device, even tablets
 		($browser['ismobiledevice'] == 1) &&
@@ -62,12 +63,12 @@
 	<?php } ?>
 	
 	<?php print $styles; ?>
-	<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/html-elements.css">
-	<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/gsapp.css">
-	<link type="text/css" rel="stylesheet" media="print" href="http://www.columbia.edu/cu/arch/tmpltzr/css/print.css">
 	<?php if($is_mobile === TRUE){ ?>
-		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/mobile-specific.css">
+		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/mobile.css">
 	<?php }else{ ?>
+		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/html-elements.css">
+		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/gsapp.css">
+		<link type="text/css" rel="stylesheet" media="print" href="http://www.columbia.edu/cu/arch/tmpltzr/css/print.css">
 		<!-- IE Fix for HTML5 Tags -->
 		<!--[if lt IE 9]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -76,7 +77,9 @@
 	
 	<?php print $scripts; ?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/iscroll.js"></script>
+	<?php if($mobile_iscroll === TRUE){ ?>
+		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/iscroll.js"></script>
+	<?php } ?>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.cycle.all.pack.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
@@ -85,11 +88,12 @@
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.jcarousel.min.js"></script>
 	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/html4+html5/jquery.history.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/fetcher.js"></script>
+	
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/gsapp.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/ajaxify-html5.js"></script>
 	
 	<?php if($is_mobile === TRUE){ ?>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/mobile.js"></script>
+		<!--<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/mobile.js"></script>-->
 	<?php } ?>
 
 	<!-- js assets for fonts.com custom font DIN -->
@@ -113,21 +117,15 @@
 
 <body class="<?php if($is_mobile === TRUE) { print 'mobile '; }else{ print $browser[browser].' '; } if($mobile_iscroll === TRUE){ print 'iscroll '; }?><?php print $body_classes; print (array_intersect(array('Faculty','TA','Student','Director','Alumni'),$user->roles) ? 'faculty' : ''); ?>?>">
 		<?php if($is_mobile === TRUE) { /* mobile theme */?>
-			<div id="mobile-header">
-				<a href="/">
-					<div id="gsapp-logo" class="mobile-header-item">
-						<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/gsapp-logo_237x49.jpg" width="237" height="49" alt="GSAPP logo" />
-					</div>
+			<div id="header">
+				<a id="gsapp-logo" href="/">
+					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/gsapp-logo_237x49.jpg" width="237" height="49" alt="GSAPP logo" />
 				</a>
-				<a href="http://news.gsapp.org">
-					<div id="gsapp-news"  class="mobile-header-item">
-						<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/gsapp_news_83x81.jpg" width="83" height="81" alt="GSAPP News" />
-					</div>
+				<a id="gsapp-news" href="http://news.gsapp.org">
+					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/gsapp_news_83x81.jpg" width="83" height="81" alt="GSAPP News" />
 				</a>
-				<a href="/mobile-search" target="_self">
-					<div id="gsapp-search"  class="mobile-header-item">
-						<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/search_56x54.jpg" width="56" height="54" alt="Search" />
-					</div>
+				<a id="gsapp-search" href="/mobile-search" target="_self">
+					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/search_56x54.jpg" width="56" height="54" alt="Search" />
 				</a>
 				<div id="gsapp-login"  class="mobile-header-item">
 					<?php if (!$user->uid): ?>
@@ -136,27 +134,15 @@
 						<?php print l("Logout", "logout"); ?>
 					<?php endif; ?>
 				</div>
-			</div>
-			<div id="mobile-menu">
-				<?php print menu_tree_output( menu_tree_all_data('primary-links') ); ?>
+			</div><!-- /#header -->
+			
+			<div id="navigation">
+				<div id="menu">
+					<?php print menu_tree_output( menu_tree_all_data('primary-links') ); ?>
+				</div>
 			</div>
 			
-			<div id="mobile-switch-bar">
-				<div>
-					<div class="arrow">.</div>
-					<div class="view-page">.</div>
-					<div class="arrow">.</div>
-				</div>
-			</div>
-			<div id="mobile-content">
-				<div id="tmpltzr">
-					<header id="global-header">
-						<div></div>
-					</header>
-					<?php print $content; ?>
-				</div>
-				<!--endtmpltzr-->
-			</div>
+			
 			
 		<?php }else{ /* tablet using iscroll and non-mobile */?>
 			<header id="header">
