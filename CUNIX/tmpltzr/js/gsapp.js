@@ -129,8 +129,12 @@ initCurrentLevel();
 */
 $.fn.level = function(){
 	var classes = $(this).closest('.menu').attr('class');
-	var levelIdx = classes.indexOf('level-') + 6;
-	return classes.substring(levelIdx, levelIdx+1);
+	if(classes != undefined){
+		var levelIdx = classes.indexOf('level-') + 6;
+		return classes.substring(levelIdx, levelIdx+1);
+	}else{
+		return -1;
+	}
 }
 		
 
@@ -311,6 +315,7 @@ var adjustPrimaryLinksMenu = function(path){
 */
 var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
+	var id = 1000;
 	if(gsapp.mobile){
 		// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
 		var liW = gsappMobile.menuAndContentWidth - 114;
@@ -323,6 +328,7 @@ function menuAddTriangles(){
 	var selector = '#navigation #menu > .menu > li';
 	
 	$('#navigation #menu > .menu').addClass('level-0');
+	$(selector).each(function(){ $(this).attr('id', id++); });
 	$(selector).css('width', liWStr).prepend('<span class="menu-arrow-large"></span>');
 	$(selector).each(function(){
 		$(this).children('a').css('width',aWStr);
@@ -333,6 +339,8 @@ function menuAddTriangles(){
 		selector += ' > ul.menu';
 		$(selector).addClass('level-'+i);
 		selector += ' > li';
+		$(selector).each(function(){ $(this).attr('id',id++); });
+		
 		liW = aW;
 		liWStr = liW + 'px';
 		aW = liW - 19;
@@ -379,20 +387,18 @@ gsapp._remove_flash_content = function(){
 	}
 }
 
-var initPhotoset = function(){
-	if($('.tmpltzr-photoset').exists()){
-		$('.tmpltzr-photoset').each(function(){
-			var id = $(this).attr('id');
-			id = '#' + id;
+gsapp.initPhotoset = function(){
+	if($('.tmpltzr-photoset-container').exists()){
+		$('.tmpltzr-photoset-container').each(function(){
 			
-			$(id).jcarousel({
-    			scroll: 1,
-    			visible: 1,
-    			start: 1,
-    			width: 500,
-    			buttonPrevHTML: '<div></div>',
-    			buttonNextHTML: '<div></div>'
-    		});
+			$(this).jCarouselLite({
+				btnNext: ".tmpltzr-photoset-next",
+				btnPrev: ".tmpltzr-photoset-prev",
+				speed: 300,
+				circular: true,
+				visible: 1,
+				scroll: 1
+			});
 		});
     }
 }
@@ -497,6 +503,9 @@ gsappMobile.switchToMenu = function(){
 		function(){
 			$('#menu').show();
 			$('#contentswitch').show(); 
+			setTimeout(function(){
+				gsappMobile.menuScroll.refresh();
+			},0);
 		});
 	
 	$('#navigation').unbind('click');
@@ -614,7 +623,7 @@ $(document).ready(function () {
 		gsapp._remove_flash_content();
 	}
 	
-	initPhotoset();
+	setTimeout(gsapp.initPhotoset, 0);
 	  
     /*************************** MENU ***************************/
 	var menu = $("#navigation #menu ul.menu");

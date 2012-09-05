@@ -1,52 +1,52 @@
-/* @override 
+/* @override gsappFetcher.day_names
 	http://www.columbia.edu/cu/arch/tmpltzr/html-elements.css
 	http://postfog.org/templatizer/sites/all/themes/tmpltzr/css/html-elements.css?h
 */
 
 body {
-
     margin: 0;
-
     padding: 0;
-
     font: 16px/20px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-    color: #051215;
-
+    color: black;
     background-color:white;
-
-    text-align: center;
-
+    text-align: left;
 }
 
+body.loading #tmpltzr, body.loading footer {
+	opacity:0.0;
+	filter: alpha(opacity = 0);
+}
 
+#preloader{
+	margin-top:170px;
+	display:none;
+}
 
-.wrapper a {
+body.loading #preloader{
+	display:block;
+}
 
+body strong, body b{
+	font-weight: normal;
+}
+
+a {
     text-decoration:underline;
-
     color:#000;
-
 }
 
-.wrapper a:hover {
-
+a:hover {
     color: #777;
-
 }
 
 /* Removes dotted borders on clicked links from Firefox */
 
 a:active {
-
     outline: none;
-
 }
 
 a:focus {
-
     -moz-outline-style: none;
-
 }
 
 /* HEADINGS */
@@ -175,15 +175,15 @@ iframe {
 
 /* List elements */
 
-.wrapper ul {
+ul {
 
     margin: 0px;
 
     padding: 0;
 
-    list-style-type: none;
+    list-style-type: none !important;
 
-    list-style-image: none;
+    list-style-image: none !important;
 
 }
 
@@ -191,9 +191,10 @@ iframe {
 	padding: 0 0 10px 0;
 }
 
-.wrapper li {
-
+ul.menu li, li.expanded, li.collapsed, li.leaf, li{
+	
     width: auto;
+    list-style: none !important;
 }
 
 ol {
@@ -306,13 +307,23 @@ dl dd {
     color:gray;
     text-transform: uppercase;
 	font: 28px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
+	display:-moz-inline-stack;
 	display:inline-block;
 	padding:0 0 10px 10px !important;
 	letter-spacing: .1em;
 }
 
+.IE #navigation .menu li a{
+	zoom:1;
+	*display:inline;
+}
+
 #navigation .menu li a:hover{
 	color:white;
+}
+
+.iscroll #navigation .menu li a:hover{
+	color:gray;
 }
 
 #navigation .menu .menu li a {
@@ -328,6 +339,9 @@ dl dd {
 	display:none;
 }
 
+#navigation .menu li.force-expanded{
+	padding-left:9px;
+}
 
 #navigation .menu li.force-expanded .menu {
 	display: block;
@@ -351,11 +365,6 @@ dl dd {
 	list-style:none !important;
 }
 
-
-#navigation {
-	padding:0 0 350px 20px;
-}
-
 #navigation ul ul{
 	padding-left:25px;
 }
@@ -365,10 +374,16 @@ dl dd {
 }
 
 #navigation .menu-arrow-large{
+	display:-moz-inline-stack;
 	display:inline-block;
 	width:15px;
 	height:15px;
 	background:transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/menu-arrow-large.png") no-repeat -15px -50px;
+}
+
+.IE #navigation .menu-arrow-large{
+	zoom:1;
+	*display:inline;
 }
 
 #navigation .active-trail.expanded .menu-arrow-large{
@@ -382,6 +397,7 @@ dl dd {
 
 
 #navigation .menu-arrow-small{
+	display:-moz-inline-stack;
 	display:inline-block;
 	width:9px;
 	height:9px;
@@ -389,6 +405,11 @@ dl dd {
 	vertical-align: top;
 	position: relative;
 	top: 7px;
+}
+
+.IE #navigation .menu-arrow-small{
+	zoom:1;
+	*display:inline;
 }
 
 #navigation .active-trail.expanded .menu-arrow-small:first-child{
@@ -600,13 +621,15 @@ dl dd {
 
 
 #tmpltzr .tmpltzr-primaryhalf .tmpltzr-image {
-
 	margin:0 20px 0 0;
-
 	vertical-align: text-bottom;
-
+	display:-moz-inline-stack;
 	display:inline-block;
+}
 
+.IE #tmpltzr .tmpltzr-primaryhalf .tmpltzr-image{
+	zoom:1;
+	*display:inline;
 }
 
 
@@ -614,7 +637,13 @@ dl dd {
 #tmpltzr .tmpltzr-primaryquarter .tmpltzr-image, .tmpltzr-person .tmpltzr-person-portrait {
 	margin:0 15px 0 0;
 	vertical-align: text-bottom;
+	display:-moz-inline-stack;
 	display:inline-block;
+}
+
+.IE #tmpltzr .tmpltzr-primaryquarter .tmpltzr-image, .tmpltzr-person .tmpltzr-person-portrait{
+	zoom:1;
+	*display:inline;
 }
 
 .tmpltzr-person .tmpltzr-person-portrait img{
@@ -643,42 +672,74 @@ dl dd {
 
 
 #tmpltzr h2.large-title {
-
 	font-size:45px;
-
 }
 
 
+#tmpltzr .tmpltzr-tags, #tmpltzr .embedded-tumblr-permalink {
+	padding-top:10px;
+}
 
-#tmpltzr .tmpltzr-subtitle, .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle {
-
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
-
+#tmpltzr .tmpltzr-subtitle, .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle{
 	margin-bottom:10px;
-
 }
-
-
 
 #tmpltzr .tmpltzr-primaryhalf .tmpltzr-subtitle, #tmpltzr .tmpltzr-primaryquarter .tmpltzr-subtitle,
 .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle {
-
 	margin-bottom:0;
+}
 
+#tmpltzr .tmpltzr-subtitle,
+.tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
+#tmpltzr .tmpltzr-caption,
+#tmpltzr .tmpltzr-tags
+#tmpltzr .tmpltzr-tags,
+#tmpltzr .embedded-tumblr-permalink,
+#tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
+#tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
+#tmpltzr .gsc-result-info,
+.view-people .view-filters .views-exposed-widget label,
+#footer-inner,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-label,
+#tmpltzr .tmpltzr-followwidget .follow-text {
+	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 }
 
 
 
-#tmpltzr .tmpltzr-primaryhalf .tmpltzr-title-container, #tmpltzr .tmpltzr-primaryquarter .tmpltzr-title-container,
+.iscroll #tmpltzr .tmpltzr-subtitle,
+.iscroll .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
+.iscroll #tmpltzr .tmpltzr-caption,
+.iscroll #tmpltzr .tmpltzr-tags,
+.iscroll #tmpltzr .tmpltzr-tags,
+.iscroll #tmpltzr .embedded-tumblr-permalink,
+.iscroll #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
+.iscroll #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
+.iscroll #tmpltzr .gsc-result-info,
+.iscroll .view-people .view-filters .views-exposed-widget label,
+.iscroll #footer-inner,
+.iscroll .tmpltzr-featuredeventwidget .featured-events-widget .fe-label {
+	font: 14px/18px "Courier New", Courier, Verdana, sans-serif;
+}
+
+
+
+
+#tmpltzr .tmpltzr-primaryhalf .tmpltzr-title-container,
+#tmpltzr .tmpltzr-primaryquarter .tmpltzr-title-container,
 .tmpltzr-person .tmpltzr-title-container {
-
 	margin:0;
-
 	padding:0;
-
+	display:-moz-inline-stack;
 	display:inline-block;
 	width:235px;
+}
 
+.IE #tmpltzr .tmpltzr-primaryhalf .tmpltzr-title-container,
+.IE #tmpltzr .tmpltzr-primaryquarter .tmpltzr-title-container,
+.IE .tmpltzr-person .tmpltzr-title-container{
+	zoom:1;
+	*display:inline;
 }
 
 #tmpltzr .tmpltzr-primaryquarter-container {
@@ -697,6 +758,9 @@ dl dd {
 	padding:0 !important;
 }
 
+.iscroll #tmpltzr .tmpltzr-body {
+	font: 20px/28px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 
 #tmpltzr .tmpltzr-primaryhalf .tmpltzr-body, #tmpltzr .tmpltzr-primaryquarter .tmpltzr-body{
@@ -716,18 +780,20 @@ dl dd {
 }
 
 
-#tmpltzr .tmpltzr-secondaryquote, #tmpltzr .tmpltzr-secondaryimage {
-
+#tmpltzr .tmpltzr-secondaryquote.tmpltzr-module-240, #tmpltzr .tmpltzr-secondaryimage {
 	display:block;
-
 	padding: 20px;
-
 	width:200px;
-
 	float:left;
-
 	margin-right:20px;
+}
 
+#tmpltzr .tmpltzr-secondaryquote.tmpltzr-module-500 {
+	display:block;
+	padding: 20px;
+	width:460px;
+	float:left;
+	margin-right:20px;
 }
 
 #tmpltzr .tmpltzr-primaryquote {
@@ -758,7 +824,7 @@ dl dd {
 	height:150px;
 }
 
-#tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-secondary, #tmpltzr .other .tmpltzr-secondary, #tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-primaryquote, #tmpltzr .other .tmpltzr-primaryquote {
+#tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-widget, #tmpltzr .other .tmpltzr-secondary, #tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-primaryquote, #tmpltzr .other .tmpltzr-primaryquote {
 	background-color: #efefef;
 }
 
@@ -834,10 +900,7 @@ dl dd {
 
 
 
-#tmpltzr .tmpltzr-caption, #tmpltzr .tmpltzr-tags {
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
-	/*margin-bottom:10px; tct2003*/
-}
+
 
 
 
@@ -871,10 +934,7 @@ dl dd {
 	margin-bottom: 14px;
 }
 
-#tmpltzr .tmpltzr-tags, #tmpltzr .embedded-tumblr-permalink {
-	padding-top:10px;
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
-}
+
 
 #tmpltzr .embedded-tumblr .tmpltzr-image-small{
 	width:245px;
@@ -883,9 +943,16 @@ dl dd {
 #tmpltzr .embedded-tumblr .photoset{
 	padding:0;
 	margin:0 0 10px;
+	display:-moz-inline-stack;
 	display:inline-block;
 	width:250px;
 }
+
+.IE #tmpltzr .embedded-tumblr .photoset{
+	zoom:1;
+	*display:inline;
+}
+
 #tmpltzr .embedded-tumblr .photoset.odd img{
 	float:right;
 }
@@ -901,7 +968,6 @@ dl dd {
 #tmpltzr .embedded-tumblr .link h2 a:hover{
 	border-bottom:none;
 }
-
 /******************** PHOTOSET WITH JCAROUSEL ********************/
 
 #tmpltzr .tmpltzr-primary .jcarousel-clip-horizontal{
@@ -918,15 +984,24 @@ dl dd {
 	position: relative;
 	width:500px;
 	margin-bottom: 12px;
+	height:333px;
 }
 
-#tmpltzr .tmpltzr-secondary .tmpltzr-photoset-container {
+#tmpltzr .tmpltzr-primary .tmpltzr-photoset-container ul li{
+	width:500px;
+	height:333px;
+	display: block;
+	background-color: black;
+}
+
+#tmpltzr .tmpltzr-secondary.tmpltzr-module-500 .tmpltzr-photoset-container {
 	position: relative;
 	width:460px;
 	margin-bottom: 12px;
+	height:306px;
 }
 
-#tmpltzr .tmpltzr-photoset-container .jcarousel-prev {
+#tmpltzr .tmpltzr-photoset-container .tmpltzr-photoset-prev {
 	position:absolute;
 	left:0px;
 	width:20px;
@@ -935,12 +1010,12 @@ dl dd {
     background: transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/photoslider_prev.png") no-repeat 0 0;
 }
 
-#tmpltzr .jcarousel-prev:hover,
-#tmpltzr .jcarousel-prev:focus {
+#tmpltzr .tmpltzr-photoset-prev:hover,
+#tmpltzr .tmpltzr-photoset-prev:focus {
     width:55px;
 }
 
-#tmpltzr .tmpltzr-photoset-container .jcarousel-next {
+#tmpltzr .tmpltzr-photoset-container .tmpltzr-photoset-next {
 	position:absolute;
 	right:0px;
 	width:20px;
@@ -949,54 +1024,25 @@ dl dd {
     background: transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/photoslider_next.png") no-repeat -35px 0;
 }
 
-#tmpltzr .tmpltzr-primary .tmpltzr-photoset-container .jcarousel-prev, #tmpltzr .tmpltzr-primary .tmpltzr-photoset-container .jcarousel-next  {
+#tmpltzr .tmpltzr-primary .tmpltzr-photoset-container .tmpltzr-photoset-prev,
+#tmpltzr .tmpltzr-primary .tmpltzr-photoset-container .tmpltzr-photoset-next  {
 	top:156px;
+	z-index:1000;
 }
 
-#tmpltzr .tmpltzr-secondary .tmpltzr-photoset-container .jcarousel-prev, #tmpltzr .tmpltzr-secondary .tmpltzr-photoset-container .jcarousel-next  {
+#tmpltzr .tmpltzr-secondary .tmpltzr-photoset-container .tmpltzr-photoset-prev,
+#tmpltzr .tmpltzr-secondary .tmpltzr-photoset-container .tmpltzr-photoset-next {
 	top:143px;
 }
 
-#tmpltzr .jcarousel-next:hover,
-#tmpltzr .jcarousel-next:focus {
+#tmpltzr .tmpltzr-photoset-next:hover,
+#tmpltzr .tmpltzr-photoset-next:focus {
 	background-position:0 0;
     width:55px;
 }
 
-#tmpltzr .jcarousel-next:active, #tmpltzr .jcarousel-prev:active {
-    background-color: white;
-}
 
-#tmpltzr .jcarousel-prev-disabled, #tmpltzr .jcarousel-next-disabled {
-	display:none !important;
-}
 
-#tmpltzr .tmpltzr-primary .jcarousel-list {
-	height:333px;
-	line-height:333px;
-	text-align:center;
-}
-
-#tmpltzr .tmpltzr-primary .jcarousel-item {
-	background-color:black;
-	padding:0 !important;
-	height:100%;
-}
-
-#tmpltzr .tmpltzr-secondary .jcarousel-item {
-	background-color:transparent;
-	padding:0 !important;
-	height:100%;
-}
-
-#tmpltzr .jcarousel-item img{
-	text-align: center;
-	margin: 0 auto;
-	display: block;
-	vertical-align:middle;
-	display:inline;
-	margin-top: -3px;
-}
 
 /* COURSE BLOG INDEX PAGE */
 
@@ -1025,14 +1071,26 @@ dl dd {
 
 #tmpltzr #program-list, #tmpltzr #region-list {
 	width:250px;
+	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align: top;
 }
 
+.IE #tmpltzr #program-list, #tmpltzr #region-list{
+	zoom:1;
+	*display:inline;
+}
+
 #tmpltzr #semester-list {
 	width:200px;
+	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align: top;
+}
+
+.IE #tmpltzr #semester-list{
+	zoom:1;
+	*display:inline;
 }
 
 #tmpltzr #fixed-header li{
@@ -1200,7 +1258,8 @@ dl dd {
 }
 #tmpltzr .content #event-output .embedded-event-description-more {
 	color: red;
-	margin-bottom: 25px;
+	margin-top: 25px;
+	margin-bottom:40px;
 }
 
 #tmpltzr .view-courseblogs {
@@ -1213,8 +1272,14 @@ dl dd {
 #tmpltzr .view-courseblogs .col{
 	width:230px;
 	padding-right:20px;
+	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align:top;
+}
+
+.IE #tmpltzr .view-courseblogs .col{
+	zoom:1;
+	*display:inline;
 }
 
 #tmpltzr .view-courseblogs .views-row a{
@@ -1236,6 +1301,9 @@ dl dd {
 	width:540px;
 	float:left;
 }
+.front #tmpltzr #main {
+	width:100% !important;
+}
 
 #tmpltzr #right-sidebar {
 	width:260px;
@@ -1248,9 +1316,6 @@ dl dd {
 
 
 /* TMPLTZR COURSE */
-#tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points {
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif !important;
-}
 
 #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-instructor {
 	font: 14px/21px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
@@ -1308,7 +1373,6 @@ dl dd {
 
 
 #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl {
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 	color: black;
 	padding:5px 0 0 0;
 }
@@ -1330,14 +1394,17 @@ dl dd {
 	color: gray;
 }
 
+.iscroll #tmpltzr .gsc-results .gsc-cursor-box .gsc-cursor-page{
+	font-size:20px;
+	margin-right:20px;
+}
+
 #tmpltzr .gcsc-branding{
 	display: none;
 }
 
 #tmpltzr .gsc-result-info{
 	padding: 0;
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
-
 }
 
 #tmpltzr .gs-web-image-box img.gs-image, .gs-promotion-image-box img.gs-promotion-image {
@@ -1361,76 +1428,94 @@ dl dd {
 
 
 /* PEOPLE */
-.view-people{
-	margin-top:170px;
+#tmpltzr .view-people{
+	margin-top:107px;
 }
 
-.view-people .view-content {
+#tmpltzr .view-people .view-content {
 	width:520px;
 }
 
-.view-people .views-row {
+#tmpltzr .view-people .views-row {
 	margin-right:20px;
 }
 
-.az-index {
+#tmpltzr .az-index {
 	display:inline;
 	margin-bottom:20px;
 }
 
-.az-index li{
+#tmpltzr .az-index li{
 	display:inline;
 	margin-right:10px;
 }
 
-.az-index li a{
+#tmpltzr .az-index li a{
 	text-decoration:none;
-	border:none;
+	border:none !important;
 }
 
-.az-index li a:hover{
+#tmpltzr .az-index li a:hover{
 	text-decoration:none;
-	border-bottom:1px solid black;
+	border-bottom:1px solid black !important;
 }
 
-.view-people .view-filters .views-exposed-widget label{
+#tmpltzr .view-people .view-filters .views-exposed-widget label{
 	display:block;
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 	margin-bottom:7px;
 }	
 
-.view-people .view-filters .views-exposed-widget #edit-name-wrapper input{
+#tmpltzr .view-people .view-filters{
+	width:520px;
+}
+
+#tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget{
+	width:240px;
+	padding:0 !important;
+	margin-right:20px;
+	float:left;
+}
+
+#tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget .views-widget select{
+	margin-bottom:20px;
+}
+
+#tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget input{
+	margin:5px 0 0 0;
+}
+
+#tmpltzr .view-people .view-filters .views-exposed-widget #edit-name-wrapper input{
 	border:1px solid black;
 	width:230px;
 	height:22px;
 	outline-offset:0;
 }	
 
-.view-people .view-filters #edit-submit{
-	display:none;
+#tmpltzr .view-people .view-filters #edit-submit{
+	display:block;
 }
 
-.view-people .view-header{
+#tmpltzr .view-people .view-header{
 	margin-bottom:20px;
 }
 
-.view-people .view-filters{
+#tmpltzr .view-people .view-filters{
 	margin-bottom:48px;
 }
 
-.view-people h3{
+#tmpltzr .view-people h3{
 	width:500px;
 	display:block;
 	margin-bottom:10px;
 	clear:left;
 }
 
-.tmpltzr-person .tmpltzr-title-container h2 a{
+#tmpltzr .tmpltzr-person .tmpltzr-title-container h2 a{
 	border:none;
 	text-decoration:none;
 }
 
-.tmpltzr-person .tmpltzr-title-container h2 a:hover{
+#tmpltzr .tmpltzr-person .tmpltzr-title-container h2 a:hover{
 	border-bottom:1px solid black;
 }
 
@@ -1438,7 +1523,6 @@ dl dd {
 /* FOOTER */
 #footer-inner{
 	width:500px;
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 }
 
 /* EVENTS WIDGET */
@@ -1474,7 +1558,6 @@ dl dd {
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-label{
-	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 	margin-bottom: 12px;
 }
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-date{
@@ -1494,7 +1577,11 @@ dl dd {
 	height:40px;
 }
 
-
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-location-time-container{
+	display:block;
+	height:100px;
+	overflow:hidden;
+}
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev {
 	position:absolute;
@@ -1545,6 +1632,7 @@ dl dd {
 	padding:20px;
 	background-color:#efefef;
 	text-align:center;
+	height:257px;
 }
 
 .tmpltzr-academiccalendarwidget .ac-today{
@@ -1565,3 +1653,187 @@ dl dd {
 .tmpltzr-academiccalendarwidget .ac-dayOfMonth{
 	font: 52px/53px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+/* CC WIDGET */
+.tmpltzr-ccwidget {
+	width:240px;
+	padding:0px;
+	height: 360px;
+}
+.tmpltzr-ccwidget .cc-widget{
+	width:240px;
+	height:360px;
+}
+.tmpltzr-ccwidget .cc-widget ul li {
+	width:240px;
+	height:360px;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-image{
+	margin-bottom: 24px;
+	width:240px;
+	height:160px;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-image a{
+	text-decoration:none;
+	border-bottom:none !important;
+}
+
+.tmpltzr-ccwidget .cc-widget a.cc-text{
+	text-decoration:none;
+	border-bottom:none !important;
+	font-size:14px;
+	line-height:18px;
+	display:block;
+	width:200px;
+	margin-left:20px;
+	height:153px;
+	overflow:hidden;
+}
+
+.tmpltzr-ccwidget .cc-widget a.cc-text .cc-type{
+	font-size:14px;
+	line-height:18px;
+	text-transform: uppercase;
+	padding: 0 2px 0 0;
+	vertical-align:text-top;
+	color: #FF4358;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-prev{
+	position:absolute;
+	z-index:1000;
+	cursor:pointer;
+	top:337px;
+	left:18px;
+	width:51px;
+	height:14px;
+	display:block;
+	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-prev.png') no-repeat 0 0;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-next{
+	position:absolute;
+	z-index:1000;
+	cursor:pointer;
+	top:337px;
+	right:18px;
+	width:51px;
+	height:14px;
+	display:block;
+	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-next.png') no-repeat 0 0;
+}
+
+.tmpltzr-ccwidget .cc-widget-logo {
+	position:absolute;
+	width:40px;
+	height:40px;
+	display:block;
+	top:9px;
+	right:14px;
+	z-index:1000;
+	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cclogo40x40.png') no-repeat 0 0;
+}
+
+#tmpltzr .tmpltzr-followwidget {
+	background-color:#efefef;
+	padding:20px;
+	width:200px;
+}
+
+#tmpltzr .tmpltzr-followwidget .follow-links{
+	margin-top:12px;
+	display:block;
+	height: 44px;
+}
+
+#tmpltzr .tmpltzr-followwidget .follow-links a{
+	display:-moz-inline-stack;
+	display:inline-block;
+	width:17px;
+	height:17px;
+	margin:0 10px 10px 0;
+	padding:0 !important;
+	float:left;
+	border:none !important;
+	text-decoration:none;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/Follow-icons-sprite.png') no-repeat left top;
+	background-position: 0px 0px;
+}
+
+.IE .tmpltzr-followwidget .follow-links a{
+	zoom:1;
+	*display:inline;
+}
+
+#tmpltzr .tmpltzr-followwidget .follow-links-row{
+	clear:both;
+}
+
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-twitter{
+	background-position: -26px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-twitter:hover{
+	background-position: -26px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-facebook{
+	background-position: -52px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-facebook:hover{
+	background-position: -52px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-linkedin{
+	background-position: -78px -42px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-linkedin:hover{
+	background-position: -78px -59px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-issuu{
+	background-position: -130px -42px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-issuu:hover{
+	background-position: -130px -59px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-flickr{
+	background-position: 0 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-flickr:hover{
+	background-position: 0 -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-cc{
+	background-position: -156px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-cc:hover{
+	background-position: -156px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-youtube{
+	background-position: -78px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-youtube:hover{
+	background-position: -78px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-vimeo{
+	background-position: -104px -42px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-vimeo:hover{
+	background-position: -104px -59px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-livestream{
+	background-position: -130px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-livestream:hover{
+	background-position: -130px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-itunes{
+	background-position: -104px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-itunes:hover{
+	background-position: -104px -17px;
+}
+
+.tmpltzr-htmlwidget {
+	padding:20px;
+}
+
+

@@ -3,9 +3,9 @@
   	
   	<div class="ac-today">
 		<?php
-			print '<div id="fetched-output"></div>' .
+			print '<div id="acal-output"></div>' .
 				'<script type="text/javascript">' .
-				'gsappFetcher.getTodaysDate("#fetched-output");' .
+				'gsappFetcher.getTodaysDate("#acal-output");' .
 				'</script>';
 		?>
 	</div>

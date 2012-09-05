@@ -1,13 +1,15 @@
 var copyPaste = function(){
-	var view = $('#tmpltzr').html();
+	var $t = $('#tmpltzr');
+
+	$t = $t.not('#eventwidget-output div, #cc-output div, #tumblr-results div');
+
+  var view = $t.html();
+	
   view = '<textarea>' + '<div id="tmpltzr">' + view + '</div><!-- /#tmpltzr -->' + '</textarea>';
   $('#copy-paste').append(view);
 }
 
 
 $(document).ready(function() {
-  
-	setTimeout(copyPaste, 2000);
-  
-  
+	$('#copy-paste h4').bind('click', copyPaste);
 });

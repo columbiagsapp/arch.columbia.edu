@@ -6,7 +6,8 @@
 		$ = window.jQuery,
 		document = window.document,
 		TOGGLE_TIME = 500,
-		templatizer = true;
+		templatizer = false,
+		copypaste = false;
 
 	// Check to see if History.js is enabled for our Browser
 	if ( !History.enabled ) {
@@ -54,6 +55,9 @@
 			
 			// Check link
 			isInternalLink = url.substring(0,rootUrl.length) === rootUrl || url.indexOf(':') === -1;
+			if((url.indexOf("/admin/") >= 0) || (( copypaste == true) && (url.indexOf("/edit") >= 0)) ){
+				isInternalLink = false;
+			}			
 			
 			// Ignore or Keep
 			return isInternalLink;
@@ -74,50 +78,17 @@
 		};
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		/* 	function: level()
-		 *	Returns the menu level of the item
-		*/
-		$.fn.level = function(){
-			var classes = $(this).closest('.menu').attr('class');
-			var levelIdx = classes.indexOf('level-') + 6;
-			return classes.substring(levelIdx, levelIdx+1);
-		}
-		
-		
 		/* 	function: internalRedirect()
 		 *	Checks if the selected menu item redirects to an item in a lower menu with
 		 *	a different parent.
 		*/
 		$.fn.internalRedirect = function($active){
-			
 			var thisHREF = $(this).attr('href');
-			if(templatizer == true){
-				var idx = thisHREF.indexOf('templatizer');
-				thisHREF = thisHREF.substring(idx + 12); // offset by: templatizer/
-			}else{
-				var idx = thisHREF.indexOf('/', 1);
-				thisHREF = thisHREF.substring(idx + 1); // offset by: /
-			}
-			thisHREF = thisHREF.substring(0,4);
+			thisHREF = thisHREF.substring(1,5); //remove the leading /
 			
 			var activeHREF = $active.closest('.level-1').closest('li').children('a').attr('href');
 			if(activeHREF != undefined){
-				if(templatizer == true){
-					idx = activeHREF.indexOf('templatizer');
-					activeHREF = activeHREF.substring(idx + 12); // offset by: templatizer/
-				}else{
-					idx = activeHREF.indexOf('/', 1);
-					activeHREF = activeHREF.substring(idx + 1); // offset by: /
-				}
-				activeHREF = activeHREF.substring(0,4);
+				activeHREF = activeHREF.substring(1,5);
 				if( ( thisHREF != undefined ) && (activeHREF != undefined) ){
 					if( thisHREF != activeHREF ){
 						return thisHREF;
@@ -164,26 +135,43 @@
 		/* 	function: scrollMenu()
 		 *	Scrolls the menu to the branch two levels above
 		*/
-		$.fn.scrollMenu = function(){
-			$branch = $(this).closest('.level-1').parent('li');
-			
-			var $target;
-			if( $branch.hasClass('first') ){
-				$target = $branch.children('a:eq(0)');
-			}else if( $branch.prev().hasClass('first') ){
-				$target = $branch.prev().children('a:eq(0)');
-			}else{
-				$target = $branch.prev().prev().children('a:eq(0)');
+		$.fn.scrollMenu = function($active, timeout){
+			if(timeout == undefined){
+				timeout = 0;
 			}
-			
-			$target = $branch.children('a:eq(0)');
-			$('#menu').scrollTo( $target, 500 );	
+			if($active != undefined){
+				if( $(this).closest('li.branch').index() > $active.closest('li.branch').index() ){
+					var $branch;
+					if( $(this).parent('li').level() == 0){
+						$branch = $(this).parent('li');
+					}else{
+						$branch = $(this).closest('.level-1').parent('li');
+					}
+					
+					var $target;
+					if( $branch.hasClass('first') ){
+						$target = $branch.children('a:eq(0)');
+					}else if( $branch.prev().hasClass('first') ){
+						$target = $branch.prev().children('a:eq(0)');
+					}else{
+						$target = $branch.prev().prev().children('a:eq(0)');
+					}
+					setTimeout(function(){ 
+						$('#navigation').scrollTo( $target, TOGGLE_TIME );								
+					}, timeout); 
+				}else{
+					return false;
+				}	
+			}else{
+				return false;
+			}	
 		}
 		
 		/* 	function: expandBranch()
 		 *	Expand the menu and add active settings.
 		*/
 		$.fn.expandBranch = function(internalRedirect){
+			var $returnSelector = false;
 			var $clicked = $(this);
 			var selector = 'a[href="' + $clicked.attr('href') + '"]';
 			$('#navigation .menu:eq(0)').children('li').each(function(){
@@ -201,11 +189,10 @@
 						$(this).children('.menu:not(:visible)').slideToggle(TOGGLE_TIME);
 					});	
 					$(this).find(selector).addClass('active');
-					$(this).find(selector).scrollMenu();
-					return false;
+					$returnSelector = $(this).find(selector);
 				}
 			});
-			
+			return $returnSelector;
 			
 		}
 		
@@ -259,7 +246,7 @@
 			$(this).removeClass('expanded').removeClass('active-trail').addClass('collapsed');
 			$(this).children('a').css('color','');
 			if( !($(this).hasClass('force-expanded')) ){
-				$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '');
+				$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').slideToggle(TOGGLE_TIME);
 			}
 		}
@@ -267,7 +254,8 @@
 		/* 	function: collapseMenus()
 		 *	Collapse all menus lower in the DOM than $(this) except the immediate child.
 		*/
-		$.fn.collapseMenus = function(){
+		$.fn.collapseMenus = function(time){
+			time = time || TOGGLE_TIME;
 			$(this).children('.menu').find('li').each(function(){
 				$(this).collapseMenu();
 			});
@@ -277,7 +265,8 @@
 		/* 	function: collapseMenuInterval()
 		 *	Collapse all menus lower in the DOM than $(this) except the immediate child.
 		*/
-		$.fn.collapseMenuInterval = function($active, lev){
+		$.fn.collapseMenuInterval = function($active, lev, time){
+			time = time || TOGGLE_TIME;
 			$this = $(this);
 			if(lev < 0){
 				$active.parents('li').each(function(){
@@ -305,7 +294,8 @@
 		/* 	function: collapseBranch()
 		 *	Collapse the branch above $(this).
 		*/
-		$.fn.collapseBranch = function(){
+		$.fn.collapseBranch = function(time){
+			time = time || TOGGLE_TIME;
 			$(this).parents('li.active-trail').each(function(){	
 				$(this).collapseMenu();
 			});
@@ -350,7 +340,20 @@
 				setCurrentState(3);
 			}else if( internalRedir != false ){
 				$active.collapseBranch();
-				$(this).expandBranch(internalRedir);
+				var $sel = $(this).expandBranch(internalRedir);
+				if( getCurrentState() == 'redirect' ){
+					$('.redirect-active').removeClass('redirect-active');
+				}
+				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
+
+				//TODO: need to add > +2 test here
+				if($active != undefined){
+					if( $sel.closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
+						$sel.scrollMenu($active, TOGGLE_TIME);
+					}else{
+						$sel.scrollMenu($active);
+					}
+				}
 				setCurrentState(1);
 			}else{
 				if($active != undefined){
@@ -407,30 +410,45 @@
 			
 			if( $redir != false ){
 				$active.parent('li').collapseMenu();
+				$(this).scrollMenu($active);
 				$(this).parent('li').addClass('redirect-active');//add it to the list item
 				$redir.expandMenus();
-				$active.removeClass('active');
 				setCurrentState(3);
-			}else if( internalRedir != false ){
+			}else if( internalRedir != false ){		
 				$active.collapseBranch();
-				if($active != undefined){
-					$active.removeClass('active');
-				}
-				$(this).expandBranch(internalRedir);
-				if( (currentState == 'redirect') ){
+				var $sel = $(this).expandBranch(internalRedir);
+				if( getCurrentState() == 'redirect' ){
 					$('.redirect-active').removeClass('redirect-active');
+				}
+				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
+				//TODO: need to add > +2 test here
+				if($active != undefined){
+					if( $sel.closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
+						$sel.scrollMenu($active, TOGGLE_TIME);
+					}else{
+						$sel.scrollMenu($active);
+					}
 				}
 				setCurrentState(1);
 			}else{
-				$active.parent('li').collapseMenu();
-				$(this).expandMenu();
+				
 				if($active != undefined){
-					$active.removeClass('active');
+					if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
+						$active.parent('li').collapseMenu();
+						$(this).scrollMenu($active, TOGGLE_TIME);
+					}else{
+						$(this).scrollMenu($active);
+						$active.parent('li').collapseMenu();
+					}
 				}
+				$(this).expandMenu();
 				if( currentState == 'home'){
 					setCurrentState(1);
 				}
 			}	
+			if($active != undefined){
+				$active.removeClass('active');
+			}
 		}
 		
 		
@@ -440,7 +458,13 @@
 		 *	$active: the active menu link (anchor).
 		*/
 		$.fn._is_sibling = function($active){
-			if( $(this).parent('li').parent('.menu').parent('li').children('a:eq(0)').attr('href') == $active.parent('li').parent('.menu').parent('li').children('a:eq(0)').attr('href')){
+			if( ($(this).level() == 0) || ($active.level() == 0) ){
+				if( $(this).level() == $active.level() ){
+					return true;
+				}else{
+					return false;
+				}
+			}else if( $(this).closest('.menu').parent('li').children('a:eq(0)').attr('href') == $active.parent('li').parent('.menu').parent('li').children('a:eq(0)').attr('href')){
 				return true;
 			}
 			return false;
@@ -470,7 +494,8 @@
 				setCurrentState(3);
 			}else if( internalRedir != false ){
 				$active.collapseBranch();
-				$(this).expandBranch(internalRedir);
+				var $sel = $(this).expandBranch(internalRedir);
+				$sel.scrollMenu($active);
 				setCurrentState(1);
 			}else{
 				
@@ -557,11 +582,24 @@
 		 *	menu.
 		*/
 		$.fn.branch = function($active){
-			$(this).collapseMenuInterval($active, 0 );
+		
+			if($active != undefined){
+				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
+					$(this).collapseMenuInterval($active, 0 );
+					$(this).scrollMenu($active, TOGGLE_TIME);
+				}else{
+					
+					$(this).scrollMenu($active);
+					$(this).collapseMenuInterval($active, 0 );
+				}
+			}
+		
 			$active.removeClass('active');
 			$active = undefined;
 			$(this).dig($active);
 		}
+		
+		
 		
 		/* 	function: menuToggleVisibility()
 		 *	Toggles the visibility of the menu
@@ -572,7 +610,7 @@
 				$(this).children('.menu-arrow-small').css('backgroundPosition', '-9px 0');
 				setMenuToggle('hidden');
 			}else{
-				$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '');
+				$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '0 0');
 				setMenuToggle('shown');
 			}
 			$(this).children('.menu').slideToggle(TOGGLE_TIME);
@@ -585,8 +623,7 @@
 			var $this = $(this);
 			// Ajaxify
 			$(this).find('a:internal:not(#gsapplogo)').click(function(event){ //exempt GSAPP Logo so it reloads everything
-				safelog('***********CLICK');
-				
+				safelog('-----------CLICK EVENT-----------');
 				// Prepare
 				var
 					$this = $(this),
@@ -598,19 +635,13 @@
 				// Continue as normal for cmd clicks etc
 				if ( event.which == 2 || event.metaKey ) { return true; }
 				
+				$('body').removeClass('front').addClass('not-front');
+				
 				switch(getCurrentState()){
 					case 'home':
 						$this.dig($active);
 						break;
 					case 'menu':
-					
-						safelog('$this._is_force_expanded(): ' + $this._is_force_expanded());
-						safelog('$this._is_branch($active): ' + $this._is_branch($active));
-						safelog('$this._is_active_trail($active): ' + $this._is_active_trail($active));
-						safelog('$this._is_dig($active): ' + $this._is_dig($active));
-						safelog('$this._in_active_branch($active): ' + $this._in_active_branch($active));
-						safelog('getMenuToggle(): ' +  getMenuToggle() );
-					
 						if( $this.hasClass('active') ){//clicked self
 							if( !($this.parent('li').hasClass('leaf')) ){
 								$this.parent('li').menuToggleVisibility();
@@ -618,16 +649,12 @@
 							fetch = false;
 							break;
 						}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
-							safelog('MENU, this is dig');
 							$this.dig($active);
 						}else if( ($active != undefined) && $this._is_sibling($active) ){
-							safelog('MENU, this is sibling');
 							$this.sibling($active);
 						}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
-							safelog('MENU, this is climb');
 							$this.climb($active);
 						}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
-							safelog("MENU*********F-E BRANCH");
 							if(!($this._is_active_trail($active))){
 								var $last = $this.parents('li.force-expanded').last();
 								$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
@@ -641,45 +668,40 @@
 								$this.dig($active);
 							}
 						}else{
-							safelog('MENU, this is branch');
 							$this.branch($active);
 						}
 						break;
 					case 'redirected':
 						if( $this._is_dig($active) ){
-							safelog('REDIRECT, this is dig');
 							$this.dig($active);
 						}else if( ($active != undefined) && $this._is_sibling($active) ){
-							safelog('REDIRECT, this is sibling');
 							$this.sibling($active);
 						}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
-							safelog('REDIRECT, this is climb');
 							if( $this.parent('li').hasClass('redirect-active') ){
 								$this.parent('li').menuToggleVisibility();
 								fetch = false;
 								break;
 							}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
-								safelog('wrong!!');
 								$('redirect-active').removeClass('redirect-active');
 							}
 							$this.climb($active);
 						}else{
-							safelog('REDIRECT, this is branch');
 							$('redirect-active').removeClass('redirect-active');
 							$this.branch($active);
+							//$(this).scrollMenu($active);
 						}
 						break;
 					default:
 						safelog('error: the current state is not recognized');
 						break;
 				}
-				
-				
+
 				if(fetch == true){
 					// Ajaxify this link
 					History.pushState(null,title,url);
 					event.preventDefault();											
 				}
+							
 								
 				return false;
 			});
@@ -708,7 +730,9 @@
 			// Start Fade Out
 			// Animating to opacity to 0 still keeps the element's height intact
 			// Which prevents that annoying pop bang issue when loading in new content
-			$content.animate({opacity:0},100);
+			if(gsapp.mobile == false){//don't need to fade out for mobile
+				$content.animate({opacity:0},200);
+			}
 			
 			// Ajax Request the Traditional Page
 			$.ajax({
@@ -734,42 +758,108 @@
 						return false;
 					}
 					
-					
 					// Update the content
 					$content.stop(true,true);
 					$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
 					
 					//resize the page to check if room for sidebar
-					resizeFunc();
-
+					if(gsapp.mobile == true){
+						$content.html(contentHtml).ajaxify().hide();
+					}else{
+						$content.stop(true,true);
+						$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
+						gsapp.resizeFunc();
+					}
+					
 					// Update the title
 					document.title = $data.find('.document-title:first').text();
 					try {
 						document.getElementsByTagName('title')[0].innerHTML = document.title.replace('<','&lt;').replace('>','&gt;').replace(' & ',' &amp; ');
 					}
 					catch ( Exception ) { }
-					
 					// Add the scripts
 					$scripts.each(function(){
-						var $script = $(this), scriptText = $script.text(), scriptNode = document.createElement('script');
-						scriptNode.appendChild(document.createTextNode(scriptText));
-						contentNode.appendChild(scriptNode);
+						var $script = $(this),
+							scriptText = $script.text();
+					
+						if( $('body').hasClass('IE') ){
+							var ss = document.createElement('script');
+							var scr = scriptText;
+							ss.text = scr;
+							safelog('scr: ' + scr);
+							var hh = document.getElementsByTagName('head')[0];
+							hh.appendChild(ss);
+						}else{
+							var scriptNode = document.createElement('script');
+							scriptNode.appendChild(document.createTextNode(scriptText));
+							contentNode.appendChild(scriptNode);
+						}
 					});
-
+					
 					// Complete the change
 					if ( $body.ScrollTo||false ) { $body.ScrollTo(scrollOptions); } // http://balupton.com/projects/jquery-scrollto 
-					$body.removeClass('loading');
+					
 	
 					// Inform Google Analytics of the change
 					if ( typeof window.pageTracker !== 'undefined' ) {
 						window.pageTracker._trackPageview(relativeUrl);
 					}
-
+					
 					// Inform ReInvigorate of a state change
 					if ( typeof window.reinvigorate !== 'undefined' && typeof window.reinvigorate.ajax_track !== 'undefined' ) {
 						reinvigorate.ajax_track(url);
 						// ^ we use the full url here as that is what reinvigorate supports
 					}
+
+					if(copypaste){
+						$('#copy-paste h4').bind('click', copyPaste);
+					}
+
+					setTimeout(gsapp.initPhotoset, 0);
+					
+					if(gsapp.mobile){
+						//$('#header').css('backgroundColor','red');
+						setTimeout(function(){
+							gsappMobile.refreshMenuWidth();
+							gsappMobile.menuScroll.refresh();
+						},0);
+						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
+							setTimeout(function(){
+								gsappMobile.menuScroll.refresh();
+								gsappMobile.contentScroll.refresh();
+								$body.removeClass('loading');
+							},0);
+						}else{
+							setTimeout(function(){
+								$body.removeClass('loading');
+							},1500);
+						}
+					}else if( gsappMobile.iscrollInit ){
+						gsappMobile.menuScroll.destroy();
+						gsappMobile.menuScroll = new iScroll('navigation');
+						setTimeout(function(){
+							gsappMobile.menuScroll.refresh();
+						},0);
+						
+						gsappMobile.contentScroll.destroy();
+						gsappMobile.contentScroll = null;
+						gsappMobile.contentScroll = new iScroll('wrapper');
+
+						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
+							safelog('AJAXify without something fetched');
+							setTimeout(function(){
+								gsappMobile.contentScroll.refresh();
+								$body.removeClass('loading');
+							},0);
+						}else{
+							setTimeout(function(){
+								$body.removeClass('loading');
+							},1500);
+						}
+					}else{
+						$body.removeClass('loading');
+					}
+					
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					document.location.href = url;

@@ -4,13 +4,6 @@
 */
 
 /* MAIN DIVS */
-.wrapper {
-    text-align: left;
-    margin:0px;
-    background-color:transparent; /* tct2003 111228 #fff; */
-    padding:0;
-    border:none; /* tct2003 111228 10px solid #fff;*/
-}
 #header {
     width:400px;
     height:170px;
@@ -19,25 +12,66 @@
     left:0;
     background-color:black; /* tct2003 111228 #fff; */
     overflow: hidden;
+    z-index:2;
+    display:block;
 }
 
+.iscroll #header{
+	position:absolute;
+	height:172px;
+}
 
+#wrapper{
+	width: 100%;
+    margin-left:460px;/* 60px margin from menu */
+}
+
+.iscroll #wrapper{
+	position:absolute;
+	top:0;
+	width: 520px;
+	left:400px;/* 60px margin from menu */
+	margin-left:60px;
+	z-index:1;
+	bottom:0;
+}
 
 #content {
-    margin-left:460px; /* 60px margin from menu */
-    background-color:transparent; /* tct2003 111228 #fff; */
+	width:100%;
 }
 
+.iscroll #content{
+	position:absolute;
+	z-index:1;
+}
 
-#menu {
+#navigation {
     width: 400px;
     background-color:black; /* tct2003 111228 #fff; */
-    height:100%;
     position:fixed;
     top:170px;
     left:0;
-	overflow: auto;
+	z-index:1;
+	bottom:0;
+	overflow:auto;
 }
+
+.iscroll #navigation{
+	position:absolute;
+	padding-top:2px;
+}
+
+#menu{
+	z-index:1;
+	padding-left:20px;
+	padding-bottom:350px;
+}
+
+.iscroll #menu{
+	position:absolute;
+	padding-bottom:50px;
+}
+
 .menu li a:hover {
 	color:gray;
 }
@@ -60,46 +94,91 @@
 	margin:30px 0 0px 47px;
 }
 
+#columbialogo{
+	position:fixed;
+	bottom:0;
+	width:400px;
+	background-color:black;
+	height:35px;
+	display:block;
+}
+#columbialogo img{
+	display:block;
+	position:absolute;
+	bottom:17px;
+	left:47px;
+}
+
 #login {
 	height: 25px;
+	display:-moz-inline-stack;
 	display: inline-block;
 	margin-left:10px;
-	vertical-align:top;
-	
+	vertical-align:top;	
 }
+
+.IE #login{
+	zoom:1;
+*display:inline;
+}
+
 #login a{
-	color:white;
+	color:gray;
 	text-decoration:none;
 	font: 11px "courier new", monospace;
 }
 
+.iscroll #login a{
+	color:#efefef;
+	font: 14px "courier new", monospace;
+}
+
 /* GOOGLE CUSTOM SEARCH */
 #search-login-container {
-	position:fixed;
+	position:absolute;
 	top:120px;
 	left:47px;
 	width: 360px;
-	height:24px;
+	height:22px;
 }
+
 #gsapp-customsearch{
+	display:-moz-inline-stack;
 	display: inline-block;
 	width:225px;
 	height:100%;
-	-webkit-border-radius: 12px;
-	-moz-border-radius: 12px;
-	border-radius: 12px;
-	background-color:white;
+	background-color:transparent;
+	border:2px solid gray;
 }
+.IE #gsapp-customsearch{
+	zoom:1;
+	*display:inline;
+}
+
 #gsapp-customsearch #edit-searchterm-wrapper{
+	display:-moz-inline-stack;
 	display:inline-block;
 	margin:0 !important;
 	vertical-align: top;
 	padding: 0 0 0 10px;
 }
 
+.IE #gsapp-customsearch #edit-searchterm-wrapper{
+	zoom:1;
+	*display:inline;
+}
+
 #gsapp-customsearch #edit-searchterm{
 	border: none;
 	padding: 0;
+	background-color:transparent;
+	color:gray;
+	display:inline-block;
+}
+
+.IE #gsapp-customsearch #edit-searchterm{
+	zoom:1;
+	display:inline;
 }
 
 #gsapp-customsearch #edit-searchterm:focus{
@@ -109,12 +188,22 @@
 
 #gsapp-customsearch #edit-submit{
 	width:16px; 		
-	height:16px;
-	background:url(http://www.columbia.edu/cu/arch/tmpltzr/assets/search.png) no-repeat; 
+	height:18px;
+	background:url('http://www.columbia.edu/cu/arch/tmpltzr/assets/searchGray.png') no-repeat; 
 	border:none;
 	overflow:hidden;
 	cursor:pointer;
 	vertical-align: middle;
+	display:-moz-inline-stack;
+	display:inline-block;
+	float: right;
+	margin-right: 5px;
+	margin-top: 3px;	
+}
+
+.IE #gsapp-customsearch #edit-submit{
+	zoom:1;
+	display:inline;
 }
 
 .form-item {
@@ -189,6 +278,10 @@ caption {
     padding-bottom: 10px;
     text-align: left;
     text-transform: none;
+}
+
+.iscroll caption {
+	font: 14px "courier new", monospace;
 }
 
 #mytable th {
@@ -369,7 +462,12 @@ div.error, tr.error {
     visibility: hidden;
 }
 .clearfix {
+	display:-moz-inline-stack;
     display: inline-block;
+}
+.IE .clearfix{
+	zoom:1;
+	*display:inline;
 }
 /* Hides from IE-mac \ */
 * html .clearfix,
@@ -450,7 +548,7 @@ div.admin-panel {
 div.admin-panel h3 {
     font-size: 1.6em;
 }
-.wrapper div.admin-panel li {
+div.admin-panel li {
     border-bottom: none;
 }
 div.admin-panel:hover {
@@ -626,7 +724,7 @@ div.view div.views-admin-links li a:hover {
     position:absolute;
     top:0;
 }
-body.simplemenu-enabled .wrapper {
+body.simplemenu-enabled {
     margin-top:20px;
 }
 .preview h3.title {
@@ -1381,12 +1479,7 @@ body.simplemenu-enabled .wrapper {
     margin:0 20px 0 10px;
     padding:8px;
 }
-/* TAGS USED/VIEWED PAGES */
-.page-tags-used #node-347 .wrapper-tags-viewed a,
-.page-tags-viewed #node-352 .wrapper-tags-viewed a {
-	text-decoration:none;
-	font-size:1em;
-}
+
 /* ARCHIVE PAGES */
 .view-display-semester-archive .views-field-title {
 	font-size:12px;

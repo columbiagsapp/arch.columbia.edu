@@ -141,3 +141,8 @@ Equation for font sizing:
 	margin:0 0 10px 0;
 }
 
+#copy-paste h4:hover{
+	cursor:pointer;
+}
+}
+

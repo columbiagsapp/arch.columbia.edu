@@ -1,0 +1,320 @@
+/** 
+ * mobile specific styles, only used when mobile browser detected
+ *
+ 
+ or embed
+ 
+ <link rel="stylesheet" media="all" href="/static/css/base.min.css" />
+<link rel="stylesheet" media="only screen and (max-width: 800px)" 
+  href="/static/css/mobile.min.css" />
+  
+  
+ 
+ * jlh2199
+ * 8/1/2012
+ */
+ 
+#wrapper {
+	position:absolute;
+	top:0;
+	z-index:1;
+	bottom:0;
+	width:70px;
+}
+
+#content{
+	position:absolute;
+	z-index:1;
+	top:132px;
+	display:none;
+	padding:10px 10px 300px 60px;
+	font:28px/34px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#header {
+	position:absolute;
+    top:0;
+    left:0;
+    background-color:black;
+    z-index:2;
+	height: 130px;
+	color: #fff;
+	border-bottom: 2px solid white;
+
+}
+
+#navigation {
+    background-color:#000;
+    position:absolute;
+    top:132px;
+    left:0;
+	z-index:1;
+	bottom:0;
+}
+
+
+@media only screen and (max-device-height: 480px) {
+	#wrapper, #navigation {
+		height:348px;
+	}
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
+	#wrapper {
+		height:828px;/* 960 - 132 for header */
+	}
+	#navigation{
+		height:696px;/* 960 - 132 for header -132 mystery */
+	}
+}
+
+/*
+@media only screen and (min-device-width: 481px) and (max-device-width: 640px) #wrapper,
+@media only screen and (min-device-width: 481px) and (max-device-width: 640px) #header,
+@media only screen and (min-device-width: 481px) and (max-device-width: 640px) #navigation{
+	min-width:480px;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) #wrapper,
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) #header,
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) #navigation{
+	min-width:320px;
+}
+*/
+
+#menu{
+	z-index:1;
+	padding-left:54px;
+	position:absolute;
+	padding-top:57px;
+	padding-bottom:77px;
+	width:640px;
+}
+
+#gsapp-logo {
+	position:absolute;
+	width: 237px;
+	height:49px;
+	top: 46px;
+	left:69px;
+}
+
+#gsapp-news {
+	position:absolute;
+	width: 83px;
+	height:81px;
+	top: 26px;
+	left:325px;
+}
+
+#gsapp-search {
+	position:absolute;
+	width: 56px;
+	height:54px;
+	top: 40px;
+	left: 450px;
+}
+
+#gsapp-login {
+	position:absolute;
+	left:527px;
+	top: 54px;
+	height: 47px;
+}
+#gsapp-login a {
+	font-family: 'courier new', courier, monospace;
+	font-weight: bold;
+	color: #fff;
+	text-decoration: none;
+}
+
+
+
+
+
+#switch {
+	position: absolute;
+	top: 132px;
+	width: 70px;
+	background-color: #fff;
+	z-index: 9999;
+	display:none;
+}
+
+#switch div {
+	position:fixed;
+	top:40%;
+	right:26px;
+	width:26px;
+}
+
+
+
+#switch div .arrow {
+	background:url(/templatizer/sites/all/themes/tmpltzr/assets/mobile/view_page_arrow_52x33.png) no-repeat 0 0;
+	height:33px;
+	width:26px;
+	display:block;
+}
+
+#switch div .arrow.page {
+	background-position:-26px 0;
+}
+
+#switch div .view-page {
+	background:url(/templatizer/sites/all/themes/tmpltzr/assets/mobile/view_page_52x165.png) no-repeat 0 0;
+	height:165px;
+	width:26px;
+	display:block;
+	margin-top: 33px;
+}
+
+#switch div .view-page.page {
+	background-position:-26px 0;
+}
+
+
+/* menu */
+
+
+
+
+/* NAVIGATION */
+
+#navigation .menu li a{
+	text-decoration:none;
+    color:gray;
+    text-transform: uppercase;
+	font: 50px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
+	display:inline-block;
+	padding:0 0 10px 10px !important;
+	line-height:1em;
+}
+
+#navigation .menu li {
+	list-style: none;
+	padding-bottom:10px;
+	margin-bottom:10px;
+}
+
+#navigation ul {
+	margin:0 !important;
+	padding:0;
+	list-style:none !important;
+}
+
+
+#navigation .menu .menu li a {
+	font: 36px "DIN Next W02 Bold", Arial, Helvetica, sans-serif !important;
+	line-height:.8em;
+}
+
+#navigation .menu {
+	position:relative;
+	word-wrap: break-word
+}
+
+#navigation .menu .menu {
+	display:none;
+	padding-top:20px;
+}
+
+#navigation .menu li.force-expanded{
+	padding-left:9px;
+}
+
+#navigation .menu li.force-expanded .menu {
+	display: block;
+}
+#navigation .force-expanded .menu .menu {
+	display: none;
+}
+
+
+
+#navigation .hover-only{
+	margin-left:5px;
+	display:none;
+	padding-bottom:1px;
+}
+
+#navigation ul ul{
+	padding-left:25px;
+}
+
+#navigation ul ul ul{
+	padding-left:19px !important;
+}
+
+#navigation .menu-arrow-large{
+	display:inline-block;
+	width:15px;
+	height:15px;
+	background:transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/menu-arrow-large.png") no-repeat -15px -50px;
+	vertical-align: bottom;
+	padding-bottom: 27px;
+}
+
+#navigation .active-trail.expanded .menu-arrow-large{
+	background-position: 0 0;
+}
+
+#navigation .active-trail.collapsed .menu-arrow-large{
+	background-position: -15px 0;
+}
+
+
+
+#navigation .menu-arrow-small{
+	display:inline-block;
+	width:9px;
+	height:9px;
+	background:transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/menu-arrow-small.png") no-repeat -9px -50px;
+	vertical-align: bottom;
+	bottom: 27px;
+	position: relative;
+}
+
+
+#navigation .active-trail.expanded .menu-arrow-small:first-child{
+	background-position: 0 0;
+}
+
+
+#navigation .leaf.active-trail .menu-arrow-small:first-child{
+	background-position: -9px 0 !important;
+}
+
+#navigation .active-trail .collapsed .menu-arrow-small:first-child{
+	background-position: 0 -50px;
+}
+
+#navigation .active-trail.collapsed .menu-arrow-small:first-child{
+	background-position: -9px 0;
+}
+
+#navigation .active-trail.collapsed .menu .menu-arrow-small{
+	background-position: 0 -50px;
+}
+
+
+#menuswitch, #contentswitch{
+	position:absolute;
+	left:20px;
+	display:none;
+	z-index:100000;
+	top:200px;
+}
+
+
+#menufooter{
+	width:456px;
+	padding-top:150px;
+	padding-left:25px;
+}
+
+#gradArchLogo{
+	width:425px;
+}
+#CUlogo{
+	width:190px;
+}

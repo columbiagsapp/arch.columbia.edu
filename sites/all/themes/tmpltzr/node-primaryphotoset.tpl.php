@@ -13,6 +13,8 @@
 	
 	<?php if(!empty($node->field_images)){ ?>
 		<div class="tmpltzr-photoset-container">
+        <div class="tmpltzr-photoset-prev"></div>
+        <div class="tmpltzr-photoset-next"></div>
   			<ul id="tmpltzr-photoset-<?php print $node->nid; ?>" class="tmpltzr-photoset">
   			<?php $count = 0; ?>
   			<?php foreach($node->field_images as $photo){ ?>

@@ -156,7 +156,9 @@
 					}else{
 						$target = $branch.prev().prev().children('a:eq(0)');
 					}
-					setTimeout(function(){ $('#navigation').scrollTo( $target, TOGGLE_TIME ); }, timeout); 
+					setTimeout(function(){ 
+						$('#navigation').scrollTo( $target, TOGGLE_TIME );								
+					}, timeout); 
 				}else{
 					return false;
 				}	
@@ -699,6 +701,7 @@
 					History.pushState(null,title,url);
 					event.preventDefault();											
 				}
+							
 								
 				return false;
 			});
@@ -767,13 +770,6 @@
 						$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
 						gsapp.resizeFunc();
 					}
-
-					if(copypaste == true){
-						setTimeout(copyPaste, 2000);
-						safelog('is templatizer!!!!!!');
-					}else{
-						safelog('is NOT templatizer!!!!!!');
-					}
 					
 					// Update the title
 					document.title = $data.find('.document-title:first').text();
@@ -814,6 +810,12 @@
 						reinvigorate.ajax_track(url);
 						// ^ we use the full url here as that is what reinvigorate supports
 					}
+
+					if(copypaste){
+						$('#copy-paste h4').bind('click', copyPaste);
+					}
+
+					setTimeout(gsapp.initPhotoset, 0);
 					
 					if(gsapp.mobile){
 						//$('#header').css('backgroundColor','red');

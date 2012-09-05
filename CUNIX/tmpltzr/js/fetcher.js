@@ -59,6 +59,100 @@ gsappFetcher.day_names[gsappFetcher.day_names.length] = "Saturday";
  */
 gsappFetcher.tumblr_posts = 10;
 
+// HTML Truncator for jQuery
+// by Henrik Nyh <http://henrik.nyh.se> 2008-02-28.
+// Free to modify and redistribute with credit.
+
+(function($) {
+
+  var trailing_whitespace = true;
+
+  $.fn.truncate = function(options) {
+
+    var opts = $.extend({}, $.fn.truncate.defaults, options);
+    
+    $(this).each(function() {
+
+      var content_length = $.trim(squeeze($(this).text())).length;
+      if (content_length <= opts.max_length)
+        return;  // bail early if not overlong
+
+      var actual_max_length = opts.max_length - opts.more.length - 3;  // 3 for " ()"
+      var truncated_node = recursivelyTruncate(this, actual_max_length);
+      var full_node = $(this).hide();
+
+      truncated_node.insertAfter(full_node);
+	  
+      findNodeForMore(truncated_node).append('...');
+      
+
+
+    });
+  }
+
+  // Note that the " (â€¦more)" bit counts towards the max length â€“ so a max
+  // length of 10 would truncate "1234567890" to "12 (â€¦more)".
+  $.fn.truncate.defaults = {
+    max_length: 100,
+    more: 'â€¦more',
+    less: 'less'
+  };
+
+  function recursivelyTruncate(node, max_length) {
+    return (node.nodeType == 3) ? truncateText(node, max_length) : truncateNode(node, max_length);
+  }
+
+  function truncateNode(node, max_length) {
+    var node = $(node);
+    var new_node = node.clone().empty();
+    var truncatedChild;
+    node.contents().each(function() {
+      var remaining_length = max_length - new_node.text().length;
+      if (remaining_length == 0) return;  // breaks the loop
+      truncatedChild = recursivelyTruncate(this, remaining_length);
+      if (truncatedChild) new_node.append(truncatedChild);
+    });
+    return new_node;
+  }
+
+  function truncateText(node, max_length) {
+    var text = squeeze(node.data);
+    if (trailing_whitespace)  // remove initial whitespace if last text
+      text = text.replace(/^ /, '');  // node had trailing whitespace.
+    trailing_whitespace = !!text.match(/ $/);
+    var text = text.slice(0, max_length);
+    // Ensure HTML entities are encoded
+    // http://debuggable.com/posts/encode-html-entities-with-jquery:480f4dd6-13cc-4ce9-8071-4710cbdd56cb
+    text = $('<div/>').text(text).html();
+    return text;
+  }
+
+  // Collapses a sequence of whitespace into a single space.
+  function squeeze(string) {
+    return string.replace(/\s+/g, ' ');
+  }
+  
+  // Finds the last, innermost block-level element
+  function findNodeForMore(node) {
+    var $node = $(node);
+    var last_child = $node.children(":last");
+    if (!last_child) return node;
+    var display = last_child.css('display');
+    if (!display || display=='inline') return $node;
+    return findNodeForMore(last_child);
+  };
+
+  // Finds the last child if it's a p; otherwise the parent
+  function findNodeForLess(node) {
+    var $node = $(node);
+    var last_child = $node.children(":last");
+    if (last_child && last_child.is('p')) return last_child;
+    return node;
+  };
+
+})(jQuery);
+
+
 /**
  * Write to firebug console if logging enabled
  * @param {String,Object} data The item to log
@@ -138,35 +232,6 @@ gsappFetcher.getEventTypesFromHTML = function(types_string) {
 	// TODO maybe abstract this more later
 	return gsappFetcher.getLocationsFromHTML(types_string);
 }			
-
-/**
- * Parse event description from Drupal post body, extracting
- * all of the p tags and stripping out 'strong' tags
- *
- * @param {String} The body string from Drupal view output
- * @return {Array} An array of paragraph tags
- */
-gsappFetcher.parseEventBodyHTML = function(body_string) {
-	var body_element = $(body_string);
-	var p_tags = [];
-
-	for(var p=0;p<body_element.length;p++) {
-		var inner_element = body_element[p];
-		
-		if (inner_element === Object(inner_element)) {
-			var html_data = inner_element.outerHTML;
-			var inner_html = inner_element.innerHTML;
-			// if inner_html len is < 6 then its probably just an nbsp tag
-			if ((inner_html != undefined) && (inner_html.length > 6)) {
-				// regex to strip out strong tag only
-				html_data = html_data.replace(/<[//]{0,1}(strong|b)[^><]*>/g,"");
-				p_tags.push(html_data);
-			}
-		}
-	}
-	return p_tags;
-}
-
 
 /**
  * Convert a date from drupal output to a proper JS Date object
@@ -509,6 +574,7 @@ gsappFetcher.getEventData = function(url, elementName) {
 	gsappFetcher.log("getting data from " + url + " into " + elementName);
 	$.getJSON(url, function(data) {
 		var nodes = data.nodes;
+		var event_div = '<div class="event-output-tmpltzr">';
 		for (var i=0; i<nodes.length;i++) {
 			var event = nodes[i].node;
 			// convert date and offset it
@@ -536,18 +602,8 @@ gsappFetcher.getEventData = function(url, elementName) {
 			// TODO UPDATE path to prod
 			var path = ['http://events.gsapp.org/node/', event.nid].join('');
 			
-			// parse the body tag
-			var event_description = gsappFetcher.parseEventBodyHTML(event.body);
-			
-			// for now we only care about the first 2 paragraphs if they are not empty
-			var event_description_string = [
-				event_description[0], event_description[1]].join(''); 
-			
-			
-			
-			
 			// build the div
-			var event_div = ['<div class="embedded-event">',
+			event_div = [event_div, '<div class="embedded-event">',
 				'<a target="_blank" class="region" href="', path, '">', 
 				'<div class="embedded-event-top-area">',
 				'<div class="embedded-event-date-box ',
@@ -561,15 +617,20 @@ gsappFetcher.getEventData = function(url, elementName) {
 				'<div class="embedded-event-location ',
 				css_class_for_location, '">',
 				locations_array[1], '</div>',
-				'<div class="embedded-event-description">', event_description_string,
+				'<div class="embedded-event-description">', event.body,
 				'</div>',
 				'<div class="embedded-event-description-more"><a href="', path, 
-				'" target="_blank" alt="More information">...</a></div>',
+				'" target="_blank" alt="More information">Continue Reading</a></div>',
 				'<div class="embedded-event-image">', event.field_event_poster_fid,
 				'</div>',
 				'</div>', '</div>'].join('');
-			$(elementName).append(event_div);
+
+			if(i == nodes.length-1){
+				event_div = [event_div, '</div>'].join('');
+			}
+			
 		}
+		$(elementName).append(event_div);
 		
 		
 		$("#tmpltzr .content #event-output .embedded-event a .embedded-event-top-area").hover(function() {
@@ -588,7 +649,8 @@ gsappFetcher.getEventData = function(url, elementName) {
 	.error(function() { gsappFetcher.log('error loading event data'); })
 	.complete(function() {
 		safelog('events calling back');
-		setTimeout(gsapp.buildWall, 0);
+		$('.embedded-event-description').truncate({max_length: 450});
+		setTimeout(gsapp.buildWall, 100);
 		if( $('body.mobile').length){
 				gsapp._remove_flash_content();
 				setTimeout(function () {
@@ -821,7 +883,7 @@ gsappFetcher.getTodaysDate = function(elementName) {
 		dayOfMonth = objToday.getDate(),
 		months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
 		curMonth = months[objToday.getMonth()];
-	var today = ['<div class="ac-dayOfWeek">',dayOfWeek,'</div><div class="ac-dayOfMonth">',dayOfMonth,'</div><div class="ac-month">',curMonth,'</div>'].join('');
+	var today = ['<div><div class="ac-dayOfWeek">',dayOfWeek,'</div><div class="ac-dayOfMonth">',dayOfMonth,'</div><div class="ac-month">',curMonth,'</div></div>'].join('');
 	$(elementName).append(today);
 }
 
@@ -832,7 +894,7 @@ gsappFetcher.getTodaysDate = function(elementName) {
  */
 gsappFetcher.ccWidgetCarousel = function() {
 	gsappFetcher.log('calling jCarousel Lite for CC: widget');
-	$(".tmpltzr-ccwidget .cc-widget").jCarouselLite({
+	$(".tmpltzr-ccwidget .cc-widget .cc-carousel").jCarouselLite({
 		btnNext: ".tmpltzr-ccwidget .cc-next",
 		btnPrev: ".tmpltzr-ccwidget .cc-prev",
 		speed: 300,
@@ -842,7 +904,7 @@ gsappFetcher.ccWidgetCarousel = function() {
 	});
 	
 	$('.tmpltzr-ccwidget .cc-widget .cc-text, .tmpltzr-ccwidget .cc-widget .cc-image').bind('mouseenter', function(){
-		$('.tmpltzr-ccwidget .cc-widget .cc-image img').css('opacity','0.0');
+		$('.tmpltzr-ccwidget .cc-widget .cc-image img').css('opacity','0.9');
 		//$('.tmpltzr-ccwidget .cc-widget .cc-text .cc-excerpt').css('color', '#0089FF');
 	});
 	$('.tmpltzr-ccwidget .cc-widget .cc-text, .tmpltzr-ccwidget .cc-widget .cc-image').bind('mouseleave', function(){
@@ -861,7 +923,7 @@ gsappFetcher.ccWidgetCarousel = function() {
  */
 gsappFetcher.getCCWidget = function(url, elementName) {
 	gsappFetcher.log("Widget: getting CC: data from " + url + " into " + elementName);
-	var post_div = '<div class="cc-widget"><div class="cc-carousel"><ul>';
+	var post_div = '<div class="cc-widget"><div class="cc-widget-logo"></div><div class="cc-carousel"><ul>';
 	$.getJSON(url, function(data) {
 		var nodes = data.nodes;
 		for (var i=0; i<nodes.length;i++) {
@@ -878,7 +940,7 @@ gsappFetcher.getCCWidget = function(url, elementName) {
 				'<div class="cc-image"><a target="_blank" href="', path, '">',
 				post.field_images_fid,'</a></div>',
 				'<a class="cc-text" target="_blank" href="', path, '">',
-				'<span class="cc-type">', post.title, '</span> ', 
+				'<span class="cc-type">', post.title, ':</span> ', 
 				'<span class="cc-excerpt">', post.field_excerpt_value, '</span>',
 				'</a>',
 				'</li>'].join('');
