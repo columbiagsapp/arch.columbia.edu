@@ -174,10 +174,10 @@ function externalLinkAppendImg(m){
 		href = href.substring(0,4);
 		if(href == 'http'){
 			var w = anchor.width();
-			w = w+10;
+			w = w+20;
 			anchor.width(w);
 			w = $(this).width();
-			w = w+10;
+			w = w+20;
 			$(this).width(w);
 			offsite = '<img class="hover-only" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/assets/offsite.png" />';
 			anchor.append(offsite);

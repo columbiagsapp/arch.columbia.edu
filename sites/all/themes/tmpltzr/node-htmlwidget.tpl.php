@@ -1,4 +1,5 @@
 <?php
+	$color = '';
 	$terms = taxonomy_node_get_terms_by_vocabulary($node, 9); // vid=9 => color-code
 	if(!empty($terms)) {
 		foreach ($terms as $term){
@@ -16,7 +17,7 @@
 ?>
 
 <?php if (!$page){ ?>
-<div id="node-<?php print $node->nid; ?>" class="tmpltzr-module <?php if($small){ print 'tmpltzr-module-240'; }else{ print 'tmpltzr-module-500'; } ?> tmpltzr-widget tmpltzr-htmlwidget node<?php if ($sticky) { print ' sticky'; } ?><?php if (!$status) { print ' node-unpublished'; } ?><?php if ($color) { print ' '.$color; } ?> clearfix">
+<div id="node-<?php print $node->nid; ?>" class="tmpltzr-module <?php if($small){ print 'tmpltzr-module-240'; }else{ print 'tmpltzr-module-500'; } ?><?php if($color){ print ' '.$color; } ?> tmpltzr-widget tmpltzr-htmlwidget node<?php if ($sticky) { print ' sticky'; } ?><?php if (!$status) { print ' node-unpublished'; } ?><?php if ($color) { print ' '.$color; } ?> clearfix">
 <a id="<?php print $node->title; ?>" name="<?php print $node->title; ?>" class="anchorhash"></a>
 <?php } ?>
 	

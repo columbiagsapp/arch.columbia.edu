@@ -20,9 +20,29 @@
   	<?php } ?>
 	
 	<div class="tmpltzr-title-container">
+
+    <?php
+    $link = '';
+      if(!empty($node->field_link[0]['url'])){ 
+        $link = $node->field_link[0]['url']; 
+      }
+      $uni = '';
+      if(!empty($node->field_columbia_uni[0]['view'])){ 
+        $uni = $node->field_columbia_uni[0]['view']; 
+      }
+    ?>
+
 	<?php if(!empty($node->field_title[0]['view'])){ ?>
   		<h2>
-  			<?php print $node->field_title[0]['view']; ?>
+        <?php
+          if(strlen($link) > 0){
+            print '<a href="'.$link.'" target="_self">'.$node->field_title[0]['view'].'</a>';
+          }else if(strlen($uni) > 0){
+            print '<a href="/about/people/'.$uni.'columbiaedu" target="_self">'.$node->field_title[0]['view'].'</a>';
+          }else{
+            print $node->field_title[0]['view'];
+          }
+        ?>
   		</h2>
   	<?php } ?>
   	

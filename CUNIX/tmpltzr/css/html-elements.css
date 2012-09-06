@@ -490,7 +490,6 @@ dl dd {
 }
 
 #tmpltzr .none {
-
 }
 
 #tmpltzr .south-asia, #tmpltzr .south-asia a {
@@ -514,7 +513,7 @@ dl dd {
 }
 
 #tmpltzr .other, #tmpltzr .other a{
-	color:gray;
+	color:black;
 }
 
 #tmpltzr a:hover {
@@ -823,15 +822,19 @@ dl dd {
 	height:150px;
 }
 
-#tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-widget, #tmpltzr .other .tmpltzr-secondary, #tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-primaryquote, #tmpltzr .other .tmpltzr-primaryquote {
+#tmpltzr .none .tmpltzr-secondary, #tmpltzr .other.tmpltzr-widget, #tmpltzr .other .tmpltzr-secondary, #tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-primaryquote, #tmpltzr .other .tmpltzr-primaryquote {
 	background-color: #efefef;
 }
 
-#tmpltzr .latin-america .tmpltzr-secondary, #tmpltzr .latin-america .tmpltzr-primaryquote{
+#tmpltzr .none.tmpltzr-widget {
+	background-color: transparent;
+}
+
+#tmpltzr .latin-america .tmpltzr-secondary, #tmpltzr .latin-america.tmpltzr-widget, #tmpltzr .latin-america .tmpltzr-primaryquote{
 	background-color: #e0fcea;
 }
 
-#tmpltzr .middle-east .tmpltzr-secondary, #tmpltzr .middle-east .tmpltzr-primaryquote{
+#tmpltzr .middle-east .tmpltzr-secondary, #tmpltzr .middle-east.tmpltzr-widget, #tmpltzr .middle-east .tmpltzr-primaryquote{
 	background-color: #ffebf8;
 }
 
@@ -839,23 +842,23 @@ dl dd {
 	color:gray;
 }
 
-#tmpltzr .north-america .tmpltzr-secondary, #tmpltzr .north-america .tmpltzr-primaryquote {
+#tmpltzr .north-america .tmpltzr-secondary, #tmpltzr .north-america.tmpltzr-widget, #tmpltzr .north-america .tmpltzr-primaryquote {
 	background-color:#e0faff;
 }
 
-#tmpltzr .south-asia .tmpltzr-secondary, #tmpltzr .south-asia .tmpltzr-primaryquote {
+#tmpltzr .south-asia .tmpltzr-secondary, #tmpltzr .south-asia.tmpltzr-widget, #tmpltzr .south-asia .tmpltzr-primaryquote {
 	background-color:#fff3e0;
 }
 
-#tmpltzr .africa .tmpltzr-secondary, #tmpltzr .africa .tmpltzr-primaryquote { 
+#tmpltzr .africa .tmpltzr-secondary, #tmpltzr .africa.tmpltzr-widget, #tmpltzr .africa .tmpltzr-primaryquote { 
 	background-color:#e0f1ff;
 }
 
-#tmpltzr .europe .tmpltzr-secondary, #tmpltzr .europe .tmpltzr-primaryquote {
+#tmpltzr .europe .tmpltzr-secondary, #tmpltzr .europe.tmpltzr-widget, #tmpltzr .europe .tmpltzr-primaryquote {
 	background-color:#f5e4ff;
 }
 
-#tmpltzr .asia .tmpltzr-secondary, #tmpltzr .asia .tmpltzr-primaryquote {
+#tmpltzr .asia .tmpltzr-secondary, #tmpltzr .asia.tmpltzr-widget, #tmpltzr .asia .tmpltzr-primaryquote {
 	background-color:#ffe7e8;
 }
 
