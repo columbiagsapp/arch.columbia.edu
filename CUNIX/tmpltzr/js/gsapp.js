@@ -150,16 +150,20 @@ var getOffset = function( el ) {
 }
 
 gsapp.buildWall = function(){
-	var $container = $('#tmpltzr #main .view .view-content');
-	$container.imagesLoaded( function(){
-		$container.masonry({
-			itemSelector: '.views-row',
-			columnWidth: 240,
-			isAnimated: false,
-			gutterWidth: 20,
-			isFitWidth: true,
+	//don't need to build a wall if only one element
+	// such as in a course listing view
+	if($('#tmpltzr #main .view .view-content').children('.views-row').length > 1){
+		var $container = $('#tmpltzr #main .view .view-content');
+		$container.imagesLoaded( function(){
+			$container.masonry({
+				itemSelector: '.views-row',
+				columnWidth: 240,
+				isAnimated: false,
+				gutterWidth: 20,
+				isFitWidth: true,
+			});
 		});
-	});
+	}
 }
 
 
@@ -169,6 +173,12 @@ function externalLinkAppendImg(m){
 		var href = anchor.attr('href');
 		href = href.substring(0,4);
 		if(href == 'http'){
+			var w = anchor.width();
+			w = w+10;
+			anchor.width(w);
+			w = $(this).width();
+			w = w+10;
+			$(this).width(w);
 			offsite = '<img class="hover-only" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/assets/offsite.png" />';
 			anchor.append(offsite);
 			anchor.attr("target", "_blank"); //make sure it opens in a new tab/window

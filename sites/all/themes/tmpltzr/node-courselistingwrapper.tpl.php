@@ -36,17 +36,22 @@
         }      
            
 ?>
-
-
-<?php if (!$page) { ?>
- 	<a id="<?php print $node->title; ?>" name="<?php print $node->title; ?>" class="anchorhash"></a>
-<?php } ?>
-
-<?php if(!empty($node->field_title[0]['view'])){ ?>
-		<h2><?php print $node->field_title[0]['view']; ?></h2>
-<?php } ?>
 	
-	<div class="course-listing">
+
+
+	<?php if(!empty($node->field_image[0]['view'])){ ?>
+  		<div class="tmpltzr-image">
+  			<?php print $node->field_image[0]['view']; ?>
+  		</div>
+  	<?php } ?>
+  	
+	<?php if(!empty($node->field_page_title[0]['view'])){ ?>
+		<div class="title-container">
+			<h1><?php print $node->field_page_title[0]['view']; ?></h1>
+		</div>
+	<?php } ?>
+
+	<div id="main">
 	<?php
 	/*
 		Use the "Page" view to pull in all the modules associated with this page
@@ -56,8 +61,7 @@
 		print views_embed_view($viewName, $display_id, $pg[0], $sm[0]);
 	?>
 	</div>
-	
-
+	<div id="right-sidebar"></div>
 
 </div>
 
