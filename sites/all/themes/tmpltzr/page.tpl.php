@@ -87,6 +87,7 @@
 		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/iscroll.js"></script>
 	<?php } ?>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
+	<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/flexcroll.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.scrollTo-1.4.2-min.js" defer="defer"></script>
 	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/html4+html5/jquery.history.js"></script>
@@ -179,10 +180,10 @@
 		<?php }else{ /* tablet using iscroll and non-mobile */?>
 			<header id="header">
 				<a href="<?php print base_path(); ?>" title="<?php print t('Home'); ?>" id="gsapplogo">
-					<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/gsapp_logoBLK.png" alt="<?php print t('Home'); ?>" />
 				</a>
 				<a href="http://www.columbia.edu" title="<?php print t('Columbia University'); ?>" id="columbialogo">
-					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/columbia_logo.png" alt="<?php print t('Columbia University'); ?>" />
+					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/columbia_logoBLK.png" alt="<?php print t('Columbia University'); ?>" />
 				</a>
 			
 				<div id="search-login-container">

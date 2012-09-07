@@ -298,12 +298,14 @@ dl dd {
 
 }
 
-
+#navigation_mcontentwrapper{
+	width:400px;
+}
 
 
 #navigation .menu li a{
 	text-decoration:none;
-    color:gray;
+    color:black;
     text-transform: uppercase;
 	font: 28px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
 	display:-moz-inline-stack;
@@ -312,17 +314,22 @@ dl dd {
 	letter-spacing: .1em;
 }
 
+#navigation .menu li.collapsed a{
+	color:gray;
+}
+
 .IE #navigation .menu li a{
 	zoom:1;
 	*display:inline;
 }
 
-#navigation .menu li a:hover{
-	color:white;
+#navigation .menu li a:hover,
+#navigation .menu li.force-expanded a:hover{
+	color:black;
 }
 
 .iscroll #navigation .menu li a:hover{
-	color:gray;
+	
 }
 
 #navigation .menu .menu li a {
@@ -338,8 +345,12 @@ dl dd {
 	display:none;
 }
 
-#navigation .menu li.force-expanded{
-	padding-left:9px;
+#navigation .menu li.force-expanded a{
+	color:gray;
+}
+
+#navigation .menu li.force-expanded.active-trail a{
+	color:black;
 }
 
 #navigation .menu li.force-expanded .menu {
@@ -418,6 +429,14 @@ dl dd {
 
 #navigation .leaf.active-trail .menu-arrow-small:first-child{
 	background-position: -9px 0 !important;
+}
+
+#navigation .active-trail .force-expanded .menu-arrow-small:first-child{
+	background-position: 0 0;
+}
+
+#navigation .active-trail .force-expanded .force-expanded .menu-arrow-small:first-child{
+	background-position: 0 -50px;
 }
 
 #navigation .active-trail .collapsed .menu-arrow-small:first-child{
@@ -1821,3 +1840,35 @@ dl dd {
 	padding:20px;
 }
 
+/* for flexcroll custom scroll bar */
+.scrollgeneric {
+line-height: 1px;
+font-size: 1px;
+position: absolute;
+top: 0; left: 0;
+}
+
+.vscrollerbase {
+width: 1px;
+background-color: transparent;
+}
+.vscrollerbar {
+width: 1px;
+background-color: transparent;
+}
+.hscrollerbase {
+height: 1px;
+background-color: transparent;
+}
+.hscrollerbar {
+height: 1px;
+background-color: transparent;
+}
+
+.scrollerjogbox {
+width: 1px;
+height: 1px;
+top: auto; left: auto;
+bottom: 0px; right: 0px;
+background-color: transparent;
+}

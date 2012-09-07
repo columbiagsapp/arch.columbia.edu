@@ -29,6 +29,53 @@
 		</div>
 	</div>
   	
-
+<script type="text/javascript">
+	var hoverOnFollowUs = function(){
+		var channel = $(this).attr('id');
+		var text = '';
+		switch(channel){
+			case 'follow-twitter':
+				text = 'Twitter';
+				break;
+			case 'follow-facebook':
+				text = 'Facebook';
+				break;
+			case 'follow-linkedin':
+				text = 'LinkedIn';
+				break;
+			case 'follow-issuu':
+				text = 'Issuu';
+				break;
+			case 'follow-flickr':
+				text = 'Flickr';
+				break;
+			case 'follow-cc':
+				text = 'CC:GSAPP Blog';
+				break;
+			case 'follow-youtube':
+				text = 'Youtube';
+				break;
+			case 'follow-vimeo':
+				text = 'Vimeo';
+				break;
+			case 'follow-livestream':
+				text = 'Livestream';
+				break;
+			case 'follow-itunes':
+				text = 'iTunes U';
+				break;
+			
+			default:
+				break;
+		}
+		$('.follow-hover-text').text(text);
+	}
+	var hoverOffFollowUs = function(){
+		$('.follow-hover-text').text('');
+	}
+	$(document).ready(function() {
+	  $('#follow-twitter, #follow-facebook, #follow-linkedin, #follow-issuu, #follow-flickr, #follow-cc, #follow-youtube, #follow-vimeo, #follow-livestream, #follow-itunes').bind('mouseenter', hoverOnFollowUs).bind('mouseleave', hoverOffFollowUs);
+	});
+</script>
 <?php printEditSectionFooter($user->uid, $node->uid, $node->nid, node_url); ?>
 </div> <!-- /.node -->

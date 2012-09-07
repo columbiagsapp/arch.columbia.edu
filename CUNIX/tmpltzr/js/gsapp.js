@@ -31,7 +31,7 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = false;
+gsapp.LOG = true;
 var TMPLTZR = true;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
@@ -196,6 +196,7 @@ var resizeMenu = function(){
 		var wh = window.innerHeight;
 		var hh = $("#header").height();
 		$("#navigation").css('height', wh-hh);
+		fleXenv.fleXcrollMain("navigation");
 	}
 }
 
@@ -238,8 +239,6 @@ gsapp.resizeFunc = function(){
 
 var force_expanded = Array();
 force_expanded.push('/studio-x-global/locations');
-force_expanded.push('/studio-x-global/locations/studio-x-beijing');
-force_expanded.push('/studio-x-global/locations/studio-x-rio-de-janiero');
 
 
 
@@ -251,7 +250,7 @@ var adjustPrimaryLinksMenu = function(path){
 	for(i in force_expanded){
 		selector = '#navigation a:[href="' + force_expanded[i] + '"]';		
 		$(selector).parent('li').removeClass('collapsed').addClass('force-expanded');
-		$(selector).parent('li').children('.menu').children('li').removeClass('collapsed').addClass('force-expanded');
+		$(selector).parent('li').children('.menu').children('li').addClass('force-expanded');
 	} 
 	
 	/* if not the homepage, where path = '/' */
@@ -263,6 +262,8 @@ var adjustPrimaryLinksMenu = function(path){
 		var selLen = $(selector).length;
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
+			$('#navigation .menu li a').css('color','black');
+			console.log('sel < 0');
 		}else{//page exists
 			if( selLen == 1 ){
 				safelog('single selector');
@@ -303,18 +304,23 @@ var adjustPrimaryLinksMenu = function(path){
 					});	
 					setCurrentState(1);
 				}
+			}else{//regular homepage
+				$('#navigation .menu li a').css('color','black');
+				console.log('sel == 0');
 			}
-			safelog('addddddd');
 			$selected.parents('li').removeClass('collapsed').addClass('expanded active-trail');
 			//$selected.parents('li.forced-expanded').addClass('active-trail');
 			$('.active-trail').each(function(){
-				$('a:eq(0)', this).css('color', 'white');
+				$('a:eq(0)', this).css('color','black');
 			});
-			$selected.addClass('active').css('color', 'white');
+			$('#navigation .active-trail:last a').css('color','black');
+			//$selected.addClass('active').css('color', 'black');
 			$selected.parents('.menu').show();
 			$selected.parent('li').children('.menu').show();
 			
 		}
+	}else{//homepage
+		$('#navigation .menu li a').css('color','black');
 	}
 }
 
@@ -357,9 +363,9 @@ function menuAddTriangles(){
 		aWStr = aW + 'px';
 		
 		$(selector).each(function(){
-			if( !($(this).hasClass('force-expanded')) ){//don't add the arrow for force-expanded
+			//if( !($(this).hasClass('force-expanded')) ){//don't add the arrow for force-expanded
 				$(this).css('width', liWStr).prepend('<span class="menu-arrow-small"></span>');
-			}
+			//}
 			$(this).children('a').css('width',aWStr);
 		});
 		
@@ -426,6 +432,14 @@ var menuHoverOff = function(){
 	$(".hover-only", this).toggle(); //hover effect for offsite.png to appear on external links
 	$(this).parent('li.collapsed').find(".menu-arrow-large").css('background-position', '-15px -50px');
 	$(this).parent('li.collapsed').find(".menu-arrow-small").css('background-position', '-9px -50px');
+}
+
+gsapp.menuHoverOnForced = function(){
+	$(this).parent('li:not(.active-trail.leaf)').children(".menu-arrow-small").css('backgroundPosition', '0 0');
+}
+
+gsapp.menuHoverOffForced = function(){
+	$(this).parent('li.collapsed').find(".menu-arrow-small").css('background-position', '-90px -50px');
 }
 
 /*************************** COURSE BLOGS INDEX ***************************/
@@ -640,7 +654,17 @@ $(document).ready(function () {
 	externalLinkAppendImg(menu);
 	
 	if(gsapp.iscroll == false){//no hover effects for mobile
-		$(".menu a").bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
+		$('#navigation .menu li:not(.force-expanded)').children('a').bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
+		$('#navigation .menu li.force-expanded').each(function(){
+			if($(this).children('.menu').length <= 0){
+				safelog('hover on set for leafs');
+				$('a:eq(0)', this).bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
+			}else{
+				safelog('hover on set for f-e parent');
+				$('a:eq(0)', this).bind('mouseenter', gsapp.menuHoverOnForced).bind('mouseleave', gsapp.menuHoverOffForced);
+			}
+
+		});
 	}
 
 	$('#semester-list .term-list a.term-index-term').each(function(){

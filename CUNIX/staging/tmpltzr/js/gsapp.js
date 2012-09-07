@@ -234,9 +234,6 @@ gsapp.resizeFunc = function(){
 
 var force_expanded = Array();
 force_expanded.push('/studio-x-global/locations');
-force_expanded.push('/studio-x-global/locations/studio-x-beijing');
-force_expanded.push('/studio-x-global/locations/studio-x-rio-de-janiero');
-
 
 
 var adjustPrimaryLinksMenu = function(path){
@@ -259,6 +256,8 @@ var adjustPrimaryLinksMenu = function(path){
 		var selLen = $(selector).length;
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
+			$('#navigation .menu li a').css('color','black');
+			console.log('sel < 0');
 		}else{//page exists
 			if( selLen == 1 ){
 				safelog('single selector');
@@ -299,14 +298,17 @@ var adjustPrimaryLinksMenu = function(path){
 					});	
 					setCurrentState(1);
 				}
+			}else{//regular homepage
+				$('#navigation .menu li a').css('color','black');
+				console.log('sel == 0');
 			}
-			safelog('addddddd');
 			$selected.parents('li').removeClass('collapsed').addClass('expanded active-trail');
 			//$selected.parents('li.forced-expanded').addClass('active-trail');
 			$('.active-trail').each(function(){
-				$('a:eq(0)', this).css('color', 'white');
+				$('a:eq(0)', this).css('color','black');
 			});
-			$selected.addClass('active').css('color', 'white');
+			$('#navigation .active-trail:last a').css('color','black');
+			//$selected.addClass('active').css('color', 'black');
 			$selected.parents('.menu').show();
 			$selected.parent('li').children('.menu').show();
 			
@@ -353,9 +355,9 @@ function menuAddTriangles(){
 		aWStr = aW + 'px';
 		
 		$(selector).each(function(){
-			if( !($(this).hasClass('force-expanded')) ){//don't add the arrow for force-expanded
+			//if( !($(this).hasClass('force-expanded')) ){//don't add the arrow for force-expanded
 				$(this).css('width', liWStr).prepend('<span class="menu-arrow-small"></span>');
-			}
+			//}
 			$(this).children('a').css('width',aWStr);
 		});
 		

@@ -304,7 +304,7 @@ dl dd {
 
 #navigation .menu li a{
 	text-decoration:none;
-    color:gray;
+    color:black;
     text-transform: uppercase;
 	font: 28px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
 	display:-moz-inline-stack;
@@ -313,17 +313,21 @@ dl dd {
 	letter-spacing: .1em;
 }
 
+#navigation .menu li.collapsed a{
+	color:gray;
+}
+
 .IE #navigation .menu li a{
 	zoom:1;
 	*display:inline;
 }
 
 #navigation .menu li a:hover{
-	color:white;
+	color:black;
 }
 
 .iscroll #navigation .menu li a:hover{
-	color:gray;
+	
 }
 
 #navigation .menu .menu li a {
@@ -337,10 +341,6 @@ dl dd {
 
 #navigation .menu .menu {
 	display:none;
-}
-
-#navigation .menu li.force-expanded{
-	padding-left:9px;
 }
 
 #navigation .menu li.force-expanded .menu {

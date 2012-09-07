@@ -179,7 +179,7 @@
 				if( href.indexOf(internalRedirect) > 0){					
 					$(this).find(selector).parents('li').each(function(){
 						$(this).removeClass('collapsed').addClass('expanded active-trail');
-						$(this).children('a').css('color', 'white');
+						$(this).children('a').css('color', 'black');
 						if($(this).hasClass('leaf')){
 							$(this).children('.menu-arrow-small').css('backgroundPosition','-9px 0');
 						}else{
@@ -208,12 +208,12 @@
 				}else{
 					$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition','0 0');
 				}
-				$(this).children('a:eq(0)').css('color', 'white');
+				$(this).children('a:eq(0)').css('color', 'black');
 				if( !( $(this).children('.menu').is(':visible') ) ){
 					$(this).children('.menu').slideToggle(TOGGLE_TIME);
 				}
 			});
-			$(this).addClass('active').css('color', 'white');
+			$(this).addClass('active').css('color', 'black');
 		}
 		
 		/* 	function: expandMenu()
@@ -232,11 +232,11 @@
 			}else{
 				$(this).parents('li').each(function(){
 					$(this).removeClass('collapsed').addClass('expanded active-trail');
-					$(this).children('a:eq(0)').css('color', 'white');
+					$(this).children('a:eq(0)').css('color', 'black');
 				});
 				
 			}
-			$(this).addClass('active').css('color', 'white');
+			$(this).addClass('active').css('color', 'black');
 		}
 		
 		/* 	function: collapseMenu()
@@ -369,7 +369,7 @@
 								}
 							});
 							if(parent == false){
-								$active.parent('li').collapseMenu();//this will just turn off the white and classes
+								$active.parent('li').collapseMenu();//this will just turn off the black and classes
 							}
 							
 						}
@@ -634,7 +634,8 @@
 				
 				// Continue as normal for cmd clicks etc
 				if ( event.which == 2 || event.metaKey ) { return true; }
-				
+				$('#navigation .menu li.force-expanded a').css('color','');
+
 				$('body').removeClass('front').addClass('not-front');
 				
 				switch(getCurrentState()){
@@ -694,6 +695,14 @@
 					default:
 						safelog('error: the current state is not recognized');
 						break;
+				}
+
+				//$('#navigation .menu li a').css('color','');
+				
+				//$('#navigation .menu li.active-trail .menu li').children('a').css('color','black');
+				if(!($(this).parent('li').hasClass('leaf'))){
+					$(this).parents('li').siblings().children('a').css('color','');
+					$(this).parent('li').children('.menu').find('a').css('color', 'black');
 				}
 
 				if(fetch == true){
