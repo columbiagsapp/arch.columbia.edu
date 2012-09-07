@@ -1,6 +1,6 @@
 <?php printEditPageHeader($user->uid, $node->uid, $node->nid, $node_url); ?>
 
-<div id="fixed-header">
+<div id="fixed-header" class="course-blog-listing-page">
 	<h1><?php print $title; ?></h1>
 
 
@@ -49,7 +49,9 @@
 	    		$terms = taxonomy_get_tree(10); // vid=10 => program
 				if(!empty($terms)) {
         			foreach ($terms as $term){
-            			print '<li><a class="term-index-term" id="' .$term->name. '">' . $term->name . '</a></li>';
+        				$cleanTerm = str_replace(" ", "-", $term->name);
+            			$cleanTerm = str_replace("/", "", $cleanTerm);
+            			print '<li><a class="term-index-term" id="' .$cleanTerm. '">' . $term->name . '</a></li>';
   		          	}
     	    	}       
 			?>
@@ -95,23 +97,15 @@
 			$year = substr($semester->name , $start);
 			$term = substr($semester->name , 0, $start - 1);
 			
-			print '<h2 id="'.$term."-".$year.'">'.$term." ".$year.'</h2>';
-			print views_embed_view('courseblogs', 'page_1', $year, $term);
+			print '<h4 id="'.$term."-".$year.'">'.$term." ".$year.'</h4>';
+
+			print '<div class="two-col-list">' . views_embed_view('courseblogs', 'page_1', $year, $term) . '</div>';
+			print '<div class="three-col-list">' . views_embed_view('courseblogs', 'page_2', $year, $term) . '</div>';
 		}
 	}
 	?>
 	
-	</div>
-
-	<footer id="page-wrapper-footer">
-		<div id="gsapp-url">
-			<h4>GSAPP website url:</h4>
-			<?php print $node->field_url[0]['view']; ?>
-		</div>
-		<div id="copy-paste">
-			<h4>Copy-paste the code below into the GSAPP website:</h4>
-		</div>
-	</footer>
+</div>
 
 
 

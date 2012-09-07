@@ -663,7 +663,7 @@
 			//Prepare 
 			var $this = $(this);
 			// Ajaxify
-			$(this).find('a:internal:not(#gsapplogo)').click(function(event){ //exempt GSAPP Logo so it reloads everything
+			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
 				safelog('-----------CLICK EVENT-----------');
 				// Prepare
 				var
@@ -753,7 +753,7 @@
 					//$(this).parent('li').parents('li').siblings().children('a').css('color','');
 					$(this).parent('li').parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
 				}
-
+					
 				if(fetch == true){
 					// Ajaxify this link
 					History.pushState(null,title,url);
@@ -874,7 +874,9 @@
 					}
 
 					setTimeout(gsapp.initPhotoset, 0);
-					
+					$('#fixed-header #region-list .term-list a.term-index-term').bind('click', gsapp.bindRegionCourseBlogIndexFilter);
+					$('#fixed-header #program-list .term-list a.term-index-term').bind('click', gsapp.bindProgramCourseBlogIndexFilter);
+
 					if(gsapp.mobile){
 						//$('#header').css('backgroundColor','red');
 						setTimeout(function(){

@@ -206,7 +206,7 @@ gsapp.resizeFunc = function(){
 
 	var ww = window.innerWidth;
 	if(ww >= 1270){
-		$('#wrapper').css('width', '800px');
+		$('#wrapper').css('width', '800px').removeClass('two-col').addClass('three-col');
 
 		var id ='';
 		$('#tmpltzr #main .view .views-row').each(function(i){
@@ -218,7 +218,7 @@ gsapp.resizeFunc = function(){
 			}
 		});					
 	}else{
-		$('#wrapper').css('width', '520px');
+		$('#wrapper').css('width', '520px').removeClass('three-col').addClass('two-col');
 		
 		var insertClass = '';
 		$('#tmpltzr #right-sidebar .tmpltzr-secondary-float').each(function(){
@@ -470,46 +470,37 @@ var evenColumnsCourseBlogsIndex = function(wrapped){
 	});
 }
 
-var unbindRegionCourseBlogIndexFilter = function(){	
-	link = $(this);
-	link.removeClass('selected');
-	var region = link.attr('id');
-	region = '.'+region;
-	$(region).addClass('unselected');
-	link.unbind('click').bind('click', bindRegionCourseBlogIndexFilter($(this)) );
-	return false;
-};
-
-var bindRegionCourseBlogIndexFilter = function(){
+gsapp.bindRegionCourseBlogIndexFilter = function(){
 	$('.term-list a.term-index-term').removeClass('selected');	
-	$('.view-courseblogs a.term-index-term').addClass('unselected').removeClass("program");
+	$(this).addClass('selected');
 	var region = $(this).attr('id');
 	region = '.'+region;
+	var selector = '.view-courseblogs a.term-index-term:not('+region+')';
+
+	$(selector).addClass('unselected');
 	$(region).removeClass('unselected');
-	$(this).addClass('selected');
-	$(this).unbind('click').bind('click', unbindRegionCourseBlogIndexFilter);
+
+	
+	//$(region).removeClass('unselected');
+	
+	//$(this).unbind('click').bind('click', gsapp.unbindRegionCourseBlogIndexFilter);
 	return false;
 };
 
-var unbindProgramCourseBlogIndexFilter = function(){
-	link = $(this);
-	link.removeClass('selected');
-	var program = link.attr('id');
-	program = '.'+program;
-	$(program).removeClass('program');
-	link.unbind('click').bind('click', bindProgramCourseBlogIndexFilter );
-	return false;
-}
-
-var bindProgramCourseBlogIndexFilter = function(){
+gsapp.bindProgramCourseBlogIndexFilter = function(){
 	$('.term-list a.term-index-term').removeClass('selected');
-	$('.view-courseblogs a.term-index-term').addClass('unselected').removeClass("program");
-	
-	var program = $(this).attr('id');
-	program = '.'+program;
-	$(program).addClass('program');
 	$(this).addClass('selected');
-	$(this).unbind('click').bind('click', unbindProgramCourseBlogIndexFilter);
+
+	var program = $(this).attr('id');
+	safelog('by program: ' + program);
+	program = '.'+program;
+
+	var selector = '.view-courseblogs a.term-index-term:not('+program+')';
+
+	$(selector).addClass('unselected');
+	$(program).removeClass('unselected');
+	
+	//$(this).unbind('click').bind('click', gsapp.unbindProgramCourseBlogIndexFilter);
 	return false;
 }
 
@@ -676,16 +667,16 @@ $(document).ready(function () {
 		});
 	});
 	
-	$('#region-list .term-list a.term-index-term').each(function(){
-		$(this).bind('click', bindRegionCourseBlogIndexFilter);
+	$('#fixed-header #region-list .term-list a.term-index-term').each(function(){
+		$(this).bind('click', gsapp.bindRegionCourseBlogIndexFilter);
 	});
 	
-	$('#program-list .term-list a.term-index-term').each(function(){
-		$(this).bind('click', bindProgramCourseBlogIndexFilter);
+	$('#fixed-header #program-list .term-list a.term-index-term').each(function(){
+		$(this).bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 	});
 
 	//scrollCourseBlogsIndex();
-	
+	/*
 	$(document).scroll(function() {
 		if($(document).scrollTop() >= 270){
 			$("#fixed-header").addClass('fix-header');
@@ -694,7 +685,7 @@ $(document).ready(function () {
 			$("#fixed-header").removeClass('fix-header');
 			$("#course-blogs-index-listing").css('margin-top','0');
 		}
-	});
+	});*/
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	
