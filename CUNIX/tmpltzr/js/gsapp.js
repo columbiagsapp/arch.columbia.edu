@@ -197,7 +197,9 @@ var resizeMenu = function(){
 		var hh = $("#header").height();
 		$("#navigation").css('height', wh-hh);
 		//fleXenv.fleXcrollMain("navigation");
-		$('#navigation').jScrollPane();
+		gsapp.menupane = $('#navigation');
+		gsapp.menupane.jScrollPane();
+		gsapp.menupaneAPI = gsapp.menupane.data('jsp');
 	}
 }
 
@@ -332,7 +334,7 @@ var adjustPrimaryLinksMenu = function(path){
 */
 var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
-	var id = 1000;
+	var id = 1;
 	if(gsapp.mobile){
 		// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
 		var liW = gsappMobile.menuAndContentWidth - 114;
@@ -345,7 +347,7 @@ function menuAddTriangles(){
 	var selector = '#navigation #menu > .menu > li';
 	
 	$('#navigation #menu > .menu').addClass('level-0');
-	$(selector).each(function(){ $(this).attr('id', id++); });
+	$(selector).each(function(){ $(this).attr('id', 'm'+id++); });
 	$(selector).css('width', liWStr).prepend('<span class="menu-arrow-large"></span>');
 	$(selector).each(function(){
 		$(this).children('a').css('width',aWStr);
@@ -353,10 +355,11 @@ function menuAddTriangles(){
 	
 	
 	for(var i = 1; i < MAX_MENU_LEVELS; i++){
+		id = 10*i + 1;
 		selector += ' > ul.menu';
 		$(selector).addClass('level-'+i);
 		selector += ' > li';
-		$(selector).each(function(){ $(this).attr('id',id++); });
+		$(selector).each(function(){ $(this).attr('id','m'+id++); });
 		
 		liW = aW;
 		liWStr = liW + 'px';
