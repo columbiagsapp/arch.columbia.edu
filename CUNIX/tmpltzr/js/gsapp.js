@@ -257,7 +257,6 @@ var adjustPrimaryLinksMenu = function(path){
 	} 
 	
 	/* if not the homepage, where path = '/' */
-	safelog('path: ' + path);
 	if( (path.length > 1) && (path.substring(1,7) != 'search') ){
 		safelog('Not the homepage. Path is:  ' + path.substring(1));
 		selector = '#navigation a:[href="' + path + '"]';
@@ -375,6 +374,15 @@ function menuAddTriangles(){
 		
 	}
 	
+}
+
+gsapp.removeContentScrollbar = function(){
+	safelog('removeContentScrollbar-----*');
+	/*
+	gsapp.contentpane = $('#wrapper');
+	gsapp.contentpane.jScrollPane();
+	gsapp.contentpaneAPI = gsapp.contentpane.data('jsp');
+	*/
 }
 
 
@@ -640,6 +648,8 @@ $(document).ready(function () {
 	*/
 	if($('body').hasClass('mobile') || $('body').hasClass('iscroll') ){
 		gsapp._remove_flash_content();
+	}else{
+		gsapp.removeContentScrollbar();
 	}
 	
 	setTimeout(gsapp.initPhotoset, 0);

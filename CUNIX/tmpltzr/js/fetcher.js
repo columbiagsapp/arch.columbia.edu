@@ -283,6 +283,21 @@ gsappFetcher.formatDate = function(date) {
  * Formate a Date object into a custom date string
  * @param {Date} JS Date object
  * @return {String} String in the format:
+ * Tuesday, May 8, 2012 7:00pm
+ */
+gsappFetcher.formatTumblrDate = function(date) {
+	date_string_a = [
+		gsappFetcher.day_names[date.getDay()], ', ',
+		gsappFetcher.month_names[date.getMonth()], ' ',
+		date.getDate(), ', ', date.getFullYear()];
+	
+	return date_string_a.join('');
+}
+
+/**
+ * Formate a Date object into a custom date string
+ * @param {Date} JS Date object
+ * @return {String} String in the format:
  * Friday, August 31, 2012 11:00am
  */
 gsappFetcher.formatDateForWidget = function(date) {
@@ -372,7 +387,7 @@ gsappFetcher.getTumblr = function(url, element_name) {
 			  // format the date
 			  var date_ts = this["unix-timestamp"];
 			  var date = new Date(date_ts*1000); // must multiply by 1000 (js specific)
-			  var date_string = gsappFetcher.formatDate(date);
+			  var date_string = gsappFetcher.formatTumblrDate(date);
 		
 					// process tags if any
 			  var tags = this.tags || null;
@@ -393,6 +408,7 @@ gsappFetcher.getTumblr = function(url, element_name) {
 				var tumblr_caption = null;
 				var multi_content = new Array();
 				var multi_caption = new Array();
+				var tumblr_quote = null;
 				
 				switch(type) {
 					
@@ -412,7 +428,8 @@ gsappFetcher.getTumblr = function(url, element_name) {
 						tumblr_content = tumblr_content_a.join('');
 						break;					
 					case 'quote':
-						tumblr_content = [this["quote-text"], "<br/>&mdash; ", this["quote-source"]].join('');
+						tumblr_content = ['<p>',this["quote-text"], "<br/>&mdash; ", this["quote-source"],'</p>'].join('');
+						tumblr_quote = true;
 						break;
 					case 'video':
 						tumblr_content = this["video-player-500"];
@@ -467,24 +484,35 @@ gsappFetcher.getTumblr = function(url, element_name) {
 				}
 				
 				var tumblr_div = [
-					'<div class="embedded-tumblr">',
-					'<div class="tumblr-post-date">',
-					date_string, '</div>'];
-				
-				// is there a title
-				if (tumblr_title != null) {
-					tumblr_div.push('<h2>');
-					tumblr_div.push(tumblr_title);
-					tumblr_div.push('</h2>');
-				}
+					'<div class="embedded-tumblr">'];
 				
 				// main content: is there one more items (i.e. photos)
 				if (multi_content == false) {
+					if( (tumblr_quote != null) || (tumblr_title != null) ){
+						tumblr_div.push('<div class="tumblr-post-date">Posted ');
+						tumblr_div.push(date_string);
+						tumblr_div.push('</div>');
+						if(tumblr_title != null){
+							tumblr_div.push('<h2>');
+							tumblr_div.push(tumblr_title);
+							tumblr_div.push('</h2>');
+						}
+						if(tumblr_quote != null){
+							
+						}
+					}
 					var content_string = [
 						'<div class="tmpltzr-body ',
 						type, '">', tumblr_content];
+
+					if ((tumblr_title == null) && (tumblr_quote == null)) {
+						content_string.push('<div class="tumblr-post-date">Posted ');
+						content_string.push(date_string);
+						content_string.push('</div>');
+					}
+
 					if (tumblr_caption != null) {
-						content_string.push('<div class="tmpltzr-caption">');
+						content_string.push('<div class="tumblr-caption">');
 						content_string.push(tumblr_caption);
 						content_string.push('</div>');
 					}
@@ -497,9 +525,11 @@ gsappFetcher.getTumblr = function(url, element_name) {
 					for(var c=0;c<multi_content.length;c++) {
 						var temp_string = [
 							'<div class="tmpltzr-body ', type, first, even, '">',
-							multi_content[c], '<br/>'];
+							multi_content[c], '<br/>', '<div class="tumblr-post-date">Posted ',
+							date_string, '</div>'];
+
 						if ((multi_caption[c] != undefined) && (multi_caption[c].length > 0)) {
-							temp_string.push('<div class="tmpltzr-caption">');
+							temp_string.push('<div class="tumblr-caption">');
 							temp_string.push(multi_caption[c]);
 							temp_string.push('</div>');
 						}
@@ -516,14 +546,16 @@ gsappFetcher.getTumblr = function(url, element_name) {
 					}
 					tumblr_div.push(multi_content_string.join(''));
 				}
-				tumblr_div.push('<div class="embedded-tumblr-permalink"><a href="');
-				tumblr_div.push(url);
-				tumblr_div.push('" target="_blank">Visit this post</a></div>');
 				if(this.tags != null){
 					tumblr_div.push('<div class="tmpltzr-tags">Tags: ');
 					tumblr_div.push(tag_string);
 					tumblr_div.push('</div>');
 				}
+
+				tumblr_div.push('<div class="embedded-tumblr-permalink"><a href="');
+				tumblr_div.push(url);
+				tumblr_div.push('" target="_blank">Visit this post</a></div>');
+				
 				
 				var tumblr_div_string = tumblr_div.join('');
 				

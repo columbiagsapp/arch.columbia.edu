@@ -84,26 +84,31 @@
 		 *	a different parent.
 		*/
 		$.fn.internalRedirect = function($active){
+			var returnval;
 			var thisHREF = $(this).attr('href');
 			thisHREF = thisHREF.substring(1,5); //remove the leading /
 			
-			var activeHREF = $active.closest('.level-1').closest('li').children('a').attr('href');
+			if($active.closest('.level-1').length){
+				var activeHREF = $active.closest('.level-1').parent('li').children('a').attr('href');
+			}else{
+				var activeHREF = $active.attr('href');
+			}
 			if(activeHREF != undefined){
 				activeHREF = activeHREF.substring(1,5);
 				if( ( thisHREF != undefined ) && (activeHREF != undefined) ){
 					if( thisHREF != activeHREF ){
-						return thisHREF;
+						returnval = thisHREF;
 					}else{
-						return false;
+						returnval = false;
 					}
 				}else{
-					return false;
+					returnval = false;
 				}
 			
 			}else{
-				return false;
+				returnval = false;
 			}
-			return false;
+			return returnval;
 		}
 		
 		
@@ -335,6 +340,31 @@
 		
 		}
 		
+		/* 	function: redirectFunc()
+		 *	Call in the event of an internal redirect
+		*/
+		$.fn.internalRedirectFunc = function($active, internalRedir){
+			$active.collapseBranch();
+			var $sel = $(this).expandBranch(internalRedir);
+			if( getCurrentState() == 'redirect' ){
+				$('.redirect-active').removeClass('redirect-active');
+			}
+			if($sel.closest('.level-1').length){
+				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
+			}
+
+			//TODO: need to add > +2 test here
+			
+			setTimeout(function(){
+				gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
+			}, TOGGLE_TIME);
+			
+			$('#navigation a').css('color', '');
+			$('.active-trail').each(function(){
+				$('a:eq(0)', this).css('color','black');
+			});
+			$('#navigation .active-trail:last a').css('color','black');
+		}
 
 		
 		
@@ -374,6 +404,8 @@
 		 *	is selected. It checks for hard-wired redirects and internal-redirects.
 		*/
 		$.fn.dig = function($active){
+			safelog('DIG---');
+			safelog('$active: '+$active);
 			var $redir = $(this).digRedirect();
 			if($active != undefined){
 				var internalRedir = $(this).internalRedirect($active);
@@ -382,25 +414,12 @@
 			}
 			
 			if( $redir != false ){
+				safelog('---DIG redir');
 				$(this).parent('li').addClass('redirect-active');
 				$redir.expandMenus();
 				setCurrentState(3);
 			}else if( internalRedir != false ){
-				$active.collapseBranch();
-				var $sel = $(this).expandBranch(internalRedir);
-				if( getCurrentState() == 'redirect' ){
-					$('.redirect-active').removeClass('redirect-active');
-				}
-				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
-
-				//TODO: need to add > +2 test here
-				if($active != undefined){
-					if( $sel.closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
-						$sel.scrollMenu($active, TOGGLE_TIME);
-					}else{
-						$sel.scrollMenu($active);
-					}
-				}
+				$(this).internalRedirectFunc($active, internalRedir);
 				setCurrentState(1);
 			}else{
 				if($active != undefined){
@@ -462,20 +481,7 @@
 				$redir.expandMenus();
 				setCurrentState(3);
 			}else if( internalRedir != false ){		
-				$active.collapseBranch();
-				var $sel = $(this).expandBranch(internalRedir);
-				if( getCurrentState() == 'redirect' ){
-					$('.redirect-active').removeClass('redirect-active');
-				}
-				$sel = $sel.closest('.level-1').parent('li').children('a:eq(0)');
-				//TODO: need to add > +2 test here
-				if($active != undefined){
-					if( $sel.closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
-						$sel.scrollMenu($active, TOGGLE_TIME);
-					}else{
-						$sel.scrollMenu($active);
-					}
-				}
+				$(this).internalRedirectFunc($active, internalRedir);
 				setCurrentState(1);
 			}else{
 				
@@ -542,7 +548,11 @@
 			}else if( internalRedir != false ){
 				$active.collapseBranch();
 				var $sel = $(this).expandBranch(internalRedir);
-				$sel.scrollMenu($active);
+				if($active != undefined){
+					setTimeout(function(){
+						gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
+					}, TOGGLE_TIME);
+				}
 				setCurrentState(1);
 			}else{
 				
@@ -633,10 +643,9 @@
 			if($active != undefined){
 				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
 					$(this).collapseMenuInterval($active, 0 );
-					$(this).scrollMenu($active, TOGGLE_TIME);
+					//gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 				}else{
-					
-					$(this).scrollMenu($active);
+					//gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true);
 					$(this).collapseMenuInterval($active, 0 );
 				}
 			}
@@ -873,15 +882,16 @@
 					}
 					
 					// Update the content
-					$content.stop(true,true);
-					$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
+					//$content.stop(true,true);
+					//$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
 					
+					$body.scrollTop(0);
 					//resize the page to check if room for sidebar
 					if(gsapp.mobile == true){
 						$content.html(contentHtml).ajaxify().hide();
 					}else{
 						$content.stop(true,true);
-						$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
+						$content.html(contentHtml).ajaxify().css('opacity',100).show(100); // you could fade in here if you'd like 
 						gsapp.resizeFunc();
 					}
 					
@@ -909,10 +919,6 @@
 							contentNode.appendChild(scriptNode);
 						}
 					});
-					
-					// Complete the change
-					if ( $body.ScrollTo||false ) { $body.ScrollTo(scrollOptions); } // http://balupton.com/projects/jquery-scrollto 
-					
 	
 					// Inform Google Analytics of the change
 					if ( typeof window.pageTracker !== 'undefined' ) {

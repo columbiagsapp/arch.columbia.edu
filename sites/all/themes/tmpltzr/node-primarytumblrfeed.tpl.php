@@ -12,10 +12,18 @@
 	<a id="<?php print $node->title; ?>" name="<?php print $node->title; ?>" class="anchorhash"></a>
 <?php } ?>
 
-	<?php if(!empty($node->field_title[0]['view'])){ ?>
-  		<h2>
-  			<?php print $node->field_title[0]['view']; ?>
-  		</h2>
+	
+  	<?php if(!empty($node->field_subtitle[0]['view'])){
+  			if(!empty($node->field_title[0]['view'])){ ?>
+  				<span class="no-margin-bottom"><h2><?php print $node->field_title[0]['view']; ?></h2></span>
+  			<?php } ?>
+  		<div class="tmpltzr-subtitle">
+  			<?php print $node->field_subtitle[0]['view']; ?>
+  		</div>
+  	<?php }else{
+  		if(!empty($node->field_title[0]['view'])){ ?>
+	  		<h2><?php print $node->field_title[0]['view']; ?></h2>
+	  	<?php } ?>
   	<?php } ?>
 
 <div id="tumblr-results" class="tumblr-results-wrapper">
@@ -39,13 +47,6 @@
 		}
 	?>
 </script>
-	
-<?php if(!empty($node->field_feed_url[0]['view'])){ ?>
-	<div class="tumblr-blog-url">
-		<?php print '<a href="'.$node->field_feed_url[0]['view'].'" target="_blank">Click for more updates</a>'; ?>
-	</div>
-<?php } ?>	
-	
 
 <?php printEditSectionFooter($user->uid, $node->uid, $node->nid, node_url); ?>
 </div> <!-- /.node -->

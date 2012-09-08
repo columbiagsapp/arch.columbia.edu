@@ -76,6 +76,10 @@ h2 {
 	color: black !important;
 }
 
+#tmpltzr .no-margin-bottom h2{
+	margin-bottom:5px;
+}
+
 h3 {
 
     font: 14px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
@@ -677,7 +681,11 @@ dl dd {
 }
 
 
-#tmpltzr .tmpltzr-primaryimage .tmpltzr-image, #tmpltzr .tumblr-results-wrapper .tmpltzr-image {
+#tmpltzr .tmpltzr-primaryimage .tmpltzr-image,
+#tmpltzr .tumblr-results-wrapper .tmpltzr-image,
+#tmpltzr .tumblr-results-wrapper iframe,
+#tmpltzr .tumblr-results-wrapper embed,
+#tmpltzr .tumblr-results-wrapper object {
 
 	margin:0 0 10px 0;
 
@@ -717,8 +725,6 @@ dl dd {
 #tmpltzr .tmpltzr-subtitle,
 .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
 #tmpltzr .tmpltzr-caption,
-#tmpltzr .tmpltzr-tags
-#tmpltzr .tmpltzr-tags,
 #tmpltzr .embedded-tumblr-permalink,
 #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
 #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
@@ -726,7 +732,8 @@ dl dd {
 .view-people .view-filters .views-exposed-widget label,
 #footer-inner,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-label,
-#tmpltzr .tmpltzr-followwidget .follow-text {
+#tmpltzr .tmpltzr-followwidget .follow-text,
+#tmpltzr .embedded-tumblr .tmpltzr-tags {
 	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 }
 
@@ -735,19 +742,16 @@ dl dd {
 .iscroll #tmpltzr .tmpltzr-subtitle,
 .iscroll .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
 .iscroll #tmpltzr .tmpltzr-caption,
-.iscroll #tmpltzr .tmpltzr-tags,
-.iscroll #tmpltzr .tmpltzr-tags,
 .iscroll #tmpltzr .embedded-tumblr-permalink,
 .iscroll #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
 .iscroll #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
 .iscroll #tmpltzr .gsc-result-info,
 .iscroll .view-people .view-filters .views-exposed-widget label,
 .iscroll #footer-inner,
-.iscroll .tmpltzr-featuredeventwidget .featured-events-widget .fe-label {
+.iscroll .tmpltzr-featuredeventwidget .featured-events-widget .fe-label,
+.iscroll #tmpltzr .embedded-tumblr .tmpltzr-tags {
 	font: 14px/18px "Courier New", Courier, Verdana, sans-serif;
 }
-
-
 
 
 #tmpltzr .tmpltzr-primaryhalf .tmpltzr-title-container,
@@ -934,15 +938,12 @@ dl dd {
 }
 
 
+#tmpltzr .tumblr-caption p{
+	margin-bottom:15px;
+}
 
-
-
-
-
-#tmpltzr .tmpltzr-caption p{
-
-	margin-bottom: 0 !important;
-
+#tmpltzr .tumblr-caption blockquote{
+	margin:0;
 }
 
 /* TUMBLR FEED */
