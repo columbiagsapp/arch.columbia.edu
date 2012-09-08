@@ -87,7 +87,8 @@
 		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/iscroll.js"></script>
 	<?php } ?>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
-	<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/flexcroll.js"></script>
+	<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.jscrollpane.min.js"></script>
+	<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.mousewheel.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.scrollTo-1.4.2-min.js" defer="defer"></script>
 	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/html4+html5/jquery.history.js"></script>

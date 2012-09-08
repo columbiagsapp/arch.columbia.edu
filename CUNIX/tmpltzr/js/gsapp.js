@@ -196,7 +196,8 @@ var resizeMenu = function(){
 		var wh = window.innerHeight;
 		var hh = $("#header").height();
 		$("#navigation").css('height', wh-hh);
-		fleXenv.fleXcrollMain("navigation");
+		//fleXenv.fleXcrollMain("navigation");
+		$('#navigation').jScrollPane();
 	}
 }
 
