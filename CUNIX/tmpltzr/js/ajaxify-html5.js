@@ -682,7 +682,7 @@
 
 			safelog('this idx: '+ thisIDX);
 			safelog('active idx: '+ activeIDX);
-			if(thisIDX > activeIDX){
+			if( parseInt(thisIDX) > parseInt(activeIDX) ){
 				return true;
 			}else{
 				return false;
