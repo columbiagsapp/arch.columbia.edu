@@ -142,6 +142,7 @@
 		 *	Scrolls the menu to the branch two levels above
 		*/
 		$.fn.scrollMenu = function($active, timeout){
+			/*
 			if(timeout == undefined){
 				timeout = 0;
 			}
@@ -171,6 +172,8 @@
 			}else{
 				return false;
 			}	
+			*/
+			return false;
 		}
 		
 		/* 	function: expandBranch()
@@ -476,7 +479,7 @@
 			
 			if( $redir != false ){
 				$active.parent('li').collapseMenu();
-				$(this).scrollMenu($active);
+				//$(this).scrollMenu($active);
 				$(this).parent('li').addClass('redirect-active');//add it to the list item
 				$redir.expandMenus();
 				setCurrentState(3);
@@ -488,9 +491,9 @@
 				if($active != undefined){
 					if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
 						$active.parent('li').collapseMenu();
-						$(this).scrollMenu($active, TOGGLE_TIME);
+						//$(this).scrollMenu($active, TOGGLE_TIME);
 					}else{
-						$(this).scrollMenu($active);
+						//$(this).scrollMenu($active);
 						$active.parent('li').collapseMenu();
 					}
 				}
