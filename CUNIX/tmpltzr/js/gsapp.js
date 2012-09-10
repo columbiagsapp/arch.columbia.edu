@@ -671,15 +671,6 @@ $(document).ready(function () {
 
 		});
 	}
-
-	$('#semester-list .term-list a.term-index-term').each(function(){
-		$(this).bind('click',function(){
-			var href1 = $(this).attr('href');
-			href1 = "#" + href1;
-			$(window).scrollTo( href1, 200 );
-			return false;
-		});
-	});
 	
 	$('#fixed-header #region-list .term-list a.term-index-term').each(function(){
 		$(this).bind('click', gsapp.bindRegionCourseBlogIndexFilter);
