@@ -264,12 +264,12 @@ var adjustPrimaryLinksMenu = function(path){
 			path = '/about/people';
 		}
 		selector = '#navigation a:[href="' + path + '"]';
-		'#navigation a:[href="/studio-x-global"]'
+		//'#navigation a:[href="/studio-x-global"]'
 		var selLen = $(selector).length;
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
 			$('#navigation .menu li a').css('color','black');
-			console.log('sel < 0');
+			safelog('sel < 0');
 		}else{//page exists
 			if( selLen == 1 ){
 				safelog('single selector');
@@ -312,7 +312,6 @@ var adjustPrimaryLinksMenu = function(path){
 				}
 			}else{//regular homepage
 				$('#navigation .menu li a').css('color','black');
-				console.log('sel == 0');
 			}
 			$selected.parents('li').removeClass('collapsed').addClass('expanded active-trail');
 			//$selected.parents('li.forced-expanded').addClass('active-trail');
@@ -379,16 +378,6 @@ function menuAddTriangles(){
 	}
 	
 }
-
-gsapp.removeContentScrollbar = function(){
-	safelog('removeContentScrollbar-----*');
-	/*
-	gsapp.contentpane = $('#wrapper');
-	gsapp.contentpane.jScrollPane();
-	gsapp.contentpaneAPI = gsapp.contentpane.data('jsp');
-	*/
-}
-
 
 var setMasonryBrickWidths = function(){	
 	$('#tmpltzr #main .view .view-content .views-row').each(function(){
@@ -661,8 +650,6 @@ $(document).ready(function () {
 	*/
 	if($('body').hasClass('mobile') || $('body').hasClass('iscroll') ){
 		gsapp._remove_flash_content();
-	}else{
-		gsapp.removeContentScrollbar();
 	}
 	
 	setTimeout(gsapp.initPhotoset, 0);

@@ -31,7 +31,7 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = false;
+gsapp.LOG = true;
 var TMPLTZR = false;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
@@ -129,7 +129,7 @@ initCurrentLevel();
 */
 $.fn.level = function(){
 	var classes = $(this).closest('.menu').attr('class');
-	if(classes.length){
+	if(classes != undefined){
 		var levelIdx = classes.indexOf('level-') + 6;
 		return classes.substring(levelIdx, levelIdx+1);
 	}else{
@@ -150,16 +150,20 @@ var getOffset = function( el ) {
 }
 
 gsapp.buildWall = function(){
-	var $container = $('#tmpltzr #main .view .view-content');
-	$container.imagesLoaded( function(){
-		$container.masonry({
-			itemSelector: '.views-row',
-			columnWidth: 240,
-			isAnimated: false,
-			gutterWidth: 20,
-			isFitWidth: true,
+	//don't need to build a wall if only one element
+	// such as in a course listing view
+	if($('#tmpltzr #main .view .view-content').children('.views-row').length > 1){
+		var $container = $('#tmpltzr #main .view .view-content');
+		$container.imagesLoaded( function(){
+			$container.masonry({
+				itemSelector: '.views-row',
+				columnWidth: 240,
+				isAnimated: false,
+				gutterWidth: 20,
+				isFitWidth: true,
+			});
 		});
-	});
+	}
 }
 
 
@@ -192,18 +196,22 @@ var resizeMenu = function(){
 		var wh = window.innerHeight;
 		var hh = $("#header").height();
 		$("#navigation").css('height', wh-hh);
+		//fleXenv.fleXcrollMain("navigation");
+		gsapp.menupane = $('#navigation');
+		gsapp.menupane.jScrollPane();
+		gsapp.menupaneAPI = gsapp.menupane.data('jsp');
 	}
 }
 
 
 gsapp.resizeFunc = function(){
-	safelog('resizeFunc');
 	resizeMenu(); //resize the height or width of the menu
 
 	var ww = window.innerWidth;
 	var path = window.location.pathname;
+	safelog('path: '+path);
 	if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
-		$('#wrapper').css('width', '800px');
+		$('#wrapper').css('width', '800px').removeClass('two-col').addClass('three-col');
 
 		var id ='';
 		$('#tmpltzr #main .view .views-row').each(function(i){
@@ -215,7 +223,7 @@ gsapp.resizeFunc = function(){
 			}
 		});					
 	}else{
-		$('#wrapper').css('width', '520px');
+		$('#wrapper').css('width', '520px').removeClass('three-col').addClass('two-col');
 		
 		var insertClass = '';
 		$('#tmpltzr #right-sidebar .tmpltzr-secondary-float').each(function(){
@@ -238,6 +246,7 @@ var force_expanded = Array();
 force_expanded.push('/studio-x-global/locations');
 
 
+
 var adjustPrimaryLinksMenu = function(path){
 	$('#navigation .menu li').addClass('collapsed menu-item').removeClass('expanded');
 	$('#navigation .menu:eq(0)').children('li').addClass('branch');
@@ -246,22 +255,23 @@ var adjustPrimaryLinksMenu = function(path){
 	for(i in force_expanded){
 		selector = '#navigation a:[href="' + force_expanded[i] + '"]';		
 		$(selector).parent('li').removeClass('collapsed').addClass('force-expanded');
-		$(selector).parent('li').children('.menu').children('li').removeClass('collapsed').addClass('force-expanded');
+		$(selector).parent('li').children('.menu').children('li').addClass('force-expanded');
 	} 
 	
 	/* if not the homepage, where path = '/' */
-	safelog('path: ' + path);
 	if( (path.length > 1) && (path.substring(1,7) != 'search') ){
+		safelog('Not the homepage. Path is:  ' + path.substring(1));
 		if(path.indexOf('columbiaedu') > 0){//faculty page
 			path = '/about/people';
 		}
 		selector = '#navigation a:[href="' + path + '"]';
-		'#navigation a:[href="/studio-x-global"]'
+		//'#navigation a:[href="/studio-x-global"]'
+		safelog('selector: '+selector);
 		var selLen = $(selector).length;
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
 			$('#navigation .menu li a').css('color','black');
-			console.log('sel < 0');
+			safelog('sel < 0');
 		}else{//page exists
 			if( selLen == 1 ){
 				safelog('single selector');
@@ -316,6 +326,8 @@ var adjustPrimaryLinksMenu = function(path){
 			$selected.parent('li').children('.menu').show();
 			
 		}
+	}else{//homepage
+		$('#navigation .menu li a').css('color','black');
 	}
 }
 
@@ -326,7 +338,7 @@ var adjustPrimaryLinksMenu = function(path){
 */
 var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
-	var id = 1000;
+	var id = 1;
 	if(gsapp.mobile){
 		// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
 		var liW = gsappMobile.menuAndContentWidth - 114;
@@ -339,7 +351,7 @@ function menuAddTriangles(){
 	var selector = '#navigation #menu > .menu > li';
 	
 	$('#navigation #menu > .menu').addClass('level-0');
-	$(selector).each(function(){ $(this).attr('id', id++); });
+	$(selector).each(function(){ $(this).attr('id', 'm'+id++); });
 	$(selector).css('width', liWStr).prepend('<span class="menu-arrow-large"></span>');
 	$(selector).each(function(){
 		$(this).children('a').css('width',aWStr);
@@ -347,10 +359,11 @@ function menuAddTriangles(){
 	
 	
 	for(var i = 1; i < MAX_MENU_LEVELS; i++){
+		id = 10*i + 1;
 		selector += ' > ul.menu';
 		$(selector).addClass('level-'+i);
 		selector += ' > li';
-		$(selector).each(function(){ $(this).attr('id',id++); });
+		$(selector).each(function(){ $(this).attr('id','m'+id++); });
 		
 		liW = aW;
 		liWStr = liW + 'px';
@@ -367,7 +380,6 @@ function menuAddTriangles(){
 	}
 	
 }
-
 
 var setMasonryBrickWidths = function(){	
 	$('#tmpltzr #main .view .view-content .views-row').each(function(){
@@ -401,10 +413,19 @@ gsapp._remove_flash_content = function(){
 gsapp.initPhotoset = function(){
 	if($('.tmpltzr-photoset-container').exists()){
 		$('.tmpltzr-photoset-container').each(function(){
+			var id = $(this).attr('id');
+			var selector = '#'+id;
+			var next = '#'+id+' .tmpltzr-photoset-next';
+			var prev = '#'+id+' .tmpltzr-photoset-prev';
+
+			safelog('selector: '+selector);
+			safelog('next: '+next);
+			safelog('prev: '+prev);
+
 			
-			$(this).jCarouselLite({
-				btnNext: ".tmpltzr-photoset-next",
-				btnPrev: ".tmpltzr-photoset-prev",
+			$(selector).jCarouselLite({
+				btnNext: next,
+				btnPrev: prev,
 				speed: 300,
 				circular: true,
 				visible: 1,
@@ -427,6 +448,14 @@ var menuHoverOff = function(){
 	$(".hover-only", this).toggle(); //hover effect for offsite.png to appear on external links
 	$(this).parent('li.collapsed').find(".menu-arrow-large").css('background-position', '-15px -50px');
 	$(this).parent('li.collapsed').find(".menu-arrow-small").css('background-position', '-9px -50px');
+}
+
+gsapp.menuHoverOnForced = function(){
+	$(this).parent('li:not(.active-trail.leaf)').children(".menu-arrow-small").css('backgroundPosition', '0 0');
+}
+
+gsapp.menuHoverOffForced = function(){
+	$(this).parent('li.collapsed').find(".menu-arrow-small").css('background-position', '-90px -50px');
 }
 
 /*************************** COURSE BLOGS INDEX ***************************/
@@ -457,46 +486,37 @@ var evenColumnsCourseBlogsIndex = function(wrapped){
 	});
 }
 
-var unbindRegionCourseBlogIndexFilter = function(){	
-	link = $(this);
-	link.removeClass('selected');
-	var region = link.attr('id');
-	region = '.'+region;
-	$(region).addClass('unselected');
-	link.unbind('click').bind('click', bindRegionCourseBlogIndexFilter($(this)) );
-	return false;
-};
-
-var bindRegionCourseBlogIndexFilter = function(){
+gsapp.bindRegionCourseBlogIndexFilter = function(){
 	$('.term-list a.term-index-term').removeClass('selected');	
-	$('.view-courseblogs a.term-index-term').addClass('unselected').removeClass("program");
+	$(this).addClass('selected');
 	var region = $(this).attr('id');
 	region = '.'+region;
+	var selector = '.view-courseblogs a.term-index-term:not('+region+')';
+
+	$(selector).addClass('unselected');
 	$(region).removeClass('unselected');
-	$(this).addClass('selected');
-	$(this).unbind('click').bind('click', unbindRegionCourseBlogIndexFilter);
+
+	
+	//$(region).removeClass('unselected');
+	
+	//$(this).unbind('click').bind('click', gsapp.unbindRegionCourseBlogIndexFilter);
 	return false;
 };
 
-var unbindProgramCourseBlogIndexFilter = function(){
-	link = $(this);
-	link.removeClass('selected');
-	var program = link.attr('id');
-	program = '.'+program;
-	$(program).removeClass('program');
-	link.unbind('click').bind('click', bindProgramCourseBlogIndexFilter );
-	return false;
-}
-
-var bindProgramCourseBlogIndexFilter = function(){
+gsapp.bindProgramCourseBlogIndexFilter = function(){
 	$('.term-list a.term-index-term').removeClass('selected');
-	$('.view-courseblogs a.term-index-term').addClass('unselected').removeClass("program");
-	
-	var program = $(this).attr('id');
-	program = '.'+program;
-	$(program).addClass('program');
 	$(this).addClass('selected');
-	$(this).unbind('click').bind('click', unbindProgramCourseBlogIndexFilter);
+
+	var program = $(this).attr('id');
+	safelog('by program: ' + program);
+	program = '.'+program;
+
+	var selector = '.view-courseblogs a.term-index-term:not('+program+')';
+
+	$(selector).addClass('unselected');
+	$(program).removeClass('unselected');
+	
+	//$(this).unbind('click').bind('click', gsapp.unbindProgramCourseBlogIndexFilter);
 	return false;
 }
 
@@ -641,7 +661,17 @@ $(document).ready(function () {
 	externalLinkAppendImg(menu);
 	
 	if(gsapp.iscroll == false){//no hover effects for mobile
-		$(".menu a").bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
+		$('#navigation .menu li:not(.force-expanded)').children('a').bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
+		$('#navigation .menu li.force-expanded').each(function(){
+			if($(this).children('.menu').length <= 0){
+				safelog('hover on set for leafs');
+				$('a:eq(0)', this).bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
+			}else{
+				safelog('hover on set for f-e parent');
+				$('a:eq(0)', this).bind('mouseenter', gsapp.menuHoverOnForced).bind('mouseleave', gsapp.menuHoverOffForced);
+			}
+
+		});
 	}
 
 	$('#semester-list .term-list a.term-index-term').each(function(){
@@ -653,16 +683,16 @@ $(document).ready(function () {
 		});
 	});
 	
-	$('#region-list .term-list a.term-index-term').each(function(){
-		$(this).bind('click', bindRegionCourseBlogIndexFilter);
+	$('#fixed-header #region-list .term-list a.term-index-term').each(function(){
+		$(this).bind('click', gsapp.bindRegionCourseBlogIndexFilter);
 	});
 	
-	$('#program-list .term-list a.term-index-term').each(function(){
-		$(this).bind('click', bindProgramCourseBlogIndexFilter);
+	$('#fixed-header #program-list .term-list a.term-index-term').each(function(){
+		$(this).bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 	});
 
 	//scrollCourseBlogsIndex();
-	
+	/*
 	$(document).scroll(function() {
 		if($(document).scrollTop() >= 270){
 			$("#fixed-header").addClass('fix-header');
@@ -671,7 +701,7 @@ $(document).ready(function () {
 			$("#fixed-header").removeClass('fix-header');
 			$("#course-blogs-index-listing").css('margin-top','0');
 		}
-	});
+	});*/
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	

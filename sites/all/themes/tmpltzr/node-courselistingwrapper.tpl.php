@@ -1,21 +1,5 @@
 <?php printEditPageHeader($user->uid, $node->uid, $node->nid, $node_url); ?>
 
-
-
-
-<?php 
-	$color = array();
-    $terms = taxonomy_node_get_terms_by_vocabulary($node, 9); // vid=9 => color-code
-		if(!empty($terms)) {
-        	foreach ($terms as $term){
-            	$color[] = $term->name;
-            }
-        } else {
-            $color[] = 'none';
-        }          
-?>
-
-
 <?php 
 	$pg = array(); //array to store all the programs this course might belong to
     $programs = taxonomy_node_get_terms_by_vocabulary($node, 10); // vid=10 => program
@@ -62,8 +46,6 @@
 	?>
 	</div>
 	<div id="right-sidebar"></div>
-
-</div>
 
 
 

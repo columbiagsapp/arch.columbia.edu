@@ -283,6 +283,48 @@ gsappFetcher.formatDate = function(date) {
  * Formate a Date object into a custom date string
  * @param {Date} JS Date object
  * @return {String} String in the format:
+ * Tuesday, May 8, 2012 7:00pm
+ */
+gsappFetcher.formatDateTimeOnly = function(date) {
+
+	// append 0 to minutes if < 10
+	var minutes = date.getMinutes();
+	if (minutes < 10) {
+		minutes = '0' + minutes;
+	}
+
+	var end_string = 'am';
+	var hours = date.getHours();
+	if (hours > 12) {
+		hours = hours - 12;
+		end_string = 'pm';
+	}
+	
+	date_string_a = [
+		hours, ':', minutes, end_string];
+	
+	return date_string_a.join('');
+}
+
+/**
+ * Formate a Date object into a custom date string
+ * @param {Date} JS Date object
+ * @return {String} String in the format:
+ * Tuesday, May 8, 2012 7:00pm
+ */
+gsappFetcher.formatTumblrDate = function(date) {
+	date_string_a = [
+		gsappFetcher.day_names[date.getDay()], ', ',
+		gsappFetcher.month_names[date.getMonth()], ' ',
+		date.getDate(), ', ', date.getFullYear()];
+	
+	return date_string_a.join('');
+}
+
+/**
+ * Formate a Date object into a custom date string
+ * @param {Date} JS Date object
+ * @return {String} String in the format:
  * Friday, August 31, 2012 11:00am
  */
 gsappFetcher.formatDateForWidget = function(date) {
@@ -336,6 +378,19 @@ gsappFetcher.formatDateForBox = function(date) {
 }
 
 /**
+ * Formate a Date object into a custom date string for the date box
+ * @param {Date} JS Date object
+ * @return {String} HTML string in the format:
+ * May<br/>8
+ */
+
+gsappFetcher.formatDateForWidgetBox = function(date) {
+	var month_name = gsappFetcher.month_names[date.getMonth()];
+	return [date.getDate(), '<br/>',
+		month_name.substr(0,3)].join('');
+}
+
+/**
  * Change the number of posts being read from a tumblr blog
  * @return void
  */
@@ -372,7 +427,7 @@ gsappFetcher.getTumblr = function(url, element_name) {
 			  // format the date
 			  var date_ts = this["unix-timestamp"];
 			  var date = new Date(date_ts*1000); // must multiply by 1000 (js specific)
-			  var date_string = gsappFetcher.formatDate(date);
+			  var date_string = gsappFetcher.formatTumblrDate(date);
 		
 					// process tags if any
 			  var tags = this.tags || null;
@@ -393,6 +448,7 @@ gsappFetcher.getTumblr = function(url, element_name) {
 				var tumblr_caption = null;
 				var multi_content = new Array();
 				var multi_caption = new Array();
+				var tumblr_quote = null;
 				
 				switch(type) {
 					
@@ -412,7 +468,8 @@ gsappFetcher.getTumblr = function(url, element_name) {
 						tumblr_content = tumblr_content_a.join('');
 						break;					
 					case 'quote':
-						tumblr_content = [this["quote-text"], "<br/>&mdash; ", this["quote-source"]].join('');
+						tumblr_content = ['<p>',this["quote-text"], "<br/>&mdash; ", this["quote-source"],'</p>'].join('');
+						tumblr_quote = true;
 						break;
 					case 'video':
 						tumblr_content = this["video-player-500"];
@@ -467,24 +524,35 @@ gsappFetcher.getTumblr = function(url, element_name) {
 				}
 				
 				var tumblr_div = [
-					'<div class="embedded-tumblr">',
-					'<div class="tumblr-post-date">',
-					date_string, '</div>'];
-				
-				// is there a title
-				if (tumblr_title != null) {
-					tumblr_div.push('<h2>');
-					tumblr_div.push(tumblr_title);
-					tumblr_div.push('</h2>');
-				}
+					'<div class="embedded-tumblr">'];
 				
 				// main content: is there one more items (i.e. photos)
 				if (multi_content == false) {
+					if( (tumblr_quote != null) || (tumblr_title != null) ){
+						tumblr_div.push('<div class="tumblr-post-date">Posted ');
+						tumblr_div.push(date_string);
+						tumblr_div.push('</div>');
+						if(tumblr_title != null){
+							tumblr_div.push('<h2>');
+							tumblr_div.push(tumblr_title);
+							tumblr_div.push('</h2>');
+						}
+						if(tumblr_quote != null){
+							
+						}
+					}
 					var content_string = [
 						'<div class="tmpltzr-body ',
 						type, '">', tumblr_content];
+
+					if ((tumblr_title == null) && (tumblr_quote == null)) {
+						content_string.push('<div class="tumblr-post-date">Posted ');
+						content_string.push(date_string);
+						content_string.push('</div>');
+					}
+
 					if (tumblr_caption != null) {
-						content_string.push('<div class="tmpltzr-caption">');
+						content_string.push('<div class="tumblr-caption">');
 						content_string.push(tumblr_caption);
 						content_string.push('</div>');
 					}
@@ -497,9 +565,11 @@ gsappFetcher.getTumblr = function(url, element_name) {
 					for(var c=0;c<multi_content.length;c++) {
 						var temp_string = [
 							'<div class="tmpltzr-body ', type, first, even, '">',
-							multi_content[c], '<br/>'];
+							multi_content[c], '<br/>', '<div class="tumblr-post-date">Posted ',
+							date_string, '</div>'];
+
 						if ((multi_caption[c] != undefined) && (multi_caption[c].length > 0)) {
-							temp_string.push('<div class="tmpltzr-caption">');
+							temp_string.push('<div class="tumblr-caption">');
 							temp_string.push(multi_caption[c]);
 							temp_string.push('</div>');
 						}
@@ -516,14 +586,16 @@ gsappFetcher.getTumblr = function(url, element_name) {
 					}
 					tumblr_div.push(multi_content_string.join(''));
 				}
-				tumblr_div.push('<div class="embedded-tumblr-permalink"><a href="');
-				tumblr_div.push(url);
-				tumblr_div.push('" target="_blank">Visit this post</a></div>');
 				if(this.tags != null){
 					tumblr_div.push('<div class="tmpltzr-tags">Tags: ');
 					tumblr_div.push(tag_string);
 					tumblr_div.push('</div>');
 				}
+
+				tumblr_div.push('<div class="embedded-tumblr-permalink"><a href="');
+				tumblr_div.push(url);
+				tumblr_div.push('" target="_blank">Visit this post</a></div>');
+				
 				
 				var tumblr_div_string = tumblr_div.join('');
 				
@@ -646,10 +718,9 @@ gsappFetcher.getEventData = function(url, elementName) {
 		
 		
 	})
-	.error(function() { gsappFetcher.log('error loading event data'); })
+	.error(function() { gsappFetcher.log('error loading event data'); $('body').removeClass('loading');})
 	.complete(function() {
 		safelog('events calling back');
-		
 		$('.embedded-event-description').truncate({max_length: 450});
 		setTimeout(gsapp.buildWall, 100);
 		if( $('body.mobile').length){
@@ -872,6 +943,94 @@ gsappFetcher.getEventWidget = function(url, elementName) {
 
 
 /**
+ * Function to return event data from JSON formatted views
+ * coming from the GSAPP events site
+ *
+ * @param {String} url The URL for the JSON feed
+ * @param {String} elementName The name of the DOM container to write into
+ * @return void
+ */
+gsappFetcher.getUpcomingEventsWidget = function(url, elementName) {
+	gsappFetcher.log("widget: getting data from " + url + " into " + elementName);
+	$.getJSON(url, function(data) {
+		var nodes = data.nodes;
+		var event_div = '<div class="upcoming-events-output">';
+		for (var i=0; i<nodes.length;i++) {
+			var event = nodes[i].node;
+			// convert date and offset it
+			var date = gsappFetcher.createDateObject(event.field_event_date_value);
+
+			// each date has different offsets			
+			var date_offset = 60000 * date.getTimezoneOffset();
+			new_date = new Date(date - date_offset);
+			var date_string = gsappFetcher.formatDateTimeOnly(new_date);
+
+			var date_string_for_box = gsappFetcher.formatDateForWidgetBox(date);
+
+			// parse locations and assign css classes for color
+			var locations_array = gsappFetcher.getLocationsFromHTML(
+				event.field_event_location_value);
+
+			var css_class_for_location = 
+				gsappFetcher.getCSSColorClassForLocations(
+					locations_array);
+			
+			// parse event types
+			var types_array = gsappFetcher.getEventTypesFromHTML(event.field_event_taxonomy_type_value);
+			
+			// get the path to the node
+			// TODO UPDATE path to prod
+			var path = ['http://events.gsapp.org/node/', event.nid].join('');
+			
+			// build the div
+			event_div = [event_div, '<div class="embedded-event">',
+				'<a target="_blank" class="region" href="', path, '">', 
+				'<div class="embedded-event-top-area">',
+				'<div class="embedded-event-date-box ',
+				css_class_for_location, '"><div>',
+				date_string_for_box, '</div></div>',
+				'<div class="embedded-event-title">', event.title, '</div>',
+				'</div>', // end top area
+				'<div class="embedded-event-body-area">',
+				'<div class="embedded-event-type">', types_array[0], '</div>',
+				'<div><span class="embedded-event-location ',
+				css_class_for_location, '">',
+				locations_array[1],'</span>',
+				'<span class="embedded-event-date">, ', date_string, 
+				'</span></div></div></a></div>'].join('');
+
+			if(i == nodes.length-1){
+				event_div = [event_div, '</div>'].join('');
+			}
+			
+		}
+		$(elementName).append(event_div);
+		
+		
+		$("#tmpltzr #upcomingeventswidget-output .embedded-event a").hover(function() {
+			gsappFetcher.log('hovering');
+			
+			$(this).find(".embedded-event-date-box").addClass('filled');
+		}, 
+		function() {
+			$(this).find(".embedded-event-date-box").removeClass('filled');
+		});
+
+		
+		
+		
+	})
+	.error(function() { gsappFetcher.log('error loading event data'); })
+	.complete(function() {
+		safelog('upcoming events widget calling back');
+		setTimeout(gsapp.buildWall, 0);
+	}); // end getJSON
+	
+}
+
+
+
+/**
  * Function to return the current date.
  *
  * @param {String} elementName The name of the DOM container to write into
@@ -895,7 +1054,7 @@ gsappFetcher.getTodaysDate = function(elementName) {
  */
 gsappFetcher.ccWidgetCarousel = function() {
 	gsappFetcher.log('calling jCarousel Lite for CC: widget');
-	$(".tmpltzr-ccwidget .cc-widget").jCarouselLite({
+	$(".tmpltzr-ccwidget .cc-widget .cc-carousel").jCarouselLite({
 		btnNext: ".tmpltzr-ccwidget .cc-next",
 		btnPrev: ".tmpltzr-ccwidget .cc-prev",
 		speed: 300,

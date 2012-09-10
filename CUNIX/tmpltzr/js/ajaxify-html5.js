@@ -741,7 +741,7 @@
 
 				rise = false;
 				if($active.length){
-					if( $this.riseMenu($active) ){
+					if( $this.riseMenu($active) && (gsapp.iScroll == false)){
 						safelog('rise is TRUE');
 						rise = true;
 					}

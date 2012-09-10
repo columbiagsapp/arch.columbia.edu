@@ -1,7 +1,8 @@
 var copyPaste = function(){
 	var $t = $('#tmpltzr');
 
-	$t = $t.not('#eventwidget-output div, #upcomingeventswidget-output div, #cc-output div, #tumblr-results div');
+	$t = $t.not('#eventwidget-output div, #upcomingeventswidget-output div, #tumblr-results div');
+	$t.not('.cc-widget');
 
   var view = $t.html();
 	
