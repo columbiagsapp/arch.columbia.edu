@@ -550,10 +550,15 @@ dl dd {
 	width:100%;
 }
 
-#tmpltzr .views-row, .view-people .views-row {
+#tmpltzr .views-row, #tmpltzr .view-people .views-row {
 	display:block;
 	float:left;	
 	margin-bottom:40px;
+	word-wrap:break-word;
+}
+
+#tmpltzr .profile .view-Person-user .views-row {
+	width:100%;
 }
 
 .front #tmpltzr .views-row{
@@ -1600,6 +1605,11 @@ dl dd {
 #tmpltzr .az-index li a{
 	text-decoration:none;
 	border:none !important;
+}
+
+#tmpltzr .view-people .tmpltzr-title-container{
+	height:100px;
+	overflow:hidden;
 }
 
 #tmpltzr .az-index li a:hover{

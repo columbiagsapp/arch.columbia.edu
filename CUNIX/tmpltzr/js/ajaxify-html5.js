@@ -7,8 +7,7 @@
 		document = window.document,
 		TOGGLE_TIME = 500,
 		templatizer = false,
-		copypaste = true,
-		rise;
+		copypaste = true;
 
 	// Check to see if History.js is enabled for our Browser
 	if ( !History.enabled ) {
@@ -273,22 +272,14 @@
 			if( !($(this).hasClass('force-expanded')) ){
 				//$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').each(function(){
-					//$('a').unbind('click').click(function(){console.log($(this).offset().top); return false;});
-
 					var delta = $(this).offset().top;// - $(this).height();
-					safelog('$(this).offset().top: '+$(this).offset().top);
-					safelog('$(this).height(): '+$(this).height());
-					safelog('delta: '+delta);
 
 					$(this).slideToggle(TOGGLE_TIME);
-					if(delta < 170){
+					if( (delta < 170) && (gsapp.iScroll == false) ){
 						safelog('^^^^^^^^^^^^^SCROLLING ON PURPOSE');
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
 					}
 
-					//if(rise){ safelog('rising scrollByY');
-					//	gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
-					//}
 				});
 			}
 		}
@@ -643,49 +634,6 @@
 			$(this).dig($active);
 		}
 		
-		
-
-		
-		/* 	function: getDOMposition()
-		 *	Returns an index showing the height in the DOM of the object
-		*/
-		$.fn.riseMenu = function($active){
-			
-			var levelDelta = $active.level() - $(this).level();
-			safelog('levelDelta: '+ levelDelta);
-			var $activeStep = $active.parent('li');
-
-			if(levelDelta < 0){
-				levelDelta = -1*levelDelta;
-				var $thisStep = $(this).parent('li');
-				for(i = 0; i < levelDelta; i++){
-					$thisStep = $thisStep.parent('.menu').parent('li');
-				}
-				var thisIDX = $thisStep.attr('id');
-				var activeIDX = $active.parent('li').attr('id');
-
-			}else{
-				for(i = 0; i < levelDelta; i++){
-					$activeStep = $activeStep.parent('.menu').parent('li');
-				}
-				var activeIDX = $activeStep.attr('id');
-				var thisIDX = $(this).parent('li').attr('id');
-			}
-			thisIDX = thisIDX.substr(1);
-			activeIDX = activeIDX.substr(1);
-
-			
-
-
-			safelog('this idx: '+ thisIDX);
-			safelog('active idx: '+ activeIDX);
-			if( parseInt(thisIDX) > parseInt(activeIDX) ){
-				return true;
-			}else{
-				return false;
-			}
-		}
-
 
 		/* 	function: menuToggleVisibility()
 		 *	Toggles the visibility of the menu
@@ -723,14 +671,6 @@
 				$('#navigation .menu li.force-expanded a').css('color','');
 
 				$('body').removeClass('front').addClass('not-front');
-
-				rise = false;
-				if($active.length){
-					if( $this.riseMenu($active) && (gsapp.iScroll == false)){
-						safelog('rise is TRUE');
-						rise = true;
-					}
-				}
 				
 				switch(getCurrentState()){
 					case 'home':

@@ -209,7 +209,6 @@ gsapp.resizeFunc = function(){
 
 	var ww = window.innerWidth;
 	var path = window.location.pathname;
-	safelog('path: '+path);
 	if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
 		$('#wrapper').css('width', '800px').removeClass('two-col').addClass('three-col');
 
@@ -266,7 +265,6 @@ var adjustPrimaryLinksMenu = function(path){
 		}
 		selector = '#navigation a:[href="' + path + '"]';
 		//'#navigation a:[href="/studio-x-global"]'
-		safelog('selector: '+selector);
 		var selLen = $(selector).length;
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
@@ -673,15 +671,6 @@ $(document).ready(function () {
 
 		});
 	}
-
-	$('#semester-list .term-list a.term-index-term').each(function(){
-		$(this).bind('click',function(){
-			var href1 = $(this).attr('href');
-			href1 = "#" + href1;
-			$(window).scrollTo( href1, 200 );
-			return false;
-		});
-	});
 	
 	$('#fixed-header #region-list .term-list a.term-index-term').each(function(){
 		$(this).bind('click', gsapp.bindRegionCourseBlogIndexFilter);

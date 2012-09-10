@@ -7,8 +7,7 @@
 		document = window.document,
 		TOGGLE_TIME = 500,
 		templatizer = false,
-		copypaste = false,
-		rise;
+		copypaste = false;
 
 	// Check to see if History.js is enabled for our Browser
 	if ( !History.enabled ) {
@@ -85,29 +84,42 @@
 		*/
 		$.fn.internalRedirect = function($active){
 			var returnval;
-			var thisHREF = $(this).attr('href');
-			thisHREF = thisHREF.substring(1,5); //remove the leading /
+			var thisHREF = $(this).attr('href');//programs/
+			thisHREF = thisHREF.substring(1,5); //remove the leading /prog
 			
-			if($active.closest('.level-1').length){
-				var activeHREF = $active.closest('.level-1').parent('li').children('a').attr('href');
-			}else{
-				var activeHREF = $active.attr('href');
-			}
-			if(activeHREF != undefined){
-				activeHREF = activeHREF.substring(1,5);
-				if( ( thisHREF != undefined ) && (activeHREF != undefined) ){
-					if( thisHREF != activeHREF ){
-						returnval = thisHREF;
+			safelog('thisHREF: '+thisHREF);
+
+			if($active.parent('li').hasClass('branch') && $(this).parent('li').hasClass('branch') ){
+				returnval = false;
+			}else{//not siblings at the highest level
+
+				if($active.closest('.level-1').length){
+					var activeHREF = $active.closest('.level-1').parent('li').children('a').attr('href');
+				}else{
+					var activeHREF = $active.attr('href');
+				}
+				safelog('activeHREF full: '+activeHREF);
+				if(activeHREF != undefined){
+					safelog('activeHREF not undefined');
+
+					activeHREF = activeHREF.substring(1,5);
+					safelog('activeHREF stub: '+activeHREF);
+
+					if( thisHREF != undefined ){
+						if( thisHREF != activeHREF ){
+							returnval = thisHREF;
+						}else{
+							returnval = false;
+						}
 					}else{
 						returnval = false;
 					}
+				
 				}else{
 					returnval = false;
 				}
-			
-			}else{
-				returnval = false;
 			}
+			safelog('internalRedirect() returnval: '+returnval);
 			return returnval;
 		}
 		
@@ -136,44 +148,6 @@
 		*/
 		$.fn.hideMenu = function(){
 			
-		}
-		
-		/* 	function: scrollMenu()
-		 *	Scrolls the menu to the branch two levels above
-		*/
-		$.fn.scrollMenu = function($active, timeout){
-			/*
-			if(timeout == undefined){
-				timeout = 0;
-			}
-			if($active != undefined){
-				if( $(this).closest('li.branch').index() > $active.closest('li.branch').index() ){
-					var $branch;
-					if( $(this).parent('li').level() == 0){
-						$branch = $(this).parent('li');
-					}else{
-						$branch = $(this).closest('.level-1').parent('li');
-					}
-					
-					var $target;
-					if( $branch.hasClass('first') ){
-						$target = $branch.children('a:eq(0)');
-					}else if( $branch.prev().hasClass('first') ){
-						$target = $branch.prev().children('a:eq(0)');
-					}else{
-						$target = $branch.prev().prev().children('a:eq(0)');
-					}
-					setTimeout(function(){ 
-						$('#navigation').scrollTo( $target, TOGGLE_TIME );								
-					}, timeout); 
-				}else{
-					return false;
-				}	
-			}else{
-				return false;
-			}	
-			*/
-			return false;
 		}
 		
 		/* 	function: expandBranch()
@@ -298,10 +272,14 @@
 			if( !($(this).hasClass('force-expanded')) ){
 				//$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').each(function(){
+					var delta = $(this).offset().top;// - $(this).height();
+
 					$(this).slideToggle(TOGGLE_TIME);
-					if(rise){ safelog('rising scrollByY');
+					if( (delta < 170) && (gsapp.iScroll == false) ){
+						safelog('^^^^^^^^^^^^^SCROLLING ON PURPOSE');
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
 					}
+
 				});
 			}
 		}
@@ -359,6 +337,7 @@
 			//TODO: need to add > +2 test here
 			
 			setTimeout(function(){
+				safelog('*************** INTERNAL REDIRECT () SCROLL');
 				gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 			}, TOGGLE_TIME);
 			
@@ -469,6 +448,7 @@
 		 *	This function is called when the selected item is a sibling of the active item.
 		*/
 		$.fn.sibling = function($active){
+			safelog('SIBLING------');
 			var $redir = $(this).digRedirect();
 			if($active != undefined){
 				var internalRedir = $(this).internalRedirect($active);
@@ -479,7 +459,6 @@
 			
 			if( $redir != false ){
 				$active.parent('li').collapseMenu();
-				//$(this).scrollMenu($active);
 				$(this).parent('li').addClass('redirect-active');//add it to the list item
 				$redir.expandMenus();
 				setCurrentState(3);
@@ -491,9 +470,7 @@
 				if($active != undefined){
 					if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
 						$active.parent('li').collapseMenu();
-						//$(this).scrollMenu($active, TOGGLE_TIME);
 					}else{
-						//$(this).scrollMenu($active);
 						$active.parent('li').collapseMenu();
 					}
 				}
@@ -553,6 +530,7 @@
 				var $sel = $(this).expandBranch(internalRedir);
 				if($active != undefined){
 					setTimeout(function(){
+						safelog('*************** climb: INTERNAL REDIRECT SCROLL');
 						gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 					}, TOGGLE_TIME);
 				}
@@ -646,9 +624,7 @@
 			if($active != undefined){
 				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
 					$(this).collapseMenuInterval($active, 0 );
-					//gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 				}else{
-					//gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true);
 					$(this).collapseMenuInterval($active, 0 );
 				}
 			}
@@ -658,47 +634,6 @@
 			$(this).dig($active);
 		}
 		
-		
-
-		
-		/* 	function: getDOMposition()
-		 *	Returns an index showing the height in the DOM of the object
-		*/
-		$.fn.riseMenu = function($active){
-			var levelDelta = $active.level() - $(this).level();
-			safelog('levelDelta: '+ levelDelta);
-			var $activeStep = $active.parent('li');
-
-			if(levelDelta < 0){
-				levelDelta = -1*levelDelta;
-				var $thisStep = $(this).parent('li');
-				for(i = 0; i < levelDelta; i++){
-					$thisStep = $thisStep.parent('.menu').parent('li');
-				}
-				var thisIDX = $thisStep.attr('id');
-				var activeIDX = $active.parent('li').attr('id');
-
-			}else{
-				for(i = 0; i < levelDelta; i++){
-					$activeStep = $activeStep.parent('.menu').parent('li');
-				}
-				var activeIDX = $activeStep.attr('id');
-				var thisIDX = $(this).parent('li').attr('id');
-			}
-			thisIDX = thisIDX.substr(1);
-			activeIDX = activeIDX.substr(1);
-			
-
-
-			safelog('this idx: '+ thisIDX);
-			safelog('active idx: '+ activeIDX);
-			if( parseInt(thisIDX) > parseInt(activeIDX) ){
-				return true;
-			}else{
-				return false;
-			}
-		}
-
 
 		/* 	function: menuToggleVisibility()
 		 *	Toggles the visibility of the menu
@@ -736,14 +671,6 @@
 				$('#navigation .menu li.force-expanded a').css('color','');
 
 				$('body').removeClass('front').addClass('not-front');
-
-				rise = false;
-				if($active.length){
-					if( $this.riseMenu($active) && (gsapp.iScroll == false)){
-						safelog('rise is TRUE');
-						rise = true;
-					}
-				}
 				
 				switch(getCurrentState()){
 					case 'home':
@@ -797,7 +724,6 @@
 						}else{
 							$('redirect-active').removeClass('redirect-active');
 							$this.branch($active);
-							//$(this).scrollMenu($active);
 						}
 						break;
 					default:
