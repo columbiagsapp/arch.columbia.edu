@@ -1031,16 +1031,38 @@ body.simplemenu-enabled {
     text-decoration:none;
 }
 /* Overview Page */
+.profile{
+    margin-top:60px;
+}
+
+.profile .views-field-field-image-fid{
+    width: 240px;
+    margin-right: 20px;
+    display:-moz-inline-stack;
+    display:inline-block;
+}
+
+.profile .views-field-value-5{
+    width:240px;
+    display:-moz-inline-stack;
+    display:inline-block;
+    vertical-align: bottom;
+}
+.IE .profile .views-field-field-image-fid,
+.IE .profile .views-field-value-5{
+    zoom:1;
+    *display:inline;
+}
+.profile .views-field-value{
+    margin-top:30px;
+}
 .node-type-overview-page .field-field-top-text,
 .person-top-text {
-    background-color:#EFEFEF;
     margin:0;
-    padding:20px 10px 10px 10px;
-    font-size:12px;
+    padding:0;
 }
 .person-top-text .view-content,
 .person-top-text .view-content div {
-    background-color:#EFEFEF;
 }
 .node-type-overview-page .right-overview-sidebar {
     width:237px;
@@ -1297,7 +1319,6 @@ body.simplemenu-enabled {
     display:inline;
 }
 .person-top-text {
-    margin:0 0 10px 0;
 }
 /* SCHOOL SECTION */
 .page-school-programs a.titleLink2 {
@@ -1676,4 +1697,13 @@ td.gsc-branding-text, td.gsc-branding-img {
 
 /* MENU */
 #main-menu h2 {display:none;} /* turn this off in Drupal - menu header, blocks config */
+
+
+
+
+
+
+/* PEOPLE PROFILE PAGES */
+
+
 

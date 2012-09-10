@@ -76,10 +76,6 @@ h2 {
 	color: black !important;
 }
 
-#tmpltzr .no-margin-bottom h2{
-	margin-bottom:5px;
-}
-
 h3 {
 
     font: 14px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
@@ -303,9 +299,7 @@ dl dd {
 
 }
 
-#navigation_mcontentwrapper{
-	width:400px;
-}
+
 
 
 #navigation .menu li a{
@@ -328,8 +322,7 @@ dl dd {
 	*display:inline;
 }
 
-#navigation .menu li a:hover,
-#navigation .menu li.force-expanded a:hover{
+#navigation .menu li a:hover{
 	color:black;
 }
 
@@ -348,14 +341,6 @@ dl dd {
 
 #navigation .menu .menu {
 	display:none;
-}
-
-#navigation .menu li.force-expanded a{
-	color:gray;
-}
-
-#navigation .menu li.force-expanded.active-trail a{
-	color:black;
 }
 
 #navigation .menu li.force-expanded .menu {
@@ -434,14 +419,6 @@ dl dd {
 
 #navigation .leaf.active-trail .menu-arrow-small:first-child{
 	background-position: -9px 0 !important;
-}
-
-#navigation .active-trail .force-expanded .menu-arrow-small:first-child{
-	background-position: 0 0;
-}
-
-#navigation .active-trail .force-expanded .force-expanded .menu-arrow-small:first-child{
-	background-position: 0 -50px;
 }
 
 #navigation .active-trail .collapsed .menu-arrow-small:first-child{
@@ -554,14 +531,6 @@ dl dd {
 	display:block;
 	float:left;	
 	margin-bottom:40px;
-}
-
-.front #tmpltzr .views-row{
-	margin-bottom:20px;
-}
-
-#tmpltzr .view-Duplicate .views-row, .view-people .views-row {
-	margin-bottom:0;
 }
 
 #tmpltzr .views-row.empty {
@@ -682,11 +651,7 @@ dl dd {
 }
 
 
-#tmpltzr .tmpltzr-primaryimage .tmpltzr-image,
-#tmpltzr .tumblr-results-wrapper .tmpltzr-image,
-#tmpltzr .tumblr-results-wrapper iframe,
-#tmpltzr .tumblr-results-wrapper embed,
-#tmpltzr .tumblr-results-wrapper object {
+#tmpltzr .tmpltzr-primaryimage .tmpltzr-image, #tmpltzr .tumblr-results-wrapper .tmpltzr-image {
 
 	margin:0 0 10px 0;
 
@@ -726,6 +691,8 @@ dl dd {
 #tmpltzr .tmpltzr-subtitle,
 .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
 #tmpltzr .tmpltzr-caption,
+#tmpltzr .tmpltzr-tags
+#tmpltzr .tmpltzr-tags,
 #tmpltzr .embedded-tumblr-permalink,
 #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
 #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
@@ -734,9 +701,7 @@ dl dd {
 #footer-inner,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-label,
 #tmpltzr .tmpltzr-followwidget .follow-text,
-#tmpltzr .embedded-tumblr .tmpltzr-tags,
-.profile .views-field-value-5,
-#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body {
+.profile .views-field-value-5 {
 	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 }
 
@@ -745,6 +710,8 @@ dl dd {
 .iscroll #tmpltzr .tmpltzr-subtitle,
 .iscroll .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
 .iscroll #tmpltzr .tmpltzr-caption,
+.iscroll #tmpltzr .tmpltzr-tags,
+.iscroll #tmpltzr .tmpltzr-tags,
 .iscroll #tmpltzr .embedded-tumblr-permalink,
 .iscroll #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
 .iscroll #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
@@ -752,11 +719,11 @@ dl dd {
 .iscroll .view-people .view-filters .views-exposed-widget label,
 .iscroll #footer-inner,
 .iscroll .tmpltzr-featuredeventwidget .featured-events-widget .fe-label,
-.iscroll #tmpltzr .embedded-tumblr .tmpltzr-tags,
-.iscroll .profile .views-field-value-5,
-.iscroll #tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body {
+.iscroll .profile .views-field-value-5 {
 	font: 14px/18px "Courier New", Courier, Verdana, sans-serif;
 }
+
+
 
 
 #tmpltzr .tmpltzr-primaryhalf .tmpltzr-title-container,
@@ -858,12 +825,6 @@ dl dd {
 	height:150px;
 }
 
-#tmpltzr .tmpltzr-secondaryvideo.tmpltzr-module-240 .tmpltzr-embed-video iframe{
-	width:200px;
-	height:150px;
-	padding-bottom:20px;
-}
-
 #tmpltzr .none .tmpltzr-secondary, #tmpltzr .other.tmpltzr-widget, #tmpltzr .other .tmpltzr-secondary, #tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-primaryquote, #tmpltzr .other .tmpltzr-primaryquote {
 	background-color: #efefef;
 }
@@ -943,12 +904,15 @@ dl dd {
 }
 
 
-#tmpltzr .tumblr-caption p{
-	margin-bottom:15px;
-}
 
-#tmpltzr .tumblr-caption blockquote{
-	margin:0;
+
+
+
+
+#tmpltzr .tmpltzr-caption p{
+
+	margin-bottom: 0 !important;
+
 }
 
 /* TUMBLR FEED */
@@ -1009,14 +973,7 @@ dl dd {
 #tmpltzr .embedded-tumblr .link h2 a:hover{
 	border-bottom:none;
 }
-
 /******************** PHOTOSET WITH JCAROUSEL ********************/
-
-#tmpltzr .tmpltzr-photoset li img{
-	text-align: center;
-	margin: 0 auto;
-	display: block;
-}
 
 #tmpltzr .tmpltzr-primary .jcarousel-clip-horizontal{
 	width:500px;
@@ -1091,54 +1048,30 @@ dl dd {
 
 
 
+
 /* COURSE BLOG INDEX PAGE */
 
 
 #tmpltzr #fixed-header{
-	width:520px;
-	padding-bottom:10px;
+	width:750px;
+	padding-bottom:35px;
 	border-bottom:1px solid black;
 	margin-bottom:45px;
-	position:fixed;
-	top:0;
-	padding-top:60px;
-	left:460px;
+	position:relative;
 	background-color:white;
 	z-index:1000;
 }
 
-.iscroll #tmpltzr #fixed-header{
-	position: relative;
-}
-
-.three-col #tmpltzr #fixed-header{
-	width:800px;
-}
-
-
-#tmpltzr #fixed-header h1{
-	padding: 0 0 30px;
-}
-
-
-#tmpltzr #fixed-header .term-list,
-#tmpltzr #fixed-header #x-affiliation,
-#tmpltzr .view-courseblogs a{
-	font:13px/17px 'DIN Next W01 Regular', "Helvetica Neue", Helvetica, Arial, sans-serif;
-	text-decoration: none;
-	border:none;
-}
-
-#tmpltzr .view-courseblogs a:hover{
-	border-bottom:1px solid;
+#tmpltzr #fixed-header.fix-header{
+	position:fixed;
+	top:20px;
+	left:460px;
+	margin-top: -90px;
 }
 
 #tmpltzr #course-blogs-index-listing {
-	margin-top:350px;
-}
-
-.iscroll #tmpltzr #course-blogs-index-listing {
-	margin-top:0;
+	position:relative;
+	top:0;
 }	
 
 #tmpltzr #program-list, #tmpltzr #region-list {
@@ -1166,7 +1099,7 @@ dl dd {
 }
 
 #tmpltzr #fixed-header li{
-	padding-bottom:3px;
+	padding-bottom:0;
 }
 
 
@@ -1175,8 +1108,7 @@ dl dd {
 }
 
 #tmpltzr .x-affiliated {
-	margin-left: -16px;
-	margin-right: 7px;
+	margin-left:-10px;
 }
 
 #tmpltzr #x-affiliation{
@@ -1189,70 +1121,56 @@ dl dd {
 	border:none;
 }
 
-#tmpltzr #fixed-header #program-list a.term-index-term{
-	color:gray;
-}
-
-#tmpltzr #fixed-header #program-list a.term-index-term:hover,
-#tmpltzr #fixed-header #program-list a.term-index-term.selected{
-	color:black !important;
-	border-bottom:1px solid;
+#tmpltzr #fixed-header a.term-index-term:hover, #tmpltzr #fixed-header a.term-index-term.selected{
+	border-bottom: 1px solid black;
 	cursor:pointer;
 }
 
-#tmpltzr #fixed-header a.north-america.term-index-term:hover,
-#tmpltzr #fixed-header a.north-america.term-index-term.selected{
+#tmpltzr #fixed-header a.north-america.term-index-term:hover{
+	border-bottom: 1px solid #00D6FF;
 	color:#00D6FF;
-	border-bottom:1px solid;
 	cursor:pointer;
 }
 
-#tmpltzr #fixed-header a.latin-america.term-index-term:hover,
-#tmpltzr #fixed-header a.latin-america.term-index-term.selected{
+#tmpltzr #fixed-header a.latin-america.term-index-term:hover{
+	border-bottom: 1px solid #00E652;
 	color:#00E652;
-	border-bottom:1px solid;
 	cursor:pointer;
 }
 
-#tmpltzr #fixed-header a.south-asia.term-index-term:hover,
-#tmpltzr #fixed-header a.south-asia.term-index-term.selected{
+#tmpltzr #fixed-header a.south-asia.term-index-term:hover{
+	border-bottom: 1px solid #FF9E00;
 	color:#FF9E00;
-	border-bottom:1px solid;
 	cursor:pointer;
 }
 
-#tmpltzr #fixed-header a.middle-east.term-index-term:hover,
-#tmpltzr #fixed-header a.middle-east.term-index-term.selected{
+#tmpltzr #fixed-header a.middle-east.term-index-term:hover{
+	border-bottom: 1px solid #FF00A6;
 	color:#FF00A6;
-	border-bottom:1px solid;
 	cursor:pointer;
 }
 
-#tmpltzr #fixed-header a.africa.term-index-term:hover,
-#tmpltzr #fixed-header a.africa.term-index-term.selected{
+#tmpltzr #fixed-header a.africa.term-index-term:hover{
+	border-bottom: 1px solid #008AFF;
 	color:#008AFF;
-	border-bottom:1px solid;
 	cursor:pointer;
 }
 
-#tmpltzr #fixed-header a.europe.term-index-term:hover,
-#tmpltzr #fixed-header a.europe.term-index-term.selected{
+#tmpltzr #fixed-header a.europe.term-index-term:hover{
+	border-bottom: 1px solid #AD20FF;
 	color:#AD20FF;
-	border-bottom:1px solid;
 	cursor:pointer;
 }
 
-#tmpltzr #fixed-header a.asia.term-index-term:hover,
-#tmpltzr #fixed-header a.asia.term-index-term.selected{
+#tmpltzr #fixed-header a.asia.term-index-term:hover{
+	border-bottom: 1px solid #FF555A;
 	color:#FF555A;
-	border-bottom:1px solid;
 	cursor:pointer;
 }
 
-#tmpltzr #fixed-header a.other.term-index-term:hover,
-#tmpltzr #fixed-header a.other.term-index-term.selected{
+#tmpltzr #fixed-header a.other.term-index-term:hover{
+	border-bottom: 1px solid gray;
 	color:gray;
-	border-bottom:1px solid;
 	cursor:pointer;
 }
 
@@ -1288,78 +1206,40 @@ dl dd {
 	font-size: 18px;
 }
 
-#tmpltzr .upcoming-events-output .embedded-event-date-box {
-	width: 26px;
-	height: 24px;
-	float: left;
-	border: 2px solid black;
-	margin-right: 20px;
-	text-align: center;
-	font-size: 10px;
-	text-transform: uppercase;
-	line-height: 11px;
-	padding-top: 2px;
-	color:black;
-}
-
-#tmpltzr .upcoming-events-output .embedded-event{
-	height: 77px;
-	display:block;
-	overflow:hidden;
-}
-#tmpltzr .upcoming-events-output .embedded-event-title{
-	font-size:12px;
-	line-height: 14px;
-}
-
-#tmpltzr .upcoming-events-output .embedded-event-body-area{
-	padding-left:50px;
-	font:12px/14px "DIN Next W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-#tmpltzr .content #event-output .embedded-event-date-box.filled,
-#tmpltzr .embedded-event-date-box.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.filled {
 	background-color:#999;
 }
 
 
-#tmpltzr .content #event-output .embedded-event-date-box.north-america.filled,
-#tmpltzr .embedded-event-date-box.north-america.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.north-america.filled {
 	background-color:#00D6FF;
 }
 
-#tmpltzr .content #event-output .embedded-event-date-box.latin-america.filled,
-#tmpltzr .embedded-event-date-box.latin-america.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.latin-america.filled {
 	background-color:#00E652;
 }
 
-#tmpltzr .content #event-output .embedded-event-date-box.south-asia.filled,
-#tmpltzr .embedded-event-date-box.south-asia.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.south-asia.filled {
 	background-color:#FF9E00;
 }
 
-#tmpltzr .content #event-output .embedded-event-date-box.middle-east.filled,
-#tmpltzr .embedded-event-date-box.middle-east.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.middle-east.filled {
 	background-color:#FF00A6;
 }
 
-#tmpltzr .content #event-output .embedded-event-date-box.africa.filled,
-#tmpltzr .embedded-event-date-box.africa.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.africa.filled {
 	background-color:#008AFF;
 }
 
-#tmpltzr .content #event-output .embedded-event-date-box.europe.filled,
-#tmpltzr .embedded-event-date-box.europe.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.europe.filled {
 	background-color:#AD20FF;
 }
 
-#tmpltzr .content #event-output .embedded-event-date-box.asia.filled,
-#tmpltzr .embedded-event-date-box.asia.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.asia.filled {
 	background-color:#FF555A;
 }
 
-#tmpltzr .content #event-output .embedded-event-date-box.other.filled,
-#tmpltzr .embedded-event-date-box.other.filled {
+#tmpltzr .content #event-output .embedded-event-date-box.other.filled {
 	background-color:gray;
 }
 
@@ -1387,34 +1267,12 @@ dl dd {
 	margin-bottom:40px;
 }
 
-.two-col #tmpltzr .view-courseblogs {
+#tmpltzr .view-courseblogs {
 	margin-bottom:60px;
-	width:500px;
 }
-
-.three-col #tmpltzr .view-courseblogs {
-	margin-bottom:60px;
-	width:750px;
-}
-
-#tmpltzr .view-courseblogs td.col-1,
-#tmpltzr .view-courseblogs td.col-2,
-#tmpltzr .view-courseblogs td.col-3{
-	width:240px;
-	padding:0 10px 5px 0;
-}
-
-.two-col #tmpltzr #course-blogs-index-listing .three-col-list{
-	display:none;
-}
-
-.three-col #tmpltzr #course-blogs-index-listing .two-col-list{
-	display:none;
-}
-
 #tmpltzr .view-courseblogs .views-row{
 	float:none !important;
-	margin-bottom:0;
+	margin-bottom:10px;
 }
 #tmpltzr .view-courseblogs .col{
 	width:230px;
@@ -1436,7 +1294,7 @@ dl dd {
 	border-bottom:1px solid;
 }
 
-#tmpltzr #course-blogs-index-listing .view-courseblogs a.term-index-term.program{
+#tmpltzr #course-blogs-index-listing .view-courseblogs .views-row a.term-index-term.program{
 	color:black !important;
 }
 
@@ -1773,11 +1631,6 @@ dl dd {
     width:55px;
 }
 
-/* UPCOMING EVENTS WIDGET */
-#tmpltzr .tmpltzr-upcomingeventswidget{
-	padding:20px;
-}
-
 /* ACADEMIC CALENDAR WIDGET */
 .tmpltzr-academiccalendarwidget {
 	width:200px;
@@ -1988,163 +1841,4 @@ dl dd {
 	padding:20px;
 }
 
-/* for jscrollpane custom scroll bar */
-/*
- * CSS Styles that are needed by jScrollPane for it to operate correctly.
- *
- * Include this stylesheet in your site or copy and paste the styles below into your stylesheet - jScrollPane
- * may not operate correctly without them.
- */
-
-.jspContainer
-{
-	overflow: hidden;
-	position: relative;
-}
-
-.jspPane
-{
-	position: absolute;
-}
-
-.jspVerticalBar
-{
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 1px;
-	height: 100%;
-	background: transparent;
-}
-
-.jspHorizontalBar
-{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 1px;
-	background: transparent;
-}
-
-.jspVerticalBar *,
-.jspHorizontalBar *
-{
-	margin: 0;
-	padding: 0;
-}
-
-.jspCap
-{
-	display: none;
-}
-
-.jspHorizontalBar .jspCap
-{
-	float: left;
-}
-
-.jspTrack
-{
-	background: transparent;
-	position: relative;
-}
-
-.jspDrag
-{
-	background: transparent;
-	position: relative;
-	top: 0;
-	left: 0;
-	cursor: pointer;
-}
-
-.jspHorizontalBar .jspTrack,
-.jspHorizontalBar .jspDrag
-{
-	float: left;
-	height: 100%;
-}
-
-.jspArrow
-{
-	background: transparent;
-	text-indent: -20000px;
-	display: block;
-	cursor: pointer;
-}
-
-.jspArrow.jspDisabled
-{
-	cursor: default;
-	background: transparent;
-}
-
-.jspVerticalBar .jspArrow
-{
-	height: 1px;
-}
-
-.jspHorizontalBar .jspArrow
-{
-	width: 1px;
-	float: left;
-	height: 100%;
-}
-
-.jspVerticalBar .jspArrow:focus
-{
-	outline: none;
-}
-
-.jspCorner
-{
-	background: transparent;
-	float: left;
-	height: 100%;
-}
-
-/* Yuk! CSS Hack for IE6 3 pixel bug :( */
-* html .jspCorner
-{
-	margin: 0 -3px 0 0;
-}
-
-
-/* WIDGET ANNOUNCEMENT */
-#tmpltzr .tmpltzr-widgetannouncement{
-	padding:20px;
-}
-
-#tmpltzr .tmpltzr-widgetannouncement h4{
-	text-align:center;
-	margin:20px auto;
-	color:black !important;
-}
-
-#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body{
-	color:black !important;
-	margin-bottom:15px;
-}
-
-#tmpltzr .tmpltzr-widgetannouncement .widget-brand.buell{
-	float:right;
-	width:34px;
-	height:39px;
-}
-
-#tmpltzr .tmpltzr-widgetannouncement .widget-brand{
-	float:left;
-}
-
-#tmpltzr .tmpltzr-widgetannouncement .widget-brand .widget-brand-text{
-	margin-left: 7px;
-	display:-moz-inline-stack;
-	display: inline-block;
-}
-
-.IE #tmpltzr .tmpltzr-widgetannouncement .widget-brand .widget-brand-text{
-	zoom:1;
-    *display:inline;
-}
 

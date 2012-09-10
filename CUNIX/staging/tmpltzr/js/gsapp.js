@@ -197,10 +197,12 @@ var resizeMenu = function(){
 
 
 gsapp.resizeFunc = function(){
+	safelog('resizeFunc');
 	resizeMenu(); //resize the height or width of the menu
 
 	var ww = window.innerWidth;
-	if(ww >= 1270){
+	var path = window.location.pathname;
+	if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
 		$('#wrapper').css('width', '800px');
 
 		var id ='';
@@ -250,7 +252,9 @@ var adjustPrimaryLinksMenu = function(path){
 	/* if not the homepage, where path = '/' */
 	safelog('path: ' + path);
 	if( (path.length > 1) && (path.substring(1,7) != 'search') ){
-		safelog('Not the homepage. Path is:  ' + path.substring(1));
+		if(path.indexOf('columbiaedu') > 0){//faculty page
+			path = '/about/people';
+		}
 		selector = '#navigation a:[href="' + path + '"]';
 		'#navigation a:[href="/studio-x-global"]'
 		var selLen = $(selector).length;
@@ -300,7 +304,6 @@ var adjustPrimaryLinksMenu = function(path){
 				}
 			}else{//regular homepage
 				$('#navigation .menu li a').css('color','black');
-				console.log('sel == 0');
 			}
 			$selected.parents('li').removeClass('collapsed').addClass('expanded active-trail');
 			//$selected.parents('li.forced-expanded').addClass('active-trail');

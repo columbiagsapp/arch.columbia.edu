@@ -183,7 +183,7 @@
 					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/gsapp_logoBLK.png" alt="<?php print t('Home'); ?>" />
 				</a>
 				<a href="http://www.columbia.edu" title="<?php print t('Columbia University'); ?>" id="columbialogo">
-					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/columbia_logoBLK.png" alt="<?php print t('Columbia University'); ?>" />
+					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/columbia_logo.png" alt="<?php print t('Columbia University'); ?>" />
 				</a>
 			
 				<div id="search-login-container">

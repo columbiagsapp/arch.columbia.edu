@@ -185,9 +185,9 @@ ul {
 
     padding: 0;
 
-    list-style-type: none !important;
+    list-style-type: none;
 
-    list-style-image: none !important;
+    list-style-image: none;
 
 }
 
@@ -195,10 +195,9 @@ ul {
 	padding: 0 0 10px 0;
 }
 
-ul.menu li, li.expanded, li.collapsed, li.leaf, li{
-	
+li {
+
     width: auto;
-    list-style: none !important;
 }
 
 ol {
@@ -1139,7 +1138,7 @@ dl dd {
 
 .iscroll #tmpltzr #course-blogs-index-listing {
 	margin-top:0;
-}	
+}
 
 #tmpltzr #program-list, #tmpltzr #region-list {
 	width:250px;
@@ -1575,94 +1574,75 @@ dl dd {
 
 
 /* PEOPLE */
-#tmpltzr .view-people{
-	margin-top:107px;
+.view-people{
+	margin-top:170px;
 }
 
-#tmpltzr .view-people .view-content {
+.view-people .view-content {
 	width:520px;
 }
 
-#tmpltzr .view-people .views-row {
+.view-people .views-row {
 	margin-right:20px;
 }
 
-#tmpltzr .az-index {
+.az-index {
 	display:inline;
 	margin-bottom:20px;
 }
 
-#tmpltzr .az-index li{
+.az-index li{
 	display:inline;
 	margin-right:10px;
 }
 
-#tmpltzr .az-index li a{
+.az-index li a{
 	text-decoration:none;
-	border:none !important;
+	border:none;
 }
 
-#tmpltzr .az-index li a:hover{
+.az-index li a:hover{
 	text-decoration:none;
-	border-bottom:1px solid black !important;
+	border-bottom:1px solid black;
 }
 
-#tmpltzr .view-people .view-filters .views-exposed-widget label{
+.view-people .view-filters .views-exposed-widget label{
 	display:block;
 	margin-bottom:7px;
 }	
 
-#tmpltzr .view-people .view-filters{
-	width:520px;
-}
-
-#tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget{
-	width:240px;
-	padding:0 !important;
-	margin-right:20px;
-	float:left;
-}
-
-#tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget .views-widget select{
-	margin-bottom:20px;
-}
-
-#tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget input{
-	margin:5px 0 0 0;
-}
-
-#tmpltzr .view-people .view-filters .views-exposed-widget #edit-name-wrapper input{
+.view-people .view-filters .views-exposed-widget #edit-name-wrapper input{
 	border:1px solid black;
 	width:230px;
 	height:22px;
 	outline-offset:0;
 }	
 
-#tmpltzr .view-people .view-filters #edit-submit{
-	display:block;
+.view-people .view-filters #edit-submit{
+	display:none;
 }
 
-#tmpltzr .view-people .view-header{
+.view-people .view-header{
 	margin-bottom:20px;
 }
 
-#tmpltzr .view-people .view-filters{
+.view-people .view-filters{
 	margin-bottom:48px;
 }
 
-#tmpltzr .view-people h3{
+.view-people h3{
 	width:500px;
 	display:block;
 	margin-bottom:10px;
 	clear:left;
 }
 
-#tmpltzr .tmpltzr-person .tmpltzr-title-container h2 a{
+.tmpltzr-person .tmpltzr-title-container h2 a{
 	border:none;
 	text-decoration:none;
 }
 
-#tmpltzr .tmpltzr-person .tmpltzr-title-container h2 a:hover{
+.tmpltzr-person .tmpltzr-title-container h2 a:hover{
 	border-bottom:1px solid black;
 }
 
@@ -1740,6 +1720,8 @@ dl dd {
 	z-index:1000;
     background: transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/photoslider_prev.png") no-repeat 0 0;
 }
+
+
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:hover,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:focus {
@@ -1862,7 +1844,7 @@ dl dd {
 	width:51px;
 	height:14px;
 	display:block;
-	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-prev.png') no-repeat 0 0;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/cc-widget-prev.png') no-repeat 0 0;
 }
 
 .tmpltzr-ccwidget .cc-widget .cc-next{
@@ -1874,7 +1856,7 @@ dl dd {
 	width:51px;
 	height:14px;
 	display:block;
-	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-next.png') no-repeat 0 0;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/cc-widget-next.png') no-repeat 0 0;
 }
 
 .tmpltzr-ccwidget .cc-widget-logo {
@@ -1885,7 +1867,7 @@ dl dd {
 	top:9px;
 	right:14px;
 	z-index:1000;
-	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cclogo40x40.png') no-repeat 0 0;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/cclogo40x40.png') no-repeat 0 0;
 }
 
 #tmpltzr .tmpltzr-followwidget {

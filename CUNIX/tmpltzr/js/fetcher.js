@@ -285,6 +285,33 @@ gsappFetcher.formatDate = function(date) {
  * @return {String} String in the format:
  * Tuesday, May 8, 2012 7:00pm
  */
+gsappFetcher.formatDateTimeOnly = function(date) {
+
+	// append 0 to minutes if < 10
+	var minutes = date.getMinutes();
+	if (minutes < 10) {
+		minutes = '0' + minutes;
+	}
+
+	var end_string = 'am';
+	var hours = date.getHours();
+	if (hours > 12) {
+		hours = hours - 12;
+		end_string = 'pm';
+	}
+	
+	date_string_a = [
+		hours, ':', minutes, end_string];
+	
+	return date_string_a.join('');
+}
+
+/**
+ * Formate a Date object into a custom date string
+ * @param {Date} JS Date object
+ * @return {String} String in the format:
+ * Tuesday, May 8, 2012 7:00pm
+ */
 gsappFetcher.formatTumblrDate = function(date) {
 	date_string_a = [
 		gsappFetcher.day_names[date.getDay()], ', ',
@@ -348,6 +375,19 @@ gsappFetcher.formatDateForBox = function(date) {
 	var month_name = gsappFetcher.month_names[date.getMonth()];
 	return [month_name.substr(0,3), '<br/>',
 		date.getDate()].join('');
+}
+
+/**
+ * Formate a Date object into a custom date string for the date box
+ * @param {Date} JS Date object
+ * @return {String} HTML string in the format:
+ * May<br/>8
+ */
+
+gsappFetcher.formatDateForWidgetBox = function(date) {
+	var month_name = gsappFetcher.month_names[date.getMonth()];
+	return [date.getDate(), '<br/>',
+		month_name.substr(0,3)].join('');
 }
 
 /**
@@ -678,7 +718,7 @@ gsappFetcher.getEventData = function(url, elementName) {
 		
 		
 	})
-	.error(function() { gsappFetcher.log('error loading event data'); })
+	.error(function() { gsappFetcher.log('error loading event data'); $('body').removeClass('loading');})
 	.complete(function() {
 		safelog('events calling back');
 		$('.embedded-event-description').truncate({max_length: 450});
@@ -900,6 +940,94 @@ gsappFetcher.getEventWidget = function(url, elementName) {
 	}); // end getJSON
 	
 }
+
+
+/**
+ * Function to return event data from JSON formatted views
+ * coming from the GSAPP events site
+ *
+ * @param {String} url The URL for the JSON feed
+ * @param {String} elementName The name of the DOM container to write into
+ * @return void
+ */
+gsappFetcher.getUpcomingEventsWidget = function(url, elementName) {
+	gsappFetcher.log("widget: getting data from " + url + " into " + elementName);
+	$.getJSON(url, function(data) {
+		var nodes = data.nodes;
+		var event_div = '<div class="upcoming-events-output">';
+		for (var i=0; i<nodes.length;i++) {
+			var event = nodes[i].node;
+			// convert date and offset it
+			var date = gsappFetcher.createDateObject(event.field_event_date_value);
+
+			// each date has different offsets			
+			var date_offset = 60000 * date.getTimezoneOffset();
+			new_date = new Date(date - date_offset);
+			var date_string = gsappFetcher.formatDateTimeOnly(new_date);
+
+			var date_string_for_box = gsappFetcher.formatDateForWidgetBox(date);
+
+			// parse locations and assign css classes for color
+			var locations_array = gsappFetcher.getLocationsFromHTML(
+				event.field_event_location_value);
+
+			var css_class_for_location = 
+				gsappFetcher.getCSSColorClassForLocations(
+					locations_array);
+			
+			// parse event types
+			var types_array = gsappFetcher.getEventTypesFromHTML(event.field_event_taxonomy_type_value);
+			
+			// get the path to the node
+			// TODO UPDATE path to prod
+			var path = ['http://events.gsapp.org/node/', event.nid].join('');
+			
+			// build the div
+			event_div = [event_div, '<div class="embedded-event">',
+				'<a target="_blank" class="region" href="', path, '">', 
+				'<div class="embedded-event-top-area">',
+				'<div class="embedded-event-date-box ',
+				css_class_for_location, '"><div>',
+				date_string_for_box, '</div></div>',
+				'<div class="embedded-event-title">', event.title, '</div>',
+				'</div>', // end top area
+				'<div class="embedded-event-body-area">',
+				'<div class="embedded-event-type">', types_array[0], '</div>',
+				'<div><span class="embedded-event-location ',
+				css_class_for_location, '">',
+				locations_array[1],'</span>',
+				'<span class="embedded-event-date">, ', date_string, 
+				'</span></div></div></a></div>'].join('');
+
+			if(i == nodes.length-1){
+				event_div = [event_div, '</div>'].join('');
+			}
+			
+		}
+		$(elementName).append(event_div);
+		
+		
+		$("#tmpltzr #upcomingeventswidget-output .embedded-event a").hover(function() {
+			gsappFetcher.log('hovering');
+			
+			$(this).find(".embedded-event-date-box").addClass('filled');
+		}, 
+		function() {
+			$(this).find(".embedded-event-date-box").removeClass('filled');
+		});
+
+		
+		
+		
+	})
+	.error(function() { gsappFetcher.log('error loading event data'); })
+	.complete(function() {
+		safelog('upcoming events widget calling back');
+		setTimeout(gsapp.buildWall, 0);
+	}); // end getJSON
+	
+}
+
 
 
 /**
