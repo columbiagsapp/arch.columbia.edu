@@ -625,8 +625,9 @@
 		 *	menu.
 		*/
 		$.fn.branch = function($active){
-		
+			safelog('branch() called');
 			if($active != undefined){
+				safelog('active defined in branch()');
 				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
 					$(this).collapseMenuInterval($active, 0 );
 				}else{
@@ -635,7 +636,6 @@
 			}
 		
 			$active.removeClass('active');
-			$active = undefined;
 			$(this).dig($active);
 		}
 		
@@ -714,10 +714,24 @@
 					if($menuLink.length){
 						safelog('++++++ menuLink: '+ $menuLink);
 						$this = $menuLink;
-					}else{
+					}else{//links to elsewhere in the site, not under the current submenu
 						$menuLink = $('#navigation #menu').find('a:[href="'+url+'"]');
+
 						if($menuLink.length){
-							$this = $menuLink;
+							if($menuLink.length > 1){
+								var $that = $menuLink._find_proper_branch(url);
+								if($that != false){
+									safelog('menuLink _find_proper_branch is true');
+									$this = $that;
+								}else{
+									safelog('menuLink _find_proper_branch is FALSE');
+									$menuLink.each(function(i){
+										if(i == 0){$this = $(this);
+										}
+									});
+								}
+							}
+							//$('.active').removeClass('.active');
 						}else{
 							safelog("ERROR: link from #wrapper has no menu link. Collapsing menus.");
 						}
@@ -726,6 +740,8 @@
 					
 				}
 			}	
+
+			safelog('active CHECK: '+$active);
 			
 			if(event != 'back'){
 				// Continue as normal for cmd clicks etc
@@ -883,7 +899,12 @@
 							$this = $that;
 						}else{
 							safelog('_find_proper_branch is FALSE');
-							$this = $(this).get(0);
+							$this.each(function(i){
+								if(i == 0){
+									var $that = $(this);
+								}
+							});
+							$this = $that;
 						}
 					}
 					$this.menuClickFunc('back');
