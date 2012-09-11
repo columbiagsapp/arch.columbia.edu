@@ -11,6 +11,8 @@ gsappMobile.switchTIME = 400;//ms time for switch animation
 gsappMobile.menuScroll;
 gsappMobile.contentScroll;
 
+gsapp.mobile = false;
+
 gsappMobile.initContentIScroll = function(time){
 	setTimeout(function(){
 		gsappMobile.contentScroll = new iScroll('wrapper');
@@ -152,17 +154,22 @@ var getOffset = function( el ) {
 gsapp.buildWall = function(){
 	//don't need to build a wall if only one element
 	// such as in a course listing view
-	if( ($('#tmpltzr #main .view .view-content').children('.views-row').length > 1) && (gsapp.mobile == false) ){
-		var $container = $('#tmpltzr #main .view .view-content');
-		$container.imagesLoaded( function(){
-			$container.masonry({
-				itemSelector: '.views-row',
-				columnWidth: 240,
-				isAnimated: false,
-				gutterWidth: 20,
-				isFitWidth: true,
+	if(gsapp.mobile == false){
+		if( ($('#tmpltzr #main .view .view-content').children('.views-row').length > 1) && (gsapp.mobile == false) ){
+			safelog('MOBILE IS FALSE ---- BUILD A WALL!!!');
+			var $container = $('#tmpltzr #main .view .view-content');
+			$container.imagesLoaded( function(){
+				$container.masonry({
+					itemSelector: '.views-row',
+					columnWidth: 240,
+					isAnimated: false,
+					gutterWidth: 20,
+					isFitWidth: true,
+				});
 			});
-		});
+		}
+	}else{
+		safelog('MOBILE IS TRUE DONT BUILD A WALL!!!');
 	}
 }
 
@@ -606,22 +613,6 @@ gsappMobile.initMobileScreen = function(){
 	$('#menuswitch').css('top',m);
 }
 
-gsappMobile.initMobileSearch = function(){
-	/*
-	$('#gsapp-mobile-search').click(function(){
-		gsappMobile.switchToContent();
-		$('#navigation').unbind('click').click(function(){
-			$('#mobile-search').hide();
-			$('#wrapper').show();
-			gsappMobile.switchToMenu();
-		});
-		$('#mobile-search').show();
-		$('#wrapper').hide();
-		return false;
-	});
-*/
-}
-
 
 $(document).ready(function () {
 	if($('body').hasClass('iscroll') || $('body').hasClass('mobile') ){
@@ -633,7 +624,6 @@ $(document).ready(function () {
 			gsappMobile.initContentIScroll(0);
 			window.scrollTo(0,0);
 			gsappMobile.initMobileScreen();
-			gsappMobile.initMobileSearch();
 		}else{
 			gsapp.mobile = false;
 		}
@@ -659,8 +649,10 @@ $(document).ready(function () {
 		return false;
 	});
 
-
-	setMasonryBrickWidths();
+	if(gsapp.mobile == false){
+		safelog('setting masonry bricks');
+		setMasonryBrickWidths();
+	}
     
     /*************************** NON-MOBILE FRIENDLY EMBEDDED CONTENT ***************************/
 	/* if viewing the stock site on a mobile device, like an iPad or other tablet,

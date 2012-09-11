@@ -86,11 +86,11 @@
 	<?php if($mobile_iscroll === TRUE){ ?>
 		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/iscroll.js"></script>
 	<?php }else{ ?>
-		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
 		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.jscrollpane.min.js"></script>
 		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.mousewheel.js"></script>
 		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
 	<?php } ?>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
 	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/html4+html5/jquery.history.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/fetcher.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/gsapp.js"></script>
