@@ -644,6 +644,7 @@
 		 *	Toggles the visibility of the menu
 		*/
 		$.fn.menuToggleVisibility = function(){
+			safelog('menuToggleVisibility()');
 			if( $(this).children('.menu').is(':visible') ){
 				$(this).children('.menu-arrow-large').css('backgroundPosition', '-15px 0');
 				$(this).children('.menu-arrow-small').css('backgroundPosition', '-9px 0');
@@ -760,6 +761,7 @@
 					safelog('-------- STATE : MENU -------');
 					if( $this.hasClass('active') ){//clicked self
 						if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
+							safelog('toggling');
 							$this.parent('li').menuToggleVisibility();
 						}
 						fetch = false;
@@ -853,7 +855,8 @@
 				$this.parent('li').parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
 			}
 				
-			if(event != 'back'){	
+			if(event != 'back'){
+				
 				if(fetch == true){
 					// Ajaxify this link
 					History.pushState(null,title,url);
@@ -871,7 +874,19 @@
 			var $this = $(this);
 			// Ajaxify
 			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
-				$(this).menuClickFunc(event);
+
+				if( $(this).hasClass('active') ){//clicked self
+					if( !($(this).parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
+						safelog('toggling');
+						$(this).parent('li').menuToggleVisibility();
+						return false;
+					}
+
+				}else{
+
+					$(this).menuClickFunc(event);
+				}
+				safelog('______________GOOD_____');	
 			});
 			
 			// Chain
@@ -886,6 +901,8 @@
 		
 		// Hook into State Changes
 		$(window).bind('statechange',function(){	
+
+			safelog('FFFFFFFFFEEEEEEETCCCCCHINGGGGG');
 
 			if(interclick == false){
 				safelog('interclicking *********&&&&&&&&& path: '+window.location.pathname);
