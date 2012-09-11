@@ -35,7 +35,7 @@
 	position:absolute;
     top:0;
     left:0;
-    background-color:black;
+    background-color:#efefef;
     z-index:2;
 	height: 130px;
 	color: #fff;
@@ -44,7 +44,7 @@
 }
 
 #navigation {
-    background-color:#000;
+    background-color:#efefef;
     position:absolute;
     top:132px;
     left:0;
@@ -123,7 +123,7 @@
 #gsapp-login a {
 	font-family: 'courier new', courier, monospace;
 	font-weight: bold;
-	color: #fff;
+	color: black;
 	text-decoration: none;
 }
 

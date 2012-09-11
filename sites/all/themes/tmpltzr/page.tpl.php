@@ -85,11 +85,12 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 	<?php if($mobile_iscroll === TRUE){ ?>
 		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/iscroll.js"></script>
+	<?php }else{ ?>
+		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
+		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.jscrollpane.min.js"></script>
+		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
 	<?php } ?>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
-	<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.jscrollpane.min.js"></script>
-	<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.mousewheel.js"></script>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
 	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/html4+html5/jquery.history.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/fetcher.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/gsapp.js"></script>
@@ -134,10 +135,8 @@
 				<a id="gsapp-logo" href="/">
 					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/gsapp-logo_237x49.jpg" width="237" height="49" alt="GSAPP logo" />
 				</a>
-				<a id="gsapp-news" href="http://news.gsapp.org">
-					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/gsapp_news_83x81.jpg" width="83" height="81" alt="GSAPP News" />
-				</a>
-				<a id="gsapp-search" href="/mobile-search" target="_self">
+				
+				<a id="gsapp-mobile-search" href="/" target="_self">
 					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/mobile/search_56x54.jpg" width="56" height="54" alt="Search" />
 				</a>
 				<div id="gsapp-login"  class="mobile-header-item">
@@ -163,6 +162,30 @@
 				<div id="menuswitch"><img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/viewmenu.png"/></div>
 			</div>
 			
+			<div id="mobile-search">
+				<?php					
+					function gsapp_customsearch(&$form_state) {
+						$form['searchterm'] = array(
+						'#type' => 'textfield',
+						'#size' => 27,
+						'#maxlength' => 64,
+					  );  
+					  $form['submit'] = array('#type' => 'submit', '#value' => t(''));
+					  return $form;
+					}
+					
+					function gsapp_customsearch_submit($form, &$form_state) {
+						$search_term = $form_state['values']['searchterm'];
+						$form_state['redirect'] = array(
+							'/search/', 
+							'searchterm=' . $search_term);
+					}
+					
+					$search_form = drupal_get_form('gsapp_customsearch');
+					print $search_form;
+				?>
+			</div>
+
 			<div id="wrapper">
 				<div id="content">
 					<div id="tmpltzr">
@@ -181,9 +204,6 @@
 			<header id="header">
 				<a href="<?php print base_path(); ?>" title="<?php print t('Home'); ?>" id="gsapplogo">
 					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/gsapp_logoBLK.png" alt="<?php print t('Home'); ?>" />
-				</a>
-				<a href="http://www.columbia.edu" title="<?php print t('Columbia University'); ?>" id="columbialogo">
-					<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/columbia_logo.png" alt="<?php print t('Columbia University'); ?>" />
 				</a>
 			
 				<div id="search-login-container">
@@ -213,18 +233,21 @@
 						<?php if (!$user->uid): ?>
 							<?php print l("Login", "user/wind"); ?>
 						<?php else:?>
-							<?php print l("My Content", "my-content"); ?>
+							<?php print l("Logout", "logout"); ?>
 						<?php endif; ?>
 					</div>
 				</div><!-- #search-login-container -->
 			</header>
-			<a href="http://news.gsapp.org" id="gsapp-news"></a>
+			<a href="/" id="gsapp-news"></a>
 			<!-- #navigation -->	
 			<div id="navigation">
 				<div id="menu">
 					<?php print menu_tree_output( menu_tree_all_data('primary-links') ); ?>
 				</div>
 			</div><!-- #navigation -->
+			<a href="http://www.columbia.edu" title="<?php print t('Columbia University'); ?>" id="columbialogo">
+				<img src="http://www.columbia.edu/cu/arch/tmpltzr/assets/columbia_logo.png" alt="<?php print t('Columbia University'); ?>" />
+			</a>
 			<!-- #content -->
 			<div id="wrapper" class="clearfix">
 				<div id="content">

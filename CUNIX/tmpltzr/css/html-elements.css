@@ -1608,7 +1608,7 @@ dl dd {
 }
 
 #tmpltzr .view-people .tmpltzr-title-container{
-	height:100px;
+	max-height:100px;
 	overflow:hidden;
 }
 
@@ -2157,4 +2157,5 @@ dl dd {
 	zoom:1;
     *display:inline;
 }
+
 

@@ -12,7 +12,7 @@
   	<?php } ?>
 
   	<div class="publication-description">
-  		<a name="<?php print $title  ?>" id="<?php print $title ?>" title="<?php print $title ?>" class="publication-title"><?php print $title ?></a>
+  		<h2><?php print $title ?></h2>
   	
   		<?php if(!empty($node->field_credits)){ ?>
 			<div class="publication-credit">

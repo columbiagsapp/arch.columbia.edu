@@ -52,6 +52,9 @@
 				$this = $(obj),
 				url = $this.attr('href')||'',
 				isInternalLink;
+
+				//safelog('%%%%%%%%%%%%%% rooturl: '+ rootUrl);
+			//safelog('@@@@@@@@@@@@@@@ url: '+ url );
 			
 			// Check link
 			isInternalLink = url.substring(0,rootUrl.length) === rootUrl || url.indexOf(':') === -1;
@@ -83,6 +86,7 @@
 		 *	a different parent.
 		*/
 		$.fn.internalRedirect = function($active){
+			safelog('calling internalRedirect()');
 			var returnval;
 			var thisHREF = $(this).attr('href');//programs/
 			thisHREF = thisHREF.substring(1,5); //remove the leading /prog
@@ -265,6 +269,7 @@
 		 *	Collapse the menu and remove active settings.
 		*/
 		$.fn.collapseMenu = function(){
+			safelog('collapseMenu');
 			$(this).removeClass('expanded').removeClass('active-trail').addClass('collapsed');
 			$(this).children('a').css('color','');
 
@@ -273,9 +278,9 @@
 				//$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').each(function(){
 					var delta = $(this).offset().top;// - $(this).height();
-
+					safelog('delta: '+delta);
 					$(this).slideToggle(TOGGLE_TIME);
-					if( (delta < 170) && (gsapp.iScroll == false) ){
+					if( (delta < 170) && (gsapp.iscroll == false) ){
 						safelog('^^^^^^^^^^^^^SCROLLING ON PURPOSE');
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
 					}
@@ -665,6 +670,33 @@
 					url = $this.attr('href'),
 					fetch = true,
 					title = $this.attr('title')||null;
+
+
+				/*
+					If not in #navigation, then look for .find() in $active where href matches in #nav, else look through whole #nav (redirect)
+					else die.
+				*/
+
+				if($(this).closest('#wrapper').length){
+					safelog('++++++++++++++ IS FROM WRAPPER');
+					if($active != undefined){
+						safelog('==== active is defined');
+						var $menuLink = $active.parent('li').find('a:[href="'+url+'"]');
+						if($menuLink.length){
+							safelog('++++++ menuLink: '+ $menuLink);
+							$this = $menuLink;
+						}else{
+							$menuLink = $('#navigation #menu').find('a:[href="'+url+'"]');
+							if($menuLink.length){
+								$this = $menuLink;
+							}else{
+								safelog("ERROR: link from #wrapper has no menu link. Collapsing menus.");
+							}
+						}
+						
+						
+					}
+				}	
 				
 				// Continue as normal for cmd clicks etc
 				if ( event.which == 2 || event.metaKey ) { return true; }
@@ -674,9 +706,11 @@
 				
 				switch(getCurrentState()){
 					case 'home':
+					safelog('-------- STATE : HOME -------');
 						$this.dig($active);
 						break;
 					case 'menu':
+						safelog('-------- STATE : MENU -------');
 						if( $this.hasClass('active') ){//clicked self
 							if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
 								$this.parent('li').menuToggleVisibility();
@@ -684,14 +718,18 @@
 							fetch = false;
 							break;
 						}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
-							safelog('dig');
+							safelog('menu 1');
 							$this.dig($active);
 						}else if( ($active != undefined) && $this._is_sibling($active) ){
+							safelog('menu 2');
 							$this.sibling($active);
 						}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
+							safelog('menu 3');
 							$this.climb($active);
 						}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
+							safelog('menu 4');
 							if(!($this._is_active_trail($active))){
+								safelog('menu 4a');
 								var $last = $this.parents('li.force-expanded').last();
 								$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
 								if( getMenuToggle() == 'hidden'){
@@ -701,27 +739,36 @@
 								$this.addClass('active');
 								$active.removeClass('active');
 							}else{
+								safelog('menu 4b');
 								$this.dig($active);
 							}
 						}else{
+							safelog('menu 5');
 							$this.branch($active);
 						}
 						break;
 					case 'redirected':
+						safelog('-------- STATE : REDIRECTED -------');
 						if( $this._is_dig($active) ){
+							safelog('redir 1');
 							$this.dig($active);
 						}else if( ($active != undefined) && $this._is_sibling($active) ){
+							safelog('redir 2');
 							$this.sibling($active);
 						}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
+							safelog('redir 3');
 							if( $this.parent('li').hasClass('redirect-active') ){
+								safelog('redir 3a');
 								$this.parent('li').menuToggleVisibility();
 								fetch = false;
 								break;
 							}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
+								safelog('redir 3b');
 								$('redirect-active').removeClass('redirect-active');
 							}
 							$this.climb($active);
 						}else{
+							safelog('redir 4');
 							$('redirect-active').removeClass('redirect-active');
 							$this.branch($active);
 						}
@@ -731,19 +778,14 @@
 						break;
 				}
 
-				//$('#navigation .menu li a').css('color','');
-				
-				//$('#navigation .menu li.active-trail .menu li').children('a').css('color','black');
-				$(this).parents('li').siblings().children('a').css('color','');
-				if(!($(this).parent('li').hasClass('leaf'))){
+				$this.parents('li').siblings().children('a').css('color','');
+				if(!($this.parent('li').hasClass('leaf'))){
 					safelog('is not leaf');
-					//$(this).parents('li').siblings().children('a').css('color','');
-					$(this).parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
-					$(this).parent('li').children('.menu').find('a').css('color', 'black');
+					$this.parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
+					$this.parent('li').children('.menu').find('a').css('color', 'black');
 				}else{
 					safelog('is leaf');
-					//$(this).parent('li').parents('li').siblings().children('a').css('color','');
-					$(this).parent('li').parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
+					$this.parent('li').parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
 				}
 					
 				if(fetch == true){

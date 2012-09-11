@@ -152,7 +152,7 @@ var getOffset = function( el ) {
 gsapp.buildWall = function(){
 	//don't need to build a wall if only one element
 	// such as in a course listing view
-	if($('#tmpltzr #main .view .view-content').children('.views-row').length > 1){
+	if( ($('#tmpltzr #main .view .view-content').children('.views-row').length > 1) && (gsapp.mobile == false) ){
 		var $container = $('#tmpltzr #main .view .view-content');
 		$container.imagesLoaded( function(){
 			$container.masonry({
@@ -606,9 +606,26 @@ gsappMobile.initMobileScreen = function(){
 	$('#menuswitch').css('top',m);
 }
 
+gsappMobile.initMobileSearch = function(){
+	/*
+	$('#gsapp-mobile-search').click(function(){
+		gsappMobile.switchToContent();
+		$('#navigation').unbind('click').click(function(){
+			$('#mobile-search').hide();
+			$('#wrapper').show();
+			gsappMobile.switchToMenu();
+		});
+		$('#mobile-search').show();
+		$('#wrapper').hide();
+		return false;
+	});
+*/
+}
+
 
 $(document).ready(function () {
 	if($('body').hasClass('iscroll') || $('body').hasClass('mobile') ){
+		safelog('mobile or scroll');
 		gsapp.iscroll = true;
 		if($('body').hasClass('mobile')){
 			gsapp.mobile = true;
@@ -616,10 +633,12 @@ $(document).ready(function () {
 			gsappMobile.initContentIScroll(0);
 			window.scrollTo(0,0);
 			gsappMobile.initMobileScreen();
+			gsappMobile.initMobileSearch();
 		}else{
 			gsapp.mobile = false;
 		}
 	}else{
+		safelog('neither scroll or mobile');
 		gsapp.iscroll = false;
 		gsapp.mobile = false;
 	}

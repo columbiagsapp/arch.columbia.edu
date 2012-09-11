@@ -35,7 +35,7 @@
 	position:absolute;
     top:0;
     left:0;
-    background-color:black;
+    background-color:#efefef;
     z-index:2;
 	height: 130px;
 	color: #fff;
@@ -44,7 +44,7 @@
 }
 
 #navigation {
-    background-color:#000;
+    background-color:#efefef;
     position:absolute;
     top:132px;
     left:0;
@@ -52,6 +52,15 @@
 	bottom:0;
 }
 
+#mobile-search {
+	display:none;
+	position:absolute;
+	z-index:1;
+	top:132px;
+	display:none;
+	padding:10px 10px 300px 60px;
+	font:28px/34px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 @media only screen and (max-device-height: 480px) {
 	#wrapper, #navigation {
@@ -106,7 +115,7 @@
 	left:325px;
 }
 
-#gsapp-search {
+#gsapp-mobile-search {
 	position:absolute;
 	width: 56px;
 	height:54px;
@@ -123,7 +132,7 @@
 #gsapp-login a {
 	font-family: 'courier new', courier, monospace;
 	font-weight: bold;
-	color: #fff;
+	color: black;
 	text-decoration: none;
 }
 
