@@ -33,7 +33,7 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = true;
+gsapp.LOG = false;
 var TMPLTZR = false;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
@@ -89,7 +89,6 @@ var setCurrentState = function(state_index){
 	try{
 		CURRENT_STATE = CURRENT_STATES[state_index];
 	}catch(e){
-		safelog('error: ' + e.message);
 	}
 }
 
@@ -156,7 +155,6 @@ gsapp.buildWall = function(){
 	// such as in a course listing view
 	if(gsapp.mobile == false){
 		if( ($('#tmpltzr #main .view .view-content').children('.views-row').length > 1) && (gsapp.mobile == false) ){
-			safelog('MOBILE IS FALSE ---- BUILD A WALL!!!');
 			var $container = $('#tmpltzr #main .view .view-content');
 			$container.imagesLoaded( function(){
 				$container.masonry({
@@ -164,12 +162,10 @@ gsapp.buildWall = function(){
 					columnWidth: 240,
 					isAnimated: false,
 					gutterWidth: 20,
-					isFitWidth: true,
+					isFitWidth: true
 				});
 			});
 		}
-	}else{
-		safelog('MOBILE IS TRUE DONT BUILD A WALL!!!');
 	}
 }
 
@@ -266,7 +262,6 @@ var adjustPrimaryLinksMenu = function(path){
 	
 	/* if not the homepage, where path = '/' */
 	if( (path.length > 1) && (path.substring(1,7) != 'search') ){
-		safelog('Not the homepage. Path is:  ' + path.substring(1));
 		if(path.indexOf('columbiaedu') > 0){//faculty page
 			path = '/about/people';
 		}
@@ -276,17 +271,13 @@ var adjustPrimaryLinksMenu = function(path){
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
 			$('#navigation .menu li a').css('color','black');
-			safelog('sel < 0');
 		}else{//page exists
 			if( selLen == 1 ){
-				safelog('single selector');
 				$selected = $(selector);
 				if( $selected._is_redirect_child() ){
-					safelog('is a redirect child');
 					$selected.closest('.menu').parent('li').addClass('redirect-active');
 					setCurrentState(3);
 				}else{
-					safelog('is NOT a redirect child');
 					setCurrentState(1);
 				}
 			}else if(selLen > 1){//redirect, internal or not
@@ -296,7 +287,6 @@ var adjustPrimaryLinksMenu = function(path){
 					$('#navigation a:[href="' + path + '"]:eq(0)').parent('li').addClass('redirect-active');
 					$('#navigation a:[href="' + path + '"]:eq(0)').removeClass('active');
 					
-					safelog('redirected at birth');
 					setCurrentState(3);
 				}else{//internal redirect
 					$(selector).each(function(){
@@ -306,8 +296,6 @@ var adjustPrimaryLinksMenu = function(path){
 							var stub = path;
 						}
 						stub = stub.substring(1, 6);
-						safelog('stub: ' + stub);
-						safelog('path stub: ' + path.substring(1, 6));
 						if( stub == path.substring(1, 6) ){
 							$selected = $(this);
 						}else{
@@ -422,11 +410,6 @@ gsapp.initPhotoset = function(){
 			var selector = '#'+id;
 			var next = '#'+id+' .tmpltzr-photoset-next';
 			var prev = '#'+id+' .tmpltzr-photoset-prev';
-
-			safelog('selector: '+selector);
-			safelog('next: '+next);
-			safelog('prev: '+prev);
-
 			
 			$(selector).jCarouselLite({
 				btnNext: next,
@@ -513,7 +496,6 @@ gsapp.bindProgramCourseBlogIndexFilter = function(){
 	$(this).addClass('selected');
 
 	var program = $(this).attr('id');
-	safelog('by program: ' + program);
 	program = '.'+program;
 
 	var selector = '.view-courseblogs a.term-index-term:not('+program+')';
@@ -616,7 +598,6 @@ gsappMobile.initMobileScreen = function(){
 
 $(document).ready(function () {
 	if($('body').hasClass('iscroll') || $('body').hasClass('mobile') ){
-		safelog('mobile or scroll');
 		gsapp.iscroll = true;
 		if($('body').hasClass('mobile')){
 			gsapp.mobile = true;
@@ -628,26 +609,15 @@ $(document).ready(function () {
 			gsapp.mobile = false;
 		}
 	}else{
-		safelog('neither scroll or mobile');
 		gsapp.iscroll = false;
 		gsapp.mobile = false;
 	}
 	
-	
-	
-	safelog('---------------------------DOCUMENT READY FUNCTION STARTING with iscroll='+gsapp.iscroll+'---------------------------');
 	adjustPrimaryLinksMenu( window.location.pathname );
 	menuAddTriangles();
 
 	/*************************** UTILITIES ***************************/
 	jQuery.fn.exists = function(){return this.length>0;}
-	
-	$('#gsapp-news').bind('click',function(){
-		setTimeout(function(){
-			gsappMobile.contentScroll.refresh();
-		}, 0);
-		return false;
-	});
 
 	if(gsapp.mobile == false){
 		setMasonryBrickWidths();
@@ -672,10 +642,8 @@ $(document).ready(function () {
 		$('#navigation .menu li:not(.force-expanded)').children('a').bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
 		$('#navigation .menu li.force-expanded').each(function(){
 			if($(this).children('.menu').length <= 0){
-				safelog('hover on set for leafs');
 				$('a:eq(0)', this).bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
 			}else{
-				safelog('hover on set for f-e parent');
 				$('a:eq(0)', this).bind('mouseenter', gsapp.menuHoverOnForced).bind('mouseleave', gsapp.menuHoverOffForced);
 			}
 

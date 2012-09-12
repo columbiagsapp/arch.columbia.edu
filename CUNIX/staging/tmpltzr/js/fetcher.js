@@ -353,6 +353,7 @@ gsappFetcher.formatTimeForWidget = function(date) {
 
 	var end_string = 'am';
 	var hours = date.getHours();
+	hours = hours - 4;
 	if (hours > 12) {
 		hours = hours - 12;
 		end_string = 'pm';
@@ -1116,7 +1117,7 @@ gsappFetcher.getCCWidget = function(url, elementName) {
 	.error(function() { gsappFetcher.log('error loading CC: widget data'); })
 	.complete(function() { 
 		gsappFetcher.ccWidgetCarousel();
-		setTimeout(gsapp.buildWall, 0);
+		setTimeout(function(){ gsapp.buildWall(); }, 0);
 		if( $('body.mobile').length){
 			gsapp._remove_flash_content();
 			setTimeout(function () {

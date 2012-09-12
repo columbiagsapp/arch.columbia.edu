@@ -52,6 +52,15 @@
 	bottom:0;
 }
 
+#mobile-search {
+	display:none;
+	position:absolute;
+	z-index:1;
+	top:132px;
+	display:none;
+	padding:10px 10px 300px 60px;
+	font:28px/34px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 @media only screen and (max-device-height: 480px) {
 	#wrapper, #navigation {
@@ -106,12 +115,13 @@
 	left:325px;
 }
 
-#gsapp-search {
+#gsapp-mobile-search {
 	position:absolute;
 	width: 56px;
 	height:54px;
 	top: 40px;
 	left: 450px;
+	display:none;
 }
 
 #gsapp-login {
@@ -317,4 +327,507 @@
 }
 #CUlogo{
 	width:190px;
+}
+
+
+/* WIDGETS */
+
+#tmpltzr .tmpltzr-widget{
+	width:100%;
+	margin-bottom:30px;
+}
+
+
+
+#tmpltzr .none .tmpltzr-secondary, #tmpltzr .other.tmpltzr-widget, #tmpltzr .other .tmpltzr-secondary, #tmpltzr .none .tmpltzr-secondary, #tmpltzr .none .tmpltzr-primaryquote, #tmpltzr .other .tmpltzr-primaryquote {
+	background-color: #efefef;
+}
+
+#tmpltzr .none.tmpltzr-widget {
+	background-color: transparent;
+}
+
+#tmpltzr .latin-america .tmpltzr-secondary, #tmpltzr .latin-america.tmpltzr-widget, #tmpltzr .latin-america .tmpltzr-primaryquote{
+	background-color: #e0fcea;
+}
+
+#tmpltzr .middle-east .tmpltzr-secondary, #tmpltzr .middle-east.tmpltzr-widget, #tmpltzr .middle-east .tmpltzr-primaryquote{
+	background-color: #ffebf8;
+}
+
+#tmpltzr .other .tmpltzr-secondary, #tmpltzr .other.tmpltzr-primaryquote{
+	color:gray;
+}
+
+#tmpltzr .north-america .tmpltzr-secondary, #tmpltzr .north-america.tmpltzr-widget, #tmpltzr .north-america .tmpltzr-primaryquote {
+	background-color:#e0faff;
+}
+
+#tmpltzr .south-asia .tmpltzr-secondary, #tmpltzr .south-asia.tmpltzr-widget, #tmpltzr .south-asia .tmpltzr-primaryquote {
+	background-color:#fff3e0;
+}
+
+#tmpltzr .africa .tmpltzr-secondary, #tmpltzr .africa.tmpltzr-widget, #tmpltzr .africa .tmpltzr-primaryquote { 
+	background-color:#e0f1ff;
+}
+
+#tmpltzr .europe .tmpltzr-secondary, #tmpltzr .europe.tmpltzr-widget, #tmpltzr .europe .tmpltzr-primaryquote {
+	background-color:#f5e4ff;
+}
+
+#tmpltzr .asia .tmpltzr-secondary, #tmpltzr .asia.tmpltzr-widget, #tmpltzr .asia .tmpltzr-primaryquote {
+	background-color:#ffe7e8;
+}
+
+
+
+
+
+
+/* EVENTS WIDGET */
+.tmpltzr-featuredeventwidget {
+	width:90%;
+	padding:20px;
+	background-color:#EFEFEF;
+	display:none;
+}
+.tmpltzr-featuredeventwidget .featured-events-widget{
+	width:90%;
+	height:350px;
+}
+.tmpltzr-featuredeventwidget .featured-events-widget ul li {
+	width:90%;
+	height:350px;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-image{
+	margin-bottom: 12px;
+	width:90%;
+	height:200px;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-image a{
+	text-decoration:none;
+	border:none !important;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-image a:hover{
+	opacity: 0.9;
+  	filter: alpha(opacity = 90);
+  	border:none;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-label{
+	margin-bottom: 12px;
+}
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-date{
+	font: 14px/18px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	margin-bottom: 17px;
+}
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-title{
+	font: 14px/18px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-type,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-location,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-time{
+	font: 14px/18px "DIN Next W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-time{
+	height:40px;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-location-time-container{
+	display:block;
+	height:100px;
+	overflow:hidden;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev {
+	position:absolute;
+	left:0px;
+	width:20px;
+	height:20px;
+	cursor: pointer;
+	display:block;
+	z-index:1000;
+    background: transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/photoslider_prev.png") no-repeat 0 0;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:hover,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:focus {
+    width:55px;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next {
+	position:absolute;
+	right:0px;
+	width:20px;
+	height:20px;
+	cursor: pointer;
+	display:block;
+	z-index:1000;
+    background: transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/photoslider_next.png") no-repeat -35px 0;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next  {
+	top:90px;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next  {
+	top:90px;
+}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next:hover,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next:focus {
+	background-position:0 0;
+    width:55px;
+}
+
+/* UPCOMING EVENTS WIDGET */
+#tmpltzr .tmpltzr-upcomingeventswidget{
+	padding:20px;
+	width:90%;
+}
+
+#tmpltzr .tmpltzr-upcomingeventswidget a{
+	text-decoration: none !important;
+}
+
+#tmpltzr .upcoming-events-output .embedded-event-date-box {
+	width: 54px;
+	height: 50px;
+	font-size: 18px;
+	float: left;
+	border: 3px solid black;
+	margin-right: 20px;
+	text-align: center;
+	text-transform: uppercase;
+	line-height: 20px;
+	padding-top: 4px;
+	color:black;
+}
+
+#tmpltzr .upcoming-events-output .embedded-event{
+	height: 130px;
+	display:block;
+	overflow:hidden;
+}
+#tmpltzr .upcoming-events-output .embedded-event-title{
+	font-size:24px;
+	line-height: 26px;
+	color:black;
+}
+
+#tmpltzr .upcoming-events-output .embedded-event-body-area{
+	padding-left:50px;
+	font:24px/26px "DIN Next W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color:black;
+}
+
+#tmpltzr .content #event-output .embedded-event-date-box.filled,
+#tmpltzr .embedded-event-date-box{
+	background-color:#999;
+}
+
+
+#tmpltzr .content #event-output .embedded-event-date-box.north-america.filled,
+#tmpltzr .embedded-event-date-box.north-america {
+	background-color:#00D6FF;
+}
+
+#tmpltzr .content #event-output .embedded-event-date-box.latin-america.filled,
+#tmpltzr .embedded-event-date-box.latin-america {
+	background-color:#00E652;
+}
+
+#tmpltzr .content #event-output .embedded-event-date-box.south-asia.filled,
+#tmpltzr .embedded-event-date-box.south-asia {
+	background-color:#FF9E00;
+}
+
+#tmpltzr .content #event-output .embedded-event-date-box.middle-east,
+#tmpltzr .embedded-event-date-box.middle-east {
+	background-color:#FF00A6;
+}
+
+#tmpltzr .content #event-output .embedded-event-date-box.africa.filled,
+#tmpltzr .embedded-event-date-box.africa {
+	background-color:#008AFF;
+}
+
+#tmpltzr .content #event-output .embedded-event-date-box.europe.filled,
+#tmpltzr .embedded-event-date-box.europe {
+	background-color:#AD20FF;
+}
+
+#tmpltzr .content #event-output .embedded-event-date-box.asia.filled,
+#tmpltzr .embedded-event-date-box.asia {
+	background-color:#FF555A;
+}
+
+#tmpltzr .content #event-output .embedded-event-date-box.other.filled,
+#tmpltzr .embedded-event-date-box.other {
+	background-color:gray;
+}
+
+/* ACADEMIC CALENDAR WIDGET */
+#tmpltzr .tmpltzr-academiccalendarwidget {
+	width:90%;
+	padding:20px;
+	background-color:#efefef;
+	text-align:center;
+}
+
+.tmpltzr-academiccalendarwidget .ac-today{
+	margin:0 auto;
+	height:89px;
+	width:90px;
+	padding:7px;
+	border:3px solid black;
+	border-top:10px solid black;
+	margin-bottom:17px;
+}
+
+.tmpltzr-academiccalendarwidget .ac-dayOfWeek,
+.tmpltzr-academiccalendarwidget .ac-month{
+	font: 14px/18px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+}
+.tmpltzr-academiccalendarwidget .ac-dayOfMonth{
+	font: 52px/53px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* CC WIDGET */
+.tmpltzr-ccwidget {
+	width:100%;
+	padding:0px;
+	height: 360px;
+	display:none;
+}
+.tmpltzr-ccwidget .cc-widget{
+	width:100%;
+	height:360px;
+}
+.tmpltzr-ccwidget .cc-widget ul li {
+	width:100%;
+	height:360px;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-image{
+	margin-bottom: 24px;
+	width:100%;
+	height:160px;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-image a{
+	text-decoration:none;
+	border-bottom:none !important;
+}
+
+.tmpltzr-ccwidget .cc-widget a.cc-text{
+	text-decoration:none;
+	border-bottom:none !important;
+	font-size:14px;
+	line-height:18px;
+	display:block;
+	width:90%;
+	margin-left:20px;
+	height:153px;
+	overflow:hidden;
+}
+
+.tmpltzr-ccwidget .cc-widget a.cc-text .cc-type{
+	font-size:14px;
+	line-height:18px;
+	text-transform: uppercase;
+	padding: 0 2px 0 0;
+	vertical-align:text-top;
+	color: #FF4358;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-prev{
+	position:absolute;
+	z-index:1000;
+	cursor:pointer;
+	top:337px;
+	left:18px;
+	width:51px;
+	height:14px;
+	display:block;
+	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-prev.png') no-repeat 0 0;
+}
+
+.tmpltzr-ccwidget .cc-widget .cc-next{
+	position:absolute;
+	z-index:1000;
+	cursor:pointer;
+	top:337px;
+	right:18px;
+	width:51px;
+	height:14px;
+	display:block;
+	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-next.png') no-repeat 0 0;
+}
+
+.tmpltzr-ccwidget .cc-widget-logo {
+	position:absolute;
+	width:40px;
+	height:40px;
+	display:block;
+	top:9px;
+	right:14px;
+	z-index:1000;
+	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cclogo40x40.png') no-repeat 0 0;
+}
+
+#tmpltzr .tmpltzr-followwidget {
+	background-color:#efefef;
+	padding:20px;
+	width:90%;
+}
+
+#tmpltzr .tmpltzr-followwidget .follow-links{
+	margin-top:12px;
+	display:block;
+	height: 44px;
+}
+
+#tmpltzr .tmpltzr-followwidget .follow-links a{
+	display:-moz-inline-stack;
+	display:inline-block;
+	width:17px;
+	height:17px;
+	margin:0 10px 10px 0;
+	padding:0 !important;
+	float:left;
+	border:none !important;
+	text-decoration:none;
+	background:transparent url('http://www.columbia.edu/cu/arch/tmpltzr/assets/Follow-icons-sprite.png') no-repeat left top;
+	background-position: 0px 0px;
+}
+
+.IE .tmpltzr-followwidget .follow-links a{
+	zoom:1;
+	*display:inline;
+}
+
+#tmpltzr .tmpltzr-followwidget .follow-links-row{
+	clear:both;
+}
+
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-twitter{
+	background-position: -26px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-twitter:hover{
+	background-position: -26px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-facebook{
+	background-position: -52px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-facebook:hover{
+	background-position: -52px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-linkedin{
+	background-position: -78px -42px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-linkedin:hover{
+	background-position: -78px -59px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-issuu{
+	background-position: -130px -42px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-issuu:hover{
+	background-position: -130px -59px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-flickr{
+	background-position: 0 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-flickr:hover{
+	background-position: 0 -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-cc{
+	background-position: -156px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-cc:hover{
+	background-position: -156px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-youtube{
+	background-position: -78px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-youtube:hover{
+	background-position: -78px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-vimeo{
+	background-position: -104px -42px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-vimeo:hover{
+	background-position: -104px -59px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-livestream{
+	background-position: -130px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-livestream:hover{
+	background-position: -130px -17px;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-itunes{
+	background-position: -104px 0;
+}
+#tmpltzr .tmpltzr-followwidget .follow-links a#follow-itunes:hover{
+	background-position: -104px -17px;
+}
+
+#tmpltzr .tmpltzr-htmlwidget {
+	padding:20px;
+	width:90%;
+}
+
+/* WIDGET ANNOUNCEMENT */
+#tmpltzr .tmpltzr-widgetannouncement{
+	padding:20px;
+	width:90%;
+}
+
+#tmpltzr .tmpltzr-widgetannouncement h4{
+	text-align:center;
+	margin:20px auto;
+	color:black !important;
+}
+
+#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body{
+	color:black !important;
+	padding-bottom:20px;
+}
+
+#tmpltzr .tmpltzr-widgetannouncement a{
+	text-decoration: none !important;
+	border:none !important;
+}
+
+#tmpltzr .tmpltzr-widgetannouncement .widget-brand.buell{
+	float:right;
+	width:34px;
+	height:39px;
+}
+
+#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-image{
+	text-align: center;
+	margin:0 auto;
+}
+
+#tmpltzr .tmpltzr-widgetannouncement .widget-brand{
+	float:left;
+}
+
+#tmpltzr .tmpltzr-widgetannouncement .widget-brand .widget-brand-text{
+	margin-left: 7px;
+	display:-moz-inline-stack;
+	display: inline-block;
+}
+
+.IE #tmpltzr .tmpltzr-widgetannouncement .widget-brand .widget-brand-text{
+	zoom:1;
+    *display:inline;
 }

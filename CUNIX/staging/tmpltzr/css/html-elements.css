@@ -199,6 +199,7 @@ ul.menu li, li.expanded, li.collapsed, li.leaf, li{
 	
     width: auto;
     list-style: none !important;
+    list-style-image: none !important;
 }
 
 ol {
@@ -399,6 +400,8 @@ dl dd {
 .IE #navigation .menu-arrow-large{
 	zoom:1;
 	*display:inline;
+	position:relative;
+	top:-15px;
 }
 
 #navigation .active-trail.expanded .menu-arrow-large{
@@ -2137,6 +2140,11 @@ dl dd {
 	margin-bottom:15px;
 }
 
+#tmpltzr .tmpltzr-widgetannouncement a .tmpltzr-widget-body,
+#tmpltzr .tmpltzr-widgetannouncement a h4{
+	border:none !important;
+}
+
 #tmpltzr .tmpltzr-widgetannouncement .widget-brand.buell{
 	float:right;
 	width:34px;
@@ -2156,6 +2164,12 @@ dl dd {
 .IE #tmpltzr .tmpltzr-widgetannouncement .widget-brand .widget-brand-text{
 	zoom:1;
     *display:inline;
+}
+
+
+.IE #tmpltzr .tmpltzr-widget a{
+	border:none !important;
+	text-decoration: none !important;
 }
 
 
