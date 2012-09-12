@@ -85,7 +85,7 @@
 
 
 #footer {
-    margin-top: 10px;
+    padding-top: 30px;
     width: auto;
     line-height: 16px;
     clear: both;
@@ -209,6 +209,13 @@
 .IE #gsapp-customsearch #edit-submit{
 	zoom:1;
 	display:inline;
+}
+
+.iscroll #gsapp-customsearch #edit-submit,
+.IE #gsapp-customsearch #edit-submit{
+    position:relative;
+    margin-top:0px;
+    top:-15px;
 }
 
 .form-item {
