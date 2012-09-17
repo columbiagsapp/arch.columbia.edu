@@ -88,7 +88,7 @@
 			var thisHREF = $(this).attr('href');//programs/
 			thisHREF = thisHREF.substring(1,5); //remove the leading /prog
 
-			if($active.parent('li').hasClass('branch') && $(this).parent('li').hasClass('branch') ){//if both top level
+			if($(this).parent('li').hasClass('branch') ){//if both top level
 				returnval = false;
 			}else{//not siblings at the highest level
 
