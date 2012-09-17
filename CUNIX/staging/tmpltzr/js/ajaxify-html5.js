@@ -6,7 +6,7 @@
 		$ = window.jQuery,
 		document = window.document,
 		TOGGLE_TIME = 500,
-		templatizer = true,
+		templatizer = false,
 		copypaste = false,
 		interclick = false;
 
@@ -84,23 +84,28 @@
 		 *	a different parent.
 		*/
 		$.fn.internalRedirect = function($active){
-			safelog('+++ internalRedirect()');
+			safelog('** entering internalRedirect() **');
 			var returnval;
 			var thisHREF = $(this).attr('href');//programs/
 			thisHREF = thisHREF.substring(1,5); //remove the leading /prog
+			safelog('thisHREF: '+ thisHREF);
 
-			if($active.parent('li').hasClass('branch') && $(this).parent('li').hasClass('branch') ){//if both top level
+			if($(this).parent('li').hasClass('branch') ){//if both top level
 				returnval = false;
 			}else{//not siblings at the highest level
 
 				if($active.closest('.level-1').length){
+					safelog('if 98');
 					var activeHREF = $active.closest('.level-1').parent('li').children('a').attr('href');
 				}else{
+					safelog('if 101');
 					var activeHREF = $active.attr('href');
 				}
+				safelog('activeHREF: '+ activeHREF);
 				if(activeHREF != undefined){
 
 					activeHREF = activeHREF.substring(1,5);
+					safelog('stub activeHREF: '+ activeHREF);
 
 					if( thisHREF != undefined ){
 						if( thisHREF != activeHREF ){
@@ -116,6 +121,7 @@
 					returnval = false;
 				}
 			}
+			safelog('not false, returning: '+ returnval);
 			return returnval;
 		}
 		
@@ -246,7 +252,6 @@
 		 *	Collapse the menu and remove active settings.
 		*/
 		$.fn.collapseMenu = function(){
-			safelog('+++ collapseMenu()');
 			$(this).removeClass('expanded').removeClass('active-trail').addClass('collapsed');
 			$(this).children('a').css('color','');
 
@@ -255,10 +260,9 @@
 				//$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').each(function(){
 					var delta = $(this).offset().top;// - $(this).height();
-					safelog('// delta: ' + delta);
 					$(this).slideToggle(TOGGLE_TIME);
 					if( (delta < 170) && (gsapp.iscroll == false) ){
-						safelog('**** scrollByY()');
+						safelog('258: collapseMenu() scrollBy() called');
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
 					}
 
@@ -307,6 +311,7 @@
 		 *	Call in the event of an internal redirect
 		*/
 		$.fn.internalRedirectFunc = function($active, internalRedir){
+			safelog('** entering internalRedirectFunc() **');
 			$active.collapseBranch();
 			var $sel = $(this).expandBranch(internalRedir);
 			if( getCurrentState() == 'redirect' ){
@@ -319,6 +324,7 @@
 			//TODO: need to add > +2 test here
 			
 			setTimeout(function(){
+				safelog('319: internalRedirectFunc() scrollToElement() called');
 				gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 			}, TOGGLE_TIME);
 			
@@ -506,6 +512,7 @@
 				var $sel = $(this).expandBranch(internalRedir);
 				if($active != undefined){
 					setTimeout(function(){
+						safelog('507: climb() scrollToElement() called');
 						gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 					}, TOGGLE_TIME);
 				}
@@ -595,15 +602,14 @@
 		 *	menu.
 		*/
 		$.fn.branch = function($active){
+			safelog('** entering branch() **');
 			if($active != undefined){
-				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
-					$(this).collapseMenuInterval($active, 0 );
-				}else{
-					$(this).collapseMenuInterval($active, 0 );
-				}
+				safelog('about to call collapseMenuInterval() ');
+				$(this).collapseMenuInterval($active, 0 );
 			}
 		
 			$active.removeClass('active');
+			safelog('about to call dig() ');
 			$(this).dig($active);
 		}
 		
@@ -656,7 +662,6 @@
 		}
 
 		$.fn.menuClickFunc = function(event){
-			safelog('---------CLICK EVENT---------');
 			// Prepare
 			var
 				$this = $(this),
@@ -673,7 +678,6 @@
 			*/
 
 			if($(this).closest('#wrapper').length){
-				safelog('----LINK FROM #WRAPPER---');
 				if($active != undefined){
 					var $menuLink = $active.parent('li').find('a:[href="'+url+'"]');
 					if($menuLink.length){
@@ -709,25 +713,31 @@
 			
 			switch(getCurrentState()){
 				case 'home':
-					safelog('CASE:      HOME       +');
+					safelog('-----HOME-----');
 					$this.dig($active);
 					break;
 				case 'menu':
-					safelog('CASE:      MENU       +');
+					safelog('-----MENU-----');
 					if( $this.hasClass('active') ){//clicked self
+						safelog('--   1   --');
 						if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
 							$this.parent('li').menuToggleVisibility();
 						}
 						fetch = false;
 						break;
 					}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
+						safelog('--   2   --');
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){
+						safelog('--   3   --');
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
+						safelog('--   4   --');
 						$this.climb($active);
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
+						safelog('--   5   --');
 						if(!($this._is_active_trail($active))){
+							safelog('--   5a   --');
 							var $last = $this.parents('li.force-expanded').last();
 							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
 							if( getMenuToggle() == 'hidden'){
@@ -737,14 +747,16 @@
 							$this.addClass('active');
 							$active.removeClass('active');
 						}else{
+							safelog('--   5b   --');
 							$this.dig($active);
 						}
 					}else{
+						safelog('--   6   --');
 						$this.branch($active);
 					}
 					break;
 				case 'redirected':
-					safelog('CASE:      REDIR       +');
+					safelog('-----REDIRECTED-----');
 					if( $this._is_dig($active) ){//going deeper into the same branch line
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){//sibling of the current element
@@ -832,9 +844,7 @@
 		
 		// Hook into State Changes
 		$(window).bind('statechange',function(){	
-
 			if(interclick == false){
-				safelog('?? interclick == true');
 				$this = $('#navigation a:[href="'+ window.location.pathname +'"]');
 				if($this.length){
 					if($this.length > 1){
