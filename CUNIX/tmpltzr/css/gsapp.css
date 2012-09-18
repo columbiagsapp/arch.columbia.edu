@@ -10,7 +10,7 @@
     position:fixed;
     top:0;
     left:0;
-    background-color:#efefef; /* tct2003 111228 #fff; */
+    background-color:green; /* tct2003 111228 #fff; */
     overflow: hidden;
     z-index:2;
     display:block;
@@ -47,7 +47,7 @@
 
 #navigation {
     width: 400px;
-    background-color:#efefef; /* tct2003 111228 #fff; */
+    background-color:green; /* tct2003 111228 #fff; */
     position:fixed;
     top:170px;
     left:0;
@@ -102,7 +102,7 @@
 	position:fixed;
 	bottom:0;
 	width:400px;
-	background-color:#efefef;
+	background-color:green;
 	height:35px;
 	display:block;
 }
