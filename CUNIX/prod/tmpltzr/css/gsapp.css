@@ -103,14 +103,14 @@
 	bottom:0;
 	width:400px;
 	background-color:#efefef;
-	height:35px;
+	height:45px;
 	display:block;
     z-index: 20000;
 }
 #columbialogo img{
 	display:block;
 	position:absolute;
-	bottom:17px;
+	bottom:10px;
 	left:47px;
 }
 
