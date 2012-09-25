@@ -62,6 +62,20 @@
 	font:28px/34px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+body.loading #tmpltzr, body.loading footer {
+	opacity:0.0;
+	filter: alpha(opacity = 0);
+}
+
+#preloader{
+	margin-top:170px;
+	display:none;
+}
+
+body.loading #preloader{
+	display:block;
+}
+
 @media only screen and (max-device-height: 480px) {
 	#wrapper, #navigation {
 		height:348px;
@@ -830,4 +844,27 @@
 .IE #tmpltzr .tmpltzr-widgetannouncement .widget-brand .widget-brand-text{
 	zoom:1;
     *display:inline;
+}
+
+
+
+/* FOOTER */
+#footer-inner{
+	width:500px;
+}
+
+.iscroll #tmpltzr .tmpltzr-subtitle,
+.iscroll .tmpltzr-person .tmpltzr-title-container .tmpltzr-subtitle,
+.iscroll #tmpltzr .tmpltzr-caption,
+.iscroll #tmpltzr .embedded-tumblr-permalink,
+.iscroll #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-code, #tmpltzr .tmpltzr-primarycourse .tmpltzr-course-points,
+.iscroll #tmpltzr .gs-webResult div.gs-visibleUrl, #tmpltzr .gs-imageResult div.gs-visibleUrl,
+.iscroll #tmpltzr .gsc-result-info,
+.iscroll .view-people .view-filters .views-exposed-widget label,
+.iscroll #footer-inner,
+.iscroll .tmpltzr-featuredeventwidget .featured-events-widget .fe-label,
+.iscroll #tmpltzr .embedded-tumblr .tmpltzr-tags,
+.iscroll .profile .views-field-value-5,
+.iscroll #tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body {
+	font: 14px/18px "Courier New", Courier, Verdana, sans-serif;
 }

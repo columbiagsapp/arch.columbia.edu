@@ -870,12 +870,10 @@
 						$menuChildren, contentHtml, $scripts;
 					
 					// Fetch the scripts
-					/*
 					$scripts = $dataContent.find('.document-script');
 					if ( $scripts.length ) {
 						$scripts.detach();
 					}
-					*/
 
 					// Fetch the content
 					contentHtml = $dataContent.html()||$data.html();
@@ -896,19 +894,16 @@
 					}else{
 						$content.stop(true,true);
 						$content.html(contentHtml).ajaxify().css('opacity',100).show(100); // you could fade in here if you'd like 
-						//gsapp.resizeFunc();
+						gsapp.resizeFunc();
 					}
 					
 					// Update the title
-					/*
 					document.title = $data.find('.document-title:first').text();
 					try {
 						document.getElementsByTagName('title')[0].innerHTML = document.title.replace('<','&lt;').replace('>','&gt;').replace(' & ',' &amp; ');
 					}
 					catch ( Exception ) { }
-					*/
 					// Add the scripts
-					/*
 					$scripts.each(function(){
 						var $script = $(this),
 							scriptText = $script.text();
@@ -925,7 +920,6 @@
 							contentNode.appendChild(scriptNode);
 						}
 					});
-					*/
 	
 					// Inform Google Analytics of the change
 					if ( typeof window.pageTracker !== 'undefined' ) {
@@ -938,18 +932,8 @@
 						// ^ we use the full url here as that is what reinvigorate supports
 					}
 
-				
-					
-					
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					document.location.href = url;
-					return false;
-				},
-				complete: function(jqXHR, textStatus){
-
-					if(gsapp.mobile == false){
-						gsapp.resizeFunc();
+					if(copypaste){
+						$('#copy-paste h4').bind('click', copyPaste);
 					}
 
 					setTimeout(gsapp.initPhotoset, 0);
@@ -957,10 +941,11 @@
 					$('#fixed-header #program-list .term-list a.term-index-term').bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 
 					if(gsapp.mobile){
+						//$('#header').css('backgroundColor','red');
 						setTimeout(function(){
 							gsappMobile.refreshMenuWidth();
 							gsappMobile.menuScroll.refresh();
-						},2000);
+						},0);
 						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
 							setTimeout(function(){
 								gsappMobile.menuScroll.refresh();
@@ -997,6 +982,11 @@
 						$body.removeClass('loading');
 					}
 					interclick = false;
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					document.location.href = url;
+					return false;
 				}
 			}); // end ajax
 

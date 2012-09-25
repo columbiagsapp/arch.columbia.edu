@@ -41,6 +41,14 @@ var safelog = function(msg){
 	}
 }
 
+gsapp.addHeaderNotice = function(imgSRC, link){
+	var text = '<img src='+imgSRC+' style="margin-top:15px;">';
+	if(link){
+		text = '<a href="'+link+'" target="_blank" style="border:none !important;">'+text+'</a>';
+	}
+	$('#global-header').append(text);
+}
+
 var HOME_URL = 'http://templatizer.gsapp.org';
 
 var MENU_TOGGLE = 'shown';
@@ -514,10 +522,10 @@ gsappMobile.switchToMenu = function(){
 	$('#wrapper').animate({
 			width: 70,
 			left: mcw
-		}, gsappMobile.switchTIM);
+		}, gsappMobile.switchTIME);
 	$('#navigation').animate({
 			width: mcw
-		}, gsappMobile.switchTIM,
+		}, gsappMobile.switchTIME,
 		function(){
 			$('#menu').show();
 			$('#contentswitch').show(); 
@@ -536,7 +544,7 @@ gsappMobile.switchToContent = function(){
 	var mcw = $('#navigation').width();
 	$('#navigation').animate({
 			width: 70
-		}, gsappMobile.switchTIM);
+		}, gsappMobile.switchTIME);
 	$('#wrapper').animate({
 			width: mcw,
 			left: 70
@@ -658,17 +666,8 @@ $(document).ready(function () {
 		$(this).bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 	});
 
-	//scrollCourseBlogsIndex();
-	/*
-	$(document).scroll(function() {
-		if($(document).scrollTop() >= 270){
-			$("#fixed-header").addClass('fix-header');
-			$("#course-blogs-index-listing").css('margin-top','395px');
-		}else{
-			$("#fixed-header").removeClass('fix-header');
-			$("#course-blogs-index-listing").css('margin-top','0');
-		}
-	});*/
+	//include a notice in the header above the content: params: (image source, url to link to)
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png");
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	

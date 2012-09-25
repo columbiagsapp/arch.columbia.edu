@@ -329,6 +329,10 @@ dl dd {
 	*display:inline;
 }
 
+.IE #navigation .menu{
+	overflow: hidden;
+}
+
 #navigation .menu li a:hover,
 #navigation .menu li.force-expanded a:hover{
 	color:black;
@@ -347,7 +351,7 @@ dl dd {
 	word-wrap: break-word
 }
 
-#navigation .menu .menu li{
+#navigation .menu .menu {
 	display:none;
 }
 

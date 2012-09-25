@@ -33,7 +33,7 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = true;
+gsapp.LOG = false;
 var TMPLTZR = false;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
@@ -514,10 +514,10 @@ gsappMobile.switchToMenu = function(){
 	$('#wrapper').animate({
 			width: 70,
 			left: mcw
-		}, gsappMobile.switchTIM);
+		}, gsappMobile.switchTIME);
 	$('#navigation').animate({
 			width: mcw
-		}, gsappMobile.switchTIM,
+		}, gsappMobile.switchTIME,
 		function(){
 			$('#menu').show();
 			$('#contentswitch').show(); 
@@ -536,7 +536,7 @@ gsappMobile.switchToContent = function(){
 	var mcw = $('#navigation').width();
 	$('#navigation').animate({
 			width: 70
-		}, gsappMobile.switchTIM);
+		}, gsappMobile.switchTIME);
 	$('#wrapper').animate({
 			width: mcw,
 			left: 70
@@ -630,6 +630,8 @@ $(document).ready(function () {
 	*/
 	if($('body').hasClass('mobile') || $('body').hasClass('iscroll') ){
 		gsapp._remove_flash_content();
+	}else{
+		$('#global-header').append('<img src="http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png" style="margin-top:15px;"/>');
 	}
 	
 	setTimeout(gsapp.initPhotoset, 0);

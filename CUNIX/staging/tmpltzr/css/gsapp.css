@@ -21,16 +21,6 @@
 	height:172px;
 }
 
-#global-header a{
-    text-decoration: none !important;
-    border:none !important;
-    margin-top:20px;
-}
-
-#global-header a img{
-    margin-top:20px;
-}
-
 #wrapper{
 	width: 100%;
     margin-left:460px;/* 60px margin from menu */
@@ -113,14 +103,14 @@
 	bottom:0;
 	width:400px;
 	background-color:#efefef;
-	height:35px;
+	height:45px;
 	display:block;
     z-index: 20000;
 }
 #columbialogo img{
 	display:block;
 	position:absolute;
-	bottom:17px;
+	bottom:10px;
 	left:47px;
 }
 
@@ -219,6 +209,10 @@
 .IE #gsapp-customsearch #edit-submit{
 	zoom:1;
 	display:inline;
+}
+
+.iscroll #gsapp-customsearch #edit-submit,
+.IE #gsapp-customsearch #edit-submit{
     position:relative;
     margin-top:0px;
     top:-15px;
