@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+//
 	// iphone full screen
 	window.scrollTo(0,0);
 	
