@@ -329,6 +329,10 @@ dl dd {
 	*display:inline;
 }
 
+.IE #navigation .menu{
+	overflow: hidden;
+}
+
 #navigation .menu li a:hover,
 #navigation .menu li.force-expanded a:hover{
 	color:black;
@@ -2001,6 +2005,10 @@ dl dd {
 	padding:20px;
 }
 
+.tmpltzr-htmlwidget.none {
+	padding:0;
+}
+
 /* for jscrollpane custom scroll bar */
 /*
  * CSS Styles that are needed by jScrollPane for it to operate correctly.
@@ -2170,6 +2178,10 @@ dl dd {
 .IE #tmpltzr .tmpltzr-widget a{
 	border:none !important;
 	text-decoration: none !important;
+}
+
+.tmpltzr #books-poster-widget {
+	border:none;
 }
 
 

@@ -887,6 +887,7 @@
 					//$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
 					
 					$body.scrollTop(0);
+					//$body.animate({ scrollTop: 0 }, 'slow');
 					//resize the page to check if room for sidebar
 					if(gsapp.mobile == true){
 						$content.html(contentHtml).ajaxify().hide();

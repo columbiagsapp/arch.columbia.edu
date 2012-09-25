@@ -178,7 +178,7 @@ gsappFetcher.findLocationClass = function(location_string) {
 	locations['Moscow'] = 'europe';
 	locations['Mumbai'] = 'south-asia';
 	locations['New York'] = 'north-america';
-	locations['Rio de Janiero'] = 'latin-america';
+	locations['Rio De Janeiro'] = 'latin-america';
 	locations['Sao Paulo'] = 'latin-america';
 	locations['Toronto'] = 'north-america';
 	

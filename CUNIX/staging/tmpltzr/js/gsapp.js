@@ -630,8 +630,6 @@ $(document).ready(function () {
 	*/
 	if($('body').hasClass('mobile') || $('body').hasClass('iscroll') ){
 		gsapp._remove_flash_content();
-	}else{
-		$('#global-header').append('<img src="http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png" style="margin-top:15px;"/>');
 	}
 	
 	setTimeout(gsapp.initPhotoset, 0);

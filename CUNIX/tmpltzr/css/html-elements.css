@@ -1998,6 +1998,11 @@ dl dd {
 	padding:20px;
 }
 
+.tmpltzr-htmlwidget.none {
+	padding:0;
+}
+
+
 /* for jscrollpane custom scroll bar */
 /*
  * CSS Styles that are needed by jScrollPane for it to operate correctly.
@@ -2158,4 +2163,7 @@ dl dd {
     *display:inline;
 }
 
+#tmpltzr #books-poster-widget {
+	border:none !important;
+}
 

@@ -231,7 +231,7 @@
 					
 					<div id="login">
 						<?php if (!$user->uid): ?>
-							<?php print l("Login", "user/wind"); ?>
+							<?php print l("Login", "user/login"); ?>
 						<?php else:?>
 							<?php print l("Logout", "logout"); ?>
 						<?php endif; ?>

@@ -316,7 +316,7 @@ dl dd {
 	font: 28px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
 	display:-moz-inline-stack;
 	display:inline-block;
-	padding:0 0 10px 10px !important;
+	padding:0 0 8px 10px !important;
 	letter-spacing: .1em;
 }
 
@@ -347,7 +347,7 @@ dl dd {
 	word-wrap: break-word
 }
 
-#navigation .menu .menu {
+#navigation .menu .menu li{
 	display:none;
 }
 
@@ -1620,9 +1620,15 @@ dl dd {
 	border-bottom:1px solid black !important;
 }
 
+
+#tmpltzr .view-people .view-filters .views-exposed-widgets{
+	width:260px;
+}
+
 #tmpltzr .view-people .view-filters .views-exposed-widget label{
 	display:block;
 	margin-bottom:7px;
+	padding-top:17px;
 }	
 
 #tmpltzr .view-people .view-filters{
@@ -1632,8 +1638,6 @@ dl dd {
 #tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget{
 	width:240px;
 	padding:0 !important;
-	margin-right:20px;
-	float:left;
 }
 
 #tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget .views-widget select{
@@ -1653,10 +1657,6 @@ dl dd {
 
 #tmpltzr .view-people .view-filters #edit-submit{
 	display:block;
-}
-
-#tmpltzr .view-people .view-header{
-	margin-bottom:20px;
 }
 
 #tmpltzr .view-people .view-filters{
@@ -2001,6 +2001,10 @@ dl dd {
 	padding:20px;
 }
 
+.tmpltzr-htmlwidget.none {
+	padding:0;
+}
+
 /* for jscrollpane custom scroll bar */
 /*
  * CSS Styles that are needed by jScrollPane for it to operate correctly.
@@ -2170,6 +2174,10 @@ dl dd {
 .IE #tmpltzr .tmpltzr-widget a{
 	border:none !important;
 	text-decoration: none !important;
+}
+
+.tmpltzr #books-poster-widget {
+	border:none;
 }
 
 

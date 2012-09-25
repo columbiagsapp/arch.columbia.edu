@@ -60,6 +60,8 @@
 				isInternalLink = false;
 			}			
 			
+			//safelog('internal() url: ' + url + ' -- result: '+isInternalLink);//tct2003
+
 			// Ignore or Keep
 			return isInternalLink;
 		};
@@ -84,28 +86,22 @@
 		 *	a different parent.
 		*/
 		$.fn.internalRedirect = function($active){
-			safelog('** entering internalRedirect() **');
 			var returnval;
 			var thisHREF = $(this).attr('href');//programs/
 			thisHREF = thisHREF.substring(1,5); //remove the leading /prog
-			safelog('thisHREF: '+ thisHREF);
 
 			if($(this).parent('li').hasClass('branch') ){//if both top level
 				returnval = false;
 			}else{//not siblings at the highest level
 
 				if($active.closest('.level-1').length){
-					safelog('if 98');
 					var activeHREF = $active.closest('.level-1').parent('li').children('a').attr('href');
 				}else{
-					safelog('if 101');
 					var activeHREF = $active.attr('href');
 				}
-				safelog('activeHREF: '+ activeHREF);
 				if(activeHREF != undefined){
 
 					activeHREF = activeHREF.substring(1,5);
-					safelog('stub activeHREF: '+ activeHREF);
 
 					if( thisHREF != undefined ){
 						if( thisHREF != activeHREF ){
@@ -121,7 +117,6 @@
 					returnval = false;
 				}
 			}
-			safelog('not false, returning: '+ returnval);
 			return returnval;
 		}
 		
@@ -170,8 +165,8 @@
 						}else{
 							$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition','0 0');
 						}
-						
-						$(this).children('.menu:not(:visible)').slideToggle(TOGGLE_TIME);
+						safelog('expandBranch() 5');
+						$(this).children('.menu:not(:visible)').children('li').slideToggle(TOGGLE_TIME);
 					});	
 					$(this).find(selector).addClass('active');
 					$(this).parent('li').find('.force-expanded').each(function(){
@@ -200,7 +195,8 @@
 				}
 				$(this).children('a:eq(0)').css('color', 'black');
 				if( !( $(this).children('.menu').is(':visible') ) ){
-					$(this).children('.menu').slideToggle(TOGGLE_TIME);
+					safelog('expandMenus() 1');
+					$(this).children('.menu').children('li').slideToggle(TOGGLE_TIME);
 				}
 				
 				$(this).parent('li').find('.force-expanded').each(function(){
@@ -224,7 +220,9 @@
 				}else{
 					$parent.children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition','0 0');
 				}
-				$(this).parent('li').children('.menu:not(:visible)').slideToggle(TOGGLE_TIME);
+				safelog('expandMenu() 2: ');
+
+				$(this).parent('li').children('.menu').children('li').slideToggle(TOGGLE_TIME);
 				$(this).parent('li').find('.force-expanded').each(function(){
 					if($(this).children('.menu').length > 0){
 						$(this).children('span').css('backgroundPosition', '0 0');
@@ -260,9 +258,9 @@
 				//$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').each(function(){
 					var delta = $(this).offset().top;// - $(this).height();
-					$(this).slideToggle(TOGGLE_TIME);
+					safelog('collapseMenus() 3');
+					$(this).children('li').slideToggle(TOGGLE_TIME);
 					if( (delta < 170) && (gsapp.iscroll == false) ){
-						safelog('258: collapseMenu() scrollBy() called');
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
 					}
 
@@ -311,7 +309,6 @@
 		 *	Call in the event of an internal redirect
 		*/
 		$.fn.internalRedirectFunc = function($active, internalRedir){
-			safelog('** entering internalRedirectFunc() **');
 			$active.collapseBranch();
 			var $sel = $(this).expandBranch(internalRedir);
 			if( getCurrentState() == 'redirect' ){
@@ -324,7 +321,6 @@
 			//TODO: need to add > +2 test here
 			
 			setTimeout(function(){
-				safelog('319: internalRedirectFunc() scrollToElement() called');
 				gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 			}, TOGGLE_TIME);
 			
@@ -512,7 +508,6 @@
 				var $sel = $(this).expandBranch(internalRedir);
 				if($active != undefined){
 					setTimeout(function(){
-						safelog('507: climb() scrollToElement() called');
 						gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 					}, TOGGLE_TIME);
 				}
@@ -602,14 +597,15 @@
 		 *	menu.
 		*/
 		$.fn.branch = function($active){
-			safelog('** entering branch() **');
 			if($active != undefined){
-				safelog('about to call collapseMenuInterval() ');
-				$(this).collapseMenuInterval($active, 0 );
+				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
+					$(this).collapseMenuInterval($active, 0 );
+				}else{
+					$(this).collapseMenuInterval($active, 0 );
+				}
 			}
 		
 			$active.removeClass('active');
-			safelog('about to call dig() ');
 			$(this).dig($active);
 		}
 		
@@ -626,7 +622,8 @@
 				$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '0 0');
 				setMenuToggle('shown');
 			}
-			$(this).children('.menu').slideToggle(TOGGLE_TIME);
+			safelog('menuToggleVisibility() 4');
+			$(this).children('.menu').children('li').slideToggle(TOGGLE_TIME);
 		}
 		
 		
@@ -713,31 +710,23 @@
 			
 			switch(getCurrentState()){
 				case 'home':
-					safelog('-----HOME-----');
 					$this.dig($active);
 					break;
 				case 'menu':
-					safelog('-----MENU-----');
 					if( $this.hasClass('active') ){//clicked self
-						safelog('--   1   --');
 						if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
 							$this.parent('li').menuToggleVisibility();
 						}
 						fetch = false;
 						break;
 					}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
-						safelog('--   2   --');
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){
-						safelog('--   3   --');
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
-						safelog('--   4   --');
 						$this.climb($active);
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
-						safelog('--   5   --');
 						if(!($this._is_active_trail($active))){
-							safelog('--   5a   --');
 							var $last = $this.parents('li.force-expanded').last();
 							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
 							if( getMenuToggle() == 'hidden'){
@@ -747,16 +736,13 @@
 							$this.addClass('active');
 							$active.removeClass('active');
 						}else{
-							safelog('--   5b   --');
 							$this.dig($active);
 						}
 					}else{
-						safelog('--   6   --');
 						$this.branch($active);
 					}
 					break;
 				case 'redirected':
-					safelog('-----REDIRECTED-----');
 					if( $this._is_dig($active) ){//going deeper into the same branch line
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){//sibling of the current element
