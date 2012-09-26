@@ -823,6 +823,7 @@
 		
 		// Hook into State Changes
 		$(window).bind('statechange',function(){	
+			//used when the user clicks the back button
 			if(interclick == false){
 				$this = $('#navigation a:[href="'+ window.location.pathname +'"]');
 				if($this.length){
@@ -868,15 +869,14 @@
 						$dataBody = $data.find('.document-body:first'),
 						$dataContent = $dataBody.find(contentSelector).filter(':first'),
 						$menuChildren, contentHtml, $scripts;
-					
+
 					// Fetch the scripts
-					/*
+					// necessary for fetched content like tumblr
 					$scripts = $dataContent.find('.document-script');
 					if ( $scripts.length ) {
 						$scripts.detach();
 					}
-					*/
-
+					
 					// Fetch the content
 					contentHtml = $dataContent.html()||$data.html();
 					if ( !contentHtml ) {
@@ -884,10 +884,7 @@
 						return false;
 					}
 					
-					// Update the content
-					//$content.stop(true,true);
-					//$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
-					
+					//scroll content to the top of the page
 					$body.scrollTop(0);
 					//$body.animate({ scrollTop: 0 }, 'slow');
 					//resize the page to check if room for sidebar
@@ -898,17 +895,8 @@
 						$content.html(contentHtml).ajaxify().css('opacity',100).show(100); // you could fade in here if you'd like 
 						//gsapp.resizeFunc();
 					}
-					
-					// Update the title
-					/*
-					document.title = $data.find('.document-title:first').text();
-					try {
-						document.getElementsByTagName('title')[0].innerHTML = document.title.replace('<','&lt;').replace('>','&gt;').replace(' & ',' &amp; ');
-					}
-					catch ( Exception ) { }
-					*/
+
 					// Add the scripts
-					/*
 					$scripts.each(function(){
 						var $script = $(this),
 							scriptText = $script.text();
@@ -925,7 +913,6 @@
 							contentNode.appendChild(scriptNode);
 						}
 					});
-					*/
 	
 					// Inform Google Analytics of the change
 					if ( typeof window.pageTracker !== 'undefined' ) {
@@ -960,7 +947,7 @@
 						setTimeout(function(){
 							gsappMobile.refreshMenuWidth();
 							gsappMobile.menuScroll.refresh();
-						},2000);
+						},0);
 						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
 							setTimeout(function(){
 								gsappMobile.menuScroll.refresh();

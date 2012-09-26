@@ -14,21 +14,44 @@
  * 8/1/2012
  */
  
+
+body{
+	font:14px/17px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color:black;
+}
+
+body.retina{
+	font:28px/34px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 #wrapper {
 	position:absolute;
-	top:0;
+	top:77px;
 	z-index:1;
 	bottom:0;
+	width:35px;
+	right:0;
+}
+
+.retina #wrapper {
+	top:132px;
 	width:70px;
 }
 
 #content{
-	position:absolute;
-	z-index:1;
+	top:77px;
+	padding:5px 5px 150px 30px;
+	display: none;
+}
+
+#content img{
+	max-width:100%;
+	height:auto;
+}
+
+.retina #content{
 	top:132px;
-	display:none;
 	padding:10px 10px 300px 60px;
-	font:28px/34px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #header {
@@ -37,39 +60,55 @@
     left:0;
     background-color:#efefef;
     z-index:2;
-	height: 130px;
+	height: 75px;
 	color: #fff;
 	border-bottom: 2px solid white;
+}
 
+.retina #header {
+	height: 130px;
 }
 
 #navigation {
     background-color:#efefef;
     position:absolute;
-    top:132px;
+    top:77px;
     left:0;
 	z-index:1;
 	bottom:0;
+}
+
+.retina #navigation {
+    top:132px;
 }
 
 #mobile-search {
 	display:none;
 	position:absolute;
 	z-index:1;
-	top:132px;
+	top:77px;
 	display:none;
-	padding:10px 10px 300px 60px;
-	font:28px/34px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	padding:5px 5px 150px 30px;
 }
 
-body.loading #tmpltzr, body.loading footer {
+.retina #mobile-search {
+	top:132px;
+	padding:10px 10px 300px 60px;
+}
+
+body.loading #tmpltzr,
+body.loading footer {
 	opacity:0.0;
 	filter: alpha(opacity = 0);
 }
 
 #preloader{
-	margin-top:170px;
+	margin-top:85px;
 	display:none;
+}
+
+.retina #preloader{
+	margin-top:170px;
 }
 
 body.loading #preloader{
@@ -78,7 +117,7 @@ body.loading #preloader{
 
 @media only screen and (max-device-height: 480px) {
 	#wrapper, #navigation {
-		height:348px;
+		height:403px;
 	}
 }
 
@@ -106,19 +145,39 @@ body.loading #preloader{
 
 #menu{
 	z-index:1;
-	padding-left:54px;
+	padding-left:27px;
 	position:absolute;
+	padding-top:29px;
+	padding-bottom:39px;
+	width:100%;
+}
+
+.retina #menu{
+	padding-left:54px;
 	padding-top:57px;
 	padding-bottom:77px;
-	width:640px;
 }
 
 #gsapp-logo {
 	position:absolute;
-	width: 237px;
-	height:49px;
+	top: 23px;
+	left:35px;
+}
+
+#gsapp-logo img{
+	width: 119px;
+	height:25px;
+}
+
+.retina #gsapp-logo {
+	position:absolute;
 	top: 46px;
 	left:69px;
+}
+
+.retina #gsapp-logo img{
+	width: 237px;
+	height:49px;
 }
 
 #gsapp-news {
@@ -140,11 +199,24 @@ body.loading #preloader{
 
 #gsapp-login {
 	position:absolute;
+	left:264px;
+	top: 27px;
+	height: 24px;
+}
+#gsapp-login a {
+	font-family: 'courier new', courier, monospace;
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+}
+
+.retina #gsapp-login {
+	position:absolute;
 	left:527px;
 	top: 54px;
 	height: 47px;
 }
-#gsapp-login a {
+.retina #gsapp-login a {
 	font-family: 'courier new', courier, monospace;
 	font-weight: bold;
 	color: black;
@@ -208,14 +280,24 @@ body.loading #preloader{
 	text-decoration:none;
     color:gray;
     text-transform: uppercase;
-	font: 50px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
+	font: 24px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
 	display:inline-block;
-	padding:0 0 10px 10px !important;
+	padding:0 0 5px 5px !important;
 	line-height:1em;
+}
+
+.retina #navigation .menu li a{
+	font: 50px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
+	padding:0 0 10px 10px !important;
 }
 
 #navigation .menu li {
 	list-style: none;
+	padding-bottom:5px;
+	margin-bottom:5px;
+}
+
+.retina #navigation .menu li {
 	padding-bottom:10px;
 	margin-bottom:10px;
 }
@@ -228,8 +310,12 @@ body.loading #preloader{
 
 
 #navigation .menu .menu li a {
-	font: 36px "DIN Next W02 Bold", Arial, Helvetica, sans-serif !important;
+	font: 18px "DIN Next W02 Bold", Arial, Helvetica, sans-serif !important;
 	line-height:.8em;
+}
+
+.retina #navigation .menu .menu li a {
+	font: 36px "DIN Next W02 Bold", Arial, Helvetica, sans-serif !important;
 }
 
 #navigation .menu {
@@ -239,10 +325,18 @@ body.loading #preloader{
 
 #navigation .menu .menu {
 	display:none;
+	padding-top:10px;
+}
+
+.retina #navigation .menu .menu {
 	padding-top:20px;
 }
 
 #navigation .menu li.force-expanded{
+	padding-left:5px;
+}
+
+.retina #navigation .menu li.force-expanded{
 	padding-left:9px;
 }
 
@@ -256,16 +350,29 @@ body.loading #preloader{
 
 
 #navigation .hover-only{
-	margin-left:5px;
+	margin-left:3px;
 	display:none;
 	padding-bottom:1px;
 }
 
+.retina #navigation .hover-only{
+	margin-left:5px;
+	padding-bottom:1px;
+}
+
 #navigation ul ul{
+	padding-left:12px;
+}
+
+.retina #navigation ul ul{
 	padding-left:25px;
 }
 
 #navigation ul ul ul{
+	padding-left:10px !important;
+}
+
+.retina #navigation ul ul ul{
 	padding-left:19px !important;
 }
 
@@ -275,6 +382,10 @@ body.loading #preloader{
 	height:15px;
 	background:transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/menu-arrow-large.png") no-repeat -15px -50px;
 	vertical-align: bottom;
+	padding-bottom: 13px;
+}
+
+.retina #navigation .menu-arrow-large{
 	padding-bottom: 27px;
 }
 
@@ -294,8 +405,12 @@ body.loading #preloader{
 	height:9px;
 	background:transparent url("http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/menu-arrow-small.png") no-repeat -9px -50px;
 	vertical-align: bottom;
-	bottom: 27px;
+	bottom: 13px;
 	position: relative;
+}
+
+.retina #navigation .menu-arrow-small{
+	bottom: 27px;
 }
 
 
@@ -320,26 +435,56 @@ body.loading #preloader{
 	background-position: 0 -50px;
 }
 
-
-#menuswitch, #contentswitch{
+#menuswitch,
+#contentswitch{
 	position:absolute;
-	left:20px;
+	left:10px;
 	display:none;
 	z-index:100000;
-	top:200px;
+	top:100px;
 }
+
+.retina #menuswitch,
+.retina #contentswitch{
+	top:200px;
+	left:20px;
+}
+
+#menuswitch img, #contentswitch img{
+	width:15px;
+	height:114px;
+}
+
+.retina #menuswitch img, .retina #contentswitch img{
+	width:30px;
+	height:228px;
+}	
 
 
 #menufooter{
+	width:228px;
+	padding-top:75px;
+	padding-left:12px;
+}
+
+.retina #menufooter{
 	width:456px;
 	padding-top:150px;
 	padding-left:25px;
 }
 
 #gradArchLogo{
+	width:212px;
+}
+
+.retina #gradArchLogo{
 	width:425px;
 }
 #CUlogo{
+	width:95px;
+}
+
+.retina #CUlogo{
 	width:190px;
 }
 
@@ -348,6 +493,10 @@ body.loading #preloader{
 
 #tmpltzr .tmpltzr-widget{
 	width:100%;
+	margin-bottom:15px;
+}
+
+.retina #tmpltzr .tmpltzr-widget{
 	margin-bottom:30px;
 }
 
@@ -401,22 +550,41 @@ body.loading #preloader{
 /* EVENTS WIDGET */
 .tmpltzr-featuredeventwidget {
 	width:90%;
-	padding:20px;
+	padding:10px;
 	background-color:#EFEFEF;
 	display:none;
 }
+
+.retina .tmpltzr-featuredeventwidget {
+	padding:20px;
+}
+
 .tmpltzr-featuredeventwidget .featured-events-widget{
 	width:90%;
+	height:175px;
+}
+
+.retina .tmpltzr-featuredeventwidget .featured-events-widget{
 	height:350px;
 }
+
 .tmpltzr-featuredeventwidget .featured-events-widget ul li {
 	width:90%;
+	height:175px;
+}
+
+.retina .tmpltzr-featuredeventwidget .featured-events-widget ul li {
 	height:350px;
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-image{
-	margin-bottom: 12px;
+	margin-bottom: 6px;
 	width:90%;
+	height:100px;
+}
+
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-image{
+	margin-bottom: 12px;
 	height:200px;
 }
 
@@ -432,29 +600,53 @@ body.loading #preloader{
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-label{
+	margin-bottom: 6px;
+}
+
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-label{
 	margin-bottom: 12px;
 }
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-date{
-	font: 14px/18px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	margin-bottom: 8px;
+}
+
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-date{
 	text-transform: uppercase;
 	margin-bottom: 17px;
 }
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-title{
-	font: 14px/18px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
+
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-date,
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-title,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-type,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-location,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-time{
+	font: 7px/9px "DIN Next W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-date,
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-title,
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-type,
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-location,
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-time{
 	font: 14px/18px "DIN Next W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-time{
+	height:20px;
+}
+
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-time{
 	height:40px;
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-location-time-container{
 	display:block;
-	height:100px;
+	height:50px;
 	overflow:hidden;
+}
+
+.retina .tmpltzr-featuredeventwidget .featured-events-widget .fe-location-time-container{
+	height:100px;
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev {
@@ -502,8 +694,12 @@ body.loading #preloader{
 
 /* UPCOMING EVENTS WIDGET */
 #tmpltzr .tmpltzr-upcomingeventswidget{
-	padding:20px;
+	padding:10px;
 	width:90%;
+}
+
+.retina #tmpltzr .tmpltzr-upcomingeventswidget{
+	padding:20px;
 }
 
 #tmpltzr .tmpltzr-upcomingeventswidget a{
@@ -511,34 +707,59 @@ body.loading #preloader{
 }
 
 #tmpltzr .upcoming-events-output .embedded-event-date-box {
+	width: 27px;
+	height: 25px;
+	font-size: 9px;
+	float: left;
+	border: 2px solid black;
+	margin-right: 10px;
+	text-align: center;
+	text-transform: uppercase;
+	line-height: 10px;
+	padding-top: 2px;
+	color:black;
+}
+
+.retina #tmpltzr .upcoming-events-output .embedded-event-date-box {
 	width: 54px;
 	height: 50px;
 	font-size: 18px;
-	float: left;
 	border: 3px solid black;
 	margin-right: 20px;
-	text-align: center;
-	text-transform: uppercase;
 	line-height: 20px;
 	padding-top: 4px;
-	color:black;
 }
 
 #tmpltzr .upcoming-events-output .embedded-event{
-	height: 130px;
+	height: 65px;
 	display:block;
 	overflow:hidden;
 }
+
+.retina #tmpltzr .upcoming-events-output .embedded-event{
+	height: 130px;
+}
+
 #tmpltzr .upcoming-events-output .embedded-event-title{
-	font-size:24px;
-	line-height: 26px;
+	font-size:12px;
+	line-height: 13px;
 	color:black;
 }
 
+.retina #tmpltzr .upcoming-events-output .embedded-event-title{
+	font-size:24px;
+	line-height: 26px;
+}
+
 #tmpltzr .upcoming-events-output .embedded-event-body-area{
+	padding-left:25px;
+	font:12px/13px "DIN Next W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color:black;
+}
+
+.retina #tmpltzr .upcoming-events-output .embedded-event-body-area{
 	padding-left:50px;
 	font:24px/26px "DIN Next W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color:black;
 }
 
 #tmpltzr .content #event-output .embedded-event-date-box.filled,
@@ -590,13 +811,26 @@ body.loading #preloader{
 /* ACADEMIC CALENDAR WIDGET */
 #tmpltzr .tmpltzr-academiccalendarwidget {
 	width:90%;
-	padding:20px;
+	padding:10px;
 	background-color:#efefef;
 	text-align:center;
 }
 
+.retina #tmpltzr .tmpltzr-academiccalendarwidget {
+	padding:20px;
+}
+
 .tmpltzr-academiccalendarwidget .ac-today{
 	margin:0 auto;
+	height:45px;
+	width:45px;
+	padding:4px;
+	border:2px solid black;
+	border-top:5px solid black;
+	margin-bottom:8px;
+}
+
+.retina .tmpltzr-academiccalendarwidget .ac-today{
 	height:89px;
 	width:90px;
 	padding:7px;
@@ -607,10 +841,20 @@ body.loading #preloader{
 
 .tmpltzr-academiccalendarwidget .ac-dayOfWeek,
 .tmpltzr-academiccalendarwidget .ac-month{
+	font: 7px/9px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+}
+
+.retina .tmpltzr-academiccalendarwidget .ac-dayOfWeek,
+.retina .tmpltzr-academiccalendarwidget .ac-month{
 	font: 14px/18px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-transform: uppercase;
 }
 .tmpltzr-academiccalendarwidget .ac-dayOfMonth{
+	font: 26px/26px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.retina .tmpltzr-academiccalendarwidget .ac-dayOfMonth{
 	font: 52px/53px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -618,21 +862,32 @@ body.loading #preloader{
 .tmpltzr-ccwidget {
 	width:100%;
 	padding:0px;
-	height: 360px;
+	height: 180px;
 	display:none;
 }
-.tmpltzr-ccwidget .cc-widget{
-	width:100%;
-	height:360px;
+
+.retina .tmpltzr-ccwidget {
+	height: 360px;
 }
+.tmpltzr-ccwidget .cc-widget,
 .tmpltzr-ccwidget .cc-widget ul li {
 	width:100%;
+	height:180px;
+}
+
+.retina .tmpltzr-ccwidget .cc-widget,
+.retina .tmpltzr-ccwidget .cc-widget ul li {
 	height:360px;
 }
 
 .tmpltzr-ccwidget .cc-widget .cc-image{
-	margin-bottom: 24px;
+	margin-bottom: 12px;
 	width:100%;
+	height:80px;
+}
+
+.retina .tmpltzr-ccwidget .cc-widget .cc-image{
+	margin-bottom: 24px;
 	height:160px;
 }
 
@@ -644,68 +899,111 @@ body.loading #preloader{
 .tmpltzr-ccwidget .cc-widget a.cc-text{
 	text-decoration:none;
 	border-bottom:none !important;
-	font-size:14px;
-	line-height:18px;
+	font-size:7px;
+	line-height:9px;
 	display:block;
 	width:90%;
-	margin-left:20px;
-	height:153px;
+	margin-left:10px;
+	height:74px;
 	overflow:hidden;
 }
 
-.tmpltzr-ccwidget .cc-widget a.cc-text .cc-type{
+.retina .tmpltzr-ccwidget .cc-widget a.cc-text{
 	font-size:14px;
 	line-height:18px;
+	margin-left:20px;
+	height:148px;
+}
+
+.tmpltzr-ccwidget .cc-widget a.cc-text .cc-type{
+	font-size:7px;
+	line-height:9px;
 	text-transform: uppercase;
-	padding: 0 2px 0 0;
+	padding: 0 1px 0 0;
 	vertical-align:text-top;
 	color: #FF4358;
+}
+
+.retina .tmpltzr-ccwidget .cc-widget a.cc-text .cc-type{
+	font-size:14px;
+	line-height:18px;
+	padding: 0 2px 0 0;
 }
 
 .tmpltzr-ccwidget .cc-widget .cc-prev{
 	position:absolute;
 	z-index:1000;
 	cursor:pointer;
+	top:168px;
+	left:9px;
+	width:25px;
+	height:7px;
+	display:block;
+	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-prev.png') no-repeat 0 0;
+}
+
+.retina .tmpltzr-ccwidget .cc-widget .cc-prev{
 	top:337px;
 	left:18px;
 	width:51px;
 	height:14px;
-	display:block;
-	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-prev.png') no-repeat 0 0;
 }
 
 .tmpltzr-ccwidget .cc-widget .cc-next{
 	position:absolute;
 	z-index:1000;
 	cursor:pointer;
-	top:337px;
-	right:18px;
-	width:51px;
-	height:14px;
+	top:168px;
+	right:9px;
+	width:25px;
+	height:7px;
 	display:block;
 	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cc-widget-next.png') no-repeat 0 0;
 }
 
+.retina .tmpltzr-ccwidget .cc-widget .cc-next{
+	top:337px;
+	right:18px;
+	width:51px;
+	height:14px;
+}
+
 .tmpltzr-ccwidget .cc-widget-logo {
 	position:absolute;
-	width:40px;
-	height:40px;
+	width:20px;
+	height:20px;
 	display:block;
-	top:9px;
-	right:14px;
+	top:5px;
+	right:7px;
 	z-index:1000;
 	background:transparent url('http://www.columbia.edu/cu/arch/staging/tmpltzr/assets/cclogo40x40.png') no-repeat 0 0;
 }
 
+.retina .tmpltzr-ccwidget .cc-widget-logo {
+	width:40px;
+	height:40px;
+	top:9px;
+	right:14px;
+}
+
 #tmpltzr .tmpltzr-followwidget {
 	background-color:#efefef;
-	padding:20px;
+	padding:10px;
 	width:90%;
 }
 
+.retina #tmpltzr .tmpltzr-followwidget {
+	padding:20px;
+}
+
 #tmpltzr .tmpltzr-followwidget .follow-links{
-	margin-top:12px;
+	margin-top:6px;
 	display:block;
+	height: 44px;
+}
+
+.retina #tmpltzr .tmpltzr-followwidget .follow-links{
+	margin-top:12px;
 	height: 44px;
 }
 
@@ -794,8 +1092,12 @@ body.loading #preloader{
 }
 
 #tmpltzr .tmpltzr-htmlwidget {
-	padding:20px;
+	padding:10px;
 	width:90%;
+}
+
+.retina #tmpltzr .tmpltzr-htmlwidget {
+	padding:20px;
 }
 
 /* WIDGET ANNOUNCEMENT */

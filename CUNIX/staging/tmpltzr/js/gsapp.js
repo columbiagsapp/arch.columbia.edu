@@ -33,12 +33,20 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = false;
+gsapp.LOG = true;
 var TMPLTZR = false;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
 		console.log(msg);
 	}
+}
+
+gsapp.addHeaderNotice = function(imgSRC, link){
+	var text = '<img src='+imgSRC+' style="margin-top:15px;">';
+	if(link){
+		text = '<a href="'+link+'" target="_blank" style="border:none !important;">'+text+'</a>';
+	}
+	$('#global-header').append(text);
 }
 
 var HOME_URL = 'http://templatizer.gsapp.org';
@@ -333,8 +341,13 @@ var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
 	var id = 1;
 	if(gsapp.mobile){
-		// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
-		var liW = gsappMobile.menuAndContentWidth - 114;
+		
+		if(gsapp.retina){
+			// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
+			var liW = gsappMobile.menuAndContentWidth - 114;
+		}else{
+			var liW = gsappMobile.menuAndContentWidth - 62;
+		}
 	}else{
 		var liW = 340;
 	}
@@ -510,13 +523,18 @@ gsapp.bindProgramCourseBlogIndexFilter = function(){
 gsappMobile.switchToMenu = function(){
 	$('#content').hide();
 	$('#menuswitch').hide();
-	var mcw = $('#wrapper').width();
+	var w;
+	if(gsapp.retina){
+		w = 70;
+	}else{
+		w = 35;
+	}
 	$('#wrapper').animate({
-			width: 70,
-			left: mcw
+			width: w,
+			left: gsappMobile.menuAndContentWidth
 		}, gsappMobile.switchTIME);
 	$('#navigation').animate({
-			width: mcw
+			width: gsappMobile.menuAndContentWidth
 		}, gsappMobile.switchTIME,
 		function(){
 			$('#menu').show();
@@ -533,13 +551,18 @@ gsappMobile.switchToMenu = function(){
 gsappMobile.switchToContent = function(){
 	$('#contentswitch').hide(); 
 	$('#menu').hide();
-	var mcw = $('#navigation').width();
+	var w;
+	if(gsapp.retina){
+		w = 70;
+	}else{
+		w = 35;
+	}
 	$('#navigation').animate({
-			width: 70
+			width: w
 		}, gsappMobile.switchTIME);
 	$('#wrapper').animate({
-			width: mcw,
-			left: 70
+			width: gsappMobile.menuAndContentWidth,
+			left: w
 		}, gsappMobile.switchTIME,
 		function(){
 			$('#content').show();
@@ -557,42 +580,46 @@ gsappMobile.switchToContent = function(){
 gsappMobile.refreshMenuWidth = function(){
 	// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
 	var mw = gsappMobile.menuAndContentWidth - 114;
+	if(gsapp.retina){
+		mw = mw -114;
+	}else{
+		mw = mw - 62;
+	}
 	mw = mw + 'px';
-	$('#menu').css('width',mw);
+	//$('#menu').css('width','100%');
 	
 }
 
 gsappMobile.initMobileScreen = function(){
+	gsapp.retina = window.devicePixelRatio > 1 ? true : false;
+
 	var ww = window.screen.availWidth;
 	var wah = window.screen.availHeight;
-	var mcw = ww - gsappMobile.sliderWidth;
-	var mch = wah - gsappMobile.headerHeight;
-	var classes = $('body').attr('class');
-	var idx = classes.indexOf('version');
-	idx = idx + 8;
-	var version = classes.substring(idx,idx+1);
-	var msh = mch - (228/2);;//mobile switch height (view page/menu)
-	
-	if( $('body').hasClass('iOS') ){
-		if( (version == '4') || (version == '5') || (version == '6') ){
-			ww = ww*2;
-			mch = mch*2;
-			mcw = ww - gsappMobile.sliderWidth;
-		}
+	var mch, msh, csh; 
+
+	if(gsapp.retina){
+		$('body').addClass('retina');
+		ww = ww*2;
+		wah = wah*2;
+		gsappMobile.menuAndContentWidth = ww - 70; //slider width
+		mch = wah - 132; //header height
+		msh = mch/2 - 228/2;//mobile switch height (view page/menu)
+	}else{
+		gsappMobile.menuAndContentWidth = ww - 35; //slider width
+		mch = wah - 77; //header height
+		msh = mch/2 - 114/2;//mobile switch height (view page/menu)
 	}
+	
 	$('#header').css('width',ww);
-	$('#navigation').css('width',mcw);
-	gsappMobile.menuAndContentWidth = mcw
-	gsappMobile.refreshMenuWidth();
+	$('#navigation').css('width',gsappMobile.menuAndContentWidth);
+	
+	//gsappMobile.refreshMenuWidth();
 	//init the switch
 	$('#wrapper').css('left',gsappMobile.menuAndContentWidth);
 	$('#wrapper').click(gsappMobile.switchToContent);
 	
-	var m = mch/2 - 228/2;
-	
-	
-	$('#contentswitch').css('top',m+gsappMobile.headerHeight).show(); 
-	$('#menuswitch').css('top',m);
+	$('#contentswitch').css('top',msh).show(); 
+	$('#menuswitch').css('top',msh);
 }
 
 
@@ -630,8 +657,6 @@ $(document).ready(function () {
 	*/
 	if($('body').hasClass('mobile') || $('body').hasClass('iscroll') ){
 		gsapp._remove_flash_content();
-	}else{
-		$('#global-header').append('<img src="http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png" style="margin-top:15px;"/>');
 	}
 	
 	setTimeout(gsapp.initPhotoset, 0);
@@ -660,17 +685,8 @@ $(document).ready(function () {
 		$(this).bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 	});
 
-	//scrollCourseBlogsIndex();
-	/*
-	$(document).scroll(function() {
-		if($(document).scrollTop() >= 270){
-			$("#fixed-header").addClass('fix-header');
-			$("#course-blogs-index-listing").css('margin-top','395px');
-		}else{
-			$("#fixed-header").removeClass('fix-header');
-			$("#course-blogs-index-listing").css('margin-top','0');
-		}
-	});*/
+	//include a notice in the header above the content: params: (image source, url to link to)
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png");
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	

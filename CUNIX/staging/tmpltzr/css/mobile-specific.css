@@ -20,6 +20,16 @@
 	background-color: #333;
 }
 
+#gsapp-logo img{
+	width:119px;
+	height:25px;
+}
+
+.retina #gsapp-logo img{
+	width:237px;
+	height:49px;
+}
+
 #mobile-header {
 	height: 130px;
 	width: 100%;
