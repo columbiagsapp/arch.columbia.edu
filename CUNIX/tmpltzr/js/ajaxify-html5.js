@@ -7,7 +7,8 @@
 		document = window.document,
 		TOGGLE_TIME = 500,
 		templatizer = false,
-		copypaste = true;
+		copypaste = true,
+		interclick = false;
 
 	// Check to see if History.js is enabled for our Browser
 	if ( !History.enabled ) {
@@ -52,9 +53,6 @@
 				$this = $(obj),
 				url = $this.attr('href')||'',
 				isInternalLink;
-
-				//safelog('%%%%%%%%%%%%%% rooturl: '+ rootUrl);
-			//safelog('@@@@@@@@@@@@@@@ url: '+ url );
 			
 			// Check link
 			isInternalLink = url.substring(0,rootUrl.length) === rootUrl || url.indexOf(':') === -1;
@@ -86,14 +84,11 @@
 		 *	a different parent.
 		*/
 		$.fn.internalRedirect = function($active){
-			safelog('calling internalRedirect()');
 			var returnval;
 			var thisHREF = $(this).attr('href');//programs/
 			thisHREF = thisHREF.substring(1,5); //remove the leading /prog
-			
-			safelog('thisHREF: '+thisHREF);
 
-			if($active.parent('li').hasClass('branch') && $(this).parent('li').hasClass('branch') ){
+			if($(this).parent('li').hasClass('branch') ){//if both top level
 				returnval = false;
 			}else{//not siblings at the highest level
 
@@ -102,12 +97,9 @@
 				}else{
 					var activeHREF = $active.attr('href');
 				}
-				safelog('activeHREF full: '+activeHREF);
 				if(activeHREF != undefined){
-					safelog('activeHREF not undefined');
 
 					activeHREF = activeHREF.substring(1,5);
-					safelog('activeHREF stub: '+activeHREF);
 
 					if( thisHREF != undefined ){
 						if( thisHREF != activeHREF ){
@@ -123,7 +115,6 @@
 					returnval = false;
 				}
 			}
-			safelog('internalRedirect() returnval: '+returnval);
 			return returnval;
 		}
 		
@@ -158,7 +149,6 @@
 		 *	Expand the menu and add active settings.
 		*/
 		$.fn.expandBranch = function(internalRedirect){
-			safelog('expandBranch');
 			var $returnSelector = false;
 			var $clicked = $(this);
 			var selector = 'a[href="' + $clicked.attr('href') + '"]';
@@ -178,14 +168,11 @@
 					});	
 					$(this).find(selector).addClass('active');
 					$(this).parent('li').find('.force-expanded').each(function(){
-						safelog('expandBranch - f-e')
 						if($(this).children('.menu').length > 0){
 							$(this).children('span').css('backgroundPosition', '0 0');
 						}
 					});
 					$returnSelector = $(this).find(selector);
-				}else{
-					safelog('expandBranch else');
 				}
 			});
 			return $returnSelector;
@@ -196,7 +183,6 @@
 		 *	Expands all the menus above $(this) and adds active settings.
 		*/
 		$.fn.expandMenus = function(){
-			safelog('expandMenus !!!!');
 			$(this).parents('li').removeClass('collapsed').addClass('expanded active-trail');
 			
 			$(this).parents('li').each(function(){
@@ -211,7 +197,6 @@
 				}
 				
 				$(this).parent('li').find('.force-expanded').each(function(){
-					safelog('expandMenus - f-e');
 					if($(this).children('.menu').length > 0){
 						$(this).children('span').css('backgroundPosition', '0 0');
 					}
@@ -224,7 +209,6 @@
 		 *	Expand the menu and add active settings.
 		*/
 		$.fn.expandMenu = function(){
-			safelog('expandMenu');
 			if( !($(this).parent('li').hasClass('force-expanded')) ){
 				$(this).parent('li').removeClass('collapsed').addClass('expanded active-trail');
 				var $parent = $(this).parent('li');
@@ -235,9 +219,7 @@
 				}
 				$(this).parent('li').children('.menu:not(:visible)').slideToggle(TOGGLE_TIME);
 				$(this).parent('li').find('.force-expanded').each(function(){
-					safelog('expandMenu - f-e');
 					if($(this).children('.menu').length > 0){
-						safelog('expandMenu - f-e CALLED');
 						$(this).children('span').css('backgroundPosition', '0 0');
 						$(this).removeClass('collapsed').addClass('expanded');
 					}
@@ -248,17 +230,11 @@
 					$(this).children('a:eq(0)').css('color', 'black');
 				});
 
-				
-				safelog('expandMenu - f-e2');
 				if($(this).parent('li.force-expanded').children('.menu').length > 0){
-					safelog('expandMenu - f-e CALLED');
 					$(this).parent('li.force-expanded').children('span').css('backgroundPosition', '0 0');
 				}else{
 					$(this).parent('li.force-expanded').parents('li.force-expanded').removeClass('collapsed').addClass('expanded');
 					$(this).parent('li.force-expanded').parents('li.force-expanded').children('span').css('backgroundPosition', '0 0');
-					safelog('no child menu, maybe');
-					safelog($(this));
-
 				}
 				
 			}
@@ -269,7 +245,6 @@
 		 *	Collapse the menu and remove active settings.
 		*/
 		$.fn.collapseMenu = function(){
-			safelog('collapseMenu');
 			$(this).removeClass('expanded').removeClass('active-trail').addClass('collapsed');
 			$(this).children('a').css('color','');
 
@@ -278,10 +253,8 @@
 				//$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').each(function(){
 					var delta = $(this).offset().top;// - $(this).height();
-					safelog('delta: '+delta);
 					$(this).slideToggle(TOGGLE_TIME);
 					if( (delta < 170) && (gsapp.iscroll == false) ){
-						safelog('^^^^^^^^^^^^^SCROLLING ON PURPOSE');
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
 					}
 
@@ -342,7 +315,6 @@
 			//TODO: need to add > +2 test here
 			
 			setTimeout(function(){
-				safelog('*************** INTERNAL REDIRECT () SCROLL');
 				gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 			}, TOGGLE_TIME);
 			
@@ -391,8 +363,6 @@
 		 *	is selected. It checks for hard-wired redirects and internal-redirects.
 		*/
 		$.fn.dig = function($active){
-			safelog('DIG---');
-			safelog('$active: '+$active);
 			var $redir = $(this).digRedirect();
 			if($active != undefined){
 				var internalRedir = $(this).internalRedirect($active);
@@ -401,7 +371,6 @@
 			}
 			
 			if( $redir != false ){
-				safelog('---DIG redir');
 				$(this).parent('li').addClass('redirect-active');
 				$redir.expandMenus();
 				setCurrentState(3);
@@ -411,7 +380,6 @@
 			}else{
 				if($active != undefined){
 					if( $(this).parent('li').hasClass('force-expanded') ){
-						safelog('!!!!! ERROR WHAT AM I DOING HERE?????');
 						var $this = $(this);
 						if( $active.parent('li').hasClass('force-expanded') ){
 							/* if not a parent of $(this) then collapseMenu */
@@ -453,7 +421,6 @@
 		 *	This function is called when the selected item is a sibling of the active item.
 		*/
 		$.fn.sibling = function($active){
-			safelog('SIBLING------');
 			var $redir = $(this).digRedirect();
 			if($active != undefined){
 				var internalRedir = $(this).internalRedirect($active);
@@ -535,7 +502,6 @@
 				var $sel = $(this).expandBranch(internalRedir);
 				if($active != undefined){
 					setTimeout(function(){
-						safelog('*************** climb: INTERNAL REDIRECT SCROLL');
 						gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 					}, TOGGLE_TIME);
 				}
@@ -625,7 +591,6 @@
 		 *	menu.
 		*/
 		$.fn.branch = function($active){
-		
 			if($active != undefined){
 				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
 					$(this).collapseMenuInterval($active, 0 );
@@ -635,7 +600,6 @@
 			}
 		
 			$active.removeClass('active');
-			$active = undefined;
 			$(this).dig($active);
 		}
 		
@@ -656,146 +620,195 @@
 		}
 		
 		
+		$.fn._find_proper_branch = function(path){
+			var $this,
+				$parent, 
+				$returnNode,
+				returnval = false,
+				thisStub = '',
+				pathStub = '',
+				len = $(this).length;
+
+			$(this).each(function(){
+				$this = $(this);
+				$parent = $this.closest('li.branch');
+				thisStub = $parent.find('a:eq(0)').attr('href');
+				thisStub = thisStub.substring(1,5);
+				pathStub = path.substring(1,5);
+				if(pathStub == thisStub){
+					$returnNode = $this;
+					returnval = true;
+				}
+
+			});
+
+			if(returnval){
+				return $returnNode;
+			}else{
+				return returnval;
+			}
+
+
+		}
+
+		$.fn.menuClickFunc = function(event){
+			// Prepare
+			var
+				$this = $(this),
+				$active = $('.active'),
+				url = $this.attr('href'),
+				fetch = true,
+				title = $this.attr('title')||null;
+
+			interclick = true; //because was a click from the site, not the back button
+
+			/*
+				If not in #navigation, then look for .find() in $active where href matches in #nav, else look through whole #nav (redirect)
+				else die.
+			*/
+
+			if($(this).closest('#wrapper').length){
+				if($active != undefined){
+					var $menuLink = $active.parent('li').find('a:[href="'+url+'"]');
+					if($menuLink.length){
+						$this = $menuLink;
+					}else{//links to elsewhere in the site, not under the current submenu
+						$menuLink = $('#navigation #menu').find('a:[href="'+url+'"]');
+
+						if($menuLink.length){
+							if($menuLink.length > 1){
+								var $that = $menuLink._find_proper_branch(url);
+								if($that != false){
+									$this = $that;
+								}else{
+									$menuLink.each(function(i){
+										if(i == 0){$this = $(this);
+										}
+									});
+								}
+							}
+							//$('.active').removeClass('.active');
+						}
+					}
+				}
+			}	
+			
+			if(event != 'back'){
+				// Continue as normal for cmd clicks etc
+				if ( event.which == 2 || event.metaKey ) { return true; }
+			}
+			$('#navigation .menu li.force-expanded a').css('color','');
+
+			$('body').removeClass('front').addClass('not-front');
+			
+			switch(getCurrentState()){
+				case 'home':
+					$this.dig($active);
+					break;
+				case 'menu':
+					if( $this.hasClass('active') ){//clicked self
+						if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
+							$this.parent('li').menuToggleVisibility();
+						}
+						fetch = false;
+						break;
+					}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
+						$this.dig($active);
+					}else if( ($active != undefined) && $this._is_sibling($active) ){
+						$this.sibling($active);
+					}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
+						$this.climb($active);
+					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
+						if(!($this._is_active_trail($active))){
+							var $last = $this.parents('li.force-expanded').last();
+							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
+							if( getMenuToggle() == 'hidden'){
+								$active.menuToggleVisibility();
+							}
+							$this.expandMenus();
+							$this.addClass('active');
+							$active.removeClass('active');
+						}else{
+							$this.dig($active);
+						}
+					}else{
+						$this.branch($active);
+					}
+					break;
+				case 'redirected':
+					if( $this._is_dig($active) ){//going deeper into the same branch line
+						$this.dig($active);
+					}else if( ($active != undefined) && $this._is_sibling($active) ){//sibling of the current element
+						$this.sibling($active);
+					}else if( ($active != undefined) && $this._is_climb($active) ){//same branch but higher up
+						if( $this.parent('li').hasClass('redirect-active') ){
+							$this.parent('li').menuToggleVisibility();
+							fetch = false;
+							break;
+						}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
+							$('redirect-active').removeClass('redirect-active');
+						}
+						$this.climb($active);
+					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
+						$('redirect-active').removeClass('redirect-active');
+						if(!($this._is_active_trail($active))){
+							var $last = $this.parents('li.force-expanded').last();
+							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
+							if( getMenuToggle() == 'hidden'){
+								$active.menuToggleVisibility();
+							}
+							$this.expandMenus();
+							$this.addClass('active');
+							$active.removeClass('active');
+						}else{
+							$this.dig($active);
+						}
+						setCurrentState(1);
+					}else{
+						$('redirect-active').removeClass('redirect-active');
+						$this.branch($active);
+					}
+					break;
+				default:
+					break;
+			}
+
+			$this.parents('li').siblings().children('a').css('color','');
+			if(!($this.parent('li').hasClass('leaf'))){
+				$this.parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
+				$this.parent('li').children('.menu').find('a').css('color', 'black');
+			}else{
+				$this.parent('li').parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
+			}
+				
+			if(event != 'back'){
+				
+				if(fetch == true){
+					// Ajaxify this link
+					History.pushState(null,title,url);
+					event.preventDefault();											
+				}
+			}
+						
+							
+			return false;
+		}
+
 		// Ajaxify Helper - binds function to menu clicks that are internal links
 		$.fn.ajaxify = function(){	
 			//Prepare 
 			var $this = $(this);
 			// Ajaxify
 			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
-				safelog('-----------CLICK EVENT-----------');
-				// Prepare
-				var
-					$this = $(this),
-					$active = $('.active'),
-					url = $this.attr('href'),
-					fetch = true,
-					title = $this.attr('title')||null;
 
-
-				/*
-					If not in #navigation, then look for .find() in $active where href matches in #nav, else look through whole #nav (redirect)
-					else die.
-				*/
-
-				if($(this).closest('#wrapper').length){
-					safelog('++++++++++++++ IS FROM WRAPPER');
-					if($active != undefined){
-						safelog('==== active is defined');
-						var $menuLink = $active.parent('li').find('a:[href="'+url+'"]');
-						if($menuLink.length){
-							safelog('++++++ menuLink: '+ $menuLink);
-							$this = $menuLink;
-						}else{
-							$menuLink = $('#navigation #menu').find('a:[href="'+url+'"]');
-							if($menuLink.length){
-								$this = $menuLink;
-							}else{
-								safelog("ERROR: link from #wrapper has no menu link. Collapsing menus.");
-							}
-						}
-						
-						
+				if( $(this).hasClass('active') ){//clicked self
+					if( !($(this).parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
+						$(this).parent('li').menuToggleVisibility();
+						return false;
 					}
-				}	
-				
-				// Continue as normal for cmd clicks etc
-				if ( event.which == 2 || event.metaKey ) { return true; }
-				$('#navigation .menu li.force-expanded a').css('color','');
-
-				$('body').removeClass('front').addClass('not-front');
-				
-				switch(getCurrentState()){
-					case 'home':
-					safelog('-------- STATE : HOME -------');
-						$this.dig($active);
-						break;
-					case 'menu':
-						safelog('-------- STATE : MENU -------');
-						if( $this.hasClass('active') ){//clicked self
-							if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
-								$this.parent('li').menuToggleVisibility();
-							}
-							fetch = false;
-							break;
-						}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
-							safelog('menu 1');
-							$this.dig($active);
-						}else if( ($active != undefined) && $this._is_sibling($active) ){
-							safelog('menu 2');
-							$this.sibling($active);
-						}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
-							safelog('menu 3');
-							$this.climb($active);
-						}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
-							safelog('menu 4');
-							if(!($this._is_active_trail($active))){
-								safelog('menu 4a');
-								var $last = $this.parents('li.force-expanded').last();
-								$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
-								if( getMenuToggle() == 'hidden'){
-									$active.menuToggleVisibility();
-								}
-								$this.expandMenus();
-								$this.addClass('active');
-								$active.removeClass('active');
-							}else{
-								safelog('menu 4b');
-								$this.dig($active);
-							}
-						}else{
-							safelog('menu 5');
-							$this.branch($active);
-						}
-						break;
-					case 'redirected':
-						safelog('-------- STATE : REDIRECTED -------');
-						if( $this._is_dig($active) ){
-							safelog('redir 1');
-							$this.dig($active);
-						}else if( ($active != undefined) && $this._is_sibling($active) ){
-							safelog('redir 2');
-							$this.sibling($active);
-						}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
-							safelog('redir 3');
-							if( $this.parent('li').hasClass('redirect-active') ){
-								safelog('redir 3a');
-								$this.parent('li').menuToggleVisibility();
-								fetch = false;
-								break;
-							}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
-								safelog('redir 3b');
-								$('redirect-active').removeClass('redirect-active');
-							}
-							$this.climb($active);
-						}else{
-							safelog('redir 4');
-							$('redirect-active').removeClass('redirect-active');
-							$this.branch($active);
-						}
-						break;
-					default:
-						safelog('error: the current state is not recognized');
-						break;
-				}
-
-				$this.parents('li').siblings().children('a').css('color','');
-				if(!($this.parent('li').hasClass('leaf'))){
-					safelog('is not leaf');
-					$this.parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
-					$this.parent('li').children('.menu').find('a').css('color', 'black');
 				}else{
-					safelog('is leaf');
-					$this.parent('li').parents('li').siblings('li.force-expanded').children('span').css('backgroundPosition', '-50px -50px');
+					$(this).menuClickFunc(event);
 				}
-					
-				if(fetch == true){
-					// Ajaxify this link
-					History.pushState(null,title,url);
-					event.preventDefault();											
-				}
-							
-								
-				return false;
 			});
 			
 			// Chain
@@ -810,6 +823,26 @@
 		
 		// Hook into State Changes
 		$(window).bind('statechange',function(){	
+			//used when the user clicks the back button
+			if(interclick == false){
+				$this = $('#navigation a:[href="'+ window.location.pathname +'"]');
+				if($this.length){
+					if($this.length > 1){
+						var $that = $this._find_proper_branch(window.location.pathname);
+						if($that != false){
+							$this = $that;
+						}else{
+							$this.each(function(i){
+								if(i == 0){
+									var $that = $(this);
+								}
+							});
+							$this = $that;
+						}
+					}
+				}
+			}
+
 			// Prepare Variables
 			var
 				State = History.getState(),
@@ -836,13 +869,14 @@
 						$dataBody = $data.find('.document-body:first'),
 						$dataContent = $dataBody.find(contentSelector).filter(':first'),
 						$menuChildren, contentHtml, $scripts;
-					
+
 					// Fetch the scripts
+					// necessary for fetched content like tumblr
 					$scripts = $dataContent.find('.document-script');
 					if ( $scripts.length ) {
 						$scripts.detach();
 					}
-
+					
 					// Fetch the content
 					contentHtml = $dataContent.html()||$data.html();
 					if ( !contentHtml ) {
@@ -850,26 +884,18 @@
 						return false;
 					}
 					
-					// Update the content
-					//$content.stop(true,true);
-					//$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
-					
+					//scroll content to the top of the page
 					$body.scrollTop(0);
+					//$body.animate({ scrollTop: 0 }, 'slow');
 					//resize the page to check if room for sidebar
 					if(gsapp.mobile == true){
 						$content.html(contentHtml).ajaxify().hide();
 					}else{
 						$content.stop(true,true);
 						$content.html(contentHtml).ajaxify().css('opacity',100).show(100); // you could fade in here if you'd like 
-						gsapp.resizeFunc();
+						//gsapp.resizeFunc();
 					}
-					
-					// Update the title
-					document.title = $data.find('.document-title:first').text();
-					try {
-						document.getElementsByTagName('title')[0].innerHTML = document.title.replace('<','&lt;').replace('>','&gt;').replace(' & ',' &amp; ');
-					}
-					catch ( Exception ) { }
+
 					// Add the scripts
 					$scripts.each(function(){
 						var $script = $(this),
@@ -879,7 +905,6 @@
 							var ss = document.createElement('script');
 							var scr = scriptText;
 							ss.text = scr;
-							safelog('scr: ' + scr);
 							var hh = document.getElementsByTagName('head')[0];
 							hh.appendChild(ss);
 						}else{
@@ -900,8 +925,18 @@
 						// ^ we use the full url here as that is what reinvigorate supports
 					}
 
-					if(copypaste){
-						$('#copy-paste h4').bind('click', copyPaste);
+				
+					
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					document.location.href = url;
+					return false;
+				},
+				complete: function(jqXHR, textStatus){
+
+					if(gsapp.mobile == false){
+						gsapp.resizeFunc();
 					}
 
 					setTimeout(gsapp.initPhotoset, 0);
@@ -909,7 +944,6 @@
 					$('#fixed-header #program-list .term-list a.term-index-term').bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 
 					if(gsapp.mobile){
-						//$('#header').css('backgroundColor','red');
 						setTimeout(function(){
 							gsappMobile.refreshMenuWidth();
 							gsappMobile.menuScroll.refresh();
@@ -937,7 +971,6 @@
 						gsappMobile.contentScroll = new iScroll('wrapper');
 
 						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
-							safelog('AJAXify without something fetched');
 							setTimeout(function(){
 								gsappMobile.contentScroll.refresh();
 								$body.removeClass('loading');
@@ -950,11 +983,7 @@
 					}else{
 						$body.removeClass('loading');
 					}
-					
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					document.location.href = url;
-					return false;
+					interclick = false;
 				}
 			}); // end ajax
 

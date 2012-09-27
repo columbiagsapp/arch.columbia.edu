@@ -30,13 +30,23 @@
       if(!empty($node->field_columbia_uni[0]['view'])){ 
         $uni = $node->field_columbia_uni[0]['view']; 
       }
+      $scrollFrom = false;
+      if(!empty($node->field_scroll_from)){
+        if($node->field_width[0]['view'] == 'Yes'){
+          $scrollFrom = true;
+        }
+      }
     ?>
 
 	<?php if(!empty($node->field_title[0]['view'])){ ?>
   		<h2>
         <?php
           if(strlen($link) > 0){
-            print '<a href="'.$link.'" target="_self">'.$node->field_title[0]['view'].'</a>';
+            if($scrollFrom){
+              print '<a href="'.$link.'" class="scrollFrom">'.$node->field_title[0]['view'].'</a>';
+            }else{
+              print '<a href="'.$link.'" target="_self">'.$node->field_title[0]['view'].'</a>';
+            }
           }else if(strlen($uni) > 0){
             print '<a href="/about/people/'.$uni.'columbiaedu" target="_self">'.$node->field_title[0]['view'].'</a>';
           }else{

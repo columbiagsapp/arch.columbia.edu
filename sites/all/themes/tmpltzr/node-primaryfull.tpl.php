@@ -1,10 +1,17 @@
 <?php
 	$terms = taxonomy_node_get_terms_by_vocabulary($node, 9); // vid=9 => color-code
-		if(!empty($terms)) {
-        	foreach ($terms as $term){
-            	$color = $term->name;
-            }
-        }      
+	if(!empty($terms)) {
+  	foreach ($terms as $term){
+      	$color = $term->name;
+      }
+  } 
+
+  $scrollFrom = false;
+  if(!empty($node->field_scroll_from)){
+    if($node->field_width[0]['view'] == 'Yes'){
+      $scrollFrom = true;
+    }
+  }     
 ?>
 
 <?php if (!$page) { ?>
@@ -18,11 +25,20 @@
   		</div>
   	<?php } ?>
 	
-	<?php if(!empty($node->field_title_link[0]['view'])){ ?>
-  		<h2>
-  			<?php print $node->field_title_link[0]['view']; ?>
-  		</h2>
-  	<?php } ?>
+
+  <?php if(!empty($node->field_title_link)){ ?>
+    <h2>
+      <?php if(strlen($node->field_title_link[0]['url']) > 0){
+          if($scrollFrom){
+            print '<a href="'.$node->field_title_link[0]['url'].'" class="scrollFrom">'.$node->field_title_link[0]['title'].'</a>';
+          }else{
+            print '<a href="'.$node->field_title_link[0]['url'].'" target="_self">'.$node->field_title_link[0]['title'].'</a>';
+          }
+      }else{
+        print $node->field_title_link[0]['title'];
+      } ?>
+    </h2>
+  <?php } ?>
   	
 
   	<?php if(!empty($node->field_subtitle[0]['view'])){ ?>
