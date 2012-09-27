@@ -823,6 +823,7 @@
 		
 		// Hook into State Changes
 		$(window).bind('statechange',function(){	
+			//used when the user clicks the back button
 			if(interclick == false){
 				$this = $('#navigation a:[href="'+ window.location.pathname +'"]');
 				if($this.length){
@@ -868,13 +869,14 @@
 						$dataBody = $data.find('.document-body:first'),
 						$dataContent = $dataBody.find(contentSelector).filter(':first'),
 						$menuChildren, contentHtml, $scripts;
-					
+
 					// Fetch the scripts
+					// necessary for fetched content like tumblr
 					$scripts = $dataContent.find('.document-script');
 					if ( $scripts.length ) {
 						$scripts.detach();
 					}
-
+					
 					// Fetch the content
 					contentHtml = $dataContent.html()||$data.html();
 					if ( !contentHtml ) {
@@ -882,10 +884,7 @@
 						return false;
 					}
 					
-					// Update the content
-					//$content.stop(true,true);
-					//$content.html(contentHtml).ajaxify().css('opacity',100).show(); // you could fade in here if you'd like 
-					
+					//scroll content to the top of the page
 					$body.scrollTop(0);
 					//$body.animate({ scrollTop: 0 }, 'slow');
 					//resize the page to check if room for sidebar
@@ -894,15 +893,9 @@
 					}else{
 						$content.stop(true,true);
 						$content.html(contentHtml).ajaxify().css('opacity',100).show(100); // you could fade in here if you'd like 
-						gsapp.resizeFunc();
+						//gsapp.resizeFunc();
 					}
-					
-					// Update the title
-					document.title = $data.find('.document-title:first').text();
-					try {
-						document.getElementsByTagName('title')[0].innerHTML = document.title.replace('<','&lt;').replace('>','&gt;').replace(' & ',' &amp; ');
-					}
-					catch ( Exception ) { }
+
 					// Add the scripts
 					$scripts.each(function(){
 						var $script = $(this),
@@ -932,8 +925,18 @@
 						// ^ we use the full url here as that is what reinvigorate supports
 					}
 
-					if(copypaste){
-						$('#copy-paste h4').bind('click', copyPaste);
+				
+					
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					document.location.href = url;
+					return false;
+				},
+				complete: function(jqXHR, textStatus){
+
+					if(gsapp.mobile == false){
+						gsapp.resizeFunc();
 					}
 
 					setTimeout(gsapp.initPhotoset, 0);
@@ -941,7 +944,6 @@
 					$('#fixed-header #program-list .term-list a.term-index-term').bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 
 					if(gsapp.mobile){
-						//$('#header').css('backgroundColor','red');
 						setTimeout(function(){
 							gsappMobile.refreshMenuWidth();
 							gsappMobile.menuScroll.refresh();
@@ -982,11 +984,6 @@
 						$body.removeClass('loading');
 					}
 					interclick = false;
-					
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					document.location.href = url;
-					return false;
 				}
 			}); // end ajax
 
