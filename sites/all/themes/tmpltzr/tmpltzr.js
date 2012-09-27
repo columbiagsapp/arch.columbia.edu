@@ -45,7 +45,7 @@ var copyPaste = function(){
 
 			contentHtml = $data.find('#tmpltzr').html();
 
-			console.log('$contentHtml TCT************:'+contentHtml);
+			//console.log('$contentHtml TCT************:'+contentHtml);
 			
 		},
 		error: function(jqXHR, textStatus, errorThrown){
@@ -53,7 +53,7 @@ var copyPaste = function(){
 		},
 		complete: function(jqXHR, textStatus){
 			contentHtml = '<textarea>' + '<div id="tmpltzr">' + contentHtml + '</div><!-- /#tmpltzr -->' + '</textarea>';
-		  	$('#copy-paste').append(contentHtml);
+		  	//$('#copy-paste').append(contentHtml);
 		}
 	}); // end ajax
   
