@@ -400,7 +400,6 @@ div.error, tr.error {
     padding: 0.5em;
 }
 .unpublished {
-    font-weight: bold;
     font-size: 1em;
     color: #FFF;
     text-transform: uppercase;
@@ -443,7 +442,7 @@ div.error, tr.error {
 }
 /* The label for a form element */.form-item label {
     display: block;
-    font-weight: bold;
+    font-weight: normal;
 }
 /* The label for a radio button or checkbox */.form-item label.option {
     display: inline;
@@ -521,9 +520,7 @@ html.js fieldset.collapsed legend {
     border: 1px solid transparent !important;
     background: transparent !important;
 }
-html.js fieldset legend a {
-    font-weight: bold;
-}
+
 /* Drupal's tabs */
 #content ul.tabs {
     list-style: none;
@@ -608,7 +605,6 @@ div.warning {
 }
 #admin-system-location div {
     display: inline-block;
-    font-weight: bold;
 }
 .edit,
 div.view div.views-admin-links li {
@@ -623,7 +619,6 @@ div.view div.views-admin-links li a {
     font-family: Verdana !important;
     font-size: 9px !important;
     text-transform: none !important;
-    font-weight: bold !important;
     color: #000 !important;
     padding: 0 !important;
 }
@@ -648,7 +643,6 @@ div.view div.views-admin-links li a:hover {
 }
 .view thead th {
     color: #006699;
-    font-weight: bold;
     height: 30px;
 /* extra height w/ BG effect is to add extra padding for the first line */
     vertical-align: top;
@@ -1690,7 +1684,7 @@ td.gsc-branding-text, td.gsc-branding-img {
 }
 
 .publication-year{
-	font: bold 18px Verdana, Helvetica, Arial, sans-serif;
+	font: 18px Verdana, Helvetica, Arial, sans-serif;
 	text-align: left;
 	margin-bottom:7px;
 }
@@ -1706,7 +1700,11 @@ td.gsc-branding-text, td.gsc-branding-img {
 /* MENU */
 #main-menu h2 {display:none;} /* turn this off in Drupal - menu header, blocks config */
 
-
+/* WEBFORM */
+#tmpltzr form,
+#tmpltzr .form-description{
+    max-width:500px;
+}
 
 
 
