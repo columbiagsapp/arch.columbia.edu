@@ -799,7 +799,7 @@
 			//Prepare 
 			var $this = $(this);
 			// Ajaxify
-			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
+			$(this).find('a:internal:not(#gsapplogo, .term-index-term, .scrollFrom)').click(function(event){ //exempt GSAPP Logo so it reloads everything
 
 				if( $(this).hasClass('active') ){//clicked self
 					if( !($(this).parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
@@ -809,6 +809,11 @@
 				}else{
 					$(this).menuClickFunc(event);
 				}
+			});
+
+			$(this).find('.scrollFrom').click(function(event){
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top}, 500);
 			});
 			
 			// Chain

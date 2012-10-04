@@ -156,7 +156,6 @@ gsapp.buildWall = function(){
 	// such as in a course listing view
 	if(gsapp.mobile == false){
 		if( ($('#tmpltzr #main .view .view-content').children('.views-row').length > 1) && (gsapp.mobile == false) ){
-			safelog('MOBILE IS FALSE ---- BUILD A WALL!!!');
 			var $container = $('#tmpltzr #main .view .view-content');
 			$container.imagesLoaded( function(){
 				$container.masonry({
@@ -203,16 +202,30 @@ var resizeMenu = function(){
 		var wh = window.innerHeight;
 		var hh = $("#header").height();
 		$("#navigation").css('height', wh-hh);
-		//fleXenv.fleXcrollMain("navigation");
 		gsapp.menupane = $('#navigation');
 		gsapp.menupane.jScrollPane();
 		gsapp.menupaneAPI = gsapp.menupane.data('jsp');
 	}
 }
 
+var resizeContentPane = function(){	
+	/*console.log('testing********');	
+	if(gsapp.iscroll == false){//do nothing for iPad/tablet
+		console.log('won ********');	
+		$("#content").css('height', window.innerHeight);
+		gsapp.contentpane = $('#content');
+		gsapp.contentpane.jScrollPane();
+		gsapp.contentpaneAPI = gsapp.contentpane.data('jsp');
+	}*/
+}
+
+
+
 
 gsapp.resizeFunc = function(){
+	console.log('resizeFunc');
 	resizeMenu(); //resize the height or width of the menu
+	resizeContentPane();
 
 	var ww = window.innerWidth;
 	var path = window.location.pathname;
@@ -650,7 +663,6 @@ $(document).ready(function () {
 	});
 
 	if(gsapp.mobile == false){
-		safelog('setting masonry bricks');
 		setMasonryBrickWidths();
 	}
     
@@ -673,10 +685,8 @@ $(document).ready(function () {
 		$('#navigation .menu li:not(.force-expanded)').children('a').bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
 		$('#navigation .menu li.force-expanded').each(function(){
 			if($(this).children('.menu').length <= 0){
-				safelog('hover on set for leafs');
 				$('a:eq(0)', this).bind('mouseenter', menuHoverOn).bind('mouseleave', menuHoverOff);
 			}else{
-				safelog('hover on set for f-e parent');
 				$('a:eq(0)', this).bind('mouseenter', gsapp.menuHoverOnForced).bind('mouseleave', gsapp.menuHoverOffForced);
 			}
 

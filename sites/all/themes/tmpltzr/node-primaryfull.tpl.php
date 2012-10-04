@@ -29,11 +29,9 @@
   <?php if(!empty($node->field_title_link)){ ?>
     <h2>
       <?php if(strlen($node->field_title_link[0]['url']) > 0){
-          if($scrollFrom){
-            print '<a href="'.$node->field_title_link[0]['url'].'" class="scrollFrom">'.$node->field_title_link[0]['title'].'</a>';
-          }else{
-            print '<a href="'.$node->field_title_link[0]['url'].'" target="_self">'.$node->field_title_link[0]['title'].'</a>';
-          }
+        print $node->field_title_link[0]['view'];
+      }else if(strlen($node->field_title_link[0]['fragment']) > 0){
+        print '<a href="#'.$node->field_title_link[0]['fragment'].'" class="scrollFrom">'.$node->field_title_link[0]['title'].'</a>'; 
       }else{
         print $node->field_title_link[0]['title'];
       } ?>
