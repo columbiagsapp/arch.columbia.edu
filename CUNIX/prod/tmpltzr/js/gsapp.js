@@ -667,7 +667,7 @@ $(document).ready(function () {
 	});
 
 	//include a notice in the header above the content: params: (image source, url to link to)
-	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/livestreaming.gif", "http://events.gsapp.org/event/move-theatrum-mundi-global-street");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png");
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	
