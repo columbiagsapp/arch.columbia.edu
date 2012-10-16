@@ -269,7 +269,7 @@ var adjustPrimaryLinksMenu = function(path){
 	} 
 	
 	/* if not the homepage, where path = '/' */
-	if( (path.length > 1) && (path.substring(1,7) != 'search') ){
+	if( (path.length > 1) && (path.substring(1,7) != 'search') && (path.substring(1,13) != 'subscribe-cc') ){
 		if(path.indexOf('columbiaedu') > 0){//faculty page
 			path = '/about/people';
 		}

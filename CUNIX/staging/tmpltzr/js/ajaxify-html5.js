@@ -7,7 +7,6 @@
 		document = window.document,
 		TOGGLE_TIME = 500,
 		templatizer = false,
-		copypaste = false,
 		interclick = false;
 
 	// Check to see if History.js is enabled for our Browser
@@ -56,9 +55,9 @@
 			
 			// Check link
 			isInternalLink = url.substring(0,rootUrl.length) === rootUrl || url.indexOf(':') === -1;
-			if((url.indexOf("/admin/") >= 0) || (( copypaste == true) && (url.indexOf("/edit") >= 0)) ){
+			if((url.indexOf("/admin/") >= 0) || (url.indexOf("/edit") >= 0) ){
 				isInternalLink = false;
-			}			
+			}
 			
 			// Ignore or Keep
 			return isInternalLink;
@@ -293,11 +292,44 @@
 						$(this).collapseMenu();
 					}
 				});
-			}
-			
-		
-		
+			}	
 		}
+
+
+		/* 	function: digMenuInterval()
+		 *	Dig into the menu to $(this) from a certain level
+		
+		$.fn.digMenuInterval = function($active, lev){
+			console.log('+ digMenuInterval()');
+
+			var cont = true;
+			var parents = [];
+			var $parent;
+			var levelClass = 'level-'+lev;
+			var $this = $(this);
+			var count = 0;
+
+			do{
+				console.log('doing...');
+				$parent = $this.closest('ul');
+				console.log('parent level: '+ $parent.attr("class"));
+
+				if($parent.hasClass(levelClass) || $parent.hasClass('level-0')){
+					console.log('stopping by level');
+					cont = false;
+				}else{
+					parents.push($parent);
+					$this = $parent;
+				}
+				count++;
+			}while( (($parent.length > 0) && cont && (count < 6)) );
+
+			for(i=0; i<parents.length; i++) {
+				parents[i].dig($active);
+			}
+
+		}*/
+
 		
 		/* 	function: redirectFunc()
 		 *	Call in the event of an internal redirect
@@ -315,6 +347,7 @@
 			//TODO: need to add > +2 test here
 			
 			setTimeout(function(){
+				console.log('SCROLLTOELEMENT 350');
 				gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 			}, TOGGLE_TIME);
 			
@@ -363,6 +396,7 @@
 		 *	is selected. It checks for hard-wired redirects and internal-redirects.
 		*/
 		$.fn.dig = function($active){
+			console.log('digging');
 			var $redir = $(this).digRedirect();
 			if($active != undefined){
 				var internalRedir = $(this).internalRedirect($active);
@@ -396,6 +430,7 @@
 						}
 					}
 				}
+				console.log('digging: expanding menu');
 				$(this).expandMenu();
 				setCurrentState(1);
 			}	
@@ -440,11 +475,7 @@
 			}else{
 				
 				if($active != undefined){
-					if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
-						$active.parent('li').collapseMenu();
-					}else{
-						$active.parent('li').collapseMenu();
-					}
+					$active.parent('li').collapseMenu();
 				}
 				$(this).expandMenu();
 				if( currentState == 'home'){
@@ -502,6 +533,7 @@
 				var $sel = $(this).expandBranch(internalRedir);
 				if($active != undefined){
 					setTimeout(function(){
+						console.log('SCROLLTOELEMENT 540');
 						gsapp.menupaneAPI.scrollToElement($sel.closest('li.branch'), true, TOGGLE_TIME);
 					}, TOGGLE_TIME);
 				}
@@ -585,22 +617,52 @@
 			}
 			return parent;
 		}
-		
+
 		/* 	function: branch()
 		 *	This function is called when the selected item is in a different top-level
 		 *	menu.
 		*/
 		$.fn.branch = function($active){
+			console.log('BRANCH() -- this href: '+$(this).attr("href"));
+
 			if($active != undefined){
-				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
-					$(this).collapseMenuInterval($active, 0 );
+				var test;
+				console.log('------- active --------');
+				$active.parents('.menu').each(function(i){
+					test = $(this).siblings('a').attr('href');
+					console.log('i: '+i+' parents: '+ $(this).attr('class') + ' href: '+ test);
+				});
+
+				console.log('------- this --------');
+				$(this).parents('.menu').each(function(i){
+					test = $(this).siblings('a').attr('href');
+					console.log('i: '+i+' parents: '+ $(this).attr('class') + ' href: '+ test);
+				});
+				
+
+				var $parent = $(this).parents('ul').filter($active.parents()).first();
+				if($parent.length){
+					var classes = $parent.attr('class');
+					var levelIdx = classes.indexOf('level-') + 6;
+					var lev = classes.substring(levelIdx, levelIdx+1);
+					console.log('closing to level: '+lev);
 				}else{
-					$(this).collapseMenuInterval($active, 0 );
+					console.log('no parent');
 				}
+	
+				$(this).collapseMenuInterval($active, lev );
+				$active.removeClass('active');
 			}
 		
-			$active.removeClass('active');
-			$(this).dig($active);
+			
+			//switch $active to the top of the new menu to dig into
+			//$newActive = $parent.siblings('a');
+			//$newActive.addClass('active');
+			//console.log('parent attr: ' + $newActive.attr('class'));
+
+			$(this).expandMenus();
+
+			//$(this).dig($newActive);
 		}
 		
 
@@ -647,8 +709,6 @@
 			}else{
 				return returnval;
 			}
-
-
 		}
 
 		$.fn.menuClickFunc = function(event){
@@ -658,40 +718,47 @@
 				$active = $('.active'),
 				url = $this.attr('href'),
 				fetch = true,
-				title = $this.attr('title')||null;
+				title = $this.attr('title')||null,
+				bodyLink = false,
+				noMenu = false;
 
 			interclick = true; //because was a click from the site, not the back button
 
 			/*
+				If not in navigation menu, then $(this) will not be a menu item that you can treat normally, so you need
+				to crawl the menu to find the actual anchor element that corresponds to the internal page link before you can
+				do the standard menuClickFunc operation.
+
 				If not in #navigation, then look for .find() in $active where href matches in #nav, else look through whole #nav (redirect)
 				else die.
 			*/
 
-			if($(this).closest('#wrapper').length){
-				if($active != undefined){
-					var $menuLink = $active.parent('li').find('a:[href="'+url+'"]');
-					if($menuLink.length){
-						$this = $menuLink;
-					}else{//links to elsewhere in the site, not under the current submenu
-						$menuLink = $('#navigation #menu').find('a:[href="'+url+'"]');
+			if($(this).closest('#wrapper').length){ //link is in the body text (not the menu)
+				bodyLink = true;
+				$menuLink = $('#navigation #menu').find('a:[href="'+url+'"]');
 
-						if($menuLink.length){
-							if($menuLink.length > 1){
-								var $that = $menuLink._find_proper_branch(url);
-								if($that != false){
-									$this = $that;
-								}else{
-									$menuLink.each(function(i){
-										if(i == 0){$this = $(this);
-										}
-									});
-								}
+				if($menuLink.length < 0){
+					//throw error: internal link not found in menu
+					noMenu = true;
+				}else if($menuLink.length == 1){
+					$this = $menuLink; //only one menu link found in the #navigation menu, so set it to $this
+				}else{// more than one found, so some must be redirects
+
+					if($active != undefined){
+						$menuLink.each(function(i){
+							console.log('i: '+ i + ' $menuLink.length: '+ $menuLink.length);
+							if( $(this).internalRedirect($active) == false ){
+								$this = $(this); //TODO do I need to break here?
+								console.log('found this, href: '+$this.attr("href"));
 							}
-							//$('.active').removeClass('.active');
-						}
+						});
+					}else{
+						//TODO is it possible that $active is not defined? what about for the homepage?
 					}
 				}
-			}	
+			}
+
+
 			
 			if(event != 'back'){
 				// Continue as normal for cmd clicks etc
@@ -699,27 +766,41 @@
 			}
 			$('#navigation .menu li.force-expanded a').css('color','');
 
-			$('body').removeClass('front').addClass('not-front');
+			$('body.front').removeClass('front').addClass('not-front');
 			
 			switch(getCurrentState()){
 				case 'home':
-					$this.dig($active);
+					console.log('***HOME***');
+					if(!noMenu){
+						if(bodyLink){//if a link from the dashboard that is internal to the site
+							$this.branch();
+						}else{
+							$this.dig($active);
+						}
+					}
 					break;
 				case 'menu':
+					console.log('***MENU***');
 					if( $this.hasClass('active') ){//clicked self
+						console.log('---0---');
 						if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
 							$this.parent('li').menuToggleVisibility();
 						}
 						fetch = false;
 						break;
 					}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
+						console.log('---1---');
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){
+						console.log('---2---');
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
+						console.log('---3---');
 						$this.climb($active);
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
+						console.log('---4---');
 						if(!($this._is_active_trail($active))){
+							console.log('---4a---');
 							var $last = $this.parents('li.force-expanded').last();
 							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
 							if( getMenuToggle() == 'hidden'){
@@ -729,18 +810,24 @@
 							$this.addClass('active');
 							$active.removeClass('active');
 						}else{
+							console.log('---4b---');
 							$this.dig($active);
 						}
 					}else{
+						console.log('---5---');
 						$this.branch($active);
 					}
 					break;
 				case 'redirected':
+					console.log('***REDIRECTED***');
 					if( $this._is_dig($active) ){//going deeper into the same branch line
+						console.log('---0---');
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){//sibling of the current element
+						console.log('---1---');
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){//same branch but higher up
+						console.log('---2---');
 						if( $this.parent('li').hasClass('redirect-active') ){
 							$this.parent('li').menuToggleVisibility();
 							fetch = false;
@@ -750,8 +837,10 @@
 						}
 						$this.climb($active);
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
+						console.log('---3---');
 						$('redirect-active').removeClass('redirect-active');
 						if(!($this._is_active_trail($active))){
+							console.log('---3a---');
 							var $last = $this.parents('li.force-expanded').last();
 							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
 							if( getMenuToggle() == 'hidden'){
@@ -761,15 +850,18 @@
 							$this.addClass('active');
 							$active.removeClass('active');
 						}else{
+							console.log('---3b---');
 							$this.dig($active);
 						}
 						setCurrentState(1);
 					}else{
+						console.log('---4---');
 						$('redirect-active').removeClass('redirect-active');
 						$this.branch($active);
 					}
 					break;
 				default:
+					console.log('***NONE***');
 					break;
 			}
 
@@ -799,7 +891,14 @@
 			//Prepare 
 			var $this = $(this);
 			// Ajaxify
+
+			//TODO testing only - delete the below
+			$('#navigation').css('backgroundColor', 'red');
+			//$(this).find('a:internal:not(#gsapplogo, .term-index-term)').addClass('yesinternal');
+
 			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
+				
+
 
 				if( $(this).hasClass('active') ){//clicked self
 					if( !($(this).parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
