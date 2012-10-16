@@ -33,7 +33,7 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = true;
+gsapp.LOG = false;
 var TMPLTZR = false;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
@@ -341,13 +341,8 @@ var MAX_MENU_LEVELS = 6;
 function menuAddTriangles(){
 	var id = 1;
 	if(gsapp.mobile){
-		
-		if(gsapp.retina){
-			// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
-			var liW = gsappMobile.menuAndContentWidth - 114;
-		}else{
-			var liW = gsappMobile.menuAndContentWidth - 62;
-		}
+		// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
+		var liW = gsappMobile.menuAndContentWidth - 114;
 	}else{
 		var liW = 340;
 	}
@@ -523,18 +518,13 @@ gsapp.bindProgramCourseBlogIndexFilter = function(){
 gsappMobile.switchToMenu = function(){
 	$('#content').hide();
 	$('#menuswitch').hide();
-	var w;
-	if(gsapp.retina){
-		w = 70;
-	}else{
-		w = 35;
-	}
+	var mcw = $('#wrapper').width();
 	$('#wrapper').animate({
-			width: w,
-			left: gsappMobile.menuAndContentWidth
+			width: 70,
+			left: mcw
 		}, gsappMobile.switchTIME);
 	$('#navigation').animate({
-			width: gsappMobile.menuAndContentWidth
+			width: mcw
 		}, gsappMobile.switchTIME,
 		function(){
 			$('#menu').show();
@@ -551,18 +541,13 @@ gsappMobile.switchToMenu = function(){
 gsappMobile.switchToContent = function(){
 	$('#contentswitch').hide(); 
 	$('#menu').hide();
-	var w;
-	if(gsapp.retina){
-		w = 70;
-	}else{
-		w = 35;
-	}
+	var mcw = $('#navigation').width();
 	$('#navigation').animate({
-			width: w
+			width: 70
 		}, gsappMobile.switchTIME);
 	$('#wrapper').animate({
-			width: gsappMobile.menuAndContentWidth,
-			left: w
+			width: mcw,
+			left: 70
 		}, gsappMobile.switchTIME,
 		function(){
 			$('#content').show();
@@ -580,46 +565,42 @@ gsappMobile.switchToContent = function(){
 gsappMobile.refreshMenuWidth = function(){
 	// 114 = 60 + 54 (60 as safe value, 54 from #menu padding)
 	var mw = gsappMobile.menuAndContentWidth - 114;
-	if(gsapp.retina){
-		mw = mw -114;
-	}else{
-		mw = mw - 62;
-	}
 	mw = mw + 'px';
-	//$('#menu').css('width','100%');
+	$('#menu').css('width',mw);
 	
 }
 
 gsappMobile.initMobileScreen = function(){
-	gsapp.retina = window.devicePixelRatio > 1 ? true : false;
-
 	var ww = window.screen.availWidth;
 	var wah = window.screen.availHeight;
-	var mch, msh, csh; 
-
-	if(gsapp.retina){
-		$('body').addClass('retina');
-		ww = ww*2;
-		wah = wah*2;
-		gsappMobile.menuAndContentWidth = ww - 70; //slider width
-		mch = wah - 132; //header height
-		msh = mch/2 - 228/2;//mobile switch height (view page/menu)
-	}else{
-		gsappMobile.menuAndContentWidth = ww - 35; //slider width
-		mch = wah - 77; //header height
-		msh = mch/2 - 114/2;//mobile switch height (view page/menu)
+	var mcw = ww - gsappMobile.sliderWidth;
+	var mch = wah - gsappMobile.headerHeight;
+	var classes = $('body').attr('class');
+	var idx = classes.indexOf('version');
+	idx = idx + 8;
+	var version = classes.substring(idx,idx+1);
+	var msh = mch - (228/2);;//mobile switch height (view page/menu)
+	
+	if( $('body').hasClass('iOS') ){
+		if( (version == '4') || (version == '5') || (version == '6') ){
+			ww = ww*2;
+			mch = mch*2;
+			mcw = ww - gsappMobile.sliderWidth;
+		}
 	}
-	
 	$('#header').css('width',ww);
-	$('#navigation').css('width',gsappMobile.menuAndContentWidth);
-	
-	//gsappMobile.refreshMenuWidth();
+	$('#navigation').css('width',mcw);
+	gsappMobile.menuAndContentWidth = mcw
+	gsappMobile.refreshMenuWidth();
 	//init the switch
 	$('#wrapper').css('left',gsappMobile.menuAndContentWidth);
 	$('#wrapper').click(gsappMobile.switchToContent);
 	
-	$('#contentswitch').css('top',msh).show(); 
-	$('#menuswitch').css('top',msh);
+	var m = mch/2 - 228/2;
+	
+	
+	$('#contentswitch').css('top',m+gsappMobile.headerHeight).show(); 
+	$('#menuswitch').css('top',m);
 }
 
 
