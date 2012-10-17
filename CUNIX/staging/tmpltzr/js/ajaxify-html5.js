@@ -887,18 +887,13 @@
 			});
 
 			$(this).find('a:anchor').click(function(event){ //exempt GSAPP Logo so it reloads everything
-				console.log('clicked anchor');
 				anchorclick = true;
 				var hash = $(this).attr('href');
-				console.log('hash: '+hash);
 				var offsetY = $(hash).closest('.views-row').position().top;
-				console.log('offsetY: '+offsetY);
-				$('body').scrollTop(offsetY);
-				/*
-				$('body').animate({
-			         scrollTop: $(hash).offset().top
-			     }, 500);*/
 				
+				$('body').animate({
+			         scrollTop: offsetY
+			     }, TOGGLE_TIME);
 			});
 			
 			// Chain
