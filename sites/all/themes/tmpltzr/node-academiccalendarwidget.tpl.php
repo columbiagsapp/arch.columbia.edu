@@ -10,9 +10,9 @@
 		?>
 	</div>
 	<div>Looking for the<br>ACADEMIC CALENDAR?</div><br>
-	<?php print $node->field_cal_link[0]['view']; ?>
+	<a href="<?php print $node->field_cal_link[0]['url']; ?>" target="_self">View it here</a>
 	<div>or</div>
-	<?php print $node->field_add_cal_link[0]['view']; ?>
+	<a href="<?php print $node->field_add_cal_link[0]['url']; ?>" target="_self">Subscribe on Google</a>
 
 
 <?php printEditSectionFooter($user->uid, $node->uid, $node->nid, node_url); ?>

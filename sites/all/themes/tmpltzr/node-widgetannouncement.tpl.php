@@ -19,7 +19,7 @@
 	<a id="<?php print $node->title; ?>" name="<?php print $node->title; ?>" class="anchorhash"></a>
 
 	<?php if(!empty($node->field_link[0]['url'])){ ?>
-  		<a href="<?php print $node->field_link[0]['url']; ?>" target="_blank">
+  		<a href="<?php print $node->field_link[0]['url']; ?>" target="<?php print $node->field_link[0]['attributes']['target']; ?>">
   	<?php } ?>
   	
   	<?php if(!empty($node->field_widget_image[0]['view'])){ ?>
