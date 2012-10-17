@@ -262,6 +262,9 @@
 				//$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').each(function(){
 					var delta = $(this).offset().top;// - $(this).height();
+					delta = delta - $('body').scrollTop();
+					console.log("DELTA: "+delta);
+					console.log()
 					$(this).slideToggle(TOGGLE_TIME);
 					if( (delta < 170) && (gsapp.iscroll == false) ){
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
@@ -644,6 +647,7 @@
 				setMenuToggle('shown');
 			}
 			$(this).children('.menu').slideToggle(TOGGLE_TIME);
+			console.log('finished: menuToggleVisibility()');
 		}
 		
 		
@@ -805,13 +809,16 @@
 					}else if( ($active != undefined) && $this._is_climb($active) ){//same branch but higher up
 						console.log('---2---');
 						if( $this.parent('li').hasClass('redirect-active') ){
+							console.log('returning false');
 							$this.parent('li').menuToggleVisibility();
-							fetch = false;
-							break;
+							//fetch = false;
+							return false;
 						}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
 							$('redirect-active').removeClass('redirect-active');
 						}
-						$this.climb($active);
+						if(fetch){
+							$this.climb($active);
+						}
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
 						console.log('---3---');
 						$('redirect-active').removeClass('redirect-active');
@@ -852,12 +859,13 @@
 			if(event != 'back'){
 				
 				if(fetch == true){
+					console.log('changing state ********');
 					// Ajaxify this link
 					History.pushState(null,title,url);
 					event.preventDefault();											
 				}
 			}
-						
+				console.log('oops');		
 							
 			return false;
 		}
@@ -869,13 +877,11 @@
 			// Ajaxify
 
 			//TODO testing only - delete the below
-			$('#navigation').css('backgroundColor', 'red');
-			$(this).find('a:anchor').addClass('yesanchor');
+			$('#navigation').css('backgroundColor', 'darkgray');
+			//$(this).find('a:anchor').addClass('yesanchor');
 
 			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
-				
-
-
+			
 				if( $(this).hasClass('active') ){//clicked self
 					if( !($(this).parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
 						$(this).parent('li').menuToggleVisibility();
@@ -896,6 +902,7 @@
 			     }, TOGGLE_TIME);
 			});
 			
+			console.log("2222222");
 			// Chain
 			return $this;
 		};
@@ -908,6 +915,7 @@
 		
 		// Hook into State Changes
 		$(window).bind('statechange',function(){	
+			console.log("STATECHANGE________________");
 			if(!anchorclick){
 				//used when the user clicks the back button
 				var $this;
