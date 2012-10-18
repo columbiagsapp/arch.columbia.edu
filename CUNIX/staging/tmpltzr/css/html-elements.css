@@ -987,6 +987,13 @@ dl dd {
 	margin-bottom: 14px;
 }
 
+#tmpltzr .embedded-tumblr .tmpltzr-body.photo img{
+	width:500px;
+}
+
+#tmpltzr .embedded-tumblr p{
+	max-width:500px;
+}
 
 
 #tmpltzr .embedded-tumblr .tmpltzr-image-small{
@@ -1005,7 +1012,7 @@ dl dd {
 	margin:0 20px 10px 0;
 	display:-moz-inline-stack;
 	display:inline-block;
-	width:240px;
+	width:240px !important;
 }
 
 .IE #tmpltzr .embedded-tumblr .photoset .photo.even,
