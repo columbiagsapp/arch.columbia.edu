@@ -7,8 +7,8 @@
 		document = window.document,
 		TOGGLE_TIME = 500,
 		templatizer = false,
-		copypaste = false,
-		interclick = false;
+		interclick = false,
+		anchorclick = false;
 
 	// Check to see if History.js is enabled for our Browser
 	if ( !History.enabled ) {
@@ -34,12 +34,7 @@
 				duration: 0
 			};
 		
-		
-		// test for templatizer tmpltzr
 		var base_path = '';
-		if ( rootUrl.indexOf("postfog") != -1 ) {
-			base_path = '/templatizer/';
-		}
 		
 		// Ensure Content
 		if ( $content.length === 0 ) {
@@ -56,12 +51,29 @@
 			
 			// Check link
 			isInternalLink = url.substring(0,rootUrl.length) === rootUrl || url.indexOf(':') === -1;
-			if((url.indexOf("/admin/") >= 0) || (( copypaste == true) && (url.indexOf("/edit") >= 0)) ){
+			if((url.indexOf("/admin/") >= 0) || (url.indexOf("/edit") >= 0) || (url.substring(0,1) === '#') ){
 				isInternalLink = false;
-			}			
+			}
 			
 			// Ignore or Keep
 			return isInternalLink;
+		};
+
+		// Internal Anchor Helper
+		$.expr[':'].anchor = function(obj, index, meta, stack){
+			// Prepare
+			var
+				$this = $(obj),
+				url = $this.attr('href')||'',
+				isAnchorLink = false;
+			
+			// Check link
+			if(url.substring(0,1) === '#'){
+				isAnchorLink = true;
+			}
+			
+			// Ignore or Keep
+			return isAnchorLink;
 		};
 		
 		
@@ -82,6 +94,10 @@
 		/* 	function: internalRedirect()
 		 *	Checks if the selected menu item redirects to an item in a lower menu with
 		 *	a different parent.
+		 *
+		 * return values
+		 * - false if not an internal redirect
+		 * - /@@@@ where @@@@ is the first four letters of the base path for the internal redirect (ie. the branch)
 		*/
 		$.fn.internalRedirect = function($active){
 			var returnval;
@@ -138,15 +154,8 @@
 			return returnval;
 		}
 		
-		/* 	function: hideMenu()
-		 *	Hide the menu (but don't change the active settings)
-		*/
-		$.fn.hideMenu = function(){
-			
-		}
-		
 		/* 	function: expandBranch()
-		 *	Expand the menu and add active settings.
+		 *	Expand the menu and add active settings to $(this)
 		*/
 		$.fn.expandBranch = function(internalRedirect){
 			var $returnSelector = false;
@@ -253,6 +262,7 @@
 				//$(this).children('.menu-arrow-large, .menu-arrow-small').css('backgroundPosition', '-15px -50px');
 				$(this).children('.menu:visible').each(function(){
 					var delta = $(this).offset().top;// - $(this).height();
+					delta = delta - $('body').scrollTop();
 					$(this).slideToggle(TOGGLE_TIME);
 					if( (delta < 170) && (gsapp.iscroll == false) ){
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
@@ -293,11 +303,9 @@
 						$(this).collapseMenu();
 					}
 				});
-			}
-			
-		
-		
+			}	
 		}
+
 		
 		/* 	function: redirectFunc()
 		 *	Call in the event of an internal redirect
@@ -440,16 +448,13 @@
 			}else{
 				
 				if($active != undefined){
-					if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
-						$active.parent('li').collapseMenu();
-					}else{
-						$active.parent('li').collapseMenu();
-					}
+					$active.parent('li').collapseMenu();
 				}
 				$(this).expandMenu();
-				if( currentState == 'home'){
+				//if( currentState == 'home'){
+					$('.redirect-active').removeClass('redirect-active');
 					setCurrentState(1);
-				}
+				//}
 			}	
 			if($active != undefined){
 				$active.removeClass('active');
@@ -490,6 +495,7 @@
 			if( $redir != false ){
 				if( $(this).parent('li').hasClass('active-trail') ){
 					$redir.collapseMenuInterval($active, $(this).level()+1 );
+					$redir.expandMenus();//TODO just added this
 				}else{
 					$(this).collapseMenuInterval($active, $(this).level() );
 					$redir.expandMenus();
@@ -507,7 +513,6 @@
 				}
 				setCurrentState(1);
 			}else{
-				
 				if( $(this).parent('li').hasClass('active-trail') ){
 					$(this).collapseMenuInterval($active, -1);
 				}else{
@@ -519,7 +524,10 @@
 			}
 			if($active != undefined){
 				$active.removeClass('active');
-			}	
+			}
+			if( $redir != false ){
+				$redir.addClass('active');
+			}
 		}
 		
 		/* 	function: _is_climb()
@@ -585,22 +593,52 @@
 			}
 			return parent;
 		}
-		
+
 		/* 	function: branch()
 		 *	This function is called when the selected item is in a different top-level
 		 *	menu.
 		*/
-		$.fn.branch = function($active){
+		$.fn.branch = function($active){   
+			//collapse menus
 			if($active != undefined){
-				if( $(this).closest('li.branch').index() > ($active.closest('li.branch').index()+2) ){
-					$(this).collapseMenuInterval($active, 0 );
-				}else{
-					$(this).collapseMenuInterval($active, 0 );
+				var $parent = $(this).parents('ul').filter($active.parents()).first();
+				if($parent.length){
+					var classes = $parent.attr('class');
+					var levelIdx = classes.indexOf('level-') + 6;
+					var lev = classes.substring(levelIdx, levelIdx+1);
+				}else{//top level branch
+					var lev = 0;//default to collapsing all menus above $active
 				}
+				$(this).collapseMenuInterval($active, lev);
+				$active.removeClass('active');
 			}
-		
-			$active.removeClass('active');
-			$(this).dig($active);
+
+			//check if the branch about to be opened is visible, if not, scroll
+			if($(this).closest('li.branch').length){
+				var $branch = $(this).closest('li.branch');
+				var deleteme = $branch.children('a').attr('href');
+			}else{
+				var $branch = $(this);
+			}
+
+			var navMax = window.innerHeight - 45; //45 is height of CU logo footer
+			if($branch.offset().top < 170 || $branch.offset().top > navMax){
+				gsapp.menupaneAPI.scrollToElement($branch, true, TOGGLE_TIME);
+			}
+
+
+			var $redir = $(this).digRedirect();
+			
+			if( $redir != false ){
+				$redir.expandMenus();
+				$(this).parent('li').addClass('redirect-active');
+				setCurrentState(3);
+			}else{
+				$(this).expandMenus();
+				setCurrentState(1);
+			}
+
+			//$(this).dig($newActive);
 		}
 		
 
@@ -647,72 +685,84 @@
 			}else{
 				return returnval;
 			}
-
-
 		}
 
-		$.fn.menuClickFunc = function(event){
+		var findMenuItemByURL = function($active, url){
+			var $this;
+			var $menuLink = $('#navigation #menu').find('a:[href="'+url+'"]');
+
+			if($menuLink.length < 0 || $active == undefined){
+				//throw error: internal link not found in menu
+				$this = false;
+			}else if($menuLink.length == 1){
+				$this = $menuLink; //only one menu link found in the #navigation menu, so set it to $this
+			}else{// more than one found, so some must be redirects
+				$menuLink.each(function(i){
+					if( $(this).internalRedirect($active) == false ){
+						$this = $(this); //TODO do I need to break here?
+					}
+				});
+			}
+			return $this;
+		}
+
+		var menuClickFunc = function($this, event, backURL){
 			// Prepare
 			var
-				$this = $(this),
 				$active = $('.active'),
-				url = $this.attr('href'),
+				url,
+				title,
 				fetch = true,
-				title = $this.attr('title')||null;
+				$menuLink,
+				bodyLink = false,
+				noMenu = false;
 
 			interclick = true; //because was a click from the site, not the back button
 
 			/*
+				If not in navigation menu, then $(this) will not be a menu item that you can treat normally, so you need
+				to crawl the menu to find the actual anchor element that corresponds to the internal page link before you can
+				do the standard menuClickFunc operation.
+
 				If not in #navigation, then look for .find() in $active where href matches in #nav, else look through whole #nav (redirect)
 				else die.
 			*/
 
-			if($(this).closest('#wrapper').length){
-				if($active != undefined){
-					var $menuLink = $active.parent('li').find('a:[href="'+url+'"]');
-					if($menuLink.length){
-						$this = $menuLink;
-					}else{//links to elsewhere in the site, not under the current submenu
-						$menuLink = $('#navigation #menu').find('a:[href="'+url+'"]');
+			if($this != null){
+				url = $this.attr('href');
+				title = $this.attr('title')||null;
 
-						if($menuLink.length){
-							if($menuLink.length > 1){
-								var $that = $menuLink._find_proper_branch(url);
-								if($that != false){
-									$this = $that;
-								}else{
-									$menuLink.each(function(i){
-										if(i == 0){$this = $(this);
-										}
-									});
-								}
-							}
-							//$('.active').removeClass('.active');
-						}
-					}
+				if($this.closest('#wrapper').length){ //link is in the body text (not the menu)
+					bodyLink = true;//only used to distinguish in case 'home'
+					$this = findMenuItemByURL($active, url);
 				}
-			}	
-			
-			if(event != 'back'){
-				// Continue as normal for cmd clicks etc
-				if ( event.which == 2 || event.metaKey ) { return true; }
+
+				if(event != 'back'){
+					// Continue as normal for cmd clicks etc
+					if ( event.which == 2 || event.metaKey ) { return true; }
+				}
+			}else{//browser back button
+				url = backURL;
+				$this = findMenuItemByURL($active, url);
 			}
+
+			
 			$('#navigation .menu li.force-expanded a').css('color','');
 
-			$('body').removeClass('front').addClass('not-front');
+			$('body.front').removeClass('front').addClass('not-front');
 			
 			switch(getCurrentState()){
 				case 'home':
-					$this.dig($active);
+					if(!noMenu){
+						if(bodyLink){//if a link from the dashboard that is internal to the site
+							$this.branch();
+						}else{
+							$this.dig($active);
+						}
+					}
 					break;
 				case 'menu':
-					if( $this.hasClass('active') ){//clicked self
-						if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
-							$this.parent('li').menuToggleVisibility();
-						}
-						fetch = false;
-						break;
-					}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
+					if( $this._in_active_branch($active) && $this._is_dig($active) ){
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){
 						$this.sibling($active);
@@ -736,21 +786,21 @@
 					}
 					break;
 				case 'redirected':
+					$('.redirect-active').removeClass('redirect-active');
+					setCurrentState(1);
 					if( $this._is_dig($active) ){//going deeper into the same branch line
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){//sibling of the current element
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){//same branch but higher up
-						if( $this.parent('li').hasClass('redirect-active') ){
-							$this.parent('li').menuToggleVisibility();
-							fetch = false;
-							break;
-						}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
-							$('redirect-active').removeClass('redirect-active');
+						if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
+							$('.redirect-active').removeClass('redirect-active');
 						}
-						$this.climb($active);
+						if(fetch){
+							$this.climb($active);
+						}
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
-						$('redirect-active').removeClass('redirect-active');
+						$('.redirect-active').removeClass('redirect-active');
 						if(!($this._is_active_trail($active))){
 							var $last = $this.parents('li.force-expanded').last();
 							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
@@ -765,7 +815,6 @@
 						}
 						setCurrentState(1);
 					}else{
-						$('redirect-active').removeClass('redirect-active');
 						$this.branch($active);
 					}
 					break;
@@ -788,8 +837,7 @@
 					History.pushState(null,title,url);
 					event.preventDefault();											
 				}
-			}
-						
+			}	
 							
 			return false;
 		}
@@ -799,16 +847,33 @@
 			//Prepare 
 			var $this = $(this);
 			// Ajaxify
-			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
 
-				if( $(this).hasClass('active') ){//clicked self
+			//TODO testing only - delete the below
+			//$('#navigation').css('backgroundColor', 'darkgray');
+			//$(this).find('a:anchor').addClass('yesanchor');
+
+			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
+			
+				if( ( $(this).hasClass('active') ) || ( $(this).parent('li').hasClass('redirect-active') )){//clicked self
 					if( !($(this).parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
 						$(this).parent('li').menuToggleVisibility();
 						return false;
 					}
 				}else{
-					$(this).menuClickFunc(event);
+					menuClickFunc($(this), event);
+					//$('.redirect-active').removeClass('redirect-active');
+					//setCurrentState(1);//override to make sure redirect state gets removed
 				}
+			});
+
+			$(this).find('a:anchor').click(function(event){ //exempt GSAPP Logo so it reloads everything
+				anchorclick = true;
+				var hash = $(this).attr('href');
+				var offsetY = $(hash).closest('.views-row').position().top;
+				
+				$('body').animate({
+			         scrollTop: offsetY
+			     }, TOGGLE_TIME);
 			});
 			
 			// Chain
@@ -823,169 +888,160 @@
 		
 		// Hook into State Changes
 		$(window).bind('statechange',function(){	
-			//used when the user clicks the back button
-			if(interclick == false){
-				$this = $('#navigation a:[href="'+ window.location.pathname +'"]');
-				if($this.length){
-					if($this.length > 1){
-						var $that = $this._find_proper_branch(window.location.pathname);
-						if($that != false){
-							$this = $that;
-						}else{
-							$this.each(function(i){
-								if(i == 0){
-									var $that = $(this);
-								}
-							});
-							$this = $that;
-						}
-					}
-				}
-			}
-
-			// Prepare Variables
-			var
-				State = History.getState(),
-				url = State.url,
-				relativeUrl = url.replace(rootUrl,'');
-
-			// Set Loading
-			$body.addClass('loading');
-
-			// Start Fade Out
-			// Animating to opacity to 0 still keeps the element's height intact
-			// Which prevents that annoying pop bang issue when loading in new content
-			if(gsapp.mobile == false){//don't need to fade out for mobile
-				$content.animate({opacity:0},200);
-			}
-			
-			// Ajax Request the Traditional Page
-			$.ajax({
-				url: url,
-				success: function(data, textStatus, jqXHR){				
-					// Prepare
-					var
-						$data = $(documentHtml(data)),
-						$dataBody = $data.find('.document-body:first'),
-						$dataContent = $dataBody.find(contentSelector).filter(':first'),
-						$menuChildren, contentHtml, $scripts;
-
-					// Fetch the scripts
-					// necessary for fetched content like tumblr
-					$scripts = $dataContent.find('.document-script');
-					if ( $scripts.length ) {
-						$scripts.detach();
-					}
+			if(!anchorclick){
+				//used when the user clicks the back button
+				var $this;
 					
-					// Fetch the content
-					contentHtml = $dataContent.html()||$data.html();
-					if ( !contentHtml ) {
+				if(interclick == false){
+					menuClickFunc(null, null, window.location.pathname);
+				}
+
+				// Prepare Variables
+				var
+					State = History.getState(),
+					url = State.url,
+					relativeUrl = url.replace(rootUrl,'');
+
+				// Set Loading
+				$body.addClass('loading');
+
+				// Start Fade Out
+				// Animating to opacity to 0 still keeps the element's height intact
+				// Which prevents that annoying pop bang issue when loading in new content
+				if(gsapp.mobile == false){//don't need to fade out for mobile
+					$content.animate({opacity:0},200);
+				}
+				
+				// Ajax Request the Traditional Page
+				$.ajax({
+					url: url,
+					success: function(data, textStatus, jqXHR){				
+						// Prepare
+						var
+							$data = $(documentHtml(data)),
+							$dataBody = $data.find('.document-body:first'),
+							$dataContent = $dataBody.find(contentSelector).filter(':first'),
+							$menuChildren, contentHtml, $scripts;
+
+						// Fetch the scripts
+						// necessary for fetched content like tumblr
+						$scripts = $dataContent.find('.document-script');
+						if ( $scripts.length ) {
+							$scripts.detach();
+						}
+						
+						// Fetch the content
+						contentHtml = $dataContent.html()||$data.html();
+						if ( !contentHtml ) {
+							document.location.href = url;
+							return false;
+						}
+						
+						//scroll content to the top of the page
+						$body.scrollTop(0);
+						//$body.animate({ scrollTop: 0 }, 'slow');
+						//resize the page to check if room for sidebar
+						if(gsapp.mobile == true){
+							$content.html(contentHtml).ajaxify().hide();
+						}else{
+							$content.stop(true,true);
+							$content.html(contentHtml).ajaxify().css('opacity',100).show(100); // you could fade in here if you'd like 
+							//gsapp.resizeFunc();
+						}
+
+						// Add the scripts
+						$scripts.each(function(){
+							var $script = $(this),
+								scriptText = $script.text();
+						
+							if( $('body').hasClass('IE') ){
+								var ss = document.createElement('script');
+								var scr = scriptText;
+								ss.text = scr;
+								var hh = document.getElementsByTagName('head')[0];
+								hh.appendChild(ss);
+							}else{
+								var scriptNode = document.createElement('script');
+								scriptNode.appendChild(document.createTextNode(scriptText));
+								contentNode.appendChild(scriptNode);
+							}
+						});
+		
+						// Inform Google Analytics of the change
+						if ( typeof window.pageTracker !== 'undefined' ) {
+							window.pageTracker._trackPageview(relativeUrl);
+						}
+						
+						// Inform ReInvigorate of a state change
+						if ( typeof window.reinvigorate !== 'undefined' && typeof window.reinvigorate.ajax_track !== 'undefined' ) {
+							reinvigorate.ajax_track(url);
+							// ^ we use the full url here as that is what reinvigorate supports
+						}
+
+					
+						
+						
+					},
+					error: function(jqXHR, textStatus, errorThrown){
 						document.location.href = url;
 						return false;
-					}
-					
-					//scroll content to the top of the page
-					$body.scrollTop(0);
-					//$body.animate({ scrollTop: 0 }, 'slow');
-					//resize the page to check if room for sidebar
-					if(gsapp.mobile == true){
-						$content.html(contentHtml).ajaxify().hide();
-					}else{
-						$content.stop(true,true);
-						$content.html(contentHtml).ajaxify().css('opacity',100).show(100); // you could fade in here if you'd like 
-						//gsapp.resizeFunc();
-					}
+					},
+					complete: function(jqXHR, textStatus){
 
-					// Add the scripts
-					$scripts.each(function(){
-						var $script = $(this),
-							scriptText = $script.text();
-					
-						if( $('body').hasClass('IE') ){
-							var ss = document.createElement('script');
-							var scr = scriptText;
-							ss.text = scr;
-							var hh = document.getElementsByTagName('head')[0];
-							hh.appendChild(ss);
-						}else{
-							var scriptNode = document.createElement('script');
-							scriptNode.appendChild(document.createTextNode(scriptText));
-							contentNode.appendChild(scriptNode);
+						if(gsapp.mobile == false){
+							gsapp.resizeFunc();
 						}
-					});
-	
-					// Inform Google Analytics of the change
-					if ( typeof window.pageTracker !== 'undefined' ) {
-						window.pageTracker._trackPageview(relativeUrl);
-					}
-					
-					// Inform ReInvigorate of a state change
-					if ( typeof window.reinvigorate !== 'undefined' && typeof window.reinvigorate.ajax_track !== 'undefined' ) {
-						reinvigorate.ajax_track(url);
-						// ^ we use the full url here as that is what reinvigorate supports
-					}
 
-				
-					
-					
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					document.location.href = url;
-					return false;
-				},
-				complete: function(jqXHR, textStatus){
+						setTimeout(gsapp.initPhotoset, 0);
+						$('#fixed-header #region-list .term-list a.term-index-term').bind('click', gsapp.bindRegionCourseBlogIndexFilter);
+						$('#fixed-header #program-list .term-list a.term-index-term').bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 
-					if(gsapp.mobile == false){
-						gsapp.resizeFunc();
-					}
-
-					setTimeout(gsapp.initPhotoset, 0);
-					$('#fixed-header #region-list .term-list a.term-index-term').bind('click', gsapp.bindRegionCourseBlogIndexFilter);
-					$('#fixed-header #program-list .term-list a.term-index-term').bind('click', gsapp.bindProgramCourseBlogIndexFilter);
-
-					if(gsapp.mobile){
-						setTimeout(function(){
-							gsappMobile.refreshMenuWidth();
-							gsappMobile.menuScroll.refresh();
-						},0);
-						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
+						if(gsapp.mobile){
+							setTimeout(function(){
+								gsappMobile.refreshMenuWidth();
+								gsappMobile.menuScroll.refresh();
+							},0);
+							if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
+								setTimeout(function(){
+									gsappMobile.menuScroll.refresh();
+									gsappMobile.contentScroll.refresh();
+									$body.removeClass('loading');
+								},0);
+							}else{
+								setTimeout(function(){
+									$body.removeClass('loading');
+								},1500);
+							}
+						}else if( gsappMobile.iscrollInit ){
+							gsappMobile.menuScroll.destroy();
+							gsappMobile.menuScroll = new iScroll('navigation');
 							setTimeout(function(){
 								gsappMobile.menuScroll.refresh();
-								gsappMobile.contentScroll.refresh();
-								$body.removeClass('loading');
 							},0);
-						}else{
-							setTimeout(function(){
-								$body.removeClass('loading');
-							},1500);
-						}
-					}else if( gsappMobile.iscrollInit ){
-						gsappMobile.menuScroll.destroy();
-						gsappMobile.menuScroll = new iScroll('navigation');
-						setTimeout(function(){
-							gsappMobile.menuScroll.refresh();
-						},0);
-						
-						gsappMobile.contentScroll.destroy();
-						gsappMobile.contentScroll = null;
-						gsappMobile.contentScroll = new iScroll('wrapper');
+							
+							gsappMobile.contentScroll.destroy();
+							gsappMobile.contentScroll = null;
+							gsappMobile.contentScroll = new iScroll('wrapper');
 
-						if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
-							setTimeout(function(){
-								gsappMobile.contentScroll.refresh();
-								$body.removeClass('loading');
-							},0);
+							if( $('.tmpltzr-fetched').length <= 0){//no fetched elements
+								setTimeout(function(){
+									gsappMobile.contentScroll.refresh();
+									$body.removeClass('loading');
+								},0);
+							}else{
+								setTimeout(function(){
+									$body.removeClass('loading');
+								},1500);
+							}
 						}else{
-							setTimeout(function(){
-								$body.removeClass('loading');
-							},1500);
+							$body.removeClass('loading');
 						}
-					}else{
-						$body.removeClass('loading');
+						//reset the values of interclick (used to distinguish from back button) and anchorclick for autoscroll anchors
+						interclick = false;
+						anchorclick = false;
 					}
-					interclick = false;
-				}
-			}); // end ajax
+				}); // end ajax
+			} // end if(!anchorclick)
 
 		}); // end onStateChange
 
