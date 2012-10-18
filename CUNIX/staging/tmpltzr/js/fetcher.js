@@ -175,14 +175,25 @@ gsappFetcher.findLocationClass = function(location_string) {
 	locations['Amman'] = 'middle-east';
 	locations['Barcelona'] = 'europe';
 	locations['Beijing'] = 'asia';
+	locations['Istanbul'] = 'middle-east';
+	locations['Johannesburg'] = 'africa';
 	locations['Moscow'] = 'europe';
 	locations['Mumbai'] = 'south-asia';
 	locations['New York'] = 'north-america';
+	locations['Paris'] = 'europe';
 	locations['Rio De Janeiro'] = 'latin-america';
 	locations['Sao Paulo'] = 'latin-america';
 	locations['Toronto'] = 'north-america';
-	
-	
+	locations['Tokyo'] = 'asia';
+
+	locations['Other Africa'] = 'africa';
+	locations['Other East Asia'] = 'asia';
+	locations['Other Europe'] = 'europe';
+	locations['Other Latin America'] = 'latin-america';
+	locations['Other North America'] = 'north-america';
+	locations['Other Middle East'] = 'middle-east';
+	locations['Other South Asia'] = 'south-asia';
+
 	test_location = locations[location_string];
 	if ((test_location != null) && (test_location != undefined)) {
 		return test_location;
