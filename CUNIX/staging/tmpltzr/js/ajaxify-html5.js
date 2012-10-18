@@ -263,8 +263,6 @@
 				$(this).children('.menu:visible').each(function(){
 					var delta = $(this).offset().top;// - $(this).height();
 					delta = delta - $('body').scrollTop();
-					console.log("DELTA: "+delta);
-					console.log()
 					$(this).slideToggle(TOGGLE_TIME);
 					if( (delta < 170) && (gsapp.iscroll == false) ){
 						gsapp.menupaneAPI.scrollByY( (-1*$(this).height()), TOGGLE_TIME);
@@ -373,7 +371,6 @@
 		 *	is selected. It checks for hard-wired redirects and internal-redirects.
 		*/
 		$.fn.dig = function($active){
-			console.log('digging');
 			var $redir = $(this).digRedirect();
 			if($active != undefined){
 				var internalRedir = $(this).internalRedirect($active);
@@ -407,7 +404,6 @@
 						}
 					}
 				}
-				console.log('digging: expanding menu');
 				$(this).expandMenu();
 				setCurrentState(1);
 			}	
@@ -517,7 +513,6 @@
 				}
 				setCurrentState(1);
 			}else{
-				
 				if( $(this).parent('li').hasClass('active-trail') ){
 					$(this).collapseMenuInterval($active, -1);
 				}else{
@@ -529,8 +524,10 @@
 			}
 			if($active != undefined){
 				$active.removeClass('active');
-			}	
-			$redir.addClass('active');
+			}
+			if( $redir != false ){
+				$redir.addClass('active');
+			}
 		}
 		
 		/* 	function: _is_climb()
@@ -602,21 +599,16 @@
 		 *	menu.
 		*/
 		$.fn.branch = function($active){   
-			console.log('BRANCH() -- this href: '+$(this).attr("href"));
-
 			//collapse menus
 			if($active != undefined){
 				var $parent = $(this).parents('ul').filter($active.parents()).first();
 				if($parent.length){
-					console.log('parent.length: '+$parent.length);
 					var classes = $parent.attr('class');
 					var levelIdx = classes.indexOf('level-') + 6;
 					var lev = classes.substring(levelIdx, levelIdx+1);
 				}else{//top level branch
 					var lev = 0;//default to collapsing all menus above $active
 				}
-				console.log('$active href is: '+$active.attr('href'));
-				console.log('COLLAPSING TO LEVEL: '+lev);
 				$(this).collapseMenuInterval($active, lev);
 				$active.removeClass('active');
 			}
@@ -663,7 +655,6 @@
 				setMenuToggle('shown');
 			}
 			$(this).children('.menu').slideToggle(TOGGLE_TIME);
-			console.log('finished: menuToggleVisibility()');
 		}
 		
 		
@@ -744,8 +735,6 @@
 				if($this.closest('#wrapper').length){ //link is in the body text (not the menu)
 					bodyLink = true;//only used to distinguish in case 'home'
 					$this = findMenuItemByURL($active, url);
-					console.log('internal button clicked, url: '+url);
-					console.log('internal button clicked, $this: '+$this);
 				}
 
 				if(event != 'back'){
@@ -755,8 +744,6 @@
 			}else{//browser back button
 				url = backURL;
 				$this = findMenuItemByURL($active, url);
-				console.log('back button clicked, url: '+ url);
-				console.log('back button clicked, $this: '+ $this);
 			}
 
 			
@@ -766,7 +753,6 @@
 			
 			switch(getCurrentState()){
 				case 'home':
-					console.log('***HOME***');
 					if(!noMenu){
 						if(bodyLink){//if a link from the dashboard that is internal to the site
 							$this.branch();
@@ -776,20 +762,14 @@
 					}
 					break;
 				case 'menu':
-					console.log('***MENU***');
 					if( $this._in_active_branch($active) && $this._is_dig($active) ){
-						console.log('---1---');
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){
-						console.log('---2---');
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){/* need to climb */
-						console.log('---3---');
 						$this.climb($active);
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
-						console.log('---4---');
 						if(!($this._is_active_trail($active))){
-							console.log('---4a---');
 							var $last = $this.parents('li.force-expanded').last();
 							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
 							if( getMenuToggle() == 'hidden'){
@@ -799,27 +779,20 @@
 							$this.addClass('active');
 							$active.removeClass('active');
 						}else{
-							console.log('---4b---');
 							$this.dig($active);
 						}
 					}else{
-						console.log('---5---');
 						$this.branch($active);
 					}
 					break;
 				case 'redirected':
-					console.log('***REDIRECTED***');
 					$('.redirect-active').removeClass('redirect-active');
-					console.log('REMOVED REDIR-ACT class');
 					setCurrentState(1);
 					if( $this._is_dig($active) ){//going deeper into the same branch line
-						console.log('---0---');
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){//sibling of the current element
-						console.log('---1---');
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){//same branch but higher up
-						console.log('---2---');
 						if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
 							$('.redirect-active').removeClass('redirect-active');
 						}
@@ -827,10 +800,8 @@
 							$this.climb($active);
 						}
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
-						console.log('---3---');
 						$('.redirect-active').removeClass('redirect-active');
 						if(!($this._is_active_trail($active))){
-							console.log('---3a---');
 							var $last = $this.parents('li.force-expanded').last();
 							$last.children('a:eq(0)').collapseMenuInterval($active, $last.children('a:eq(0)').level());
 							if( getMenuToggle() == 'hidden'){
@@ -840,17 +811,14 @@
 							$this.addClass('active');
 							$active.removeClass('active');
 						}else{
-							console.log('---3b---');
 							$this.dig($active);
 						}
 						setCurrentState(1);
 					}else{
-						console.log('---4---');
 						$this.branch($active);
 					}
 					break;
 				default:
-					console.log('***NONE***');
 					break;
 			}
 
@@ -865,13 +833,11 @@
 			if(event != 'back'){
 				
 				if(fetch == true){
-					console.log('changing state ********');
 					// Ajaxify this link
 					History.pushState(null,title,url);
 					event.preventDefault();											
 				}
-			}
-				console.log('oops');		
+			}	
 							
 			return false;
 		}
@@ -883,7 +849,7 @@
 			// Ajaxify
 
 			//TODO testing only - delete the below
-			$('#navigation').css('backgroundColor', 'darkgray');
+			//$('#navigation').css('backgroundColor', 'darkgray');
 			//$(this).find('a:anchor').addClass('yesanchor');
 
 			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
@@ -910,7 +876,6 @@
 			     }, TOGGLE_TIME);
 			});
 			
-			console.log("2222222");
 			// Chain
 			return $this;
 		};
@@ -923,30 +888,11 @@
 		
 		// Hook into State Changes
 		$(window).bind('statechange',function(){	
-			console.log("STATECHANGE________________");
 			if(!anchorclick){
 				//used when the user clicks the back button
 				var $this;
 					
 				if(interclick == false){
-					console.log('BACK BUTTON!!!');
-					/*
-					$this = $('#navigation a:[href="'+ window.location.pathname +'"]');
-					if($this.length){
-						if($this.length > 1){
-							var $that = $this._find_proper_branch(window.location.pathname);
-							if($that != false){
-								$this = $that;
-							}else{
-								$this.each(function(i){
-									if(i == 0){
-										var $that = $(this);
-									}
-								});
-								$this = $that;
-							}
-						}
-					}*/
 					menuClickFunc(null, null, window.location.pathname);
 				}
 

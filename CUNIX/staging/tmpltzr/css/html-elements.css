@@ -965,7 +965,7 @@ dl dd {
 
 /* TUMBLR FEED */
 #tmpltzr .tumblr-results-wrapper {
-	width:500px;
+	width:520px;
 }
 
 
@@ -990,18 +990,26 @@ dl dd {
 
 
 #tmpltzr .embedded-tumblr .tmpltzr-image-small{
-	width:245px;
+	width:240px;
 }
 
-#tmpltzr .embedded-tumblr .photoset{
-	padding:0;
+#tmpltzr .embedded-tumblr .photoset .photo.first{
+	width:500px;
 	margin:0 0 10px;
+	display:block;
+}
+
+#tmpltzr .embedded-tumblr .photoset .photo.even,
+#tmpltzr .embedded-tumblr .photoset .photo.odd{
+	padding:0;
+	margin:0 20px 10px 0;
 	display:-moz-inline-stack;
 	display:inline-block;
-	width:250px;
+	width:240px;
 }
 
-.IE #tmpltzr .embedded-tumblr .photoset{
+.IE #tmpltzr .embedded-tumblr .photoset .photo.even,
+.IE #tmpltzr .embedded-tumblr .photoset .photo.odd{
 	zoom:1;
 	*display:inline;
 }
