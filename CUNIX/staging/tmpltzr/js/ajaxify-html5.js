@@ -455,9 +455,10 @@
 					$active.parent('li').collapseMenu();
 				}
 				$(this).expandMenu();
-				if( currentState == 'home'){
+				//if( currentState == 'home'){
+					$('.redirect-active').removeClass('redirect-active');
 					setCurrentState(1);
-				}
+				//}
 			}	
 			if($active != undefined){
 				$active.removeClass('active');
@@ -498,6 +499,7 @@
 			if( $redir != false ){
 				if( $(this).parent('li').hasClass('active-trail') ){
 					$redir.collapseMenuInterval($active, $(this).level()+1 );
+					$redir.expandMenus();//TODO just added this
 				}else{
 					$(this).collapseMenuInterval($active, $(this).level() );
 					$redir.expandMenus();
@@ -528,6 +530,7 @@
 			if($active != undefined){
 				$active.removeClass('active');
 			}	
+			$redir.addClass('active');
 		}
 		
 		/* 	function: _is_climb()
@@ -598,19 +601,23 @@
 		 *	This function is called when the selected item is in a different top-level
 		 *	menu.
 		*/
-		$.fn.branch = function($active){
+		$.fn.branch = function($active){   
 			console.log('BRANCH() -- this href: '+$(this).attr("href"));
 
+			//collapse menus
 			if($active != undefined){
 				var $parent = $(this).parents('ul').filter($active.parents()).first();
 				if($parent.length){
+					console.log('parent.length: '+$parent.length);
 					var classes = $parent.attr('class');
 					var levelIdx = classes.indexOf('level-') + 6;
 					var lev = classes.substring(levelIdx, levelIdx+1);
-				}else{
+				}else{//top level branch
+					var lev = 0;//default to collapsing all menus above $active
 				}
-	
-				$(this).collapseMenuInterval($active, lev );
+				console.log('$active href is: '+$active.attr('href'));
+				console.log('COLLAPSING TO LEVEL: '+lev);
+				$(this).collapseMenuInterval($active, lev);
 				$active.removeClass('active');
 			}
 
@@ -627,8 +634,17 @@
 				gsapp.menupaneAPI.scrollToElement($branch, true, TOGGLE_TIME);
 			}
 
-			$(this).expandMenus();
-			setCurrentState(1);
+
+			var $redir = $(this).digRedirect();
+			
+			if( $redir != false ){
+				$redir.expandMenus();
+				$(this).parent('li').addClass('redirect-active');
+				setCurrentState(3);
+			}else{
+				$(this).expandMenus();
+				setCurrentState(1);
+			}
 
 			//$(this).dig($newActive);
 		}
@@ -761,14 +777,7 @@
 					break;
 				case 'menu':
 					console.log('***MENU***');
-					if( $this.hasClass('active') ){//clicked self
-						console.log('---0---');
-						if( !($this.parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
-							$this.parent('li').menuToggleVisibility();
-						}
-						fetch = false;
-						break;
-					}else if( $this._in_active_branch($active) && $this._is_dig($active) ){
+					if( $this._in_active_branch($active) && $this._is_dig($active) ){
 						console.log('---1---');
 						$this.dig($active);
 					}else if( ($active != undefined) && $this._is_sibling($active) ){
@@ -800,6 +809,9 @@
 					break;
 				case 'redirected':
 					console.log('***REDIRECTED***');
+					$('.redirect-active').removeClass('redirect-active');
+					console.log('REMOVED REDIR-ACT class');
+					setCurrentState(1);
 					if( $this._is_dig($active) ){//going deeper into the same branch line
 						console.log('---0---');
 						$this.dig($active);
@@ -808,20 +820,15 @@
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){//same branch but higher up
 						console.log('---2---');
-						if( $this.parent('li').hasClass('redirect-active') ){
-							console.log('returning false');
-							$this.parent('li').menuToggleVisibility();
-							//fetch = false;
-							return false;
-						}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
-							$('redirect-active').removeClass('redirect-active');
+						if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
+							$('.redirect-active').removeClass('redirect-active');
 						}
 						if(fetch){
 							$this.climb($active);
 						}
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
 						console.log('---3---');
-						$('redirect-active').removeClass('redirect-active');
+						$('.redirect-active').removeClass('redirect-active');
 						if(!($this._is_active_trail($active))){
 							console.log('---3a---');
 							var $last = $this.parents('li.force-expanded').last();
@@ -839,7 +846,6 @@
 						setCurrentState(1);
 					}else{
 						console.log('---4---');
-						$('redirect-active').removeClass('redirect-active');
 						$this.branch($active);
 					}
 					break;
@@ -882,13 +888,15 @@
 
 			$(this).find('a:internal:not(#gsapplogo, .term-index-term)').click(function(event){ //exempt GSAPP Logo so it reloads everything
 			
-				if( $(this).hasClass('active') ){//clicked self
+				if( ( $(this).hasClass('active') ) || ( $(this).parent('li').hasClass('redirect-active') )){//clicked self
 					if( !($(this).parent('li').hasClass('leaf')) && !($(this).parent('li').hasClass('force-expanded') ) ){
 						$(this).parent('li').menuToggleVisibility();
 						return false;
 					}
 				}else{
 					menuClickFunc($(this), event);
+					//$('.redirect-active').removeClass('redirect-active');
+					//setCurrentState(1);//override to make sure redirect state gets removed
 				}
 			});
 
