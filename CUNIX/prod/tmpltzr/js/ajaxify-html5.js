@@ -871,9 +871,14 @@
 				var hash = $(this).attr('href');
 				var offsetY = $(hash).closest('.views-row').position().top;
 				
+
+				$('body').scrollTop(offsetY);
+
+/* TODO: animated scrollTop doesn't work on prod, but does on staging??
 				$('body').animate({
 			         scrollTop: offsetY
 			     }, TOGGLE_TIME);
+*/
 			});
 			
 			// Chain
