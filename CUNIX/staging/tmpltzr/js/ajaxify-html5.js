@@ -874,6 +874,7 @@
 				$('body').animate({
 			         scrollTop: offsetY
 			     }, TOGGLE_TIME);
+				anchorclick = false;
 			});
 			
 			// Chain

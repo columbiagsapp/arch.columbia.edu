@@ -22,19 +22,18 @@
 	<div class="tmpltzr-title-container">
 
     <?php
-    $link = '';
+      $link = '';
+      $fragment = '';
+
       if(!empty($node->field_link[0]['url'])){ 
         $link = $node->field_link[0]['url']; 
+      }else if(!empty($node->field_link[0]['fragment'])){ 
+        $fragment = $node->field_link[0]['fragment']; 
       }
+
       $uni = '';
       if(!empty($node->field_columbia_uni[0]['view'])){ 
         $uni = $node->field_columbia_uni[0]['view']; 
-      }
-      $scrollFrom = false;
-      if(!empty($node->field_scroll_from)){
-        if($node->field_width[0]['view'] == 'Yes'){
-          $scrollFrom = true;
-        }
       }
     ?>
 
@@ -42,11 +41,9 @@
   		<h2>
         <?php
           if(strlen($link) > 0){
-            if($scrollFrom){
-              print '<a href="'.$link.'" class="scrollFrom">'.$node->field_title[0]['view'].'</a>';
-            }else{
-              print '<a href="'.$link.'" target="_self">'.$node->field_title[0]['view'].'</a>';
-            }
+            print '<a href="'.$link.'" target="_self">'.$node->field_title[0]['view'].'</a>';
+          }else if(strlen($fragment) > 0){
+            print '<a href="#'.$fragment.'" target="_self">'.$node->field_title[0]['view'].'</a>';
           }else if(strlen($uni) > 0){
             print '<a href="/about/people/'.$uni.'columbiaedu" target="_self">'.$node->field_title[0]['view'].'</a>';
           }else{

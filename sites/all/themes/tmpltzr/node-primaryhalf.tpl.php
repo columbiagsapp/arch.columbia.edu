@@ -9,14 +9,12 @@
 
 <?php
   $link = '';
+  $fragment = '';
+
   if(!empty($node->field_link[0]['url'])){ 
     $link = $node->field_link[0]['url']; 
-  }
-  $scrollFrom = false;
-  if(!empty($node->field_scroll_from)){
-    if($node->field_width[0]['view'] == 'Yes'){
-      $scrollFrom = true;
-    }
+  }else if(!empty($node->field_link[0]['fragment'])){ 
+    $fragment = $node->field_link[0]['fragment']; 
   }
 ?>
 
@@ -37,15 +35,13 @@
 	<div class="tmpltzr-title-container">
 	<?php if(!empty($node->field_title[0]['view'])){ ?>
   		<h2>
-        <?php if(strlen($link) > 0){
-            if($scrollFrom){
-              print '<a href="'.$link.'" class="scrollFrom">'.$node->field_title[0]['view'].'</a>';
-            }else{
-              print '<a href="'.$link.'" target="_self">'.$node->field_title[0]['view'].'</a>';
-            }
-        }else{
-  		    print $node->field_title[0]['view'];
-        } ?>
+        <?php 
+        if(strlen($link) > 0){
+          print '<a href="'.$link.'" target="_self">'.$node->field_title[0]['view'].'</a>';
+        }else if(strlen($fragment) > 0){
+          print '<a href="#'.$fragment.'" target="_self">'.$node->field_title[0]['view'].'</a>';
+        } 
+        ?>
   		</h2>
   	<?php } ?>
   	

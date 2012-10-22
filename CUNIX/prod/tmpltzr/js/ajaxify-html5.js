@@ -873,6 +873,7 @@
 				
 
 				$('body').scrollTop(offsetY);
+				anchorclick = false;
 
 /* TODO: animated scrollTop doesn't work on prod, but does on staging??
 				$('body').animate({
