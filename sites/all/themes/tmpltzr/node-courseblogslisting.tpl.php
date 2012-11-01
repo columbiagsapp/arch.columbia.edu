@@ -91,18 +91,32 @@
 <div id="course-blogs-index-listing">
 	<?php
 	$semesters = taxonomy_node_get_terms_by_vocabulary($node, 14); // vid=14 => Year and Semester
+
 	foreach ($semesters as $semester){
-		if(!empty($semesters)) {
+		if(!empty($semester)) {
 			$start = strlen($semester->name) - 4;
 			$year = substr($semester->name , $start);
 			$term = substr($semester->name , 0, $start - 1);
-			
-			print '<h4 id="'.$term."-".$year.'">'.$term." ".$year.'</h4>';
 
-			print '<div class="two-col-list">' . views_embed_view('courseblogs', 'page_1', $year, $term) . '</div>';
-			print '<div class="three-col-list">' . views_embed_view('courseblogs', 'page_2', $year, $term) . '</div>';
+			if($term == 'Fall'){
+				$semesterArray[$year][0] = $term;
+			}elseif($term == 'Summer'){
+				$semesterArray[$year][1] = $term;
+			}elseif($term == 'Spring'){
+				$semesterArray[$year][2] = $term;
+			}
 		}
 	}
+	krsort($semesterArray);//key sort: invert the order by key so that the most recent year comes first
+
+	foreach($semesterArray as $semYear => $sem){
+		foreach($sem as $semTerm){
+			print '<h4 id="'.$semTerm."-".$semYear.'">'.$semTerm." ".$semYear.'</h4>';
+			print '<div class="two-col-list">' . views_embed_view('courseblogs', 'page_1', $semYear, $semTerm) . '</div>';
+			print '<div class="three-col-list">' . views_embed_view('courseblogs', 'page_2', $semYear, $semTerm) . '</div>';
+		}
+	}
+
 	?>
 	
 </div>
