@@ -39,8 +39,25 @@
 		}
 	}
 
-?>
+	$semesters = taxonomy_node_get_terms_by_vocabulary($node, 14); // vid=14 => Year and Semester
+	foreach ($semesters as $semester){
+		if(!empty($semester)) {
+			$start = strlen($semester->name) - 4;
+			$year = substr($semester->name , $start);
+			$term = substr($semester->name , 0, $start - 1);
 
+			if($term == 'Fall'){
+				$semesterArray[$year][0] = $term;
+			}elseif($term == 'Summer'){
+				$semesterArray[$year][1] = $term;
+			}elseif($term == 'Spring'){
+				$semesterArray[$year][2] = $term;
+			}
+		}
+	}
+	krsort($semesterArray);//key sort: invert the order by key so that the most recent year comes first
+
+?>
 
 	<div id="program-list">	
 		<h4>By Program:</h4>
@@ -75,6 +92,23 @@
 		</ul><!-- .term-list -->
 		<div id="x-affiliation"><span class="x-affiliated">X</span>Studio-X Affiliation</div>
 	</div><!-- #region-list -->
+
+<?php /*
+	<div id="semester-list">
+		<h4>Semester:</h4>
+		<ul class="term-list">
+			<?php 
+				foreach($semesterArray as $semYear => $sem){
+					foreach($sem as $semTerm){
+						print '<li><a class="term-index-term" href="#'.$semTerm.'-'.$semYear.'">' . $semTerm . ' ' . $semYear . '</a></li>';
+
+					}
+				}
+			?>
+		</ul><!-- .term-list -->
+	</div><!-- /#semester-list -->
+
+	*/ ?>
 	
 	
 	
@@ -90,25 +124,6 @@
 
 <div id="course-blogs-index-listing">
 	<?php
-	$semesters = taxonomy_node_get_terms_by_vocabulary($node, 14); // vid=14 => Year and Semester
-
-	foreach ($semesters as $semester){
-		if(!empty($semester)) {
-			$start = strlen($semester->name) - 4;
-			$year = substr($semester->name , $start);
-			$term = substr($semester->name , 0, $start - 1);
-
-			if($term == 'Fall'){
-				$semesterArray[$year][0] = $term;
-			}elseif($term == 'Summer'){
-				$semesterArray[$year][1] = $term;
-			}elseif($term == 'Spring'){
-				$semesterArray[$year][2] = $term;
-			}
-		}
-	}
-	krsort($semesterArray);//key sort: invert the order by key so that the most recent year comes first
-
 	foreach($semesterArray as $semYear => $sem){
 		foreach($sem as $semTerm){
 			print '<h4 id="'.$semTerm."-".$semYear.'">'.$semTerm." ".$semYear.'</h4>';
