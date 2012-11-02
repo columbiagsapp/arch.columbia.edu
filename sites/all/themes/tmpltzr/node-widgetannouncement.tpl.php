@@ -12,22 +12,39 @@
     	foreach ($theBrands as $theBrand){
         	$brand[$i++] = $theBrand->name;
         }
-    }     
+    } 
+
+    $small = false;
+	if(!empty($node->field_width)){
+		if($node->field_width[0]['view'] == 'Small'){
+			$small = true;
+		}
+	}    
 ?>
 
-<div id="node-<?php print $node->nid; ?>" class="tmpltzr-module tmpltzr-module-240 tmpltzr-widget tmpltzr-widgetannouncement node<?php if($color){ print ' '.$color; } ?><?php if($brand){ foreach($brand as $brandi){ print ' '.$brandi; } } ?><?php if ($sticky) { print ' sticky'; } ?><?php if (!$status) { print ' node-unpublished'; } ?><?php if ($color) { print ' '.$color; } ?> clearfix">
+<div id="node-<?php print $node->nid; ?>" class="tmpltzr-module<?php if($small){ print ' tmpltzr-module-240'; }else{ print ' tmpltzr-module-500'; }?> tmpltzr-widget tmpltzr-widgetannouncement node<?php if($color){ print ' '.$color; } ?><?php if($brand){ foreach($brand as $brandi){ print ' '.$brandi; } } ?><?php if ($sticky) { print ' sticky'; } ?><?php if (!$status) { print ' node-unpublished'; } ?><?php if ($color) { print ' '.$color; } ?> clearfix">
 	<a id="<?php print $node->title; ?>" name="<?php print $node->title; ?>" class="anchorhash"></a>
 
 	<?php if(!empty($node->field_link[0]['url'])){ ?>
   		<a href="<?php print $node->field_link[0]['url']; ?>" target="<?php print $node->field_link[0]['attributes']['target']; ?>">
   	<?php } ?>
   	
-  	<?php if(!empty($node->field_widget_image[0]['view'])){ ?>
-  		<div class="tmpltzr-widget-image">
-  			<?php print $node->field_widget_image[0]['view']; ?>
-  		</div>
-  	<?php } ?>
-	
+
+  	<?php if($small){ ?>
+	  	<?php if(!empty($node->field_widget_image[0]['view'])){ ?>
+	  		<div class="tmpltzr-widget-image">
+	  			<?php print $node->field_widget_image[0]['view']; ?>
+	  		</div>
+	  	<?php } ?>
+	<?php }else{ ?>
+		<?php if(!empty($node->field_widget_image[0]['view'])){ ?>
+	  		<div class="tmpltzr-widget-image">
+	  			<?php print '<img src="http://templatizer.gsappcloud.org/sites/default/files/imagecache/primary460w/'.$node->field_widget_image[0]['filename'].'" alt="" title="" class="imagecache imagecache-primary460w imagecache-default imagecache-primary460w_default" />'; ?>
+	  		</div>
+	  	<?php } ?>
+	  	
+	<?php } ?>
+
 	<?php if(!empty($node->field_title[0]['view'])){ ?>
   		<h4>
   			<?php print $node->field_title[0]['view']; ?>
