@@ -199,6 +199,7 @@ ul.menu li, li.expanded, li.collapsed, li.leaf, li{
 	
     width: auto;
     list-style: none !important;
+    list-style-image: none !important;
 }
 
 ol {
@@ -315,7 +316,7 @@ dl dd {
 	font: 28px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
 	display:-moz-inline-stack;
 	display:inline-block;
-	padding:0 0 10px 10px !important;
+	padding:0 0 8px 10px !important;
 	letter-spacing: .1em;
 }
 
@@ -326,6 +327,10 @@ dl dd {
 .IE #navigation .menu li a{
 	zoom:1;
 	*display:inline;
+}
+
+.IE #navigation .menu{
+	overflow: hidden;
 }
 
 #navigation .menu li a:hover,
@@ -399,6 +404,8 @@ dl dd {
 .IE #navigation .menu-arrow-large{
 	zoom:1;
 	*display:inline;
+	position:relative;
+	top:-15px;
 }
 
 #navigation .active-trail.expanded .menu-arrow-large{
@@ -958,7 +965,7 @@ dl dd {
 
 /* TUMBLR FEED */
 #tmpltzr .tumblr-results-wrapper {
-	width:500px;
+	width:520px;
 }
 
 
@@ -980,21 +987,36 @@ dl dd {
 	margin-bottom: 14px;
 }
 
+#tmpltzr .embedded-tumblr .tmpltzr-body.photo img{
+	width:500px;
+}
+
+#tmpltzr .embedded-tumblr p{
+	max-width:500px;
+}
 
 
 #tmpltzr .embedded-tumblr .tmpltzr-image-small{
-	width:245px;
+	width:240px;
 }
 
-#tmpltzr .embedded-tumblr .photoset{
-	padding:0;
+#tmpltzr .embedded-tumblr .photoset .photo.first{
+	width:500px;
 	margin:0 0 10px;
+	display:block;
+}
+
+#tmpltzr .embedded-tumblr .photoset .photo.even,
+#tmpltzr .embedded-tumblr .photoset .photo.odd{
+	padding:0;
+	margin:0 20px 10px 0;
 	display:-moz-inline-stack;
 	display:inline-block;
-	width:250px;
+	width:240px !important;
 }
 
-.IE #tmpltzr .embedded-tumblr .photoset{
+.IE #tmpltzr .embedded-tumblr .photoset .photo.even,
+.IE #tmpltzr .embedded-tumblr .photoset .photo.odd{
 	zoom:1;
 	*display:inline;
 }
@@ -1110,6 +1132,7 @@ dl dd {
 	left:460px;
 	background-color:white;
 	z-index:1000;
+	overflow:hidden;
 }
 
 .iscroll #tmpltzr #fixed-header{
@@ -1139,7 +1162,7 @@ dl dd {
 }
 
 #tmpltzr #course-blogs-index-listing {
-	margin-top:350px;
+	margin-top:350px; 
 }
 
 .iscroll #tmpltzr #course-blogs-index-listing {
@@ -1308,7 +1331,7 @@ dl dd {
 }
 
 #tmpltzr .upcoming-events-output .embedded-event{
-	height: 77px;
+	height: 84px;
 	display:block;
 	overflow:hidden;
 }
@@ -1387,7 +1410,6 @@ dl dd {
 	margin-top: 25px;
 }
 #tmpltzr .content #event-output .embedded-event-description-more {
-	color: red;
 	margin-top: 25px;
 	margin-bottom:40px;
 }
@@ -1617,9 +1639,15 @@ dl dd {
 	border-bottom:1px solid black !important;
 }
 
+
+#tmpltzr .view-people .view-filters .views-exposed-widgets{
+	width:260px;
+}
+
 #tmpltzr .view-people .view-filters .views-exposed-widget label{
 	display:block;
 	margin-bottom:7px;
+	padding-top:17px;
 }	
 
 #tmpltzr .view-people .view-filters{
@@ -1629,8 +1657,6 @@ dl dd {
 #tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget{
 	width:240px;
 	padding:0 !important;
-	margin-right:20px;
-	float:left;
 }
 
 #tmpltzr .view-people .view-filters .views-exposed-widgets .views-exposed-widget .views-widget select{
@@ -1650,10 +1676,6 @@ dl dd {
 
 #tmpltzr .view-people .view-filters #edit-submit{
 	display:block;
-}
-
-#tmpltzr .view-people .view-header{
-	margin-bottom:20px;
 }
 
 #tmpltzr .view-people .view-filters{
@@ -1850,7 +1872,7 @@ dl dd {
 	display:block;
 	width:200px;
 	margin-left:20px;
-	height:153px;
+	height:148px;
 	overflow:hidden;
 }
 
@@ -2002,7 +2024,6 @@ dl dd {
 	padding:0;
 }
 
-
 /* for jscrollpane custom scroll bar */
 /*
  * CSS Styles that are needed by jScrollPane for it to operate correctly.
@@ -2142,6 +2163,11 @@ dl dd {
 	margin-bottom:15px;
 }
 
+#tmpltzr .tmpltzr-widgetannouncement a .tmpltzr-widget-body,
+#tmpltzr .tmpltzr-widgetannouncement a h4{
+	border:none !important;
+}
+
 #tmpltzr .tmpltzr-widgetannouncement .widget-brand.buell{
 	float:right;
 	width:34px;
@@ -2163,7 +2189,14 @@ dl dd {
     *display:inline;
 }
 
-#tmpltzr #books-poster-widget {
+
+.IE #tmpltzr .tmpltzr-widget a{
 	border:none !important;
+	text-decoration: none !important;
 }
+
+.tmpltzr #books-poster-widget {
+	border:none;
+}
+
 

@@ -692,7 +692,7 @@ $(document).ready(function () {
 
 		});
 	}
-	
+
 	$('#fixed-header #region-list .term-list a.term-index-term').each(function(){
 		$(this).bind('click', gsapp.bindRegionCourseBlogIndexFilter);
 	});
@@ -700,6 +700,8 @@ $(document).ready(function () {
 	$('#fixed-header #program-list .term-list a.term-index-term').each(function(){
 		$(this).bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 	});
+
+	//$('#tmpltzr #fixed-header').hover(function(){ $(this).css('height', 'auto'); }, function(){ $(this).css('height', ''); });
 
 	//scrollCourseBlogsIndex();
 	/*
