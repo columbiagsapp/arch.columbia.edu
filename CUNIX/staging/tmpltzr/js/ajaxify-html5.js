@@ -793,22 +793,11 @@
 					}else if( ($active != undefined) && $this._is_sibling($active) ){//sibling of the current element
 						$this.sibling($active);
 					}else if( ($active != undefined) && $this._is_climb($active) ){//same branch but higher up
-<<<<<<< HEAD
 						if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
 							$('.redirect-active').removeClass('redirect-active');
 						}
 						if(fetch){
 							$this.climb($active);
-=======
-						console.log('---2---');
-						if( $this.parent('li').hasClass('redirect-active') ){
-							console.log('returning false');
-							$this.parent('li').menuToggleVisibility();
-							fetch = false;
-							return false;
-						}else if( ( $this.parent('li').hasClass('active-trail') ) && ($this.level() <= $('.redirect-active').level()) ){
-							$('redirect-active').removeClass('redirect-active');
->>>>>>> not sure, stale commit
 						}
 					}else if( ($active != undefined) && ($this._is_force_expanded()) && ($this._is_branch($active)) ){
 						$('.redirect-active').removeClass('redirect-active');
