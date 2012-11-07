@@ -40,6 +40,9 @@
 	}
 
 	$semesters = taxonomy_node_get_terms_by_vocabulary($node, 14); // vid=14 => Year and Semester
+	$semCount = count($semesters);
+	$halfSemCount = ceil($semCount/3);
+	
 	foreach ($semesters as $semester){
 		if(!empty($semester)) {
 			$start = strlen($semester->name) - 4;
@@ -59,7 +62,7 @@
 
 ?>
 
-	<div id="program-list">	
+	<div id="program-list" class="filter-list">	
 		<h4>By Program:</h4>
 		<ul class="term-list">
 			<?php //list of Programs
@@ -75,7 +78,7 @@
 			
 		</ul><!-- .term-list -->
 	</div><!-- #program-list -->
-	<div id="region-list">	
+	<div id="region-list" class="filter-list">	
 		<h4>By Region:</h4>
 		<ul class="term-list">
 			<?php //list of Programs
@@ -93,22 +96,26 @@
 		<div id="x-affiliation"><span class="x-affiliated">X</span>Studio-X Affiliation</div>
 	</div><!-- #region-list -->
 
-<?php /*
-	<div id="semester-list">
+
+	<div id="semester-list" class="filter-list">
 		<h4>Semester:</h4>
 		<ul class="term-list">
 			<?php 
+				$i = 0;
 				foreach($semesterArray as $semYear => $sem){
 					foreach($sem as $semTerm){
+						if( ($i == $halfSemCount) || ($i == $halfSemCount*2) ){
+							print '</ul><ul class="term-list">';
+						}
+						
 						print '<li><a class="term-index-term" href="#'.$semTerm.'-'.$semYear.'">' . $semTerm . ' ' . $semYear . '</a></li>';
-
+						$i++;
 					}
 				}
 			?>
 		</ul><!-- .term-list -->
 	</div><!-- /#semester-list -->
 
-	*/ ?>
 	
 	
 	

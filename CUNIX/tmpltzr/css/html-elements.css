@@ -1132,7 +1132,6 @@ dl dd {
 	left:460px;
 	background-color:white;
 	z-index:1000;
-	overflow:hidden;
 }
 
 .iscroll #tmpltzr #fixed-header{
@@ -1148,13 +1147,24 @@ dl dd {
 	padding: 0 0 30px;
 }
 
+#tmpltzr #fixed-header #semester-list .term-list{
+	float:left;
+	display: block;
+	min-width:100px;
+}
+
 
 #tmpltzr #fixed-header .term-list,
-#tmpltzr #fixed-header #x-affiliation,
-#tmpltzr .view-courseblogs a{
-	font:13px/17px 'DIN Next W01 Regular', "Helvetica Neue", Helvetica, Arial, sans-serif;
+#tmpltzr #fixed-header #x-affiliation{
+	font:11px/11px 'DIN Next W01 Regular', "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-decoration: none;
 	border:none;
+}
+
+#tmpltzr .view-courseblogs a{
+	text-decoration: none;
+	border:none;
+	width:320px;
 }
 
 #tmpltzr .view-courseblogs a:hover{
@@ -1162,35 +1172,32 @@ dl dd {
 }
 
 #tmpltzr #course-blogs-index-listing {
-	margin-top:350px; 
+	margin-top:250px;
 }
 
 .iscroll #tmpltzr #course-blogs-index-listing {
 	margin-top:0;
 }	
 
-#tmpltzr #program-list, #tmpltzr #region-list {
-	width:250px;
+#tmpltzr .filter-list{
+	width:150px;
+	margin-right:20px;
 	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align: top;
-}
-
-.IE #tmpltzr #program-list, #tmpltzr #region-list{
-	zoom:1;
-	*display:inline;
 }
 
 #tmpltzr #semester-list {
-	width:200px;
-	display:-moz-inline-stack;
-	display:inline-block;
-	vertical-align: top;
+	width:320px;
 }
 
-.IE #tmpltzr #semester-list{
+.IE #tmpltzr .filter-list{
 	zoom:1;
 	*display:inline;
+}
+
+.IE #tmpltzr #program-list, #tmpltzr #region-list{
+	
 }
 
 #tmpltzr #fixed-header li{
@@ -2197,6 +2204,10 @@ dl dd {
 
 .tmpltzr #books-poster-widget {
 	border:none;
+}
+
+.indent-off{
+	text-indent: -9999px;
 }
 
 
