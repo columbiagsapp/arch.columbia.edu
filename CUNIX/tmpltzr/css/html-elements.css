@@ -748,7 +748,8 @@ dl dd {
 #tmpltzr .tmpltzr-followwidget .follow-text,
 #tmpltzr .embedded-tumblr .tmpltzr-tags,
 .profile .views-field-value-5,
-#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body {
+#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body,
+#tmpltzr .tmpltzr-widgetslideshow .tmpltzr-widget-body {
 	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 }
 
@@ -766,7 +767,8 @@ dl dd {
 .iscroll .tmpltzr-featuredeventwidget .featured-events-widget .fe-label,
 .iscroll #tmpltzr .embedded-tumblr .tmpltzr-tags,
 .iscroll .profile .views-field-value-5,
-.iscroll #tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body {
+.iscroll #tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body,
+.iscroll #tmpltzr .tmpltzr-widgetslideshow .tmpltzr-widget-body {
 	font: 14px/18px "Courier New", Courier, Verdana, sans-serif;
 }
 
@@ -1147,24 +1149,13 @@ dl dd {
 	padding: 0 0 30px;
 }
 
-#tmpltzr #fixed-header #semester-list .term-list{
-	float:left;
-	display: block;
-	min-width:100px;
-}
-
 
 #tmpltzr #fixed-header .term-list,
-#tmpltzr #fixed-header #x-affiliation{
-	font:11px/11px 'DIN Next W01 Regular', "Helvetica Neue", Helvetica, Arial, sans-serif;
-	text-decoration: none;
-	border:none;
-}
-
+#tmpltzr #fixed-header #x-affiliation,
 #tmpltzr .view-courseblogs a{
+	font:13px/17px 'DIN Next W01 Regular', "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-decoration: none;
 	border:none;
-	width:320px;
 }
 
 #tmpltzr .view-courseblogs a:hover{
@@ -1172,32 +1163,35 @@ dl dd {
 }
 
 #tmpltzr #course-blogs-index-listing {
-	margin-top:250px;
+	margin-top:350px;
 }
 
 .iscroll #tmpltzr #course-blogs-index-listing {
 	margin-top:0;
 }	
 
-#tmpltzr .filter-list{
-	width:150px;
-	margin-right:20px;
+#tmpltzr #program-list, #tmpltzr #region-list {
+	width:250px;
 	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align: top;
 }
 
-#tmpltzr #semester-list {
-	width:320px;
-}
-
-.IE #tmpltzr .filter-list{
+.IE #tmpltzr #program-list, #tmpltzr #region-list{
 	zoom:1;
 	*display:inline;
 }
 
-.IE #tmpltzr #program-list, #tmpltzr #region-list{
-	
+#tmpltzr #semester-list {
+	width:200px;
+	display:-moz-inline-stack;
+	display:inline-block;
+	vertical-align: top;
+}
+
+.IE #tmpltzr #semester-list{
+	zoom:1;
+	*display:inline;
 }
 
 #tmpltzr #fixed-header li{
@@ -1769,7 +1763,8 @@ dl dd {
 	overflow:hidden;
 }
 
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev {
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev,
+.tmpltzr-widget-carousel .tmpltzr-photoset-prev {
 	position:absolute;
 	left:0px;
 	width:20px;
@@ -1781,11 +1776,14 @@ dl dd {
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:hover,
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:focus {
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:focus,
+=.tmpltzr-widget-carousel .tmpltzr-photoset-prev:hover,
+=.tmpltzr-widget-carousel .tmpltzr-photoset-prev:focus {
     width:55px;
 }
 
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-next {
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next,
+.tmpltzr-widget-carousel .tmpltzr-photoset-next{
 	position:absolute;
 	right:0px;
 	width:20px;
@@ -1801,13 +1799,25 @@ dl dd {
 	top:90px;
 }
 
+.tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-photoset-next,
+.tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-photoset-prev{
+	top:140px;
+}
+
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next,
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-prev{
+	top:70px;
+}
+
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-next  {
 	top:90px;
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-next:hover,
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-next:focus {
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next:focus,
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next:hover,
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next:focus {
 	background-position:0 0;
     width:55px;
 }
@@ -2159,19 +2169,27 @@ dl dd {
 	padding:20px;
 }
 
-#tmpltzr .tmpltzr-widgetannouncement h4{
+#tmpltzr .tmpltzr-widgetannouncement h4,
+#tmpltzr .tmpltzr-widgetslideshow h4{
 	text-align:center;
 	margin:20px auto;
 	color:black !important;
 }
 
-#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body{
+#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body,
+#tmpltzr .tmpltzr-widgetslideshow .tmpltzr-widget-body{
 	color:black !important;
 	margin-bottom:15px;
 }
 
+.tmpltzr-widgetslideshow .widget-text-wrapper{
+	padding:0 20px 20px;
+}
+
 #tmpltzr .tmpltzr-widgetannouncement a .tmpltzr-widget-body,
-#tmpltzr .tmpltzr-widgetannouncement a h4{
+#tmpltzr .tmpltzr-widgetannouncement a h4,
+#tmpltzr .tmpltzr-widgetslideshow a h4,
+#tmpltzr .tmpltzr-widgetslideshow a .tmpltzr-widget-body{
 	border:none !important;
 }
 
@@ -2206,8 +2224,18 @@ dl dd {
 	border:none;
 }
 
-.indent-off{
-	text-indent: -9999px;
+.tmpltzr-module-500 .tmpltzr-widget-carousel,
+.tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-widget-image-item{
+	width:500px;
+	height:300px;
 }
+
+.tmpltzr-module-240 .tmpltzr-widget-carousel,
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-widget-image-item{
+	width:240px;
+	height:167px;
+}
+
+
 
 

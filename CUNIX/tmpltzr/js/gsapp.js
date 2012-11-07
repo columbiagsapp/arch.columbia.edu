@@ -33,12 +33,20 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = true;
-var TMPLTZR = true;
+gsapp.LOG = false;
+var TMPLTZR = false;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
 		console.log(msg);
 	}
+}
+
+gsapp.addHeaderNotice = function(imgSRC, link){
+	var text = '<img src='+imgSRC+' style="margin-top:15px;">';
+	if(link){
+		text = '<a href="'+link+'" target="_blank" style="border:none !important;">'+text+'</a>';
+	}
+	$('#global-header').append(text);
 }
 
 var HOME_URL = 'http://templatizer.gsapp.org';
@@ -89,7 +97,6 @@ var setCurrentState = function(state_index){
 	try{
 		CURRENT_STATE = CURRENT_STATES[state_index];
 	}catch(e){
-		safelog('error: ' + e.message);
 	}
 }
 
@@ -163,12 +170,10 @@ gsapp.buildWall = function(){
 					columnWidth: 240,
 					isAnimated: false,
 					gutterWidth: 20,
-					isFitWidth: true,
+					isFitWidth: true
 				});
 			});
 		}
-	}else{
-		safelog('MOBILE IS TRUE DONT BUILD A WALL!!!');
 	}
 }
 
@@ -202,30 +207,16 @@ var resizeMenu = function(){
 		var wh = window.innerHeight;
 		var hh = $("#header").height();
 		$("#navigation").css('height', wh-hh);
+		//fleXenv.fleXcrollMain("navigation");
 		gsapp.menupane = $('#navigation');
 		gsapp.menupane.jScrollPane();
 		gsapp.menupaneAPI = gsapp.menupane.data('jsp');
 	}
 }
 
-var resizeContentPane = function(){	
-	/*console.log('testing********');	
-	if(gsapp.iscroll == false){//do nothing for iPad/tablet
-		console.log('won ********');	
-		$("#content").css('height', window.innerHeight);
-		gsapp.contentpane = $('#content');
-		gsapp.contentpane.jScrollPane();
-		gsapp.contentpaneAPI = gsapp.contentpane.data('jsp');
-	}*/
-}
-
-
-
 
 gsapp.resizeFunc = function(){
-	console.log('resizeFunc');
 	resizeMenu(); //resize the height or width of the menu
-	resizeContentPane();
 
 	var ww = window.innerWidth;
 	var path = window.location.pathname;
@@ -279,7 +270,6 @@ var adjustPrimaryLinksMenu = function(path){
 	
 	/* if not the homepage, where path = '/' */
 	if( (path.length > 1) && (path.substring(1,7) != 'search') ){
-		safelog('Not the homepage. Path is:  ' + path.substring(1));
 		if(path.indexOf('columbiaedu') > 0){//faculty page
 			path = '/about/people';
 		}
@@ -289,17 +279,13 @@ var adjustPrimaryLinksMenu = function(path){
 		if( selLen < 0 ){//the page doesn't exist on the site
 			window.location.href = HOME_URL;//redirect to homepage
 			$('#navigation .menu li a').css('color','black');
-			safelog('sel < 0');
 		}else{//page exists
 			if( selLen == 1 ){
-				safelog('single selector');
 				$selected = $(selector);
 				if( $selected._is_redirect_child() ){
-					safelog('is a redirect child');
 					$selected.closest('.menu').parent('li').addClass('redirect-active');
 					setCurrentState(3);
 				}else{
-					safelog('is NOT a redirect child');
 					setCurrentState(1);
 				}
 			}else if(selLen > 1){//redirect, internal or not
@@ -309,7 +295,6 @@ var adjustPrimaryLinksMenu = function(path){
 					$('#navigation a:[href="' + path + '"]:eq(0)').parent('li').addClass('redirect-active');
 					$('#navigation a:[href="' + path + '"]:eq(0)').removeClass('active');
 					
-					safelog('redirected at birth');
 					setCurrentState(3);
 				}else{//internal redirect
 					$(selector).each(function(){
@@ -319,8 +304,6 @@ var adjustPrimaryLinksMenu = function(path){
 							var stub = path;
 						}
 						stub = stub.substring(1, 6);
-						safelog('stub: ' + stub);
-						safelog('path stub: ' + path.substring(1, 6));
 						if( stub == path.substring(1, 6) ){
 							$selected = $(this);
 						}else{
@@ -435,11 +418,6 @@ gsapp.initPhotoset = function(){
 			var selector = '#'+id;
 			var next = '#'+id+' .tmpltzr-photoset-next';
 			var prev = '#'+id+' .tmpltzr-photoset-prev';
-
-			safelog('selector: '+selector);
-			safelog('next: '+next);
-			safelog('prev: '+prev);
-
 			
 			$(selector).jCarouselLite({
 				btnNext: next,
@@ -526,7 +504,6 @@ gsapp.bindProgramCourseBlogIndexFilter = function(){
 	$(this).addClass('selected');
 
 	var program = $(this).attr('id');
-	safelog('by program: ' + program);
 	program = '.'+program;
 
 	var selector = '.view-courseblogs a.term-index-term:not('+program+')';
@@ -545,10 +522,10 @@ gsappMobile.switchToMenu = function(){
 	$('#wrapper').animate({
 			width: 70,
 			left: mcw
-		}, gsappMobile.switchTIM);
+		}, gsappMobile.switchTIME);
 	$('#navigation').animate({
 			width: mcw
-		}, gsappMobile.switchTIM,
+		}, gsappMobile.switchTIME,
 		function(){
 			$('#menu').show();
 			$('#contentswitch').show(); 
@@ -567,7 +544,7 @@ gsappMobile.switchToContent = function(){
 	var mcw = $('#navigation').width();
 	$('#navigation').animate({
 			width: 70
-		}, gsappMobile.switchTIM);
+		}, gsappMobile.switchTIME);
 	$('#wrapper').animate({
 			width: mcw,
 			left: 70
@@ -629,7 +606,6 @@ gsappMobile.initMobileScreen = function(){
 
 $(document).ready(function () {
 	if($('body').hasClass('iscroll') || $('body').hasClass('mobile') ){
-		safelog('mobile or scroll');
 		gsapp.iscroll = true;
 		if($('body').hasClass('mobile')){
 			gsapp.mobile = true;
@@ -641,26 +617,15 @@ $(document).ready(function () {
 			gsapp.mobile = false;
 		}
 	}else{
-		safelog('neither scroll or mobile');
 		gsapp.iscroll = false;
 		gsapp.mobile = false;
 	}
 	
-	
-	
-	safelog('---------------------------DOCUMENT READY FUNCTION STARTING with iscroll='+gsapp.iscroll+'---------------------------');
 	adjustPrimaryLinksMenu( window.location.pathname );
 	menuAddTriangles();
 
 	/*************************** UTILITIES ***************************/
 	jQuery.fn.exists = function(){return this.length>0;}
-	
-	$('#gsapp-news').bind('click',function(){
-		setTimeout(function(){
-			gsappMobile.contentScroll.refresh();
-		}, 0);
-		return false;
-	});
 
 	if(gsapp.mobile == false){
 		setMasonryBrickWidths();
@@ -692,7 +657,7 @@ $(document).ready(function () {
 
 		});
 	}
-
+	
 	$('#fixed-header #region-list .term-list a.term-index-term').each(function(){
 		$(this).bind('click', gsapp.bindRegionCourseBlogIndexFilter);
 	});
@@ -701,19 +666,8 @@ $(document).ready(function () {
 		$(this).bind('click', gsapp.bindProgramCourseBlogIndexFilter);
 	});
 
-	//$('#tmpltzr #fixed-header').hover(function(){ $(this).css('height', 'auto'); }, function(){ $(this).css('height', ''); });
-
-	//scrollCourseBlogsIndex();
-	/*
-	$(document).scroll(function() {
-		if($(document).scrollTop() >= 270){
-			$("#fixed-header").addClass('fix-header');
-			$("#course-blogs-index-listing").css('margin-top','395px');
-		}else{
-			$("#fixed-header").removeClass('fix-header');
-			$("#course-blogs-index-listing").css('margin-top','0');
-		}
-	});*/
+	//include a notice in the header above the content: params: (image source, url to link to)
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png");
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	
