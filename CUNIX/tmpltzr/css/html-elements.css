@@ -1424,14 +1424,10 @@ dl dd {
 	margin-bottom:40px;
 }
 
-.two-col #tmpltzr .view-courseblogs {
-	margin-bottom:60px;
-	width:500px;
-}
 
-.three-col #tmpltzr .view-courseblogs {
-	margin-bottom:60px;
-	width:750px;
+
+#tmpltzr .view-courseblogs {
+	padding-bottom:60px;
 }
 
 #tmpltzr .view-courseblogs td.col-1,
@@ -1451,7 +1447,7 @@ dl dd {
 
 #tmpltzr .view-courseblogs .views-row{
 	float: left;
-	width:160px;
+	width:150px;
 	margin-bottom:0;
 }
 

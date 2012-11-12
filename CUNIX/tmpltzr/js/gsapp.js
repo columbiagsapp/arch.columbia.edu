@@ -259,7 +259,7 @@ gsapp.resizeFunc = function(){
 				$('#tmpltzr #course-blogs-index-listing').css('marginTop', '');
 			}
 		}
-		gsapp.buildCourseBlogIndexWall(1000);
+		gsapp.buildCourseBlogIndexWall(3000);
 	}else{
 		if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
 			$('#wrapper').css('width', '800px');
