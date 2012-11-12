@@ -39,6 +39,10 @@ a:hover {
     color: #777;
 }
 
+input, select {
+	margin-bottom: 15px;
+}
+
 /* Removes dotted borders on clicked links from Firefox */
 
 a:active {
