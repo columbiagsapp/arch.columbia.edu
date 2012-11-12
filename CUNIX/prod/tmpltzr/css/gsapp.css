@@ -453,7 +453,7 @@ div.error, tr.error {
     color: #c00;
 }
 /* The descriptive help text (separate from the label) */.form-item .description {
-    font-size: 0.85em;
+    font-size: 1em;
 }
 /* Pack groups of checkboxes and radio buttons closer together */.form-checkboxes .form-item,
 .form-radios .form-item {
@@ -1706,7 +1706,6 @@ td.gsc-branding-text, td.gsc-branding-img {
 #tmpltzr .form-description{
     max-width:500px;
 }
-
 
 
 
