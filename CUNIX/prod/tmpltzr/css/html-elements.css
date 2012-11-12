@@ -39,10 +39,6 @@ a:hover {
     color: #777;
 }
 
-input, select {
-	margin-bottom: 15px;
-}
-
 /* Removes dotted borders on clicked links from Firefox */
 
 a:active {
@@ -2253,6 +2249,14 @@ dl dd {
 	height:167px;
 }
 
+/* WEBFORM */
 
+#tmpltzr .webform-component-fieldset, legend {
+	font: 16px/20px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+input, select{
+	margin-bottom: 15px;
+}
 
 
