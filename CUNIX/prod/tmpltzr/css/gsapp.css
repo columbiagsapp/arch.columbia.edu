@@ -903,15 +903,7 @@ body.simplemenu-enabled {
     font-size:12px;
     line-height:18px;
 }
-.section-work .views-row-odd,
-.section-work .views-row-even,
-.section-international-workshops .view-international-workshops .views-row-odd,
-.section-international-workshops .view-international-workshops .views-row-even,
-.page-unpublished .view-unpublished .views-row-odd,
-.page-unpublished .view-unpublished .views-row-even {
-    border-bottom:1px solid #EFEFEF;
-/* padding-bottom:15px; */
-}
+
 /*
   .section-work .view-taxonomy-term .view-content .views-row-odd,
   .section-work .view-taxonomy-term .view-content .views-row-even {
@@ -1705,6 +1697,10 @@ td.gsc-branding-text, td.gsc-branding-img {
 #tmpltzr form,
 #tmpltzr .form-description{
     max-width:500px;
+}
+
+#tmpltzr .form-description {
+    margin: 5em 0 !important;
 }
 
 
