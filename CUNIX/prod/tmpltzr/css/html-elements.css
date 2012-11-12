@@ -485,6 +485,7 @@ dl dd {
 #tmpltzr {
 	color:black;
 	width:100%;
+	max-width:800px;
 }
 
 
@@ -1164,7 +1165,7 @@ dl dd {
 }
 
 #tmpltzr #course-blogs-index-listing {
-	margin-top:200px;
+	margin-top:350px;
 }
 
 .iscroll #tmpltzr #course-blogs-index-listing {
@@ -1452,6 +1453,7 @@ dl dd {
 	float: left;
 	width:175px;
 	margin-bottom:0;
+	background-color:red;
 }
 #tmpltzr .view-courseblogs .col{
 	width:230px;

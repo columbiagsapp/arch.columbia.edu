@@ -172,8 +172,7 @@
 	foreach($semesterArray as $semYear => $sem){
 		foreach($sem as $semTerm){
 			print '<h4 id="'.$semTerm."-".$semYear.'">'.$semTerm." ".$semYear.'</h4>';
-			print '<div class="two-col-list">' . views_embed_view('courseblogs', 'page_1', $semYear, $semTerm) . '</div>';
-			print '<div class="three-col-list">' . views_embed_view('courseblogs', 'page_2', $semYear, $semTerm) . '</div>';
+			print views_embed_view('courseblogs', 'page_1', $semYear, $semTerm);
 		}
 	}
 

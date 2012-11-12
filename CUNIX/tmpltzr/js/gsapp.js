@@ -215,6 +215,24 @@ var resizeMenu = function(){
 }
 
 
+gsapp.buildCourseBlogIndexWall = function(time){
+	if( gsapp.mobile == false ){
+		safelog('running masonry');
+		setTimeout(function(){
+			var $container = $('#tmpltzr #course-blogs-index-listing .view-content');
+			$container.imagesLoaded( function(){
+				$container.masonry({
+					itemSelector: '.views-row',
+					columnWidth: 175,
+					isAnimated: false,
+					gutterWidth: 10,
+					isFitWidth: true
+				});
+			});
+		}, time);
+	}
+}
+
 gsapp.resizeFunc = function(){
 	resizeMenu(); //resize the height or width of the menu
 
@@ -226,9 +244,13 @@ gsapp.resizeFunc = function(){
 		safelog('ww: '+ww+'    indexWidth'+indexWidth);
 
 		if(indexWidth < 520){
+			safelog('<520');
 			$('#wrapper').css('width', '520px');
+			$('#fixed-header').css('width', '520px');
 		}else{
+			safelog('>520');
 			$('#wrapper').css('width', indexWidth+'px');
+			$('#fixed-header').css('width', indexWidth+'px');
 			if(indexWidth < 750){
 				$('.filter-list').width('240px');
 				$('#tmpltzr #course-blogs-index-listing').css('marginTop', '300px');
@@ -237,21 +259,7 @@ gsapp.resizeFunc = function(){
 				$('#tmpltzr #course-blogs-index-listing').css('marginTop', '');
 			}
 		}
-
-		if( gsapp.mobile == false ){
-			safelog('running masonry');
-			var $container = $('#tmpltzr #main #course-blogs-index-listing .view-content');
-			$container.imagesLoaded( function(){
-				$container.masonry({
-					itemSelector: '.views-row',
-					columnWidth: 175,
-					isAnimated: false,
-					gutterWidth: 10,
-					isFitWidth: true
-				});
-			});
-		}
-
+		gsapp.buildCourseBlogIndexWall(1000);
 	}else{
 		if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
 			$('#wrapper').css('width', '800px');

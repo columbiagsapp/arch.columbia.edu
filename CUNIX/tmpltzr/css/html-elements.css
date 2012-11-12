@@ -485,6 +485,7 @@ dl dd {
 #tmpltzr {
 	color:black;
 	width:100%;
+	max-width:800px;
 }
 
 
@@ -654,7 +655,7 @@ dl dd {
 
 
 
-#tmpltzr .tmpltzr-primaryfull .tmpltzr-image {
+#tmpltzr .tmpltzr-primaryfull .tmpltzr-image, #tmpltzr .tmpltzr-image {
 
 	margin:0 0 40px 0;
 
@@ -1450,9 +1451,19 @@ dl dd {
 
 #tmpltzr .view-courseblogs .views-row{
 	float: left;
-	width:175px;
+	width:160px;
 	margin-bottom:0;
 }
+
+#tmpltzr .view-courseblogs .views-row a{
+	margin-left: -20px;
+	text-indent: 20px;
+	position: relative;
+	left: 20px;
+	width:150px;
+}
+
+
 #tmpltzr .view-courseblogs .col{
 	width:230px;
 	padding-right:20px;
