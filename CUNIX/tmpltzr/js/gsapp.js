@@ -33,7 +33,7 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = false;
+gsapp.LOG = true;
 var TMPLTZR = false;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
@@ -220,34 +220,69 @@ gsapp.resizeFunc = function(){
 
 	var ww = window.innerWidth;
 	var path = window.location.pathname;
-	if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
-		$('#wrapper').css('width', '800px').removeClass('two-col').addClass('three-col');
+	if($('body').hasClass('node-type-courseblogslisting')){
+		var indexMarginRight = 60;
+		var indexWidth = ww - 460 - indexMarginRight;
+		safelog('ww: '+ww+'    indexWidth'+indexWidth);
 
-		var id ='';
-		$('#tmpltzr #main .view .views-row').each(function(i){
-			if($('.tmpltzr-secondary-float', this).length != 0){
-				id = $('.tmpltzr-secondary-float', this).attr('id');
-				$(this).addClass(id).addClass('empty');
-				$('#tmpltzr #right-sidebar').append($('.tmpltzr-secondary-float', this));
-				
+		if(indexWidth < 520){
+			$('#wrapper').css('width', '520px');
+		}else{
+			$('#wrapper').css('width', indexWidth+'px');
+			if(indexWidth < 750){
+				$('.filter-list').width('240px');
+				$('#tmpltzr #course-blogs-index-listing').css('marginTop', '300px');
+			}else{
+				$('.filter-list').width('360px');
+				$('#tmpltzr #course-blogs-index-listing').css('marginTop', '');
 			}
-		});					
+		}
+
+		if( gsapp.mobile == false ){
+			safelog('running masonry');
+			var $container = $('#tmpltzr #main #course-blogs-index-listing .view-content');
+			$container.imagesLoaded( function(){
+				$container.masonry({
+					itemSelector: '.views-row',
+					columnWidth: 175,
+					isAnimated: false,
+					gutterWidth: 10,
+					isFitWidth: true
+				});
+			});
+		}
+
 	}else{
-		$('#wrapper').css('width', '520px').removeClass('three-col').addClass('two-col');
-		
-		var insertClass = '';
-		$('#tmpltzr #right-sidebar .tmpltzr-secondary-float').each(function(){
-			insertClass = '#tmpltzr #main .view .views-row.' + $(this).attr('id');
+		if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
+			$('#wrapper').css('width', '800px');
+
+			var id ='';
+			$('#tmpltzr #main .view .views-row').each(function(i){
+				if($('.tmpltzr-secondary-float', this).length != 0){
+					id = $('.tmpltzr-secondary-float', this).attr('id');
+					$(this).addClass(id).addClass('empty');
+					$('#tmpltzr #right-sidebar').append($('.tmpltzr-secondary-float', this));
+					
+				}
+			});					
+		}else{
+			$('#wrapper').css('width', '520px');
 			
-			$(insertClass).append($(this)).removeClass('empty');
-		});			
+			var insertClass = '';
+			$('#tmpltzr #right-sidebar .tmpltzr-secondary-float').each(function(){
+				insertClass = '#tmpltzr #main .view .views-row.' + $(this).attr('id');
+				
+				$(insertClass).append($(this)).removeClass('empty');
+			});			
+		}
+		gsapp.buildWall();
 	}
-	if(window.location.href == HOME_URL){
+	//if(window.location.href == HOME_URL){
 	//	gsappFetcher.ccWidgetCarousel();
 	//	gsappFetcher.eventsWidgetCarousel();
-	}
+	//}
 	//setTimeout(iscrollFunc, 100);
-	gsapp.buildWall();
+	//gsapp.buildWall();
 	//evenColumnsCourseBlogsIndex(resized); //even out columns in course blog index TODO tct2003 reinstate this
 	//resized = true; //set to true after the resize function has run once
 }

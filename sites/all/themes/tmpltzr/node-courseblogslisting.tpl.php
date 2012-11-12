@@ -40,8 +40,6 @@
 	}
 
 	$semesters = taxonomy_node_get_terms_by_vocabulary($node, 14); // vid=14 => Year and Semester
-	$semCount = count($semesters);
-	$halfSemCount = ceil($semCount/3);
 	
 	foreach ($semesters as $semester){
 		if(!empty($semester)) {
@@ -64,39 +62,60 @@
 
 	<div id="program-list" class="filter-list">	
 		<h4>By Program:</h4>
-		<ul class="term-list">
-			<?php //list of Programs
-	    		$terms = taxonomy_get_tree(10); // vid=10 => program
-				if(!empty($terms)) {
-        			foreach ($terms as $term){
-        				$cleanTerm = str_replace(" ", "-", $term->name);
-            			$cleanTerm = str_replace("/", "", $cleanTerm);
-            			print '<li><a class="term-index-term" id="' .$cleanTerm. '">' . $term->name . '</a></li>';
-  		          	}
-    	    	}       
-			?>
-			
-		</ul><!-- .term-list -->
+		<div>
+			<ul class="term-list">
+				<?php //list of Programs
+		    		$programs = taxonomy_get_tree(10); // vid=10 => program
+
+		    		$programsHalf = count($programs);
+					$programsHalf = ceil($programsHalf/2);
+
+					if(!empty($programs)) {
+						$i = 0;
+	        			foreach ($programs as $term){
+	        				if($i == $programsHalf){
+	        					print '</ul><ul class="term-list">';
+	        				}
+	        				$cleanTerm = str_replace(" ", "-", $term->name);
+	            			$cleanTerm = str_replace("/", "", $cleanTerm);
+	            			print '<li><a class="term-index-term" id="' .$cleanTerm. '">' . $term->name . '</a></li>';
+	            			$i++;
+	  		          	}
+	    	    	}       
+				?>
+			</ul><!-- .term-list -->
+		</div>
 	</div><!-- #program-list -->
 	<div id="region-list" class="filter-list">	
 		<h4>By Region:</h4>
-		<ul class="term-list">
-			<?php //list of Programs
-	    		$terms = taxonomy_get_tree(12); // vid=12 => region
-				if(!empty($terms)) {
-        			foreach ($terms as $term){
-            			print '<li><a class="term-index-term ' . applyRegionClass($term->name) .'" id="'.applyRegionClass($term->name).'">' . $term->name . '</a></li>';
-  		          	}
-    	    	}else{
-    	    		print '<li>No terms</li>';
-    	    	}    
-			?>
-			
-		</ul><!-- .term-list -->
+		<div>
+			<ul class="term-list">
+				<?php //list of Programs
+		    		$regions = taxonomy_get_tree(12); // vid=12 => region
+
+		    		$regionsHalf = count($regions);
+					$regionsHalf = ceil($regionsHalf/2);
+
+					if(!empty($regions)) {
+						$i = 0;
+	        			foreach ($regions as $term){
+	        				if($i == $regionsHalf){
+	        					print '</ul><ul class="term-list">';
+	        				}
+	            			print '<li><a class="term-index-term ' . applyRegionClass($term->name) .'" id="'.applyRegionClass($term->name).'">' . $term->name . '</a></li>';
+	  		          		$i++;
+	  		          	}
+	    	    	}else{
+	    	    		print '<li>No terms</li>';
+	    	    	}    
+				?>
+				
+			</ul><!-- .term-list -->
+		</div>
 		<div id="x-affiliation"><span class="x-affiliated">X</span>Studio-X Affiliation</div>
 	</div><!-- #region-list -->
 
-
+<?php /*
 	<div id="semester-list" class="filter-list">
 		<h4>Semester:</h4>
 		<ul class="term-list">
@@ -115,7 +134,7 @@
 			?>
 		</ul><!-- .term-list -->
 	</div><!-- /#semester-list -->
-
+*/ ?>
 	
 	
 	
@@ -131,6 +150,25 @@
 
 <div id="course-blogs-index-listing">
 	<?php
+	$semesters = taxonomy_node_get_terms_by_vocabulary($node, 14); // vid=14 => Year and Semester
+
+	foreach ($semesters as $semester){
+		if(!empty($semester)) {
+			$start = strlen($semester->name) - 4;
+			$year = substr($semester->name , $start);
+			$term = substr($semester->name , 0, $start - 1);
+
+			if($term == 'Fall'){
+				$semesterArray[$year][0] = $term;
+			}elseif($term == 'Summer'){
+				$semesterArray[$year][1] = $term;
+			}elseif($term == 'Spring'){
+				$semesterArray[$year][2] = $term;
+			}
+		}
+	}
+	krsort($semesterArray);//key sort: invert the order by key so that the most recent year comes first
+
 	foreach($semesterArray as $semYear => $sem){
 		foreach($sem as $semTerm){
 			print '<h4 id="'.$semTerm."-".$semYear.'">'.$semTerm." ".$semYear.'</h4>';
