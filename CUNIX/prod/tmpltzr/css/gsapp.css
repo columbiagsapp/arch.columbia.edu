@@ -446,7 +446,7 @@ div.error, tr.error {
     font-weight: normal;
 }
 /* The label for a radio button or checkbox */.form-item label.option {
-    display: inline;
+    display: block;
     font-weight: normal;
 }
 /* The part of the label that indicates a required field */.form-required {
