@@ -1695,13 +1695,10 @@ td.gsc-branding-text, td.gsc-branding-img {
 
 /* WEBFORM */
 #tmpltzr form,
-#tmpltzr .form-description{
+#tmpltzr .form-description, #tmpltzr .webform-wrapper{
     max-width:500px;
 }
 
-#tmpltzr .form-description {
-    margin: 60px 0 2em 0 !important;
-}
 
 
 
