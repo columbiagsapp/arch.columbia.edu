@@ -444,6 +444,7 @@ div.error, tr.error {
 /* The label for a form element */.form-item label {
     display: block;
     font-weight: normal;
+    text-transform: uppercase;
 }
 /* The label for a radio button or checkbox */.form-item label.option {
     display: block;
@@ -1697,6 +1698,10 @@ td.gsc-branding-text, td.gsc-branding-img {
 #tmpltzr form,
 #tmpltzr .form-description, #tmpltzr .webform-wrapper{
     max-width:500px;
+}
+
+#tmpltzr .webform-component-select {
+    margin-top: 30px !important;
 }
 
 
