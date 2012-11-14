@@ -112,7 +112,7 @@
 				
 			</ul><!-- .term-list -->
 		</div>
-		<div id="x-affiliation"><span class="x-affiliated">X</span>Studio-X Affiliation</div>
+		<div id="x-affiliation"><span class="x-affiliated"><img src="http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/xGrey.png" width="6" height="6" /></span>Studio-X Affiliation</div>
 	</div><!-- #region-list -->
 
 <?php /*

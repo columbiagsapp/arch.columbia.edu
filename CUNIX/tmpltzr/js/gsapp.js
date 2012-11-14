@@ -33,7 +33,7 @@ gsappMobile.initMenuIScroll = function(time){
 	},time);
 }
 
-gsapp.LOG = true;
+gsapp.LOG = false;
 var TMPLTZR = false;
 var safelog = function(msg){
 	if(gsapp.LOG === true && msg != undefined){
@@ -219,7 +219,7 @@ gsapp.buildCourseBlogIndexWall = function(time){
 	if( gsapp.mobile == false ){
 		safelog('running masonry');
 		setTimeout(function(){
-			var $container = $('#tmpltzr #course-blogs-index-listing .view-content');
+			var $container = $('#tmpltzr #course-blogs-index-listing .view-courseblogs .view-content');
 			$container.imagesLoaded( function(){
 				$container.masonry({
 					itemSelector: '.views-row',
@@ -229,6 +229,9 @@ gsapp.buildCourseBlogIndexWall = function(time){
 					isFitWidth: true
 				});
 			});
+			$('#tmpltzr #course-blogs-index-listing').animate({
+				opacity: 1
+			}, 500);
 		}, time);
 	}
 }
@@ -238,7 +241,7 @@ gsapp.resizeFunc = function(){
 
 	var ww = window.innerWidth;
 	var path = window.location.pathname;
-	if($('body').hasClass('node-type-courseblogslisting')){
+	if( $('#course-blogs-index-listing').length > 0){
 		var indexMarginRight = 60;
 		var indexWidth = ww - 460 - indexMarginRight;
 		safelog('ww: '+ww+'    indexWidth'+indexWidth);
@@ -259,7 +262,14 @@ gsapp.resizeFunc = function(){
 				$('#tmpltzr #course-blogs-index-listing').css('marginTop', '');
 			}
 		}
-		gsapp.buildCourseBlogIndexWall(3000);
+		if(!$('#tmpltzr #course-blogs-index-listing .view-courseblogs .view-content').hasClass('masonry')){
+			$('#tmpltzr #course-blogs-index-listing').css('opacity','0');
+			gsapp.buildCourseBlogIndexWall(2000);
+			safelog('FIRST TIMESSSSS');
+		}else{
+			gsapp.buildCourseBlogIndexWall(100);
+			safelog('2nd TIMESSSSS');
+		}
 	}else{
 		if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
 			$('#wrapper').css('width', '800px');
