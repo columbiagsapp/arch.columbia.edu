@@ -667,7 +667,7 @@ $(document).ready(function () {
 	});
 
 	//include a notice in the header above the content: params: (image source, url to link to)
-	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/livestreaming.gif", "http://events.gsapp.org/event/the-kenneth-frampton-endowed-lecture-eduardo-souto-de-moura");
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	
