@@ -42,7 +42,7 @@
 		*/
 	?>
 	
-  	<a class="defuse <?php print $city_clean; ?>" id="studiox-search-<?php print $city_clean; ?>" href="#">
+  	<a class="defuse <?php print $city_clean; ?>" id="studiox-search-<?php print $city_clean; ?>" href="<?php if(!empty($node->field_link[0]['url'])){ print $node->field_link[0]['url']; }else{ print '#'; } ?>">
 
   		<div class="image">
   			<?php 
