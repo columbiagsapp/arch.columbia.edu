@@ -40,6 +40,7 @@
 		$search_form = drupal_get_form('gsapp_customsearch');
 		print $search_form;
 		*/
+		klqdckkljdclvkjvc
 	?>
 	
   	<a class="defuse <?php print $city_clean; ?>" id="studiox-search-<?php print $city_clean; ?>" href="<?php if(!empty($node->field_link[0]['url'])){ print $node->field_link[0]['url']; }else{ print '#'; } ?>">
