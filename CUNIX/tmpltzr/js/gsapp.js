@@ -810,7 +810,8 @@ $(document).ready(function () {
 		Offsets.istanbul = 160 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
 		Offsets.beijing = 420 * MINUTES_TO_MS;//+8:00
 		Offsets.tokyo = 480 * MINUTES_TO_MS;//+9:00
-		Offsets.johannesburg = 160 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
+		Offsets.johannesburg = 120 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
+		Offsets.amman = 180 * MINUTES_TO_MS;//+3:00
 		Offsets.paris = 60;//+1:00
 
 		function updateTime(firstTime){
@@ -828,6 +829,34 @@ $(document).ready(function () {
 			);
 			cityTime.setTime( UTCTime + Offsets.beijing );
 			$('#studiox-search-beijing .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.amman );
+			$('#studiox-search-amman .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.amman );
+			$('#studiox-search-amman .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.rio );
+			$('#studiox-search-rio-de-janiero .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.istanbul );
+			$('#studiox-search-istanbul .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.tokyo );
+			$('#studiox-search-tokyo .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.johannesburg );
+			$('#studiox-search-johannesburg .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.paris );
+			$('#studiox-search-paris .city-time').html(
 			  	formatAMPM(cityTime)
 			);
 		}
