@@ -1,7 +1,7 @@
 <?php 
     $lab = false;
-	if(!empty($node->field_width)){
-		if($node->field_width[0]['view'] == 'Lab'){
+	if(!empty($node->field_x_or_lab)){
+		if($node->field_x_or_lab[0]['view'] == 'Lab'){
 			$lab = true;
 		}
 	}   
