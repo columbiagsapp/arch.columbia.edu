@@ -7,7 +7,7 @@
 	}   
 ?>
 
-<div id="node-<?php print $node->nid; ?>" class="tmpltzr-module<?php if($small){ print ' tmpltzr-module-240'; }else{ print ' tmpltzr-module-500'; }?> tmpltzr-widget tmpltzr-widgetstudioxinteriorcontent node<?php if ($sticky) { print ' sticky'; } ?><?php if (!$status) { print ' node-unpublished'; } ?> clearfix">
+<div id="node-<?php print $node->nid; ?>" class="tmpltzr-module<?php if($small){ print ' tmpltzr-module-240'; }else{ print ' tmpltzr-module-500'; }?> tmpltzr-widget tmpltzr-widgetstudioxinteriorcontent node<?php if ($sticky) { print ' sticky'; } ?><?php if (!$status) { print ' node-unpublished'; } ?><?php if(!empty($node->field_autoscroll_time[0]) && !empty($node->field_scroll_speed[0])){ print ' autoscroll-'.$node->field_autoscroll_time[0]['view']. ' scrollspeed-'.$node->field_scroll_speed[0]['view'];} ?> clearfix">
 	<a id="<?php print $node->title; ?>" name="<?php print $node->title; ?>" class="anchorhash"></a>
 
 	<div id="studiox-widget-slideshow-container-<?php print $node->nid; ?>" class="studiox-widget-slideshow-carousel">

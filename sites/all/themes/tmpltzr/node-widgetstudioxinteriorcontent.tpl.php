@@ -1,4 +1,11 @@
-
+<?php 
+    $lab = false;
+	if(!empty($node->field_width)){
+		if($node->field_width[0]['view'] == 'Lab'){
+			$lab = true;
+		}
+	}   
+?>
 
 <div id="node-<?php print $node->nid; ?>" class="tmpltzr-widgetstudioxinteriorcontent">
 	<?php	
@@ -47,7 +54,11 @@
   	
   		<div class="bottom-container">
   			<div class="city-name">
-  				<?php print '<span class="border-bottom">Studio-X ' . $city . '</span>'; ?>
+  				<?php if($lab){
+  					print '<span class="border-bottom">' . $city . ' Lab</span>';
+  				}else{
+  					print '<span class="border-bottom">Studio-X ' . $city . '</span>';
+  				} ?>
   			</div><!-- /.city-name -->
   			<div class="city-time">
   			</div><!-- /.city-time -->

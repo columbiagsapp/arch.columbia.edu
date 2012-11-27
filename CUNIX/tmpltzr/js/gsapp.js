@@ -698,8 +698,24 @@ $(document).ready(function () {
 
 	/* STUDIO-X INTERIOR WIDGET TIMEZONE DISPLAY */
 	if( $('body').hasClass('front')){//homepage	
+		var AUTOSCROLL_TIME, SCROLL_SPEED;
+		var classes = $('.tmpltzr-widgetstudioxinteriorcontent').attr('class');
+		classes = classes.split(' ');
+		for(i=0;i<classes.length;i++){
+			var idx = classes[i].indexOf('autoscroll');
+			if(idx >= 0){
+				AUTOSCROLL_TIME = classes[i].substr(idx+11);
+			}
+			idx = classes[i].indexOf('scrollspeed');
+			if(idx >= 0){
+				SCROLL_SPEED = classes[i].substr(idx+12);
+			}
+		}
+		
+
+
 		var ITEM_WIDTH = $('ul.studiox-widget-slideshow li').width();
-		var TRANSITION_TIME_IN_MS = 700;
+		var TRANSITION_TIME_IN_MS = SCROLL_SPEED || 700;//default speed of 700ms
 		var CAROUSEL_UL_SELECTOR = 'ul.studiox-widget-slideshow';
 
 		function studioxWidgetPrev(){
@@ -803,6 +819,11 @@ $(document).ready(function () {
 		}
 
 		setInterval(updateTime, 1000);
+		if(AUTOSCROLL_TIME){
+			if(AUTOSCROLL_TIME > 0){
+				setInterval(studioxWidgetNext, AUTOSCROLL_TIME);
+			}
+		}
 
 		
 
