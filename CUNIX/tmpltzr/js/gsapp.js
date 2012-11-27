@@ -694,6 +694,119 @@ $(document).ready(function () {
 	}
 	
 	setTimeout(gsapp.initPhotoset, 0);
+
+
+	/* STUDIO-X INTERIOR WIDGET TIMEZONE DISPLAY */
+	if( $('body').hasClass('front')){//homepage	
+		var ITEM_WIDTH = $('ul.studiox-widget-slideshow li').width();
+		var TRANSITION_TIME_IN_MS = 700;
+		var CAROUSEL_UL_SELECTOR = 'ul.studiox-widget-slideshow';
+
+		function studioxWidgetPrev(){
+			var $current = $('.current');
+			$current.removeClass('current').find('.bottom-container').css('opacity', 0);
+			$current.prev().addClass('current').find('.bottom-container').css('opacity', 1);
+
+			var $item_to_move = $(CAROUSEL_UL_SELECTOR + ' li:last-child');
+			$item_to_move.width(0);
+			$item_to_move.prependTo(CAROUSEL_UL_SELECTOR);
+			$item_to_move.animate({
+				width: ITEM_WIDTH
+			}, TRANSITION_TIME_IN_MS);
+
+		}
+
+		function studioxWidgetNext(){
+			var $current = $('.current');
+			$current.removeClass('current').find('.bottom-container').css('opacity', 0);
+			$current.next().addClass('current').find('.bottom-container').css('opacity', 1);
+
+			var $item_to_move = $(CAROUSEL_UL_SELECTOR + ' li:first-child');
+			$item_to_move.animate({
+				width: 0
+			}, TRANSITION_TIME_IN_MS, function(){
+				$(this).appendTo(CAROUSEL_UL_SELECTOR);
+				$(this).width(ITEM_WIDTH);
+				
+			});
+		}
+
+		function studioxWidgetCarouselInit(){
+			/*
+				Add copies of first and last list items to end and beginning of ul
+			*/
+			$('ul.studiox-widget-slideshow li:first-child').addClass('current');
+			var lastItemID = $('ul.studiox-widget-slideshow li').length -1;
+
+			var $last = $('ul.studiox-widget-slideshow li:last-child').prependTo('ul.studiox-widget-slideshow');
+
+
+			var itemCount = $('ul.studiox-widget-slideshow li').length;
+			$('ul.studiox-widget-slideshow').width(ITEM_WIDTH * itemCount);
+
+			//TODO: set offset (eg. left)
+			$('ul.studiox-widget-slideshow').css('left', '-290px');// -1*(360 - 70)
+
+			//TODO: bind buttons for changing offset
+			$('.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev').bind('click', studioxWidgetPrev);
+			$('.studiox-widget-slideshow-carousel .tmpltzr-photoset-next').bind('click', studioxWidgetNext);
+
+			$('ul.studiox-widget-slideshow').css('opacity', 1);//starts as opacity:0 in css
+			$('ul.studiox-widget-slideshow li.current .bottom-container').css('opacity', 1);
+		}
+
+
+		studioxWidgetCarouselInit();
+
+
+		function formatAMPM(date) {
+		  var hours = date.getUTCHours();
+		  var minutes = date.getUTCMinutes();
+		  var seconds = date.getUTCSeconds();
+		  var ampm = hours >= 12 ? 'pm' : 'am';
+		  hours = hours % 12;
+		  hours = hours ? hours : 12; // the hour '0' should be '12'
+		  minutes = minutes < 10 ? '0'+minutes : minutes;
+		  seconds = seconds < 10 ? '0'+seconds : seconds;
+		  var strTime = '<span class="hms">' +hours + ':' + minutes + ':' + seconds + '</span><span class="ampm">' + ampm + '</span>';
+		  return strTime;
+		}
+
+				var MINUTES_TO_MS = 60000; //min x 60 = sec x 1000 = ms => min x 60,000 = ms
+		var Offsets = {};
+		Offsets.new_york = -300 * MINUTES_TO_MS;//-5:00 (DST: -4:00)
+		Offsets.mumbai = 330 * MINUTES_TO_MS;//+5:30
+		Offsets.rio = -180 * MINUTES_TO_MS;//-3:00 (DST: -2:00)
+		Offsets.istanbul = 160 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
+		Offsets.beijing = 420 * MINUTES_TO_MS;//+8:00
+		Offsets.tokyo = 480 * MINUTES_TO_MS;//+9:00
+		Offsets.johannesburg = 160 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
+		Offsets.paris = 60;//+1:00
+
+		function updateTime(firstTime){
+			var UTC = new Date();
+			var cityTime = new Date();
+			var UTCTime = UTC.getTime();
+
+			cityTime.setTime( UTCTime + Offsets.new_york );
+			$('#studiox-search-new-york .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.mumbai );
+			$('#studiox-search-mumbai .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+			cityTime.setTime( UTCTime + Offsets.beijing );
+			$('#studiox-search-beijing .city-time').html(
+			  	formatAMPM(cityTime)
+			);
+		}
+
+		setInterval(updateTime, 1000);
+
+		
+
+	}
 	  
     /*************************** MENU ***************************/
 	var menu = $("#navigation #menu ul.menu");
@@ -721,6 +834,8 @@ $(document).ready(function () {
 
 	//include a notice in the header above the content: params: (image source, url to link to)
 	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png");
+
+
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	

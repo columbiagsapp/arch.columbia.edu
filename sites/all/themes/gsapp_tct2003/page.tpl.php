@@ -159,6 +159,7 @@
 				
 					<div id="search-login-container">
 						<?php					
+						/*
 							function gsapp_customsearch(&$form_state) {
 								$form['searchterm'] = array(
 								'#type' => 'textfield',
@@ -178,6 +179,7 @@
 							
 							$search_form = drupal_get_form('gsapp_customsearch');
 							print $search_form;
+						*/
 						?>
 						
 						<div id="login">
