@@ -657,6 +657,187 @@ gsappMobile.initMobileScreen = function(){
 }
 
 
+/* STUDIO-X WIDGET */
+	var TRANSITION_TIME_IN_MS = 700;//default speed of 700ms
+	var AUTOSCROLL_TIME = 2000;
+	var CAROUSEL_UL_SELECTOR = 'ul.studiox-widget-slideshow';
+	var ITEM_WIDTH;
+	var AUTOSCROLL_INTERVAL_BREAK;
+
+	var MINUTES_TO_MS = 60000; //min x 60 = sec x 1000 = ms => min x 60,000 = ms
+	var Offsets = {};
+	Offsets.new_york = -300 * MINUTES_TO_MS;//-5:00 (DST: -4:00)
+	Offsets.mumbai = 330 * MINUTES_TO_MS;//+5:30
+	Offsets.rio = -180 * MINUTES_TO_MS;//-3:00 (DST: -2:00)
+	Offsets.istanbul = 160 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
+	Offsets.beijing = 420 * MINUTES_TO_MS;//+8:00
+	Offsets.tokyo = 480 * MINUTES_TO_MS;//+9:00
+	Offsets.johannesburg = 120 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
+	Offsets.amman = 180 * MINUTES_TO_MS;//+3:00
+	Offsets.paris = 60;//+1:00
+
+	function delayedNextInterval(firstTime){
+		var returnBreak = false;
+		if(!returnBreak){
+			if(!firstTime){
+				studioxWidgetNext();
+				firstTime = false;
+			}
+			setTimeout(delayedNextInterval, AUTOSCROLL_TIME);
+
+		}
+		return returnBreak;
+	}
+
+	function studioxWidgetPrev(){
+		var $this = $(this);
+		$this.unbind('click');
+		if( (AUTOSCROLL_INTERVAL_ID != undefined) && (AUTOSCROLL_INTERVAL_ID != -1)){
+			console.log('PREV clearning interval');
+			clearInterval(AUTOSCROLL_INTERVAL_ID);
+			AUTOSCROLL_INTERVAL_ID = 'cleared-prev';
+		}
+		var $current = $('.current');
+		$current.removeClass('current').find('.bottom-container').css('opacity', 0);
+		$current.prev().addClass('current').find('.bottom-container').css('opacity', 1);
+
+		var $item_to_move = $(CAROUSEL_UL_SELECTOR + ' li:last-child');
+		$item_to_move.width(0);
+		$item_to_move.prependTo(CAROUSEL_UL_SELECTOR);
+		$item_to_move.animate({
+			width: ITEM_WIDTH
+		}, TRANSITION_TIME_IN_MS, function(){
+			if( AUTOSCROLL_INTERVAL_ID === 'cleared-prev'){
+				console.log('PREV setting timeout to restart interval');
+				AUTOSCROLL_INTERVAL_ID = setInterval(studioxWidgetPrevAuto, AUTOSCROLL_TIME);
+				
+			}
+			$this.bind('click', studioxWidgetPrev);
+		});
+		
+	}
+
+	function studioxWidgetPrevAuto(){
+		setTimeout(studioxWidgetPrev, AUTOSCROLL_TIME);
+	}
+
+	function studioxWidgetNext(){
+		var $this = $(this);
+		$this.unbind('click');
+			
+		AUTOSCROLL_INTERVAL_BREAK = true;
+
+		var $current = $('.current');
+		$current.removeClass('current').find('.bottom-container').css('opacity', 0);
+		$current.next().addClass('current').find('.bottom-container').css('opacity', 1);
+
+		var $item_to_move = $(CAROUSEL_UL_SELECTOR + ' li:first-child');
+		$item_to_move.animate({
+			width: 0
+		}, TRANSITION_TIME_IN_MS, function(){
+			$(this).appendTo(CAROUSEL_UL_SELECTOR);
+			$(this).width(ITEM_WIDTH);
+			if( AUTOSCROLL_INTERVAL_ID === 'cleared-next'){
+				AUTOSCROLL_INTERVAL_ID = setInterval(studioxWidgetNextAuto, AUTOSCROLL_TIME);
+			}
+			$this.bind('click', studioxWidgetNext);
+		});
+		
+	}
+
+	function studioxWidgetNextAuto(){
+		setTimeout(studioxWidgetNext, AUTOSCROLL_TIME);
+	}
+
+
+	function formatAMPM(date) {
+	  var hours = date.getUTCHours();
+	  var minutes = date.getUTCMinutes();
+	  var seconds = date.getUTCSeconds();
+	  var ampm = hours >= 12 ? 'pm' : 'am';
+	  hours = hours % 12;
+	  hours = hours ? hours : 12; // the hour '0' should be '12'
+	  minutes = minutes < 10 ? '0'+minutes : minutes;
+	  seconds = seconds < 10 ? '0'+seconds : seconds;
+	  var strTime = '<span class="hms">' +hours + ':' + minutes + '</span><span class="ampm">' + ampm + '</span>';
+	  return strTime;
+	}
+
+	function updateTime(){
+		var UTC = new Date();
+		var cityTime = new Date();
+		var UTCTime = UTC.getTime();
+
+		cityTime.setTime( UTCTime + Offsets.new_york );
+		$('#studiox-search-new-york .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.mumbai );
+		$('#studiox-search-mumbai .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.beijing );
+		$('#studiox-search-beijing .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.amman );
+		$('#studiox-search-amman .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.amman );
+		$('#studiox-search-amman .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.rio );
+		$('#studiox-search-rio-de-janeiro .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.istanbul );
+		$('#studiox-search-istanbul .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.tokyo );
+		$('#studiox-search-tokyo .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.johannesburg );
+		$('#studiox-search-johannesburg .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.paris );
+		$('#studiox-search-paris .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+	}
+
+	function studioxWidgetCarouselInit(){
+		/*
+			Add copies of first and last list items to end and beginning of ul
+		*/
+		$('ul.studiox-widget-slideshow li:first-child').addClass('current');
+		$('ul.studiox-widget-slideshow li:last-child').prependTo('ul.studiox-widget-slideshow');
+
+		var itemCount = $('ul.studiox-widget-slideshow li').length;
+		$('ul.studiox-widget-slideshow').width(ITEM_WIDTH * itemCount);
+
+		//set offset (eg. left)
+		$('ul.studiox-widget-slideshow').css('left', '-290px');// -1*(360 - 70)
+
+		//bind buttons for changing offset
+		$('.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev').bind('click', studioxWidgetPrev);
+		$('.studiox-widget-slideshow-carousel .tmpltzr-photoset-next').bind('click', studioxWidgetNext);
+
+		updateTime();
+
+		$('ul.studiox-widget-slideshow').css('opacity', 1);//starts as opacity:0 in css
+		$('ul.studiox-widget-slideshow li.current .bottom-container').css('opacity', 1);
+	}
+
+
+
+/* END STUDIO-X WIDGET */
+
+
 $(document).ready(function () {
 	if($('body').hasClass('iscroll') || $('body').hasClass('mobile') ){
 		gsapp.iscroll = true;
@@ -698,176 +879,13 @@ $(document).ready(function () {
 
 	/* STUDIO-X INTERIOR WIDGET TIMEZONE DISPLAY */
 	if( $('body').hasClass('front')){//homepage	
-		var AUTOSCROLL_TIME, SCROLL_SPEED;
-		var classes = $('.tmpltzr-widgetstudioxinteriorcontent').attr('class');
-		classes = classes.split(' ');
-		for(i=0;i<classes.length;i++){
-			var idx = classes[i].indexOf('autoscroll');
-			if(idx >= 0){
-				AUTOSCROLL_TIME = classes[i].substr(idx+11);
-			}
-			idx = classes[i].indexOf('scrollspeed');
-			if(idx >= 0){
-				SCROLL_SPEED = classes[i].substr(idx+12);
-			}
-		}
+		updateTime();
 		
-		function studioxWidgetInitAutoScroll(){
-			var rtnval = false;
-			if(AUTOSCROLL_TIME){
-				if(AUTOSCROLL_TIME > 0){
-					rtnval = setInterval(studioxWidgetNext, AUTOSCROLL_TIME);
-				}
-			}
-			return rtnval;
-		}
+		//ITEM_WIDTH = $(CAROUSEL_UL_SELECTOR +' li').width();
+		//studioxWidgetCarouselInit();
+		//setInterval(updateTime, 60000);
 
-		var ITEM_WIDTH = $('ul.studiox-widget-slideshow li').width();
-		var TRANSITION_TIME_IN_MS = SCROLL_SPEED || 700;//default speed of 700ms
-		var CAROUSEL_UL_SELECTOR = 'ul.studiox-widget-slideshow';
-
-		function studioxWidgetPrev(){
-			var $current = $('.current');
-			$current.removeClass('current').find('.bottom-container').css('opacity', 0);
-			$current.prev().addClass('current').find('.bottom-container').css('opacity', 1);
-
-			var $item_to_move = $(CAROUSEL_UL_SELECTOR + ' li:last-child');
-			$item_to_move.width(0);
-			$item_to_move.prependTo(CAROUSEL_UL_SELECTOR);
-			$item_to_move.animate({
-				width: ITEM_WIDTH
-			}, TRANSITION_TIME_IN_MS);
-			if(autscrollIntervalID){
-				clearInterval(autscrollIntervalID);
-				setTimeout(studioxWidgetInitAutoScroll, AUTOSCROLL_TIME);
-			}
-		}
-
-		function studioxWidgetNext(){
-			var $current = $('.current');
-			$current.removeClass('current').find('.bottom-container').css('opacity', 0);
-			$current.next().addClass('current').find('.bottom-container').css('opacity', 1);
-
-			var $item_to_move = $(CAROUSEL_UL_SELECTOR + ' li:first-child');
-			$item_to_move.animate({
-				width: 0
-			}, TRANSITION_TIME_IN_MS, function(){
-				$(this).appendTo(CAROUSEL_UL_SELECTOR);
-				$(this).width(ITEM_WIDTH);
-			});
-			if(autscrollIntervalID){
-				clearInterval(autscrollIntervalID);
-				setTimeout(studioxWidgetInitAutoScroll, AUTOSCROLL_TIME);
-			}
-		}
-
-		function studioxWidgetCarouselInit(){
-			/*
-				Add copies of first and last list items to end and beginning of ul
-			*/
-			$('ul.studiox-widget-slideshow li:first-child').addClass('current');
-			var lastItemID = $('ul.studiox-widget-slideshow li').length -1;
-
-			var $last = $('ul.studiox-widget-slideshow li:last-child').prependTo('ul.studiox-widget-slideshow');
-
-
-			var itemCount = $('ul.studiox-widget-slideshow li').length;
-			$('ul.studiox-widget-slideshow').width(ITEM_WIDTH * itemCount);
-
-			//TODO: set offset (eg. left)
-			$('ul.studiox-widget-slideshow').css('left', '-290px');// -1*(360 - 70)
-
-			//TODO: bind buttons for changing offset
-			$('.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev').bind('click', studioxWidgetPrev);
-			$('.studiox-widget-slideshow-carousel .tmpltzr-photoset-next').bind('click', studioxWidgetNext);
-
-			$('ul.studiox-widget-slideshow').css('opacity', 1);//starts as opacity:0 in css
-			$('ul.studiox-widget-slideshow li.current .bottom-container').css('opacity', 1);
-		}
-
-
-		studioxWidgetCarouselInit();
-
-
-		function formatAMPM(date) {
-		  var hours = date.getUTCHours();
-		  var minutes = date.getUTCMinutes();
-		  var seconds = date.getUTCSeconds();
-		  var ampm = hours >= 12 ? 'pm' : 'am';
-		  hours = hours % 12;
-		  hours = hours ? hours : 12; // the hour '0' should be '12'
-		  minutes = minutes < 10 ? '0'+minutes : minutes;
-		  seconds = seconds < 10 ? '0'+seconds : seconds;
-		  var strTime = '<span class="hms">' +hours + ':' + minutes + ':' + seconds + '</span><span class="ampm">' + ampm + '</span>';
-		  return strTime;
-		}
-
-				var MINUTES_TO_MS = 60000; //min x 60 = sec x 1000 = ms => min x 60,000 = ms
-		var Offsets = {};
-		Offsets.new_york = -300 * MINUTES_TO_MS;//-5:00 (DST: -4:00)
-		Offsets.mumbai = 330 * MINUTES_TO_MS;//+5:30
-		Offsets.rio = -180 * MINUTES_TO_MS;//-3:00 (DST: -2:00)
-		Offsets.istanbul = 160 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
-		Offsets.beijing = 420 * MINUTES_TO_MS;//+8:00
-		Offsets.tokyo = 480 * MINUTES_TO_MS;//+9:00
-		Offsets.johannesburg = 120 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
-		Offsets.amman = 180 * MINUTES_TO_MS;//+3:00
-		Offsets.paris = 60;//+1:00
-
-		function updateTime(firstTime){
-			var UTC = new Date();
-			var cityTime = new Date();
-			var UTCTime = UTC.getTime();
-
-			cityTime.setTime( UTCTime + Offsets.new_york );
-			$('#studiox-search-new-york .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.mumbai );
-			$('#studiox-search-mumbai .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.beijing );
-			$('#studiox-search-beijing .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.amman );
-			$('#studiox-search-amman .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.amman );
-			$('#studiox-search-amman .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.rio );
-			$('#studiox-search-rio-de-janiero .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.istanbul );
-			$('#studiox-search-istanbul .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.tokyo );
-			$('#studiox-search-tokyo .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.johannesburg );
-			$('#studiox-search-johannesburg .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-			cityTime.setTime( UTCTime + Offsets.paris );
-			$('#studiox-search-paris .city-time').html(
-			  	formatAMPM(cityTime)
-			);
-		}
-
-		var autscrollIntervalID;
-
-		setInterval(updateTime, 1000);
-
-		autscrollIntervalID = studioxWidgetInitAutoScroll();
-		
-
+		//AUTOSCROLL_INTERVAL_BREAK = delayedNextInterval(true);
 	}
 	  
     /*************************** MENU ***************************/
