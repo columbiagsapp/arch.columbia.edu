@@ -2309,7 +2309,7 @@ input, select{
 
 /* STUDIO-X INTERIOR WIDGET */
 .tmpltzr-widgetstudioxinteriorcontent{
-	background-color:#efefef;
+	background-color:none;
 }
 
 .studiox-widget-wrapper{
