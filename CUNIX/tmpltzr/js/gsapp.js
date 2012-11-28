@@ -883,7 +883,7 @@ $(document).ready(function () {
 		
 		//ITEM_WIDTH = $(CAROUSEL_UL_SELECTOR +' li').width();
 		//studioxWidgetCarouselInit();
-		//setInterval(updateTime, 60000);
+		setInterval(updateTime, 60000);
 
 		//AUTOSCROLL_INTERVAL_BREAK = delayedNextInterval(true);
 	}
