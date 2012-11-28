@@ -513,34 +513,52 @@ dl dd {
 	border-bottom: solid 1px;
 }
 
-#tmpltzr .north-america, #tmpltzr .north-america a {
+#tmpltzr .north-america, #tmpltzr .north-america a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .new-york .city-time, 
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .new-york .bottom-container .city-name {
 	color:#00D6FF;
 }
 
-#tmpltzr .latin-america, #tmpltzr .latin-america a {
+#tmpltzr .latin-america, #tmpltzr .latin-america a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .rio-de-janeiro .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .rio-de-janeiro .bottom-container .city-name {
 	color:#00E652;
 }
 
 #tmpltzr .none {
 }
 
-#tmpltzr .south-asia, #tmpltzr .south-asia a {
+#tmpltzr .south-asia, #tmpltzr .south-asia a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .mumbai .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .mumbai .bottom-container .city-name {
 	color:#FF9E00;
 }
 
-#tmpltzr .middle-east, #tmpltzr .middle-east a {
+#tmpltzr .middle-east, #tmpltzr .middle-east a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .amman .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .amman .bottom-container .city-name {
 	color:#FF00A6;
 }
 
-#tmpltzr .africa, #tmpltzr .africa a { 
+#tmpltzr .africa, #tmpltzr .africa a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .johannesburg .city-time, 
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .johannesburg .bottom-container .city-name{ 
 	color:#008AFF;
 }
 
-#tmpltzr .europe, #tmpltzr .europe a {
+#tmpltzr .europe, #tmpltzr .europe a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .paris .city-time, 
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .paris .bottom-container .city-name, 
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .moscow .bottom-container .city-name,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .moscow .city-time {
 	color:#AD20FF;
 }
 
-#tmpltzr .asia, #tmpltzr .asia a {
+#tmpltzr .asia, #tmpltzr .asia a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .beijing .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .tokyo .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .tokyo .bottom-container .city-name,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .beijing .bottom-container .city-name {
 	color:#FF555A;
 }
 
@@ -1784,7 +1802,8 @@ dl dd {
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev,
-.tmpltzr-widget-carousel .tmpltzr-photoset-prev {
+.tmpltzr-widget-carousel .tmpltzr-photoset-prev,
+.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev {
 	position:absolute;
 	left:0px;
 	width:20px;
@@ -1797,13 +1816,16 @@ dl dd {
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:hover,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:focus,
-=.tmpltzr-widget-carousel .tmpltzr-photoset-prev:hover,
-=.tmpltzr-widget-carousel .tmpltzr-photoset-prev:focus {
+.tmpltzr-widget-carousel .tmpltzr-photoset-prev:hover,
+.tmpltzr-widget-carousel .tmpltzr-photoset-prev:focus,
+.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev:hover,
+.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev:focus {
     width:55px;
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-next,
-.tmpltzr-widget-carousel .tmpltzr-photoset-next{
+.tmpltzr-widget-carousel .tmpltzr-photoset-next,
+.studiox-widget-slideshow-carousel .tmpltzr-photoset-next{
 	position:absolute;
 	right:0px;
 	width:20px;
@@ -1820,12 +1842,28 @@ dl dd {
 }
 
 .tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-photoset-next,
-.tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-photoset-prev{
+.tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-photoset-prev,{
 	top:140px;
 }
 
+
+.tmpltzr-module-500 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next,
+.tmpltzr-module-500 .studiox-widget-slideshow-carousel .tmpltzr-photoset-prev{
+	top:115px;
+}
+
+.tmpltzr-module-500 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next{
+	right:290px;
+}
+
+.tmpltzr-module-500 .studiox-widget-slideshow-carousel .tmpltzr-photoset-prev{
+	left:290px;
+}
+
 .tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next,
-.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-prev{
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-prev,
+.tmpltzr-module-240 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next,
+.tmpltzr-module-240 .studiox-widget-slideshow-carousel .tmpltzr-photoset-prev{
 	top:70px;
 }
 
@@ -1837,7 +1875,9 @@ dl dd {
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-next:hover,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-next:focus,
 .tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next:hover,
-.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next:focus {
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next:focus,
+.tmpltzr-module-240 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next:hover,
+.tmpltzr-module-240 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next:focus {
 	background-position:0 0;
     width:55px;
 }
@@ -2266,4 +2306,65 @@ input, select{
 	margin-bottom: 15px;
 }
 
+
+/* STUDIO-X INTERIOR WIDGET */
+.tmpltzr-widgetstudioxinteriorcontent{
+	background-color:#efefef;
+}
+
+.studiox-widget-wrapper{
+	width:500px;
+	overflow: hidden;
+}
+
+.studiox-widget-slideshow-carousel{
+	width:500px;
+	height:325px;
+	position:relative;
+	z-index: 2;
+}
+
+ul.studiox-widget-slideshow{
+}
+li.studiox-widget-slideshow-item{
+	width:360px;
+	height:325px;
+	margin:0 !important;
+	padding:0 !important;
+}
+
+.tmpltzr-widgetstudioxinteriorcontent{
+	width:360px;
+	height:325px;
+}
+
+.studiox-widget-offset{
+	position: relative;
+	left: -290px;
+}
+
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container{
+	height:112px;
+	text-align: center;
+}
+
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container .city-name{
+	font-size:14px;
+	text-transform: uppercase;
+	margin-top:5px;
+}
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container .city-name .border-bottom{
+	border-bottom: none;
+}
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container .city-time{
+	font-size:36px;
+	line-height: 20px;
+	margin-top:10px;
+	vertical-align: text-bottom;
+}
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container .city-time .ampm{
+	font-size:24px;
+	text-transform: uppercase;
+	margin-left:3px;
+}
 

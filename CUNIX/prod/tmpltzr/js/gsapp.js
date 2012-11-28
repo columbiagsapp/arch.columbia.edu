@@ -215,39 +215,92 @@ var resizeMenu = function(){
 }
 
 
+gsapp.buildCourseBlogIndexWall = function(time){
+	if( gsapp.mobile == false ){
+		safelog('running masonry');
+		setTimeout(function(){
+			var $container = $('#tmpltzr #course-blogs-index-listing .view-courseblogs .view-content');
+			$container.imagesLoaded( function(){
+				$container.masonry({
+					itemSelector: '.views-row',
+					columnWidth: 175,
+					isAnimated: false,
+					gutterWidth: 10,
+					isFitWidth: true
+				});
+			});
+			$('#tmpltzr #course-blogs-index-listing').animate({
+				opacity: 1
+			}, 500);
+		}, time);
+	}
+}
+
 gsapp.resizeFunc = function(){
 	resizeMenu(); //resize the height or width of the menu
 
 	var ww = window.innerWidth;
 	var path = window.location.pathname;
-	if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
-		$('#wrapper').css('width', '800px').removeClass('two-col').addClass('three-col');
+	if( $('#course-blogs-index-listing').length > 0){
+		var indexMarginRight = 60;
+		var indexWidth = ww - 460 - indexMarginRight;
+		safelog('ww: '+ww+'    indexWidth'+indexWidth);
 
-		var id ='';
-		$('#tmpltzr #main .view .views-row').each(function(i){
-			if($('.tmpltzr-secondary-float', this).length != 0){
-				id = $('.tmpltzr-secondary-float', this).attr('id');
-				$(this).addClass(id).addClass('empty');
-				$('#tmpltzr #right-sidebar').append($('.tmpltzr-secondary-float', this));
-				
+		if(indexWidth < 520){
+			safelog('<520');
+			$('#wrapper').css('width', '520px');
+			$('#fixed-header').css('width', '520px');
+		}else{
+			safelog('>520');
+			$('#wrapper').css('width', indexWidth+'px');
+			$('#fixed-header').css('width', indexWidth+'px');
+			if(indexWidth < 750){
+				$('.filter-list').width('240px');
+				$('#tmpltzr #course-blogs-index-listing').css('marginTop', '300px');
+			}else{
+				$('.filter-list').width('360px');
+				$('#tmpltzr #course-blogs-index-listing').css('marginTop', '');
 			}
-		});					
+		}
+		if(!$('#tmpltzr #course-blogs-index-listing .view-courseblogs .view-content').hasClass('masonry')){
+			$('#tmpltzr #course-blogs-index-listing').css('opacity','0');
+			gsapp.buildCourseBlogIndexWall(2000);
+			safelog('FIRST TIMESSSSS');
+		}else{
+			gsapp.buildCourseBlogIndexWall(100);
+			safelog('2nd TIMESSSSS');
+		}
 	}else{
-		$('#wrapper').css('width', '520px').removeClass('three-col').addClass('two-col');
-		
-		var insertClass = '';
-		$('#tmpltzr #right-sidebar .tmpltzr-secondary-float').each(function(){
-			insertClass = '#tmpltzr #main .view .views-row.' + $(this).attr('id');
+		if( (ww >= 1270) && (path.indexOf('/about/people') < 0) ){
+			$('#wrapper').css('width', '800px');
+
+			var id ='';
+			$('#tmpltzr #main .view .views-row').each(function(i){
+				if($('.tmpltzr-secondary-float', this).length != 0){
+					id = $('.tmpltzr-secondary-float', this).attr('id');
+					$(this).addClass(id).addClass('empty');
+					$('#tmpltzr #right-sidebar').append($('.tmpltzr-secondary-float', this));
+					
+				}
+			});					
+		}else{
+			$('#wrapper').css('width', '520px');
 			
-			$(insertClass).append($(this)).removeClass('empty');
-		});			
+			var insertClass = '';
+			$('#tmpltzr #right-sidebar .tmpltzr-secondary-float').each(function(){
+				insertClass = '#tmpltzr #main .view .views-row.' + $(this).attr('id');
+				
+				$(insertClass).append($(this)).removeClass('empty');
+			});			
+		}
+		gsapp.buildWall();
 	}
-	if(window.location.href == HOME_URL){
+	//if(window.location.href == HOME_URL){
 	//	gsappFetcher.ccWidgetCarousel();
 	//	gsappFetcher.eventsWidgetCarousel();
-	}
+	//}
 	//setTimeout(iscrollFunc, 100);
-	gsapp.buildWall();
+	//gsapp.buildWall();
 	//evenColumnsCourseBlogsIndex(resized); //even out columns in course blog index TODO tct2003 reinstate this
 	//resized = true; //set to true after the resize function has run once
 }
@@ -604,6 +657,187 @@ gsappMobile.initMobileScreen = function(){
 }
 
 
+/* STUDIO-X WIDGET */
+	var TRANSITION_TIME_IN_MS = 700;//default speed of 700ms
+	var AUTOSCROLL_TIME = 2000;
+	var CAROUSEL_UL_SELECTOR = 'ul.studiox-widget-slideshow';
+	var ITEM_WIDTH;
+	var AUTOSCROLL_INTERVAL_BREAK;
+
+	var MINUTES_TO_MS = 60000; //min x 60 = sec x 1000 = ms => min x 60,000 = ms
+	var Offsets = {};
+	Offsets.new_york = -300 * MINUTES_TO_MS;//-5:00 (DST: -4:00)
+	Offsets.mumbai = 330 * MINUTES_TO_MS;//+5:30
+	Offsets.rio = -180 * MINUTES_TO_MS;//-3:00 (DST: -2:00)
+	Offsets.istanbul = 160 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
+	Offsets.beijing = 420 * MINUTES_TO_MS;//+8:00
+	Offsets.tokyo = 480 * MINUTES_TO_MS;//+9:00
+	Offsets.johannesburg = 120 * MINUTES_TO_MS;//+2:00 (DST: +3:00)
+	Offsets.amman = 180 * MINUTES_TO_MS;//+3:00
+	Offsets.paris = 60;//+1:00
+
+	function delayedNextInterval(firstTime){
+		var returnBreak = false;
+		if(!returnBreak){
+			if(!firstTime){
+				studioxWidgetNext();
+				firstTime = false;
+			}
+			setTimeout(delayedNextInterval, AUTOSCROLL_TIME);
+
+		}
+		return returnBreak;
+	}
+
+	function studioxWidgetPrev(){
+		var $this = $(this);
+		$this.unbind('click');
+		if( (AUTOSCROLL_INTERVAL_ID != undefined) && (AUTOSCROLL_INTERVAL_ID != -1)){
+			console.log('PREV clearning interval');
+			clearInterval(AUTOSCROLL_INTERVAL_ID);
+			AUTOSCROLL_INTERVAL_ID = 'cleared-prev';
+		}
+		var $current = $('.current');
+		$current.removeClass('current').find('.bottom-container').css('opacity', 0);
+		$current.prev().addClass('current').find('.bottom-container').css('opacity', 1);
+
+		var $item_to_move = $(CAROUSEL_UL_SELECTOR + ' li:last-child');
+		$item_to_move.width(0);
+		$item_to_move.prependTo(CAROUSEL_UL_SELECTOR);
+		$item_to_move.animate({
+			width: ITEM_WIDTH
+		}, TRANSITION_TIME_IN_MS, function(){
+			if( AUTOSCROLL_INTERVAL_ID === 'cleared-prev'){
+				console.log('PREV setting timeout to restart interval');
+				AUTOSCROLL_INTERVAL_ID = setInterval(studioxWidgetPrevAuto, AUTOSCROLL_TIME);
+				
+			}
+			$this.bind('click', studioxWidgetPrev);
+		});
+		
+	}
+
+	function studioxWidgetPrevAuto(){
+		setTimeout(studioxWidgetPrev, AUTOSCROLL_TIME);
+	}
+
+	function studioxWidgetNext(){
+		var $this = $(this);
+		$this.unbind('click');
+			
+		AUTOSCROLL_INTERVAL_BREAK = true;
+
+		var $current = $('.current');
+		$current.removeClass('current').find('.bottom-container').css('opacity', 0);
+		$current.next().addClass('current').find('.bottom-container').css('opacity', 1);
+
+		var $item_to_move = $(CAROUSEL_UL_SELECTOR + ' li:first-child');
+		$item_to_move.animate({
+			width: 0
+		}, TRANSITION_TIME_IN_MS, function(){
+			$(this).appendTo(CAROUSEL_UL_SELECTOR);
+			$(this).width(ITEM_WIDTH);
+			if( AUTOSCROLL_INTERVAL_ID === 'cleared-next'){
+				AUTOSCROLL_INTERVAL_ID = setInterval(studioxWidgetNextAuto, AUTOSCROLL_TIME);
+			}
+			$this.bind('click', studioxWidgetNext);
+		});
+		
+	}
+
+	function studioxWidgetNextAuto(){
+		setTimeout(studioxWidgetNext, AUTOSCROLL_TIME);
+	}
+
+
+	function formatAMPM(date) {
+	  var hours = date.getUTCHours();
+	  var minutes = date.getUTCMinutes();
+	  var seconds = date.getUTCSeconds();
+	  var ampm = hours >= 12 ? 'pm' : 'am';
+	  hours = hours % 12;
+	  hours = hours ? hours : 12; // the hour '0' should be '12'
+	  minutes = minutes < 10 ? '0'+minutes : minutes;
+	  seconds = seconds < 10 ? '0'+seconds : seconds;
+	  var strTime = '<span class="hms">' +hours + ':' + minutes + '</span><span class="ampm">' + ampm + '</span>';
+	  return strTime;
+	}
+
+	function updateTime(){
+		var UTC = new Date();
+		var cityTime = new Date();
+		var UTCTime = UTC.getTime();
+
+		cityTime.setTime( UTCTime + Offsets.new_york );
+		$('#studiox-search-new-york .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.mumbai );
+		$('#studiox-search-mumbai .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.beijing );
+		$('#studiox-search-beijing .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.amman );
+		$('#studiox-search-amman .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.amman );
+		$('#studiox-search-amman .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.rio );
+		$('#studiox-search-rio-de-janeiro .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.istanbul );
+		$('#studiox-search-istanbul .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.tokyo );
+		$('#studiox-search-tokyo .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.johannesburg );
+		$('#studiox-search-johannesburg .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+		cityTime.setTime( UTCTime + Offsets.paris );
+		$('#studiox-search-paris .city-time').html(
+		  	formatAMPM(cityTime)
+		);
+	}
+
+	function studioxWidgetCarouselInit(){
+		/*
+			Add copies of first and last list items to end and beginning of ul
+		*/
+		$('ul.studiox-widget-slideshow li:first-child').addClass('current');
+		$('ul.studiox-widget-slideshow li:last-child').prependTo('ul.studiox-widget-slideshow');
+
+		var itemCount = $('ul.studiox-widget-slideshow li').length;
+		$('ul.studiox-widget-slideshow').width(ITEM_WIDTH * itemCount);
+
+		//set offset (eg. left)
+		$('ul.studiox-widget-slideshow').css('left', '-290px');// -1*(360 - 70)
+
+		//bind buttons for changing offset
+		$('.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev').bind('click', studioxWidgetPrev);
+		$('.studiox-widget-slideshow-carousel .tmpltzr-photoset-next').bind('click', studioxWidgetNext);
+
+		updateTime();
+
+		$('ul.studiox-widget-slideshow').css('opacity', 1);//starts as opacity:0 in css
+		$('ul.studiox-widget-slideshow li.current .bottom-container').css('opacity', 1);
+	}
+
+
+
+/* END STUDIO-X WIDGET */
+
+
 $(document).ready(function () {
 	if($('body').hasClass('iscroll') || $('body').hasClass('mobile') ){
 		gsapp.iscroll = true;
@@ -641,6 +875,18 @@ $(document).ready(function () {
 	}
 	
 	setTimeout(gsapp.initPhotoset, 0);
+
+
+	/* STUDIO-X INTERIOR WIDGET TIMEZONE DISPLAY */
+	if( $('body').hasClass('front')){//homepage	
+		updateTime();
+		
+		//ITEM_WIDTH = $(CAROUSEL_UL_SELECTOR +' li').width();
+		//studioxWidgetCarouselInit();
+		//setInterval(updateTime, 60000);
+
+		//AUTOSCROLL_INTERVAL_BREAK = delayedNextInterval(true);
+	}
 	  
     /*************************** MENU ***************************/
 	var menu = $("#navigation #menu ul.menu");
@@ -668,6 +914,8 @@ $(document).ready(function () {
 
 	//include a notice in the header above the content: params: (image source, url to link to)
 	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png");
+
+
 
 	/*************************** STARTUP FUNCTIONS ***************************/
 	

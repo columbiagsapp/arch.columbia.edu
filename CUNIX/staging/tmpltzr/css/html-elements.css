@@ -485,6 +485,7 @@ dl dd {
 #tmpltzr {
 	color:black;
 	width:100%;
+	max-width:800px;
 }
 
 
@@ -512,34 +513,52 @@ dl dd {
 	border-bottom: solid 1px;
 }
 
-#tmpltzr .north-america, #tmpltzr .north-america a {
+#tmpltzr .north-america, #tmpltzr .north-america a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .new-york .city-time, 
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .new-york .bottom-container .city-name {
 	color:#00D6FF;
 }
 
-#tmpltzr .latin-america, #tmpltzr .latin-america a {
+#tmpltzr .latin-america, #tmpltzr .latin-america a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .rio-de-janeiro .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .rio-de-janeiro .bottom-container .city-name {
 	color:#00E652;
 }
 
 #tmpltzr .none {
 }
 
-#tmpltzr .south-asia, #tmpltzr .south-asia a {
+#tmpltzr .south-asia, #tmpltzr .south-asia a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .mumbai .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .mumbai .bottom-container .city-name {
 	color:#FF9E00;
 }
 
-#tmpltzr .middle-east, #tmpltzr .middle-east a {
+#tmpltzr .middle-east, #tmpltzr .middle-east a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .amman .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .amman .bottom-container .city-name {
 	color:#FF00A6;
 }
 
-#tmpltzr .africa, #tmpltzr .africa a { 
+#tmpltzr .africa, #tmpltzr .africa a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .johannesburg .city-time, 
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .johannesburg .bottom-container .city-name{ 
 	color:#008AFF;
 }
 
-#tmpltzr .europe, #tmpltzr .europe a {
+#tmpltzr .europe, #tmpltzr .europe a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .paris .city-time, 
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .paris .bottom-container .city-name, 
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .moscow .bottom-container .city-name,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .moscow .city-time {
 	color:#AD20FF;
 }
 
-#tmpltzr .asia, #tmpltzr .asia a {
+#tmpltzr .asia, #tmpltzr .asia a,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .beijing .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .tokyo .city-time,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .tokyo .bottom-container .city-name,
+#tmpltzr .tmpltzr-widgetstudioxinteriorcontent .beijing .bottom-container .city-name {
 	color:#FF555A;
 }
 
@@ -654,7 +673,7 @@ dl dd {
 
 
 
-#tmpltzr .tmpltzr-primaryfull .tmpltzr-image {
+#tmpltzr .tmpltzr-primaryfull .tmpltzr-image, #tmpltzr .tmpltzr-image {
 
 	margin:0 0 40px 0;
 
@@ -748,7 +767,8 @@ dl dd {
 #tmpltzr .tmpltzr-followwidget .follow-text,
 #tmpltzr .embedded-tumblr .tmpltzr-tags,
 .profile .views-field-value-5,
-#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body {
+#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body,
+#tmpltzr .tmpltzr-widgetslideshow .tmpltzr-widget-body {
 	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
 }
 
@@ -766,7 +786,8 @@ dl dd {
 .iscroll .tmpltzr-featuredeventwidget .featured-events-widget .fe-label,
 .iscroll #tmpltzr .embedded-tumblr .tmpltzr-tags,
 .iscroll .profile .views-field-value-5,
-.iscroll #tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body {
+.iscroll #tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body,
+.iscroll #tmpltzr .tmpltzr-widgetslideshow .tmpltzr-widget-body {
 	font: 14px/18px "Courier New", Courier, Verdana, sans-serif;
 }
 
@@ -1122,7 +1143,6 @@ dl dd {
 
 
 #tmpltzr #fixed-header{
-	width:520px;
 	padding-bottom:10px;
 	border-bottom:1px solid black;
 	margin-bottom:45px;
@@ -1133,6 +1153,8 @@ dl dd {
 	background-color:white;
 	z-index:1000;
 }
+
+
 
 .iscroll #tmpltzr #fixed-header{
 	position: relative;
@@ -1161,23 +1183,30 @@ dl dd {
 }
 
 #tmpltzr #course-blogs-index-listing {
-	margin-top:350px;
+	margin-top:200px;
 }
 
 .iscroll #tmpltzr #course-blogs-index-listing {
 	margin-top:0;
 }	
 
-#tmpltzr #program-list, #tmpltzr #region-list {
-	width:250px;
+#fixed-header .filter-list {
+	min-width:175px;
+	margin-right:10px;
 	display:-moz-inline-stack;
 	display:inline-block;
 	vertical-align: top;
 }
 
-.IE #tmpltzr #program-list, #tmpltzr #region-list{
+.IE #fixed-header .filter-list{
 	zoom:1;
 	*display:inline;
+}
+
+#tmpltzr #fixed-header .term-list,
+#tmpltzr #fixed-header #x-affiliation{
+	width: 175px;
+	float: left;
 }
 
 #tmpltzr #semester-list {
@@ -1321,6 +1350,7 @@ dl dd {
 	float: left;
 	border: 2px solid black;
 	margin-right: 20px;
+	margin-bottom: 20px;
 	text-align: center;
 	font-size: 10px;
 	text-transform: uppercase;
@@ -1413,14 +1443,9 @@ dl dd {
 	margin-bottom:40px;
 }
 
-.two-col #tmpltzr .view-courseblogs {
-	margin-bottom:60px;
-	width:500px;
-}
 
-.three-col #tmpltzr .view-courseblogs {
-	margin-bottom:60px;
-	width:750px;
+#tmpltzr .view-courseblogs {
+	padding-bottom:60px;
 }
 
 #tmpltzr .view-courseblogs td.col-1,
@@ -1439,9 +1464,20 @@ dl dd {
 }
 
 #tmpltzr .view-courseblogs .views-row{
-	float:none !important;
+	float: left;
+	width:150px;
 	margin-bottom:0;
 }
+
+#tmpltzr .view-courseblogs .views-row a{
+	margin-left: -20px;
+	text-indent: 20px;
+	position: relative;
+	left: 20px;
+	width:150px;
+}
+
+
 #tmpltzr .view-courseblogs .col{
 	width:230px;
 	padding-right:20px;
@@ -1453,6 +1489,10 @@ dl dd {
 .IE #tmpltzr .view-courseblogs .col{
 	zoom:1;
 	*display:inline;
+}
+
+#tmpltzr .view-courseblogs h4{
+	clear:both;
 }
 
 #tmpltzr .view-courseblogs .views-row a{
@@ -1761,7 +1801,9 @@ dl dd {
 	overflow:hidden;
 }
 
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev {
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev,
+.tmpltzr-widget-carousel .tmpltzr-photoset-prev,
+.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev {
 	position:absolute;
 	left:0px;
 	width:20px;
@@ -1773,11 +1815,17 @@ dl dd {
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:hover,
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:focus {
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-prev:focus,
+.tmpltzr-widget-carousel .tmpltzr-photoset-prev:hover,
+.tmpltzr-widget-carousel .tmpltzr-photoset-prev:focus,
+.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev:hover,
+.studiox-widget-slideshow-carousel .tmpltzr-photoset-prev:focus {
     width:55px;
 }
 
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-next {
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next,
+.tmpltzr-widget-carousel .tmpltzr-photoset-next,
+.studiox-widget-slideshow-carousel .tmpltzr-photoset-next{
 	position:absolute;
 	right:0px;
 	width:20px;
@@ -1793,13 +1841,43 @@ dl dd {
 	top:90px;
 }
 
+.tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-photoset-next,
+.tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-photoset-prev,{
+	top:140px;
+}
+
+
+.tmpltzr-module-500 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next,
+.tmpltzr-module-500 .studiox-widget-slideshow-carousel .tmpltzr-photoset-prev{
+	top:115px;
+}
+
+.tmpltzr-module-500 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next{
+	right:290px;
+}
+
+.tmpltzr-module-500 .studiox-widget-slideshow-carousel .tmpltzr-photoset-prev{
+	left:290px;
+}
+
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next,
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-prev,
+.tmpltzr-module-240 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next,
+.tmpltzr-module-240 .studiox-widget-slideshow-carousel .tmpltzr-photoset-prev{
+	top:70px;
+}
+
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-prev,
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-next  {
 	top:90px;
 }
 
 .tmpltzr-featuredeventwidget .featured-events-widget .fe-next:hover,
-.tmpltzr-featuredeventwidget .featured-events-widget .fe-next:focus {
+.tmpltzr-featuredeventwidget .featured-events-widget .fe-next:focus,
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next:hover,
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-photoset-next:focus,
+.tmpltzr-module-240 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next:hover,
+.tmpltzr-module-240 .studiox-widget-slideshow-carousel .tmpltzr-photoset-next:focus {
 	background-position:0 0;
     width:55px;
 }
@@ -2151,19 +2229,27 @@ dl dd {
 	padding:20px;
 }
 
-#tmpltzr .tmpltzr-widgetannouncement h4{
+#tmpltzr .tmpltzr-widgetannouncement h4,
+#tmpltzr .tmpltzr-widgetslideshow h4 {
 	text-align:center;
 	margin:20px auto;
 	color:black !important;
 }
 
-#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body{
+#tmpltzr .tmpltzr-widgetannouncement .tmpltzr-widget-body,
+#tmpltzr .tmpltzr-widgetslideshow .tmpltzr-widget-body{
 	color:black !important;
 	margin-bottom:15px;
 }
 
+.tmpltzr-widgetslideshow .widget-text-wrapper{
+	padding:0 20px 20px;
+}
+
 #tmpltzr .tmpltzr-widgetannouncement a .tmpltzr-widget-body,
-#tmpltzr .tmpltzr-widgetannouncement a h4{
+#tmpltzr .tmpltzr-widgetannouncement a h4,
+#tmpltzr .tmpltzr-widgetslideshow a h4,
+#tmpltzr .tmpltzr-widgetslideshow a .tmpltzr-widget-body{
 	border:none !important;
 }
 
@@ -2198,4 +2284,87 @@ dl dd {
 	border:none;
 }
 
+.tmpltzr-module-500 .tmpltzr-widget-carousel,
+.tmpltzr-module-500 .tmpltzr-widget-carousel .tmpltzr-widget-image-item{
+	width:500px;
+	height:300px;
+}
+
+.tmpltzr-module-240 .tmpltzr-widget-carousel,
+.tmpltzr-module-240 .tmpltzr-widget-carousel .tmpltzr-widget-image-item{
+	width:240px;
+	height:167px;
+}
+
+/* WEBFORM */
+
+#tmpltzr .webform-component-fieldset, legend {
+	font: 16px/20px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+input, select{
+	margin-bottom: 15px;
+}
+
+
+/* STUDIO-X INTERIOR WIDGET */
+.tmpltzr-widgetstudioxinteriorcontent{
+	background-color:#efefef;
+}
+
+.studiox-widget-wrapper{
+	width:500px;
+	overflow: hidden;
+}
+
+.studiox-widget-slideshow-carousel{
+	width:500px;
+	height:325px;
+	position:relative;
+	z-index: 2;
+}
+
+ul.studiox-widget-slideshow{
+}
+li.studiox-widget-slideshow-item{
+	width:360px;
+	height:325px;
+	margin:0 !important;
+	padding:0 !important;
+}
+
+.tmpltzr-widgetstudioxinteriorcontent{
+	width:360px;
+	height:325px;
+}
+
+.studiox-widget-offset{
+	position: relative;
+	left: -290px;
+}
+
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container{
+	height:112px;
+	text-align: center;
+}
+
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container .city-name{
+	font-size:14px;
+	text-transform: uppercase;
+	margin-top:5px;
+}
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container .city-name .border-bottom{
+	border-bottom: none;
+}
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container .city-time{
+	font-size:36px;
+	line-height: 20px;
+	margin-top:10px;
+	vertical-align: text-bottom;
+}
+.tmpltzr-widgetstudioxinteriorcontent .bottom-container .city-time .ampm{
+	font-size:24px;
+	text-transform: uppercase;
+	margin-left:3px;
+}
 
