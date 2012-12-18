@@ -175,14 +175,25 @@ gsappFetcher.findLocationClass = function(location_string) {
 	locations['Amman'] = 'middle-east';
 	locations['Barcelona'] = 'europe';
 	locations['Beijing'] = 'asia';
+	locations['Istanbul'] = 'middle-east';
+	locations['Johannesburg'] = 'africa';
 	locations['Moscow'] = 'europe';
 	locations['Mumbai'] = 'south-asia';
 	locations['New York'] = 'north-america';
-	locations['Rio de Janiero'] = 'latin-america';
+	locations['Paris'] = 'europe';
+	locations['Rio De Janeiro'] = 'latin-america';
 	locations['Sao Paulo'] = 'latin-america';
 	locations['Toronto'] = 'north-america';
-	
-	
+	locations['Tokyo'] = 'asia';
+
+	locations['Other Africa'] = 'africa';
+	locations['Other East Asia'] = 'asia';
+	locations['Other Europe'] = 'europe';
+	locations['Other Latin America'] = 'latin-america';
+	locations['Other North America'] = 'north-america';
+	locations['Other Middle East'] = 'middle-east';
+	locations['Other South Asia'] = 'south-asia';
+
 	test_location = locations[location_string];
 	if ((test_location != null) && (test_location != undefined)) {
 		return test_location;
@@ -353,6 +364,7 @@ gsappFetcher.formatTimeForWidget = function(date) {
 
 	var end_string = 'am';
 	var hours = date.getHours();
+	hours = hours - 4;
 	if (hours > 12) {
 		hours = hours - 12;
 		end_string = 'pm';
@@ -559,31 +571,38 @@ gsappFetcher.getTumblr = function(url, element_name) {
 					tumblr_div.push(content_string.join(''));
 				} else {
 					// build multi-content div
-					var multi_content_string = new Array();
+					//var multi_content_string = new Array();
 					var first = ' first';
 					var even = '';
+					var multi_content_string = ['<div class="tmpltzr-body photoset">'];
 					for(var c=0;c<multi_content.length;c++) {
-						var temp_string = [
-							'<div class="tmpltzr-body ', type, first, even, '">',
-							multi_content[c], '<br/>', '<div class="tumblr-post-date">Posted ',
-							date_string, '</div>'];
-
-						if ((multi_caption[c] != undefined) && (multi_caption[c].length > 0)) {
-							temp_string.push('<div class="tumblr-caption">');
-							temp_string.push(multi_caption[c]);
-							temp_string.push('</div>');
-						}
-							
+						var temp_string = ['<div class="tmpltzr-body '];
+						temp_string.push(type);
+						if(c==0){temp_string.push(first);}
+						temp_string.push(even);
+						temp_string.push('">');
+						temp_string.push(multi_content[c]);
 						temp_string.push('</div>');
 						var temp_string_final = temp_string.join('');
-						first = ' photoset';
+						multi_content_string.push(temp_string_final);
+
 						if(c%2 == 1){
 							even = ' odd';
 						}else{
 							even = ' even';
 						}
-						multi_content_string.push(temp_string_final);
 					}
+					multi_content_string.push('<br/><div class="tumblr-post-date">Posted ');
+					multi_content_string.push(date_string);
+					multi_content_string.push('</div>');// /tumblr-post-date
+
+					if ((multi_caption[0] != undefined) && (multi_caption[0].length > 0)) {
+						multi_content_string.push('<div class="tumblr-caption">');
+						multi_content_string.push(multi_caption[0]);
+						multi_content_string.push('</div>');
+					}
+
+					multi_content_string.push('</div>');// /tmpltzr-body photoset
 					tumblr_div.push(multi_content_string.join(''));
 				}
 				if(this.tags != null){
@@ -1116,7 +1135,7 @@ gsappFetcher.getCCWidget = function(url, elementName) {
 	.error(function() { gsappFetcher.log('error loading CC: widget data'); })
 	.complete(function() { 
 		gsappFetcher.ccWidgetCarousel();
-		setTimeout(gsapp.buildWall, 0);
+		setTimeout(function(){ gsapp.buildWall(); }, 0);
 		if( $('body.mobile').length){
 			gsapp._remove_flash_content();
 			setTimeout(function () {
@@ -1126,3 +1145,57 @@ gsappFetcher.getCCWidget = function(url, elementName) {
 	}); // end getJSON
 	
 }
+
+
+
+gsappFetcher.getInstagramWidget = function(clientID, elementName){
+
+	var url_stub = 'https://api.instagram.com/v1/users/self/feed?access_token=';
+
+	console.log('clientID: '+clientID);
+
+
+
+	var auth_url = 'https://api.instagram.com/oauth/authorize/?client_id='+clientID+'&redirect_uri=REDIRECT-URI&response_type=code';
+	
+	window.open(auth_url,'_blank');
+
+
+
+
+	//c590ebe3eda04afebe925e4c4d056fa5
+
+	/*
+
+	IG.init({
+	    client_id: clientID,
+	    check_status: true, // check and load active session
+	    cookie: true // persist a session via cookie
+	});
+
+	// client side access_token flow (implicit)
+	IG.login(function (response) {
+	    if (response.session) {
+	        // user is logged in
+	        console.log('response.session: '+response.session);
+	    }
+	}, {scope: ['comments', 'likes']});
+
+	// client side code flow
+	IG.login(function (response) {
+	    if (response.code) {
+	        // user authorized app, send code to server
+	        // for access_token exchange
+	        console.log('response.code: '+ response.code);
+	    }
+	}, {response_type: 'code', scope: ['comments', 'likes']});
+
+*/
+
+
+
+}
+
+
+
+
