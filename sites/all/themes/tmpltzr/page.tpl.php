@@ -70,11 +70,11 @@
 	
 	<?php print $styles; ?>
 	<?php if($is_mobile === TRUE){ ?>
-		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/mobile.css">
+		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr-postfog/css/mobile.css">
 	<?php }else{ ?>
-		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/html-elements.css">
-		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr/css/gsapp.css">
-		<link type="text/css" rel="stylesheet" media="print" href="http://www.columbia.edu/cu/arch/tmpltzr/css/print.css">
+		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr-postfog/css/html-elements.css">
+		<link type="text/css" rel="stylesheet" media="all" href="http://www.columbia.edu/cu/arch/tmpltzr-postfog/css/gsapp.css">
+		<link type="text/css" rel="stylesheet" media="print" href="http://www.columbia.edu/cu/arch/tmpltzr-postfog/css/print.css">
 		<!-- IE Fix for HTML5 Tags -->
 		<!--[if lt IE 9]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -84,22 +84,22 @@
 	<?php print $scripts; ?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 	<?php if($mobile_iscroll === TRUE){ ?>
-		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/iscroll.js"></script>
+		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/iscroll.js"></script>
 	<?php }else{ ?>
-		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.jscrollpane.min.js"></script>
-		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.mousewheel.js"></script>
-		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.masonry.min.js"></script>
+		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jquery.jscrollpane.min.js"></script>
+		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jquery.masonry.min.js"></script>
 	<?php } ?>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jcarousellite_1.0.1.min.js"></script>
-	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/html4+html5/jquery.history.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jcarousellite_1.0.1.min.js"></script>
+	<script src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/html4+html5/jquery.history.js"></script>
 
-	<script src="http://www.columbia.edu/cu/arch/tmpltzr/js/ig.js"></script>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/fetcher.js"></script>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/gsapp.js"></script>
-	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/ajaxify-html5.js"></script>
+	<script src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/ig.js"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/fetcher.js?<?php print rand(10000,99999); ?>"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/gsapp.js?<?php print rand(10000,99999); ?>"></script>
+	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/ajaxify-html5.js?<?php print rand(10000,99999); ?>"></script>
 	
 	<?php if($is_mobile === TRUE){ ?>
-		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr/js/jquery.touchSwipe.min.js"></script>
+		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jquery.touchSwipe.min.js"></script>
 	<?php } ?>
 
 	<!-- js assets for fonts.com custom font DIN -->
