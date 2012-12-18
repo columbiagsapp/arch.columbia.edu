@@ -267,6 +267,14 @@
 					<footer id="page-wrapper-footer">
 						<div id="copy-paste">
 							<h4>Click to generate html for GSAPP website</h4>
+							<textarea>
+								<div id="tmpltzr">
+									<header id="global-header">
+										<div></div>
+									</header>
+									<?php print $content; ?>
+								</div>
+							</textarea>
 						</div>
 					</footer>
 						
