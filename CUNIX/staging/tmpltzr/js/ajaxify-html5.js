@@ -837,12 +837,7 @@
 					History.pushState(null,title,url);
 					event.preventDefault();											
 				}
-<<<<<<< HEAD
 			}	
-=======
-			}
-				console.log('oops');		
->>>>>>> not sure, stale commit
 							
 			return false;
 		}
@@ -876,10 +871,15 @@
 				var hash = $(this).attr('href');
 				var offsetY = $(hash).closest('.views-row').position().top;
 				
+
+				$('body').scrollTop(offsetY);
+				anchorclick = false;
+
+/* TODO: animated scrollTop doesn't work on prod, but does on staging??
 				$('body').animate({
 			         scrollTop: offsetY
 			     }, TOGGLE_TIME);
-				anchorclick = false;
+*/
 			});
 			
 			// Chain

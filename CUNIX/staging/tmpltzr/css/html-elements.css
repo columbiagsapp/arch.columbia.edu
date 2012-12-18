@@ -816,9 +816,14 @@ dl dd {
 
 #tmpltzr .tmpltzr-primaryquarter .tmpltzr-title-container, .tmpltzr-person .tmpltzr-title-container {
 	width:120px;
+	max-height:100px;
+	overflow: hidden;
 }
 
-
+.tmpltzr-person{
+	width:240px;
+	height:100px;
+}
 
 #tmpltzr .tmpltzr-body {
 	font: 16px/20px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1018,7 +1023,7 @@ dl dd {
 
 
 #tmpltzr .embedded-tumblr .tmpltzr-image-small{
-	width:240px;
+	width:240px !important;
 }
 
 #tmpltzr .embedded-tumblr .photoset .photo.first{
@@ -1737,6 +1742,9 @@ dl dd {
 	border-bottom:1px solid black;
 }
 
+.view-Person-user .views-field-value-7{
+	margin-top:14px;
+}
 
 /* FOOTER */
 #footer-inner{
@@ -1885,6 +1893,13 @@ dl dd {
 /* UPCOMING EVENTS WIDGET */
 #tmpltzr .tmpltzr-upcomingeventswidget{
 	padding:20px;
+	float:left;
+	margin-right:20px;
+	min-width:200px;
+}
+
+.front #tmpltzr .tmpltzr-upcomingeventswidget{
+	margin-right:0 !important;
 }
 
 /* ACADEMIC CALENDAR WIDGET */
@@ -2309,7 +2324,7 @@ input, select{
 
 /* STUDIO-X INTERIOR WIDGET */
 .tmpltzr-widgetstudioxinteriorcontent{
-	background-color:#efefef;
+	background-color:none;
 }
 
 .studiox-widget-wrapper{

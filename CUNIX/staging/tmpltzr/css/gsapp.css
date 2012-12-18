@@ -444,16 +444,17 @@ div.error, tr.error {
 /* The label for a form element */.form-item label {
     display: block;
     font-weight: normal;
+    text-transform: uppercase;
 }
 /* The label for a radio button or checkbox */.form-item label.option {
-    display: inline;
+    display: block;
     font-weight: normal;
 }
 /* The part of the label that indicates a required field */.form-required {
     color: #c00;
 }
 /* The descriptive help text (separate from the label) */.form-item .description {
-    font-size: 0.85em;
+    font-size: 1em;
 }
 /* Pack groups of checkboxes and radio buttons closer together */.form-checkboxes .form-item,
 .form-radios .form-item {
@@ -903,15 +904,7 @@ body.simplemenu-enabled {
     font-size:12px;
     line-height:18px;
 }
-.section-work .views-row-odd,
-.section-work .views-row-even,
-.section-international-workshops .view-international-workshops .views-row-odd,
-.section-international-workshops .view-international-workshops .views-row-even,
-.page-unpublished .view-unpublished .views-row-odd,
-.page-unpublished .view-unpublished .views-row-even {
-    border-bottom:1px solid #EFEFEF;
-/* padding-bottom:15px; */
-}
+
 /*
   .section-work .view-taxonomy-term .view-content .views-row-odd,
   .section-work .view-taxonomy-term .view-content .views-row-even {
@@ -1703,8 +1696,12 @@ td.gsc-branding-text, td.gsc-branding-img {
 
 /* WEBFORM */
 #tmpltzr form,
-#tmpltzr .form-description{
+#tmpltzr .form-description, #tmpltzr .webform-wrapper{
     max-width:500px;
+}
+
+#tmpltzr .webform-component-select {
+    margin-top: 30px !important;
 }
 
 
