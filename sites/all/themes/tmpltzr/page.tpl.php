@@ -264,19 +264,21 @@
 					</div>
 					<!--endtmpltzr-->
 					
-					<footer id="page-wrapper-footer">
-						<div id="copy-paste">
-							<h4>Click to generate html for GSAPP website</h4>
-							<textarea>
-								<div id="tmpltzr">
-									<header id="global-header">
-										<div></div>
-									</header>
-									<?php print $content; ?>
-								</div>
-							</textarea>
-						</div>
-					</footer>
+					<?php if (!$user->uid) { ?>
+						<footer id="page-wrapper-footer">
+							<div id="copy-paste">
+								<h4>Copy-Paste the text below into the GSAPP website</h4>
+								<textarea>
+									<div id="tmpltzr">
+										<header id="global-header">
+											<div></div>
+										</header>
+										<?php print $content; ?>
+									</div>
+								</textarea>
+							</div>
+						</footer>
+					<?php } ?>
 						
 					<!-- Footer -->
 					<footer id="footer">

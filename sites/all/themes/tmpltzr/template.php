@@ -205,7 +205,7 @@ function framework_preprocess_block(&$vars, $hook) {
  */
 function printEditPageHeader($uid, $nodeUid, $nid, $url) { 
 	if ($uid == 1 || $uid == 4 || $uid == 5 || $uid == 28 || $uid == 26 || $uid == 29 || $uid == 30 || $uid == 31 || $uid == 32 || $uid == $nodeUid) { 
-		print '<div class="tmpltzr-edit"><a href="/node/' . $nid . '/edit" title="' . $url . '">EDIT THIS PAGE</a></div>';
+		print '<div class="tmpltzr-edit"><a name="edit_link_name" href="/node/' . $nid . '/edit" title="' . $url . '">EDIT THIS PAGE</a></div>';
 	}
 }
 
@@ -217,6 +217,6 @@ function printEditPageHeader($uid, $nodeUid, $nid, $url) {
  */
 function printEditSectionFooter($uid, $nodeUid, $nid, $url){
 	if ($uid == 1 || $uid == 4 || $uid == 5 || $uid == 28 || $uid == 26 || $uid == 29 || $uid == 30 || $uid == 31 || $uid == 32 || $uid == $nodeUid) {
-		print '<div class="tmpltzr-edit"><a href="/node/' . $nid . '/edit" title="' .$url . '">EDIT THE SECTION ABOVE</a></div>';
+		print '<div class="tmpltzr-edit"><a name="edit_link_name" href="/node/' . $nid . '/edit" title="' .$url . '">EDIT THE SECTION ABOVE</a></div>';
 	}
 }
