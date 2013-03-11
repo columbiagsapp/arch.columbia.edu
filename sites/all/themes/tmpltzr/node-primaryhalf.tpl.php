@@ -44,7 +44,9 @@
           print '<a href="'.$link.'" target="_self">'.$node->field_title[0]['view'].'</a>';
         }else if(strlen($fragment) > 0){
           print '<a href="#'.$fragment.'" target="_self">'.$node->field_title[0]['view'].'</a>';
-        } 
+        }else{
+          print $node->field_title[0]['view'];
+        }
         ?>
   		</h2>
   	<?php } ?>
