@@ -653,6 +653,32 @@ gsappFetcher.getTumblr = function(url, element_name) {
 	
 }
 
+
+gsappFetcher.getInstagramKinne = function(url, element_name) {
+
+	var target_url = "http://webassite.com/util/instagram/REST/instagram/kinneinstagram/limit/10";
+  $.ajax({
+    type : "GET",
+    dataType : "jsonp",
+    url : target_url, // ?callback=?
+    success: function(data){
+      console.log('success, data:');
+      // loop through data
+      console.dir(data);
+
+  
+    },
+    error: function(xhr, status, error){
+      console.log('error, status: ' + status + ' error:');
+      console.dir(error);
+    },
+    complete: function(data){
+      console.log('complete, data:');
+    }
+  });
+}
+
+
 /**
  * Function to return event data from JSON formatted views
  * coming from the GSAPP events site
