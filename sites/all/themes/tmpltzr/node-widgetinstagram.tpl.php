@@ -1,11 +1,4 @@
 <?php 
-	$terms = taxonomy_node_get_terms_by_vocabulary($node, 9); // vid=9 => color-code
-	if(!empty($terms)) {
-    	foreach ($terms as $term){
-        	$color = $term->name;
-        }
-    }   
-
     $small = false;
 	if(!empty($node->field_width)){
 		if($node->field_width[0]['view'] == 'Small'){
@@ -22,10 +15,9 @@
 	<div class="instagram-image-container"></div>
 
 	<?php
-		dsm($node);
-		$client_id = $node->field_client_id[0]['view'];
+		$endpoint = $node->field_instagram_endpoint[0]['view'];
 		print '<script type="text/javascript">' .
-			'gsappFetcher.getInstagramWidget("'. $client_id . '",".instagram-image-container");' .
+			'gsappFetcher.getInstagramKinne("'. $endpoint . '",".instagram-image-container");' .
 			'</script>';
   	?>
 		
