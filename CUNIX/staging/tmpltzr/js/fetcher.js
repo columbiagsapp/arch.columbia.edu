@@ -656,26 +656,54 @@ gsappFetcher.getTumblr = function(url, element_name) {
 
 gsappFetcher.getInstagramKinne = function(url, element_name) {
 
-	var target_url = "http://webassite.com/util/instagram/REST/instagram/kinneinstagram/limit/10";
-  $.ajax({
-    type : "GET",
-    dataType : "jsonp",
-    url : target_url, // ?callback=?
-    success: function(data){
-      console.log('success, data:');
-      // loop through data
-      console.dir(data);
+	//var target_url = "http://webassite.com/util/instagram/REST/instagram/kinneinstagram/limit/10";
+	$.ajax({
+	    type : "GET",
+	    dataType : "jsonp",
+	    url : url, // ?callback=?
+	    success: function(data){
+	    	console.log('success, data:');
+	    	// loop through data
+	    	console.dir(data);
 
-  
-    },
-    error: function(xhr, status, error){
-      console.log('error, status: ' + status + ' error:');
-      console.dir(error);
-    },
-    complete: function(data){
-      console.log('complete, data:');
-    }
-  });
+	    	var html = [];
+
+	    	html.push('<div id="kinne-header">Kinne Global Travel</div>');
+
+	    	for(var i = 0; i < 3; i++){
+	    		html.push('<div class="kinne-location">');
+	    		html.push(data[i].kinne_location);
+	    		html.push('</div>');
+
+	    		//var d = moment.unix( data[i].created_time ).fromNow();
+	    		var d = '3 seconds ago';
+	    		html.push('<div class="kinne-time">');
+	    		html.push(d);
+	    		html.push('</div>');
+
+	    		html.push('<div class="kinne-photo"><img src="');
+	    		html.push( data[i].images.low_resolution.url );
+	    		html.push('"></div>');
+
+	    	}
+
+	    	var h = html.join('');
+
+	    	$(element_name).append( h );
+	    	
+
+
+
+	  
+	    },
+	    error: function(xhr, status, error){
+	    	console.log('error, status: ' + status + ' error:');
+	    	console.dir(error);
+	    },
+	    complete: function(data){
+	    	console.log('complete, data:');
+	    }
+	});
 }
 
 
