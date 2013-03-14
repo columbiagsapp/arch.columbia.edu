@@ -89,12 +89,10 @@
 		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jquery.jscrollpane.min.js"></script>
 		<script type='text/javascript' src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jquery.mousewheel.js"></script>
 		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jquery.masonry.min.js"></script>
-		<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/moment.min.js"></script>
 	<?php } ?>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/jcarousellite_1.0.1.min.js"></script>
 	<script src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/html4+html5/jquery.history.js"></script>
 
-	<script src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/ig.js"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/fetcher.js?<?php print rand(10000,99999); ?>"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/gsapp.js?<?php print rand(10000,99999); ?>"></script>
 	<script type="text/javascript" src="http://www.columbia.edu/cu/arch/tmpltzr-postfog/js/ajaxify-html5.js?<?php print rand(10000,99999); ?>"></script>

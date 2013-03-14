@@ -1023,7 +1023,7 @@ dl dd {
 
 
 #tmpltzr .embedded-tumblr .tmpltzr-image-small{
-	width:240px;
+	width:240px !important;
 }
 
 #tmpltzr .embedded-tumblr .photoset .photo.first{
@@ -1743,7 +1743,7 @@ dl dd {
 }
 
 .view-Person-user .views-field-value-7{
-	margin-top:14px; 
+	margin-top:14px;
 }
 
 /* FOOTER */
@@ -2383,3 +2383,91 @@ li.studiox-widget-slideshow-item{
 	margin-left:3px;
 }
 
+
+/* INSTAGRAM WIDGET */
+.tmpltzr-widgetinstagram{
+	padding:20px;
+	background-color: #efefef;
+}
+
+.tmpltzr-widgetinstagram .instagram-photo{
+	margin-bottom:20px;
+}
+
+.tmpltzr-widgetinstagram #kinne-header{
+	text-align: center;
+	margin: 0 auto 25px;
+}
+
+.tmpltzr-widgetinstagram #kinne-footer,
+.tmpltzr-widgetinstagram .kinne-time,
+.tmpltzr-widgetinstagram .kinne-username,
+.tmpltzr-widgetinstagram .kinne-caption,
+.tmpltzr-widgetinstagram #kinne-desc{
+	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
+}
+
+.tmpltzr-widgetinstagram #kinne-desc{
+	margin-bottom:12px;
+}
+
+.tmpltzr-widgetinstagram a.kinne-photo{
+	border:none !important;
+	text-decoration: none;
+}
+
+.tmpltzr-widgetinstagram img{
+	width:100%;
+	height:auto;
+}
+
+.tmpltzr-widgetinstagram .kinne-location{
+	font: 14px/20px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+}
+
+.tmpltzr-widgetinstagram .kinne-location,
+.tmpltzr-widgetinstagram .kinne-time{
+	text-align: center;
+}
+
+.tmpltzr-widgetinstagram .kinne-time{
+	margin-bottom:7px;
+}
+
+.tmpltzr-widgetinstagram .kinne-username{
+	margin:7px 0 3px;
+}
+
+.tmpltzr-widgetinstagram .kinne-caption{
+	
+}
+
+.tmpltzr-widgetinstagram .north-america{
+	color:#00D6FF;
+}
+
+.tmpltzr-widgetinstagram .latin-america{
+	color:#00E652;
+}
+
+
+.tmpltzr-widgetinstagram .south-asia{
+	color:#FF9E00;
+}
+
+.tmpltzr-widgetinstagram .middle-east{
+	color:#FF00A6;
+}
+
+.tmpltzr-widgetinstagram .africa{ 
+	color:#008AFF;
+}
+
+.tmpltzr-widgetinstagram .europe{
+	color:#AD20FF;
+}
+
+.tmpltzr-widgetinstagram  .east-asia{
+	color:#FF555A;
+}

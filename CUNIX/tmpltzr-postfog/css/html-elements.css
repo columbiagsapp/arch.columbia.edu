@@ -2418,8 +2418,13 @@ li.studiox-widget-slideshow-item{
 .tmpltzr-widgetinstagram #kinne-footer,
 .tmpltzr-widgetinstagram .kinne-time,
 .tmpltzr-widgetinstagram .kinne-username,
-.tmpltzr-widgetinstagram .kinne-caption{
+.tmpltzr-widgetinstagram .kinne-caption,
+.tmpltzr-widgetinstagram #kinne-desc{
 	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
+}
+
+.tmpltzr-widgetinstagram #kinne-desc{
+	margin-bottom:12px;
 }
 
 .tmpltzr-widgetinstagram a.kinne-photo{

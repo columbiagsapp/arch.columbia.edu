@@ -11,7 +11,7 @@
 	<a id="<?php print $node->title; ?>" name="<?php print $node->title; ?>" class="anchorhash"></a>  	
 
 
-	
+	<script src="http://www.columbia.edu/cu/arch/prod/tmpltzr/js/moment.min.js"></script>
 	<div class="instagram-image-container"></div>
 
 	<?php

@@ -656,6 +656,8 @@ gsappFetcher.getTumblr = function(url, element_name) {
 
 gsappFetcher.getInstagramKinne = function(url, element_name) {
 
+	var limit = parseInt( url.split('/').pop() );
+
 	//var target_url = "http://webassite.com/util/instagram/REST/instagram/kinneinstagram/limit/10";
 	$.ajax({
 	    type : "GET",
@@ -666,39 +668,66 @@ gsappFetcher.getInstagramKinne = function(url, element_name) {
 	    	// loop through data
 	    	console.dir(data);
 
-	    	var html = [];
+	    	if(data.length > 0){
 
-	    	html.push('<div id="kinne-header">Kinne Global Travel</div>');
+		    	var html = [];
 
-	    	for(var i = 0; i < 3; i++){
-	    		html.push('<div class="kinne-location">');
-	    		html.push(data[i].kinne_location);
-	    		html.push('</div>');
+		    	html.push('<div id="kinne-header"><h4>Kinne Global Travel<h4></div>');
+		    	html.push('<div id="kinne-desc">Follow GSAPP students around the world this week through Instagram and Flickr</div>');
 
-	    		//var d = moment.unix( data[i].created_time ).fromNow();
-	    		var d = '3 seconds ago';
-	    		html.push('<div class="kinne-time">');
-	    		html.push(d);
-	    		html.push('</div>');
+		    	loop1:
+			    	for(var i = 0; i < data.length; i++){
+			    		if(i >= limit){
+			    			break loop1;
+			    		}
 
-	    		html.push('<div class="kinne-photo"><img src="');
-	    		html.push( data[i].images.low_resolution.url );
-	    		html.push('"></div>');
+			    		html.push('<div class="instagram-photo ' + data[i].region + '">');
 
-	    	}
+			    		html.push('<div class="kinne-location">');
+			    		html.push(data[i].kinne_location);
+			    		html.push('</div>');
 
-	    	var h = html.join('');
+			    		var d = moment.unix( data[i].created_time ).fromNow();
+			    		//var d = '3 seconds ago';
+			    		html.push('<div class="kinne-time">');
+			    		html.push(d);
+			    		html.push('</div>');
 
-	    	$(element_name).append( h );
+			    		html.push('<a href="');
+			    		html.push(data[i].link);
+			    		html.push('" target="_blank" class="kinne-photo"><img src="');
+			    		html.push( data[i].images.low_resolution.url );
+			    		html.push('"></a>');
+
+			    		html.push('<div class="kinne-username">@');
+			    		html.push(data[i].user.username);
+			    		html.push('</div>');
+
+			    		html.push('<div class="kinne-caption">');
+			    		html.push(data[i].caption.text);
+			    		html.push('</div>');
+
+			    		html.push('</div>');//close instagram-photo
+
+			    	}
+
+		    	html.push('<div id="kinne-footer">To see more travel photos, visit <a href="http://www.flickr.com/groups/gsappkinne2013" target="_blank">GSAPP Kinne 2013</a> Flickr group</div>');
+
+		    	var h = html.join('');
+
+		    	$(element_name).append( h );
+
+		    }else{//else, no data
+		    	$(element_name).closest('.views-row').remove();
+		    }
 	    	
-
-
 
 	  
 	    },
 	    error: function(xhr, status, error){
 	    	console.log('error, status: ' + status + ' error:');
 	    	console.dir(error);
+	    	$(element_name).closest('.views-row').remove();
 	    },
 	    complete: function(data){
 	    	console.log('complete, data:');
