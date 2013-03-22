@@ -1016,6 +1016,12 @@ dl dd {
 	max-width: 500px;
 }
 
+#tmpltzr .embedded-tumblr blockquote{
+	font-style: italic;
+	padding-left:20px;
+	max-width:480px;
+}
+
 #tmpltzr .embed-tumblr-conversation-speaker {
 	font: 16px/20px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-transform:uppercase;
