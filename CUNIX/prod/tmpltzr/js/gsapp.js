@@ -41,6 +41,7 @@ var safelog = function(msg){
 	}
 }
 
+// for permanently under construction
 gsapp.addHeaderNotice = function(imgSRC, link){
 	var text = '<img src='+imgSRC+' style="margin-top:15px;">';
 	if(link){
@@ -48,6 +49,15 @@ gsapp.addHeaderNotice = function(imgSRC, link){
 	}
 	$('#global-header').append(text);
 }
+
+/*for giving day
+gsapp.addHeaderNotice = function(imgSRC, link){
+	var text = '<img src='+imgSRC+' style="margin:5px 5px 0 0; float:left;">';
+	if(link){
+		text = '<a href="'+link+'" target="_blank" style="border:none !important;">'+text+'</a>';
+	}
+	$('#global-header').append(text);
+}*/
 
 var HOME_URL = 'http://templatizer.gsapp.org';
 
@@ -918,6 +928,18 @@ $(document).ready(function () {
 
 	//include a notice in the header above the content: params: (image source, url to link to)
 	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/underconstruction.png");
+	/*
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/english.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/portuguese.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/french.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/turkish.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/english_africa.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/russian.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/arabic.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/english_south_asia.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/chinese.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	gsapp.addHeaderNotice("http://www.columbia.edu/cu/arch/prod/tmpltzr/assets/givingday/japanese.png", "http://givingday.columbia.edu/school/graduate-school-of-architecture-planning-and-preservation/?utm_source=gsapp&utm_medium=banner&utm_campaign=2013GivingDay");
+	*/
 
 
 

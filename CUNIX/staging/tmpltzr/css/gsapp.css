@@ -1707,7 +1707,11 @@ td.gsc-branding-text, td.gsc-branding-img {
 
 
 
-/* PEOPLE PROFILE PAGES */
-
+/* FACULTY */
+h2.faculty-group-header{
+    width:500px;
+    clear:both;
+    margin-top:15px;
+}
 
 

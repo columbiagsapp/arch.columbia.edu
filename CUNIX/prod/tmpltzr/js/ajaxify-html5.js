@@ -908,6 +908,9 @@
 					url = State.url,
 					relativeUrl = url.replace(rootUrl,'');
 
+				//store global header
+				var globalHeader = $("#global-header").html();
+
 				// Set Loading
 				$body.addClass('loading');
 
@@ -943,6 +946,7 @@
 							return false;
 						}
 						
+						
 						//scroll content to the top of the page
 						$body.scrollTop(0);
 						//$body.animate({ scrollTop: 0 }, 'slow');
@@ -954,6 +958,9 @@
 							$content.html(contentHtml).ajaxify().css('opacity',100).show(100); // you could fade in here if you'd like 
 							//gsapp.resizeFunc();
 						}
+
+						//make global header persistent across pages
+						$('#global-header').html( globalHeader );
 
 						// Add the scripts
 						$scripts.each(function(){

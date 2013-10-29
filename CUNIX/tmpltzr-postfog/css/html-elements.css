@@ -513,13 +513,19 @@ dl dd {
 	border-bottom: solid 1px;
 }
 
-#tmpltzr .north-america, #tmpltzr .north-america a,
+#tmpltzr .north-america,
+#tmpltzr .north-america a{
+	/*color:#00D6FF;*/
+}
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .new-york .city-time, 
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .new-york .bottom-container .city-name {
 	color:#00D6FF;
 }
 
-#tmpltzr .latin-america, #tmpltzr .latin-america a,
+#tmpltzr .latin-america,
+#tmpltzr .latin-america a{
+	/*color:#00E652;*/
+}
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .rio-de-janeiro .city-time,
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .rio-de-janeiro .bottom-container .city-name {
 	color:#00E652;
@@ -528,25 +534,38 @@ dl dd {
 #tmpltzr .none {
 }
 
-#tmpltzr .south-asia, #tmpltzr .south-asia a,
+#tmpltzr .south-asia,
+#tmpltzr .south-asia a{
+	/*color:#FF9E00;*/
+}
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .mumbai .city-time,
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .mumbai .bottom-container .city-name {
 	color:#FF9E00;
 }
 
-#tmpltzr .middle-east, #tmpltzr .middle-east a,
+#tmpltzr .middle-east,
+#tmpltzr .middle-east a{
+	/*color:#FF00A6;*/
+}
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .amman .city-time,
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .amman .bottom-container .city-name {
 	color:#FF00A6;
 }
 
-#tmpltzr .africa, #tmpltzr .africa a,
+#tmpltzr .africa,
+#tmpltzr .africa a{
+	/*color:#008AFF;*/
+}
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .johannesburg .city-time, 
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .johannesburg .bottom-container .city-name{ 
 	color:#008AFF;
 }
 
-#tmpltzr .europe, #tmpltzr .europe a,
+#tmpltzr .europe,
+#tmpltzr .europe a{
+	/*color:#AD20FF;*/
+}
+
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .paris .city-time, 
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .paris .bottom-container .city-name, 
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .moscow .bottom-container .city-name,
@@ -554,7 +573,11 @@ dl dd {
 	color:#AD20FF;
 }
 
-#tmpltzr .asia, #tmpltzr .asia a,
+#tmpltzr .asia,
+#tmpltzr .asia a{
+	/*color:#FF555A;*/
+}
+
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .beijing .city-time,
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .tokyo .city-time,
 #tmpltzr .tmpltzr-widgetstudioxinteriorcontent .tokyo .bottom-container .city-name,

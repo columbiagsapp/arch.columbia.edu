@@ -1054,6 +1054,7 @@ gsappFetcher.getEventWidget = function(url, elementName) {
  */
 gsappFetcher.getUpcomingEventsWidget = function(url, elementName) {
 	gsappFetcher.log("widget: getting data from " + url + " into " + elementName);
+	console.log('calling getJSON');
 	$.getJSON(url, function(data) {
 		var nodes = data.nodes;
 		var event_div = '<div class="upcoming-events-output">';
@@ -1107,6 +1108,7 @@ gsappFetcher.getUpcomingEventsWidget = function(url, elementName) {
 			
 		}
 		$(elementName).append(event_div);
+		console.log('appending event_div');
 		
 		
 		$("#tmpltzr #upcomingeventswidget-output .embedded-event a").hover(function() {
