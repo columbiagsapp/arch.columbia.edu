@@ -1,0 +1,34 @@
+{
+    "name": "Columbia University GSAPP",
+    "url": "arch.columbia.edu",
+    "version": "1.0",
+    "thumbnail": "screenshot.png",
+    "contributors": [
+        {
+            "name": "Troy Conrad Therrien",
+            "username": "troyth",
+            "role": "lead"
+        },
+        {
+            "name": "Leigha Dennis",
+            "username": "lleigha",
+            "role": "lead"
+        },
+        {
+            "name": "Dan Taeyoung Lee",
+            "username": "provolot",
+            "role": "developer"
+        },
+        {
+            "name": "Jochen Hartmann",
+            "username": "vomc",
+            "role": "developer"
+        },
+        {
+            "name": "Columbia University IT",
+            "role": "developer"
+        }
+    ],
+    "dependencies": [
+    ]
+}
