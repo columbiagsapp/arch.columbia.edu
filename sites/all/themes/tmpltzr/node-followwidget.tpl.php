@@ -25,7 +25,7 @@
 			<a id="follow-youtube" href="http://www.youtube.com/user/ColumbiaGSAPP" target="_blank"></a>
 			<a id="follow-vimeo" href="https://vimeo.com/user11152188" target="_blank"></a>
 			<a id="follow-livestream" href="http://www.livestream.com/gsapp" target="_blank"></a>
-			<a id="follow-itunes" href="http://itunes.apple.com/itunes-u/spring-2012-gsapp-lectures/id499345704?mt=10" target="_blank"></a>
+			<a id="follow-googleplus" href="https://plus.google.com/110807868472004904191" rel="publisher" target="_blank"></a>
 		</div>
 	</div>
   	
