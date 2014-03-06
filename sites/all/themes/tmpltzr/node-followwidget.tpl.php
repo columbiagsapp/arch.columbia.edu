@@ -64,6 +64,9 @@
 			case 'follow-itunes':
 				text = 'iTunes U';
 				break;
+			case 'follow-googleplus':
+				text = 'Google+';
+				break;
 			
 			default:
 				break;
@@ -74,7 +77,7 @@
 		$('.follow-hover-text').text('');
 	}
 	$(document).ready(function() {
-	  $('#follow-twitter, #follow-facebook, #follow-linkedin, #follow-issuu, #follow-flickr, #follow-cc, #follow-youtube, #follow-vimeo, #follow-livestream, #follow-itunes').bind('mouseenter', hoverOnFollowUs).bind('mouseleave', hoverOffFollowUs);
+	  $('#follow-twitter, #follow-facebook, #follow-linkedin, #follow-issuu, #follow-flickr, #follow-cc, #follow-youtube, #follow-vimeo, #follow-livestream, #follow-itunes, #follow-googleplus').bind('mouseenter', hoverOnFollowUs).bind('mouseleave', hoverOffFollowUs);
 	});
 </script>
 <?php printEditSectionFooter($user->uid, $node->uid, $node->nid, node_url); ?>
