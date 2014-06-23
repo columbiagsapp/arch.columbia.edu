@@ -1039,10 +1039,11 @@ body.simplemenu-enabled {
 }
 
 .profile .views-field-value-5{
-    width:240px;
-    display:-moz-inline-stack;
-    display:inline-block;
-    vertical-align: bottom;
+profile .views-field-value-5 {
+width: 240px;
+display: -moz-inline-stack;
+display: inline-block;
+vertical-align: bottom;
 }
 .IE .profile .views-field-field-image-fid,
 .IE .profile .views-field-value-5{
@@ -1706,8 +1707,12 @@ td.gsc-branding-text, td.gsc-branding-img {
 
 
 
-
 /* PEOPLE PROFILE PAGES */
 
+.views-field-edit-node-1{
+	color:#ff0000;
+}
 
-
+#tmpltzr{
+	max-width:500px;
+}

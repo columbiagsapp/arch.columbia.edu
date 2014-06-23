@@ -485,7 +485,7 @@ dl dd {
 #tmpltzr {
 	color:black;
 	width:100%;
-	max-width:800px;
+	max-width:500px;
 }
 
 
@@ -2461,7 +2461,6 @@ li.studiox-widget-slideshow-item{
 	color:#00E652;
 }
 
-
 .tmpltzr-widgetinstagram .south-asia{
 	color:#FF9E00;
 }
@@ -2480,4 +2479,31 @@ li.studiox-widget-slideshow-item{
 
 .tmpltzr-widgetinstagram  .east-asia{
 	color:#FF555A;
+}
+
+div.views-field-edit-node-1 span.field-content a, div.views-field-edit-node-1 span a:link, div.views-field-edit-node-1 span.field-content a:visited {
+	color:#CC0000 !important;
+	text-decoration:underline;
+}
+
+div.views-field-edit-node-1 span.field-content a:hover{
+	color:#CC0000 !important;
+	text-decoration:none;
+}
+
+.views-field-field-image-fid{
+	float:left;
+}
+
+.views-field-value-6{
+	float: left;
+	margin: 290px 0 30px 10px;
+}
+
+.views-field-mail{
+	margin-top: 30px;
+}
+
+.views-field-value-9{
+	display:none;
 }
