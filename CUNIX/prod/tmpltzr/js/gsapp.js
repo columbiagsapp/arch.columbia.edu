@@ -776,6 +776,20 @@ gsappMobile.initMobileScreen = function(){
 	  var strTime = '<span class="hms">' +hours + ':' + minutes + '</span><span class="ampm">' + ampm + '</span>';
 	  return strTime;
 	}
+	
+	function formatAMPMNYC(date) { //fix for daylight saving time in NYC
+	  var hours = date.getUTCHours();
+	  var minutes = date.getUTCMinutes();
+	  var seconds = date.getUTCSeconds();
+	  var ampm = hours >= 12 ? 'pm' : 'am';
+	  hours = hours % 12;
+	  hours++;
+	  hours = hours ? hours : 12; // the hour '0' should be '12'
+	  minutes = minutes < 10 ? '0'+minutes : minutes;
+	  seconds = seconds < 10 ? '0'+seconds : seconds;
+	  var strTime = '<span class="hms">' +hours + ':' + minutes + '</span><span class="ampm">' + ampm + '</span>';
+	  return strTime;
+	}
 
 	function updateTime(){
 		var UTC = new Date();
@@ -784,7 +798,7 @@ gsappMobile.initMobileScreen = function(){
 
 		cityTime.setTime( UTCTime + Offsets.new_york );
 		$('#studiox-search-new-york .city-time').html(
-		  	formatAMPM(cityTime)
+		  	formatAMPMNYC(cityTime)
 		);
 		cityTime.setTime( UTCTime + Offsets.mumbai );
 		$('#studiox-search-mumbai .city-time').html(

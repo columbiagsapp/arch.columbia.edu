@@ -1005,6 +1005,16 @@ dl dd {
 	margin: 0 0 80px 0;
 }
 
+#tmpltzr .embedded-tumblr img{
+	max-width: 500px;
+}
+
+#tmpltzr .embedded-tumblr blockquote{
+	font-style: italic;
+	padding-left:20px;
+	max-width:480px;
+}
+
 #tmpltzr .embed-tumblr-conversation-speaker {
 	font: 16px/20px "DIN Next W02 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-transform:uppercase;
@@ -2108,13 +2118,6 @@ dl dd {
 	background-position: -104px -17px;
 }
 
-#tmpltzr .tmpltzr-followwidget .follow-links a#follow-googleplus{
-	background-position: -156px -42px;
-}
-#tmpltzr .tmpltzr-followwidget .follow-links a#follow-googleplus:hover{
-	background-position: -156px -59px;
-}
-
 .tmpltzr-htmlwidget {
 	padding:20px;
 }
@@ -2390,3 +2393,91 @@ li.studiox-widget-slideshow-item{
 	margin-left:3px;
 }
 
+
+/* INSTAGRAM WIDGET */
+.tmpltzr-widgetinstagram{
+	padding:20px;
+	background-color: #efefef;
+}
+
+.tmpltzr-widgetinstagram .instagram-photo{
+	margin-bottom:20px;
+}
+
+.tmpltzr-widgetinstagram #kinne-header{
+	text-align: center;
+	margin: 0 auto 25px;
+}
+
+.tmpltzr-widgetinstagram #kinne-footer,
+.tmpltzr-widgetinstagram .kinne-time,
+.tmpltzr-widgetinstagram .kinne-username,
+.tmpltzr-widgetinstagram .kinne-caption,
+.tmpltzr-widgetinstagram #kinne-desc{
+	font: 11px/14px "Courier New", Courier, Verdana, sans-serif;
+}
+
+.tmpltzr-widgetinstagram #kinne-desc{
+	margin-bottom:12px;
+}
+
+.tmpltzr-widgetinstagram a.kinne-photo{
+	border:none !important;
+	text-decoration: none;
+}
+
+.tmpltzr-widgetinstagram img{
+	width:100%;
+	height:auto;
+}
+
+.tmpltzr-widgetinstagram .kinne-location{
+	font: 14px/20px "DIN Next W02 Bold", Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+}
+
+.tmpltzr-widgetinstagram .kinne-location,
+.tmpltzr-widgetinstagram .kinne-time{
+	text-align: center;
+}
+
+.tmpltzr-widgetinstagram .kinne-time{
+	margin-bottom:7px;
+}
+
+.tmpltzr-widgetinstagram .kinne-username{
+	margin:7px 0 3px;
+}
+
+.tmpltzr-widgetinstagram .kinne-caption{
+	
+}
+
+.tmpltzr-widgetinstagram .north-america{
+	color:#00D6FF;
+}
+
+.tmpltzr-widgetinstagram .latin-america{
+	color:#00E652;
+}
+
+
+.tmpltzr-widgetinstagram .south-asia{
+	color:#FF9E00;
+}
+
+.tmpltzr-widgetinstagram .middle-east{
+	color:#FF00A6;
+}
+
+.tmpltzr-widgetinstagram .africa{ 
+	color:#008AFF;
+}
+
+.tmpltzr-widgetinstagram .europe{
+	color:#AD20FF;
+}
+
+.tmpltzr-widgetinstagram  .east-asia{
+	color:#FF555A;
+}
