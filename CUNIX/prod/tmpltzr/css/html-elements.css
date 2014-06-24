@@ -484,8 +484,7 @@ dl dd {
 /* TMPLTZR */
 #tmpltzr {
 	color:black;
-	width:100%;
-	max-width:500px;
+	width:100% !important;
 }
 
 
@@ -2493,17 +2492,35 @@ div.views-field-edit-node-1 span.field-content a:hover{
 
 .views-field-field-image-fid{
 	float:left;
+	margin-right: 10px;
+	height:350px;
+	bottom:0;
 }
 
 .views-field-value-6{
-	float: left;
-	margin: 290px 0 30px 10px;
+	height:350px;
+	position:relative;
+}
+
+.views-field-value-6 span{
+	position: absolute;
+	bottom: 0;
 }
 
 .views-field-mail{
-	margin-top: 30px;
+	margin-top: 50px;
 }
 
 .views-field-value-9{
 	display:none;
+}
+
+.view-person, .view-id-person, .view-Person-user, .view-id-Person_user{
+	max-width:500px !important;
+}
+
+.views-field-edit-node-1{
+	position: absolute;
+	top: 50px;
+	right: 600px;
 }

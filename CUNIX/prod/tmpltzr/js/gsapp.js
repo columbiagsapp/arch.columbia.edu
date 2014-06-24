@@ -207,6 +207,12 @@ function externalLinkAppendImg(m){
 	});
 }
 
+$(document).ready(function(){
+var sampleh = $("div.views-field-field-image-fid span.field-content img").height();
+$("div.views-field-field-image-fid").css("height",sampleh);
+$("div.views-field-value-6").css("height",sampleh);
+//console.log(sampleh);
+});
 
 /*************************** RESIZE ***************************/
 /*
@@ -322,7 +328,14 @@ gsapp.resizeFunc = function(){
 var force_expanded = Array();
 force_expanded.push('/studio-x-global/locations');
 
-
+/*
+// set margin-top for bio pages to image height
+$(document).ready(function(){
+    var profileheight = $("div.views-field-field-image-fid").height();
+	profileheight -=60;
+	console.log(profileheight);
+	$("div.views-field-value-6").css("margin-top",profileheight);
+});*/
 
 var adjustPrimaryLinksMenu = function(path){
 	$('#navigation .menu li').addClass('collapsed menu-item').removeClass('expanded');
@@ -975,4 +988,24 @@ $(window).load(function(){
 		gsappMobile.initMenuIScroll(200);
 		gsappMobile.initContentIScroll(200);
 	}
+});
+
+
+/* Convert old faculty page urls to new url format  AND fix positioning for new faculty pages*/
+$(document).ready(function(){
+	
+	var facultyhref, facultyhref1;
+	var facultyhref2 = new Array();
+	var uni = new Array();
+	
+	$("a[href^='/about/people/'][href$='columbiaedu']").each(function() {
+		facultyhref1=$(this).attr("href");
+		facultyhref2 = facultyhref1.split("/about/people/");
+		uni = facultyhref2[1].split("columbiaedu");
+		facultyhref = "/faculty/" + uni[0];
+		$(this).attr("href",facultyhref);
+	});
+var sampleh = $("div.views-field-field-image-fid span.field-content img").height();
+console.log(sampleh);	
+	
 });
