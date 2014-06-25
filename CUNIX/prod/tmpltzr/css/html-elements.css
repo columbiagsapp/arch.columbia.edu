@@ -195,6 +195,10 @@ ul {
 	padding: 0 0 10px 0;
 }
 
+div.tabs ul.tabs li{
+	padding: 0 !important;
+}
+
 ul.menu li, li.expanded, li.collapsed, li.leaf, li{
 	
     width: auto;

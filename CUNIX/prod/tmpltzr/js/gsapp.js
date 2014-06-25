@@ -211,7 +211,10 @@ $(document).ready(function(){
 var sampleh = $("div.views-field-field-image-fid span.field-content img").height();
 $("div.views-field-field-image-fid").css("height",sampleh);
 $("div.views-field-value-6").css("height",sampleh);
-//console.log(sampleh);
+
+var facultyname = $("div.views-field-value-4 span.field-content h2").text();
+$("div.views-field-value-4 span.field-content h2").replaceWith("<h1 style=\"margin-top:50px;\">"+facultyname+"</h1>");
+console.log(facultyname);
 });
 
 /*************************** RESIZE ***************************/
