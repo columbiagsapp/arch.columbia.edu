@@ -214,7 +214,7 @@ $("div.views-field-value-6").css("height",sampleh);
 
 var facultyname = $("div.views-field-value-4 span.field-content h2").text();
 $("div.views-field-value-4 span.field-content h2").replaceWith("<h1 style=\"margin-top:50px;\">"+facultyname+"</h1>");
-console.log(facultyname);
+//console.log(facultyname);
 });
 
 /*************************** RESIZE ***************************/
@@ -1008,7 +1008,6 @@ $(document).ready(function(){
 		facultyhref = "/faculty/" + uni[0];
 		$(this).attr("href",facultyhref);
 	});
-var sampleh = $("div.views-field-field-image-fid span.field-content img").height();
-console.log(sampleh);	
-	
+//var sampleh = $("div.views-field-field-image-fid span.field-content img").height();
+//console.log(sampleh);	
 });
